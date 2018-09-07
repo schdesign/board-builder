@@ -1,0 +1,265 @@
+{
+    "object": "packages",
+    "packages": [
+        {
+            "border": {
+                "bottomY": 4405,
+                "leftX": 1000,
+                "rightX": 5000,
+                "topY": -595
+            },
+            "ellipse": {
+                "bottomY": 4405,
+                "leftX": 1000,
+                "rightX": 5000,
+                "topY": -595
+            },
+            "lines": [
+                {
+                    "x1": 1000,
+                    "x2": 1000,
+                    "y1": -595,
+                    "y2": 4405
+                },
+                {
+                    "x1": 5000,
+                    "x2": 5000,
+                    "y1": -595,
+                    "y2": 4405
+                },
+                {
+                    "x1": 1000,
+                    "x2": 5000,
+                    "y1": -595,
+                    "y2": -595
+                },
+                {
+                    "x1": 1000,
+                    "x2": 5000,
+                    "y1": 4405,
+                    "y2": 4405
+                }
+            ],
+            "name": "SO8",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": -3000,
+                "downY": -655,
+                "height": 250,
+                "leftX": 1905,
+                "leftY": -2000,
+                "rightX": -1905,
+                "rightY": 4000,
+                "upX": 3000,
+                "upY": 3155
+            },
+            "padParams": {
+                "height": 600,
+                "radius": 300,
+                "width": 2800
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 1270
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 2540
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 3810
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 3810
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 2540
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 1270
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 0
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": -3000,
+                "downY": -3155,
+                "height": 250,
+                "leftX": 1905,
+                "leftY": -4000,
+                "rightX": -1905,
+                "rightY": 2000,
+                "upX": 3000,
+                "upY": 655
+            },
+            "type": "Device"
+        },
+        {
+            "border": {
+                "bottomY": 8185,
+                "leftX": 1000,
+                "rightX": 5000,
+                "topY": -565
+            },
+            "ellipse": {
+                "bottomY": 8185,
+                "leftX": 1000,
+                "rightX": 5000,
+                "topY": -565
+            },
+            "lines": [
+                {
+                    "x1": 1000,
+                    "x2": 1000,
+                    "y1": -565,
+                    "y2": 8185
+                },
+                {
+                    "x1": 5000,
+                    "x2": 5000,
+                    "y1": -565,
+                    "y2": 8185
+                },
+                {
+                    "x1": 1000,
+                    "x2": 5000,
+                    "y1": -565,
+                    "y2": -565
+                },
+                {
+                    "x1": 1000,
+                    "x2": 5000,
+                    "y1": 8185,
+                    "y2": 8185
+                }
+            ],
+            "name": "SO14",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": -3000,
+                "downY": -1622,
+                "height": 250,
+                "leftX": 3810,
+                "leftY": -2000,
+                "rightX": -3810,
+                "rightY": 4000,
+                "upX": 3000,
+                "upY": 5998
+            },
+            "padParams": {
+                "height": 600,
+                "radius": 300,
+                "width": 2800
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 1270
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 2540
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 3810
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 5080
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 6350
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 7620
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 7620
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 6350
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 5080
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 3810
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 2540
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 1270
+                },
+                {
+                    "orientation": 0,
+                    "x": 6000,
+                    "y": 0
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": -3000,
+                "downY": -5998,
+                "height": 250,
+                "leftX": 3810,
+                "leftY": -4000,
+                "rightX": -3810,
+                "rightY": 2000,
+                "upX": 3000,
+                "upY": 1622
+            },
+            "type": "Device"
+        }
+    ]
+}

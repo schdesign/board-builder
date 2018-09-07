@@ -1,0 +1,25 @@
+// deviceselector.h
+// Copyright (C) 2018 Alexander Karpeko
+
+#ifndef DEVICE_SELECTOR_H
+#define DEVICE_SELECTOR_H
+
+#include "ui_deviceselector.h"
+#include <QDialog>
+#include <QStringList>
+
+class DeviceSelector : public QDialog, private Ui::DeviceSelector
+{
+    Q_OBJECT
+
+public:
+    explicit DeviceSelector(QStringList &deviceNames, QDialog *parent = 0);
+
+private:
+    QStringList &deviceNames;
+
+private slots:
+    void accept();
+};
+
+#endif  // DEVICE_SELECTOR_H

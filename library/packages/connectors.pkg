@@ -1,0 +1,289 @@
+{
+    "object": "packages",
+    "packages": [
+        {
+            "border": {
+                "bottomY": 4500,
+                "leftX": -2250,
+                "rightX": 2250,
+                "topY": -1500
+            },
+            "ellipse": {
+                "bottomY": 4500,
+                "leftX": -2250,
+                "rightX": 2250,
+                "topY": -1500
+            },
+            "lines": [
+                {
+                    "x1": -2250,
+                    "x2": -2250,
+                    "y1": -1500,
+                    "y2": 4500
+                },
+                {
+                    "x1": 2250,
+                    "x2": 2250,
+                    "y1": -1500,
+                    "y2": 4500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": -1500,
+                    "y2": -1500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": 4500,
+                    "y2": 4500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": 1500,
+                    "y2": 1500
+                }
+            ],
+            "name": "CON2",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": 1125,
+                "height": 250,
+                "leftX": 3000,
+                "leftY": -1125,
+                "rightX": 0,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": 4125
+            },
+            "padParams": {
+                "height": 1500,
+                "radius": 375,
+                "width": 3000
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 3000
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -4125,
+                "height": 250,
+                "leftX": 0,
+                "leftY": -1125,
+                "rightX": -3000,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": -1125
+            },
+            "type": "Connector"
+        },
+        {
+            "border": {
+                "bottomY": 9000,
+                "leftX": -4000,
+                "rightX": 4000,
+                "topY": -3000
+            },
+            "ellipse": {
+                "bottomY": 9000,
+                "leftX": -4000,
+                "rightX": 4000,
+                "topY": -3000
+            },
+            "lines": [
+                {
+                    "x1": -4000,
+                    "x2": -4000,
+                    "y1": -3000,
+                    "y2": 9000
+                },
+                {
+                    "x1": 4000,
+                    "x2": 4000,
+                    "y1": -3000,
+                    "y2": 9000
+                },
+                {
+                    "x1": -4000,
+                    "x2": 4000,
+                    "y1": -3000,
+                    "y2": -3000
+                },
+                {
+                    "x1": -4000,
+                    "x2": 4000,
+                    "y1": 9000,
+                    "y2": 9000
+                },
+                {
+                    "x1": -4000,
+                    "x2": 4000,
+                    "y1": 3000,
+                    "y2": 3000
+                }
+            ],
+            "name": "CON2B",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": 2250,
+                "height": 500,
+                "leftX": 6000,
+                "leftY": -2250,
+                "rightX": 0,
+                "rightY": -2250,
+                "upX": 0,
+                "upY": 8250
+            },
+            "padParams": {
+                "height": 3000,
+                "radius": 750,
+                "width": 6000
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 6000
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -8250,
+                "height": 500,
+                "leftX": 0,
+                "leftY": -2250,
+                "rightX": -6000,
+                "rightY": -2250,
+                "upX": 0,
+                "upY": -2250
+            },
+            "type": "Connector"
+        },
+        {
+            "border": {
+                "bottomY": 6000,
+                "leftX": -2250,
+                "rightX": 2250,
+                "topY": -1500
+            },
+            "ellipse": {
+                "bottomY": 6000,
+                "leftX": -2250,
+                "rightX": 2250,
+                "topY": -1500
+            },
+            "lines": [
+                {
+                    "x1": -2250,
+                    "x2": -2250,
+                    "y1": -1500,
+                    "y2": 4500
+                },
+                {
+                    "x1": 2250,
+                    "x2": 2250,
+                    "y1": -1500,
+                    "y2": 4500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": -1500,
+                    "y2": -1500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": 4500,
+                    "y2": 4500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": 1500,
+                    "y2": 1500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": 4500,
+                    "y2": 4500
+                }
+            ],
+            "name": "CON3",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": 1125,
+                "height": 250,
+                "leftX": 3000,
+                "leftY": -1125,
+                "rightX": -3000,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": 5625
+            },
+            "padParams": {
+                "height": 1500,
+                "radius": 375,
+                "width": 3000
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 3000
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 6000
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -5625,
+                "height": 250,
+                "leftX": 0,
+                "leftY": -1125,
+                "rightX": -6000,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": -1125
+            },
+            "type": "Connector"
+        }
+    ]
+}

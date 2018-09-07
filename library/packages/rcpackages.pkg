@@ -1,0 +1,684 @@
+{
+    "object": "packages",
+    "packages": [
+        {
+            "border": {
+                "bottomY": 1025,
+                "leftX": -250,
+                "rightX": 250,
+                "topY": 25
+            },
+            "ellipse": {
+                "bottomY": 1025,
+                "leftX": -250,
+                "rightX": 250,
+                "topY": 25
+            },
+            "lines": [
+                {
+                    "x1": -250,
+                    "x2": -250,
+                    "y1": 25,
+                    "y2": 1025
+                },
+                {
+                    "x1": 250,
+                    "x2": 250,
+                    "y1": 25,
+                    "y2": 1025
+                },
+                {
+                    "x1": -250,
+                    "x2": 250,
+                    "y1": 25,
+                    "y2": 25
+                },
+                {
+                    "x1": -250,
+                    "x2": 250,
+                    "y1": 1025,
+                    "y2": 1025
+                },
+                {
+                    "x1": -250,
+                    "x2": 250,
+                    "y1": 225,
+                    "y2": 225
+                },
+                {
+                    "x1": -250,
+                    "x2": 250,
+                    "y1": 825,
+                    "y2": 825
+                }
+            ],
+            "name": "SMD0402",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -275,
+                "height": 250,
+                "leftX": 525,
+                "leftY": 125,
+                "rightX": -525,
+                "rightY": 125,
+                "upX": 0,
+                "upY": 775
+            },
+            "padParams": {
+                "height": 450,
+                "radius": 112,
+                "width": 500
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 1050
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -775,
+                "height": 250,
+                "leftX": 525,
+                "leftY": -125,
+                "rightX": -525,
+                "rightY": -125,
+                "upX": 0,
+                "upY": 275
+            },
+            "type": "RC"
+        },
+        {
+            "border": {
+                "bottomY": 1525,
+                "leftX": -400,
+                "rightX": 400,
+                "topY": -75
+            },
+            "ellipse": {
+                "bottomY": 1525,
+                "leftX": -400,
+                "rightX": 400,
+                "topY": -75
+            },
+            "lines": [
+                {
+                    "x1": -400,
+                    "x2": -400,
+                    "y1": -75,
+                    "y2": 1525
+                },
+                {
+                    "x1": 400,
+                    "x2": 400,
+                    "y1": -75,
+                    "y2": 1525
+                },
+                {
+                    "x1": -400,
+                    "x2": 400,
+                    "y1": -75,
+                    "y2": -75
+                },
+                {
+                    "x1": -400,
+                    "x2": 400,
+                    "y1": 1525,
+                    "y2": 1525
+                },
+                {
+                    "x1": -400,
+                    "x2": 400,
+                    "y1": 225,
+                    "y2": 225
+                },
+                {
+                    "x1": -400,
+                    "x2": 400,
+                    "y1": 1225,
+                    "y2": 1225
+                }
+            ],
+            "name": "SMD0603",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -325,
+                "height": 250,
+                "leftX": 725,
+                "leftY": 200,
+                "rightX": -725,
+                "rightY": 200,
+                "upX": 0,
+                "upY": 1125
+            },
+            "padParams": {
+                "height": 650,
+                "radius": 162,
+                "width": 900
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 1450
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -1125,
+                "height": 250,
+                "leftX": 725,
+                "leftY": -200,
+                "rightX": -725,
+                "rightY": -200,
+                "upX": 0,
+                "upY": 325
+            },
+            "type": "RC"
+        },
+        {
+            "border": {
+                "bottomY": 2175,
+                "leftX": -625,
+                "rightX": 625,
+                "topY": 175
+            },
+            "ellipse": {
+                "bottomY": 2175,
+                "leftX": -625,
+                "rightX": 625,
+                "topY": 175
+            },
+            "lines": [
+                {
+                    "x1": -625,
+                    "x2": -625,
+                    "y1": 175,
+                    "y2": 2175
+                },
+                {
+                    "x1": 625,
+                    "x2": 625,
+                    "y1": 175,
+                    "y2": 2175
+                },
+                {
+                    "x1": -625,
+                    "x2": 625,
+                    "y1": 175,
+                    "y2": 175
+                },
+                {
+                    "x1": -625,
+                    "x2": 625,
+                    "y1": 2175,
+                    "y2": 2175
+                },
+                {
+                    "x1": -625,
+                    "x2": 625,
+                    "y1": 525,
+                    "y2": 525
+                },
+                {
+                    "x1": -625,
+                    "x2": 625,
+                    "y1": 1825,
+                    "y2": 1825
+                }
+            ],
+            "name": "SMD0805",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -675,
+                "height": 250,
+                "leftX": 1175,
+                "leftY": 312,
+                "rightX": -1175,
+                "rightY": 312,
+                "upX": 0,
+                "upY": 1675
+            },
+            "padParams": {
+                "height": 1150,
+                "radius": 287,
+                "width": 1300
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 2350
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -1675,
+                "height": 250,
+                "leftX": 1175,
+                "leftY": -312,
+                "rightX": -1175,
+                "rightY": -312,
+                "upX": 0,
+                "upY": 675
+            },
+            "type": "RC"
+        },
+        {
+            "border": {
+                "bottomY": 3300,
+                "leftX": -800,
+                "rightX": 800,
+                "topY": 100
+            },
+            "ellipse": {
+                "bottomY": 3300,
+                "leftX": -800,
+                "rightX": 800,
+                "topY": 100
+            },
+            "lines": [
+                {
+                    "x1": -800,
+                    "x2": -800,
+                    "y1": 100,
+                    "y2": 3300
+                },
+                {
+                    "x1": 800,
+                    "x2": 800,
+                    "y1": 100,
+                    "y2": 3300
+                },
+                {
+                    "x1": -800,
+                    "x2": 800,
+                    "y1": 100,
+                    "y2": 100
+                },
+                {
+                    "x1": -800,
+                    "x2": 800,
+                    "y1": 3300,
+                    "y2": 3300
+                },
+                {
+                    "x1": -800,
+                    "x2": 800,
+                    "y1": 550,
+                    "y2": 550
+                },
+                {
+                    "x1": -800,
+                    "x2": 800,
+                    "y1": 2850,
+                    "y2": 2850
+                }
+            ],
+            "name": "SMD1206",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -900,
+                "height": 250,
+                "leftX": 1700,
+                "leftY": 400,
+                "rightX": -1700,
+                "rightY": 400,
+                "upX": 0,
+                "upY": 2500
+            },
+            "padParams": {
+                "height": 1300,
+                "radius": 325,
+                "width": 1700
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 3400
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -2500,
+                "height": 250,
+                "leftX": 1700,
+                "leftY": -400,
+                "rightX": -1700,
+                "rightY": -400,
+                "upX": 0,
+                "upY": 900
+            },
+            "type": "RC"
+        },
+        {
+            "border": {
+                "bottomY": 3300,
+                "leftX": -1250,
+                "rightX": 1250,
+                "topY": 100
+            },
+            "ellipse": {
+                "bottomY": 3300,
+                "leftX": -1250,
+                "rightX": 1250,
+                "topY": 100
+            },
+            "lines": [
+                {
+                    "x1": -1250,
+                    "x2": -1250,
+                    "y1": 100,
+                    "y2": 3300
+                },
+                {
+                    "x1": 1250,
+                    "x2": 1250,
+                    "y1": 100,
+                    "y2": 3300
+                },
+                {
+                    "x1": -1250,
+                    "x2": 1250,
+                    "y1": 100,
+                    "y2": 100
+                },
+                {
+                    "x1": -1250,
+                    "x2": 1250,
+                    "y1": 3300,
+                    "y2": 3300
+                },
+                {
+                    "x1": -1250,
+                    "x2": 1250,
+                    "y1": 600,
+                    "y2": 600
+                },
+                {
+                    "x1": -1250,
+                    "x2": 1250,
+                    "y1": 2800,
+                    "y2": 2800
+                }
+            ],
+            "name": "SMD1210",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -900,
+                "height": 250,
+                "leftX": 1700,
+                "leftY": 625,
+                "rightX": -1700,
+                "rightY": 625,
+                "upX": 0,
+                "upY": 2500
+            },
+            "padParams": {
+                "height": 1300,
+                "radius": 325,
+                "width": 2700
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 3400
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -2500,
+                "height": 250,
+                "leftX": 1700,
+                "leftY": -625,
+                "rightX": -1700,
+                "rightY": -625,
+                "upX": 0,
+                "upY": 900
+            },
+            "type": "RC"
+        },
+        {
+            "border": {
+                "bottomY": 4600,
+                "leftX": -1500,
+                "rightX": 1500,
+                "topY": 100
+            },
+            "ellipse": {
+                "bottomY": 4600,
+                "leftX": -1500,
+                "rightX": 1500,
+                "topY": 100
+            },
+            "lines": [
+                {
+                    "x1": -1500,
+                    "x2": -1500,
+                    "y1": 100,
+                    "y2": 4600
+                },
+                {
+                    "x1": 1500,
+                    "x2": 1500,
+                    "y1": 100,
+                    "y2": 4600
+                },
+                {
+                    "x1": -1500,
+                    "x2": 1500,
+                    "y1": 100,
+                    "y2": 100
+                },
+                {
+                    "x1": -1500,
+                    "x2": 1500,
+                    "y1": 4600,
+                    "y2": 4600
+                },
+                {
+                    "x1": -1500,
+                    "x2": 1500,
+                    "y1": 650,
+                    "y2": 650
+                },
+                {
+                    "x1": -1500,
+                    "x2": 1500,
+                    "y1": 4050,
+                    "y2": 4050
+                }
+            ],
+            "name": "SMD1812",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -1225,
+                "height": 250,
+                "leftX": 2350,
+                "leftY": 750,
+                "rightX": -2350,
+                "rightY": 750,
+                "upX": 0,
+                "upY": 3475
+            },
+            "padParams": {
+                "height": 1400,
+                "radius": 350,
+                "width": 3200
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 4700
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -3475,
+                "height": 250,
+                "leftX": 2350,
+                "leftY": -750,
+                "rightX": -2350,
+                "rightY": -750,
+                "upX": 0,
+                "upY": 1225
+            },
+            "type": "RC"
+        },
+        {
+            "border": {
+                "bottomY": 6150,
+                "leftX": -1600,
+                "rightX": 1600,
+                "topY": -150
+            },
+            "ellipse": {
+                "bottomY": 6150,
+                "leftX": -1600,
+                "rightX": 1600,
+                "topY": -150
+            },
+            "lines": [
+                {
+                    "x1": -1600,
+                    "x2": -1600,
+                    "y1": -150,
+                    "y2": 6150
+                },
+                {
+                    "x1": 1600,
+                    "x2": 1600,
+                    "y1": -150,
+                    "y2": 6150
+                },
+                {
+                    "x1": -1600,
+                    "x2": 1600,
+                    "y1": -150,
+                    "y2": -150
+                },
+                {
+                    "x1": -1600,
+                    "x2": 1600,
+                    "y1": 6150,
+                    "y2": 6150
+                },
+                {
+                    "x1": -1600,
+                    "x2": 1600,
+                    "y1": 450,
+                    "y2": 450
+                },
+                {
+                    "x1": -1600,
+                    "x2": 1600,
+                    "y1": 5550,
+                    "y2": 5550
+                }
+            ],
+            "name": "SMD2512",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -1425,
+                "height": 250,
+                "leftX": 3000,
+                "leftY": 800,
+                "rightX": -3000,
+                "rightY": 800,
+                "upX": 0,
+                "upY": 4575
+            },
+            "padParams": {
+                "height": 2100,
+                "radius": 525,
+                "width": 3400
+            },
+            "pads": [
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "x": 0,
+                    "y": 6000
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -4575,
+                "height": 250,
+                "leftX": 3000,
+                "leftY": -800,
+                "rightX": -3000,
+                "rightY": -800,
+                "upX": 0,
+                "upY": 1425
+            },
+            "type": "RC"
+        }
+    ]
+}

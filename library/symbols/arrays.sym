@@ -1,0 +1,228 @@
+{
+    "arrays": [
+        {
+            "border": {
+                "bottomY": 4,
+                "leftX": 5,
+                "rightX": 35,
+                "topY": -4
+            },
+            "deltaY": 10,
+            "lines": [
+                {
+                    "x1": 4,
+                    "x2": 40,
+                    "y1": 0,
+                    "y2": 0
+                },
+                {
+                    "x1": 0,
+                    "x2": 4,
+                    "y1": -4,
+                    "y2": 0
+                },
+                {
+                    "x1": 0,
+                    "x2": 4,
+                    "y1": 4,
+                    "y2": 0
+                }
+            ],
+            "name": "",
+            "nameTextX": [
+                0,
+                -40
+            ],
+            "nameTextY": [
+                5,
+                5
+            ],
+            "pinNameTextX": [
+                -32,
+                7
+            ],
+            "pinNameTextY": [
+                4,
+                4
+            ],
+            "pinNumberTextX": [
+                15,
+                -15
+            ],
+            "pinNumberTextY": [
+                0,
+                0
+            ],
+            "pins": [
+                {
+                    "x": 40,
+                    "y": 0
+                }
+            ],
+            "refX": 0,
+            "refY": 0,
+            "referenceTextX": [
+                10,
+                -30
+            ],
+            "referenceTextY": [
+                -10,
+                -10
+            ],
+            "showPinName": true,
+            "showPinNumber": true,
+            "type": "Female Connector"
+        },
+        {
+            "border": {
+                "bottomY": 4,
+                "leftX": 5,
+                "rightX": 35,
+                "topY": -4
+            },
+            "deltaY": 10,
+            "lines": [
+                {
+                    "x1": 0,
+                    "x2": 40,
+                    "y1": 0,
+                    "y2": 0
+                },
+                {
+                    "x1": 0,
+                    "x2": 4,
+                    "y1": 0,
+                    "y2": -4
+                },
+                {
+                    "x1": 0,
+                    "x2": 4,
+                    "y1": 0,
+                    "y2": 4
+                }
+            ],
+            "name": "",
+            "nameTextX": [
+                0,
+                -40
+            ],
+            "nameTextY": [
+                5,
+                5
+            ],
+            "pinNameTextX": [
+                -32,
+                7
+            ],
+            "pinNameTextY": [
+                4,
+                4
+            ],
+            "pinNumberTextX": [
+                15,
+                -15
+            ],
+            "pinNumberTextY": [
+                0,
+                0
+            ],
+            "pins": [
+                {
+                    "x": 40,
+                    "y": 0
+                }
+            ],
+            "refX": 0,
+            "refY": 0,
+            "referenceTextX": [
+                10,
+                -30
+            ],
+            "referenceTextY": [
+                -10,
+                -10
+            ],
+            "showPinName": true,
+            "showPinNumber": true,
+            "type": "Male Connector"
+        },
+        {
+            "border": {
+                "bottomY": 2,
+                "leftX": 12,
+                "rightX": 28,
+                "topY": -9
+            },
+            "deltaY": 20,
+            "lines": [
+                {
+                    "x1": 0,
+                    "x2": 14,
+                    "y1": 0,
+                    "y2": 0
+                },
+                {
+                    "x1": 14,
+                    "x2": 26,
+                    "y1": -7,
+                    "y2": 0
+                },
+                {
+                    "x1": 26,
+                    "x2": 40,
+                    "y1": 0,
+                    "y2": 0
+                }
+            ],
+            "name": "",
+            "nameTextX": [
+                0,
+                -40
+            ],
+            "nameTextY": [
+                -5,
+                -5
+            ],
+            "pinNameTextX": [
+                -32,
+                7
+            ],
+            "pinNameTextY": [
+                4,
+                4
+            ],
+            "pinNumberTextX": [
+                15,
+                -15
+            ],
+            "pinNumberTextY": [
+                0,
+                0
+            ],
+            "pins": [
+                {
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "x": 40,
+                    "y": 0
+                }
+            ],
+            "refX": 0,
+            "refY": 0,
+            "referenceTextX": [
+                10,
+                -30
+            ],
+            "referenceTextY": [
+                -10,
+                -10
+            ],
+            "showPinName": false,
+            "showPinNumber": false,
+            "type": "Switch"
+        }
+    ],
+    "object": "symbols"
+}
