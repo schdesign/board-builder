@@ -36,3 +36,5 @@ HEADERS += pcbeditor.h \
     function.h
 
 FORMS += pcbeditor.ui
+
+RESOURCES += pcbeditor.qrc

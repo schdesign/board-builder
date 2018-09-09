@@ -49,3 +49,5 @@ FORMS += schematiceditor.ui \
     arrayselector.ui \
     deviceselector.ui \
     packageselector.ui
+
+RESOURCES += schematiceditor.qrc
