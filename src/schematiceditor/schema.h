@@ -19,9 +19,9 @@ const int windowSizeX = 1200;
 const int windowSizeY = 800;
 const int grid = 10;
 
-const QString packagesDirectory = "library/packages";
+const QString packagesDirectory = "../../../library/packages";
 const QString packagesFile = "packages.lib";
-const QString symbolsDirectory = "library/symbols";
+const QString symbolsDirectory = "../../../library/symbols";
 const QString symbolsFile = "symbols.lib";
 
 class Package

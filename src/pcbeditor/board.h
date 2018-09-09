@@ -14,7 +14,7 @@
 #include <functional>
 #include <QByteArray>
 
-const QString packagesDirectory = "library";
+const QString packagesDirectory = "../../../library/packages";
 const QString packagesFile = "packages.lib";
 
 typedef std::list <Segment> Track;
