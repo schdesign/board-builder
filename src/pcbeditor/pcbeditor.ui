@@ -36,8 +36,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/select.png</normaloff>icons/select.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/select.png</normaloff>:/icons/select.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -71,8 +71,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/create_groups.png</normaloff>icons/create_groups.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/create_groups.png</normaloff>:/icons/create_groups.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -97,8 +97,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/wave_route.png</normaloff>icons/wave_route.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/wave_route.png</normaloff>:/icons/wave_route.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -123,8 +123,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/segments_nets.png</normaloff>icons/segments_nets.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/segments_nets.png</normaloff>:/icons/segments_nets.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -149,8 +149,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/turn_to_right.png</normaloff>icons/turn_to_right.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/turn_to_right.png</normaloff>:/icons/turn_to_right.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -178,8 +178,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/turn_to_left.png</normaloff>icons/turn_to_left.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/turn_to_left.png</normaloff>:/icons/turn_to_left.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -207,8 +207,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_segment.png</normaloff>icons/place_segment.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/place_segment.png</normaloff>:/icons/place_segment.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -236,8 +236,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_junction.png</normaloff>icons/place_junction.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/place_junction.png</normaloff>:/icons/place_junction.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -361,8 +361,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../../../../../Device/BoardBuilder/pcbeditor/icons/fill_polygon.png</normaloff>../../../../../Device/BoardBuilder/pcbeditor/icons/fill_polygon.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/fill_polygon.png</normaloff>:/icons/fill_polygon.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -390,8 +390,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_element.png</normaloff>icons/delete_element.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/delete_element.png</normaloff>:/icons/delete_element.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -419,8 +419,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_up.png</normaloff>icons/move_up.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/move_up.png</normaloff>:/icons/move_up.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -473,8 +473,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_right.png</normaloff>icons/move_right.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/move_right.png</normaloff>:/icons/move_right.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -502,8 +502,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/decrease_step.png</normaloff>icons/decrease_step.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/decrease_step.png</normaloff>:/icons/decrease_step.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -531,8 +531,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/increase_step.png</normaloff>icons/increase_step.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/increase_step.png</normaloff>:/icons/increase_step.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -557,8 +557,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/zoom_in.png</normaloff>icons/zoom_in.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/zoom_in.png</normaloff>:/icons/zoom_in.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -586,8 +586,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_down.png</normaloff>icons/move_down.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/move_down.png</normaloff>:/icons/move_down.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -612,8 +612,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/zoom_out.png</normaloff>icons/zoom_out.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/zoom_out.png</normaloff>:/icons/zoom_out.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -641,8 +641,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_left.png</normaloff>icons/move_left.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/move_left.png</normaloff>:/icons/move_left.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1261,8 +1261,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/update_nets.png</normaloff>icons/update_nets.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/update_nets.png</normaloff>:/icons/update_nets.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1296,8 +1296,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_elements.png</normaloff>icons/place_elements.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/place_elements.png</normaloff>:/icons/place_elements.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1331,8 +1331,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/table_route.png</normaloff>icons/table_route.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/table_route.png</normaloff>:/icons/table_route.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1366,8 +1366,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_polygon.png</normaloff>icons/place_polygon.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/place_polygon.png</normaloff>:/icons/place_polygon.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1477,8 +1477,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_net_segments.png</normaloff>icons/delete_net_segments.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/delete_net_segments.png</normaloff>:/icons/delete_net_segments.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1550,8 +1550,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_group.png</normaloff>icons/move_group.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/move_group.png</normaloff>:/icons/move_group.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1623,8 +1623,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_junction.png</normaloff>icons/delete_junction.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/delete_junction.png</normaloff>:/icons/delete_junction.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1658,8 +1658,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/set_value.png</normaloff>icons/set_value.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/set_value.png</normaloff>:/icons/set_value.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1693,8 +1693,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/route_tracks.png</normaloff>icons/route_tracks.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/route_tracks.png</normaloff>:/icons/route_tracks.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1728,8 +1728,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_polygon.png</normaloff>icons/delete_polygon.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/delete_polygon.png</normaloff>:/icons/delete_polygon.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1763,8 +1763,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_line.png</normaloff>icons/place_line.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/place_line.png</normaloff>:/icons/place_line.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1874,8 +1874,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_segment.png</normaloff>icons/delete_segment.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/delete_segment.png</normaloff>:/icons/delete_segment.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1909,8 +1909,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move.png</normaloff>icons/move.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/move.png</normaloff>:/icons/move.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2594,8 +2594,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/meter.png</normaloff>icons/meter.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/meter.png</normaloff>:/icons/meter.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2713,7 +2713,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -2807,6 +2807,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="pcbeditor.qrc"/>
+ </resources>
  <connections/>
 </ui>

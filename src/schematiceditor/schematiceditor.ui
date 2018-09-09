@@ -36,8 +36,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/select.png</normaloff>icons/select.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/select.png</normaloff>:/icons/select.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -71,8 +71,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_chip.png</normaloff>icons/place_chip.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_chip.png</normaloff>:/icons/place_chip.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -97,8 +97,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_resistor_iec.png</normaloff>icons/place_resistor_iec.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_resistor_iec.png</normaloff>:/icons/place_resistor_iec.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -123,8 +123,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_capacitor.png</normaloff>icons/place_capacitor.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_capacitor.png</normaloff>:/icons/place_capacitor.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -149,8 +149,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_polar_capacitor.png</normaloff>icons/place_polar_capacitor.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_polar_capacitor.png</normaloff>:/icons/place_polar_capacitor.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -175,8 +175,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/turn_to_right.png</normaloff>icons/turn_to_right.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/turn_to_right.png</normaloff>:/icons/turn_to_right.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -204,8 +204,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/turn_to_left.png</normaloff>icons/turn_to_left.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/turn_to_left.png</normaloff>:/icons/turn_to_left.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -233,8 +233,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_wire.png</normaloff>icons/place_wire.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_wire.png</normaloff>:/icons/place_wire.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -262,8 +262,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_junction.png</normaloff>icons/place_junction.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_junction.png</normaloff>:/icons/place_junction.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -291,8 +291,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_no_connection.png</normaloff>icons/place_no_connection.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_no_connection.png</normaloff>:/icons/place_no_connection.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -320,8 +320,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_power.png</normaloff>icons/place_power.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_power.png</normaloff>:/icons/place_power.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -349,8 +349,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_ground.png</normaloff>icons/place_ground.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_ground.png</normaloff>:/icons/place_ground.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -378,8 +378,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_net_name.png</normaloff>icons/place_net_name.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_net_name.png</normaloff>:/icons/place_net_name.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -407,8 +407,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_element.png</normaloff>icons/delete_element.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/delete_element.png</normaloff>:/icons/delete_element.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -436,8 +436,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_up.png</normaloff>icons/move_up.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/move_up.png</normaloff>:/icons/move_up.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -490,8 +490,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_right.png</normaloff>icons/move_right.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/move_right.png</normaloff>:/icons/move_right.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -519,8 +519,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/decrease_step.png</normaloff>icons/decrease_step.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/decrease_step.png</normaloff>:/icons/decrease_step.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -548,8 +548,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/increase_step.png</normaloff>icons/increase_step.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/increase_step.png</normaloff>:/icons/increase_step.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -602,8 +602,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_down.png</normaloff>icons/move_down.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/move_down.png</normaloff>:/icons/move_down.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -656,8 +656,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_left.png</normaloff>icons/move_left.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/move_left.png</normaloff>:/icons/move_left.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1162,8 +1162,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_inductor.png</normaloff>icons/place_inductor.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_inductor.png</normaloff>:/icons/place_inductor.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1197,8 +1197,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_npn.png</normaloff>icons/place_npn.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_npn.png</normaloff>:/icons/place_npn.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1232,8 +1232,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_zener.png</normaloff>icons/place_zener.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_zener.png</normaloff>:/icons/place_zener.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1267,8 +1267,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/update_nets.png</normaloff>icons/update_nets.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/update_nets.png</normaloff>:/icons/update_nets.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1302,8 +1302,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_battery.png</normaloff>icons/place_battery.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_battery.png</normaloff>:/icons/place_battery.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1337,8 +1337,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_diode.png</normaloff>icons/place_diode.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_diode.png</normaloff>:/icons/place_diode.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1372,8 +1372,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_male_connector.png</normaloff>icons/place_male_connector.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_male_connector.png</normaloff>:/icons/place_male_connector.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1407,8 +1407,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_led.png</normaloff>icons/place_led.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_led.png</normaloff>:/icons/place_led.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1442,8 +1442,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_pnp.png</normaloff>icons/place_pnp.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_pnp.png</normaloff>:/icons/place_pnp.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1477,8 +1477,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_switch.png</normaloff>icons/place_switch.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_switch.png</normaloff>:/icons/place_switch.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1512,8 +1512,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_net.png</normaloff>icons/delete_net.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/delete_net.png</normaloff>:/icons/delete_net.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1547,8 +1547,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/enumerate.png</normaloff>icons/enumerate.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/enumerate.png</normaloff>:/icons/enumerate.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1582,8 +1582,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move_group.png</normaloff>icons/move_group.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/move_group.png</normaloff>:/icons/move_group.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2059,8 +2059,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_core_inductor.png</normaloff>icons/place_core_inductor.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_core_inductor.png</normaloff>:/icons/place_core_inductor.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2094,8 +2094,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_junction.png</normaloff>icons/delete_junction.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/delete_junction.png</normaloff>:/icons/delete_junction.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2129,8 +2129,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/set_value.png</normaloff>icons/set_value.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/set_value.png</normaloff>:/icons/set_value.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2167,8 +2167,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/select_packages.png</normaloff>icons/select_packages.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/select_packages.png</normaloff>:/icons/select_packages.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2202,8 +2202,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_button.png</normaloff>icons/place_button.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_button.png</normaloff>:/icons/place_button.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2237,8 +2237,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_cell.png</normaloff>icons/place_cell.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_cell.png</normaloff>:/icons/place_cell.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2272,8 +2272,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_female_connector.png</normaloff>icons/place_female_connector.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_female_connector.png</normaloff>:/icons/place_female_connector.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2307,8 +2307,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_photodiode.png</normaloff>icons/place_photodiode.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_photodiode.png</normaloff>:/icons/place_photodiode.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2342,8 +2342,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_quartz.png</normaloff>icons/place_quartz.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_quartz.png</normaloff>:/icons/place_quartz.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2377,8 +2377,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_schottky.png</normaloff>icons/place_schottky.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_schottky.png</normaloff>:/icons/place_schottky.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2412,8 +2412,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/delete_wire.png</normaloff>icons/delete_wire.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/delete_wire.png</normaloff>:/icons/delete_wire.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2447,8 +2447,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/move.png</normaloff>icons/move.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/move.png</normaloff>:/icons/move.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2482,8 +2482,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/show_net_numbers.png</normaloff>icons/show_net_numbers.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/show_net_numbers.png</normaloff>:/icons/show_net_numbers.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2520,8 +2520,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/empty.png</normaloff>icons/empty.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/empty.png</normaloff>:/icons/empty.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -3550,8 +3550,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>icons/place_resistor_ansi.png</normaloff>icons/place_resistor_ansi.png</iconset>
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/place_resistor_ansi.png</normaloff>:/icons/place_resistor_ansi.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -3570,7 +3570,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>19</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -3660,6 +3660,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="schematiceditor.qrc"/>
+ </resources>
  <connections/>
 </ui>
