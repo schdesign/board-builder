@@ -41,8 +41,8 @@ public:
     int net;        // net number
 
     Pin() {}
-    Pin(QString _reference, int _number, int _x, int _y, int _net):
-        reference(_reference), number(_number), x(_x), y(_y), net(_net) {}
+    Pin(QString reference, int number, int x, int y, int net):
+        reference(reference), number(number), x(x), y(y), net(net) {}
     ~Pin() {}
 };
 
@@ -58,8 +58,8 @@ public:
     int nameSide;   // 0: left, 1: right
 
     Wire() {}
-    Wire(int _x1, int _y1, int _x2, int _y2, int _net, QString _name = "", int _nameSide = 0):
-         x1(_x1), y1(_y1), x2(_x2), y2(_y2), net(_net), name(_name), nameSide(_nameSide) {}
+    Wire(int x1, int y1, int x2, int y2, int net, QString name = "", int nameSide = 0):
+         x1(x1), y1(y1), x2(x2), y2(y2), net(net), name(name), nameSide(nameSide) {}
     ~Wire() {}
 };
 
