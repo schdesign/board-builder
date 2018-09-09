@@ -1,3 +1,9 @@
+# Build directory
+build/
+
+# Qt project user settings
+*.pro.user
+
 # Prerequisites
 *.d
 
