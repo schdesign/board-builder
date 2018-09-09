@@ -1,11 +1,15 @@
 # pcbeditor.pro
 
-QT += widgets svg
+QT += core gui svg
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = pcbeditor
 TEMPLATE = app
 
 CONFIG += c++14
+
+DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     pcbeditor.cpp \
