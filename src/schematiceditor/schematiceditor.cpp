@@ -266,6 +266,7 @@ void SchematicEditor::saveSVG()
     generator.setDescription(tr("Schema"));
     QPainter painter;
     painter.begin(&generator);
+    painter.fillRect(0, 0, 1000, 1000, Qt::white);
     schema.draw(painter);
     painter.end();
 }
