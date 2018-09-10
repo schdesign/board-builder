@@ -153,9 +153,9 @@ void Schema::fromJson(const QByteArray &array)
         wire.y1 = obj["y1"].toInt();
         wire.x2 = obj["x2"].toInt();
         wire.y2 = obj["y2"].toInt();
-        wire.net = obj["y2"].toInt();
-        wire.name = obj["x1"].toString();
-        wire.nameSide = obj["x1"].toInt();
+        wire.net = obj["net"].toInt();
+        wire.name = obj["name"].toString();
+        wire.nameSide = obj["nameSide"].toInt();
         wires.push_back(wire);
     }
 
