@@ -17,3 +17,5 @@ SOURCES += main.cpp \
 HEADERS += symboleditor.h
 
 FORMS += symboleditor.ui
+
+RESOURCES += symboleditor.qrc

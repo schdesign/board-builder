@@ -17,3 +17,5 @@ SOURCES += main.cpp \
 HEADERS += packageeditor.h
 
 FORMS += packageeditor.ui
+
+RESOURCES += packageeditor.qrc
