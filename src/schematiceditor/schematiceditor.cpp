@@ -256,17 +256,24 @@ void SchematicEditor::saveNetlist()
 
 void SchematicEditor::saveSVG()
 {
+    constexpr int x = 0;
+    constexpr int y = 0;
+    constexpr int width = 1500;
+    constexpr int height = 1000;
+
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save svg file"),
                        schemaDirectory, tr("svg files (*.svg)"));
+
     QSvgGenerator generator;
     generator.setFileName(fileName);
-    generator.setSize(QSize(1000, 1000));
-    generator.setViewBox(QRect(0, 0, 1000, 1000));
+    generator.setSize(QSize(width, height));
+    generator.setViewBox(QRect(x, y, width, height));
     generator.setTitle(tr("Schema"));
     generator.setDescription(tr("Schema"));
+
     QPainter painter;
     painter.begin(&generator);
-    painter.fillRect(0, 0, 1000, 1000, Qt::white);
+    painter.fillRect(x, y, width, height, Qt::white);
     schema.draw(painter);
     painter.end();
 }
