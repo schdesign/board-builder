@@ -1,8 +1,8 @@
-// schema.h
+// schematic.h
 // Copyright (C) 2018 Alexander Karpeko
 
-#ifndef SCHEMA_H
-#define SCHEMA_H
+#ifndef SCHEMATIC_H
+#define SCHEMATIC_H
 
 #include "array.h"
 #include "device.h"
@@ -67,7 +67,7 @@ typedef std::list<Wire> Net;
 typedef std::list<Wire>::iterator WireIt;
 typedef std::vector<Package> Packages;
 
-class Schema
+class Schematic
 {
 public:
     std::map<int, Array> arrays;        // array.center, array
@@ -99,8 +99,8 @@ public:
     int arrayNumber;
     int deviceNameID;
 
-    Schema();
-    ~Schema() {}
+    Schematic();
+    ~Schematic() {}
     void addArray(int type, int pins, int x, int y, int orientation);
     void addDevice(int nameID, int x, int y);
     void addElement(int elementType, int x, int y, int orientation);
@@ -153,4 +153,4 @@ public:
     QJsonObject writeSymbolLibrary();
 };
 
-#endif  // SCHEMA_H
+#endif  // SCHEMATIC_H

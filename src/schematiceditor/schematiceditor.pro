@@ -14,7 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp \
     schematiceditor.cpp \
     element.cpp \
-    schema.cpp \
+    schematic.cpp \
     types.cpp \
     symbol.cpp \
     unit.cpp \
@@ -29,7 +29,7 @@ SOURCES += main.cpp \
 HEADERS += schematiceditor.h \
     element.h \
     exceptiondata.h \
-    schema.h \
+    schematic.h \
     types.h \
     elementimage.h \
     symbol.h \

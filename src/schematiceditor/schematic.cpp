@@ -1,9 +1,9 @@
-// schema.cpp
+// schematic.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "exceptiondata.h"
 #include "function.h"
-#include "schema.h"
+#include "schematic.h"
 #include "text.h"
 #include <algorithm>
 #include <cmath>
@@ -16,7 +16,7 @@
 #include <QMessageBox>
 #include <QTextStream>
 
-Schema::Schema()
+Schematic::Schematic()
 {
     QDir::setCurrent(QCoreApplication::applicationDirPath());
 
@@ -36,19 +36,19 @@ Schema::Schema()
     showNetNumbers = false;
 }
 
-void Schema::addArray(int type, int number, int x, int y, int orientation)
+void Schematic::addArray(int type, int number, int x, int y, int orientation)
 {
     Array array(type, number, x, y, orientation);
     arrays[array.center] = array;
 }
 
-void Schema::addDevice(int nameID, int x, int y)
+void Schematic::addDevice(int nameID, int x, int y)
 {
     Device device(nameID, x, y);
     devices[device.center] = device;
 }
 
-void Schema::addElement(int elementType, int x, int y, int orientation)
+void Schematic::addElement(int elementType, int x, int y, int orientation)
 {
     if (!elementType)
         return;
@@ -57,13 +57,13 @@ void Schema::addElement(int elementType, int x, int y, int orientation)
     elements[element.center] = element;
 }
 
-void Schema::addJunction(int x, int y)
+void Schematic::addJunction(int x, int y)
 {
     int point = (x << 16) + y;
     junctions.insert(point);
 }
 
-void Schema::addNet()
+void Schematic::addNet()
 {    
     reduceWires(net);
     for (auto n : net)
@@ -74,7 +74,7 @@ void Schema::addNet()
 
 // Add net name for horizontal wire,
 // name side is nearest to point: x, y
-void Schema::addNetName(int x, int y)
+void Schematic::addNetName(int x, int y)
 {
     static WireIt wireIt;
 
@@ -98,7 +98,7 @@ void Schema::addNetName(int x, int y)
     }
 }
 
-void Schema::addPoint(int x, int y)
+void Schematic::addPoint(int x, int y)
 {
     if (pointNumber) {
         if (fabs(x - point.x) >= fabs(y - point.y))
@@ -112,13 +112,13 @@ void Schema::addPoint(int x, int y)
     pointNumber++;
 }
 
-void Schema::addSymbol(int symbolType, int x, int y)
+void Schematic::addSymbol(int symbolType, int x, int y)
 {
     Symbol symbol(symbolType, x, y);
     symbols[symbol.center] = symbol;
 }
 
-void Schema::clear()
+void Schematic::clear()
 {
     arrays.clear();
     devices.clear();
@@ -129,7 +129,7 @@ void Schema::clear()
     junctions.clear();
 }
 
-bool Schema::connected(const Pin &pin, const Wire &wire)
+bool Schematic::connected(const Pin &pin, const Wire &wire)
 {
     if ((pin.x == wire.x1 && pin.y == wire.y1) ||
         (pin.x == wire.x2 && pin.y == wire.y2))
@@ -141,7 +141,7 @@ bool Schema::connected(const Pin &pin, const Wire &wire)
     return false;
 }
 
-bool Schema::connected(const Wire &wire1, const Wire &wire2)
+bool Schematic::connected(const Wire &wire1, const Wire &wire2)
 {
     int x, y;
     int point;
@@ -190,7 +190,7 @@ bool Schema::connected(const Wire &wire1, const Wire &wire2)
     return false;
 }
 
-void Schema::deleteElement(int x, int y)
+void Schematic::deleteElement(int x, int y)
 {
     for (auto &a : arrays)
         if (a.second.exist(x, y)) {
@@ -217,13 +217,13 @@ void Schema::deleteElement(int x, int y)
         }
 }
 
-void Schema::deleteJunction(int x, int y)
+void Schematic::deleteJunction(int x, int y)
 {
     int point = (x << 16) + y;
     junctions.erase(point);
 }
 
-void Schema::deleteNet(int x, int y)
+void Schematic::deleteNet(int x, int y)
 {
     int netNumber = -1;
 
@@ -245,7 +245,7 @@ void Schema::deleteNet(int x, int y)
         }
 }
 
-void Schema::deleteWire(int x, int y)
+void Schematic::deleteWire(int x, int y)
 {
     for (auto i = wires.begin(); i != wires.end(); ++i)
         if (insideConnected(x, y, *i) ||
@@ -257,7 +257,7 @@ void Schema::deleteWire(int x, int y)
         }
 }
 
-void Schema::draw(QPainter &painter)
+void Schematic::draw(QPainter &painter)
 {
     painter.setPen(QColor(200, 100, 100));
     QFont serifFont("Times", 10, QFont::Normal);
@@ -322,7 +322,7 @@ void Schema::draw(QPainter &painter)
     }
 }
 
-void Schema::enumerate()
+void Schematic::enumerate()
 {
     int arrayCounter[arrayReferences] = {0};
     int deviceCounter[deviceReferences] = {0};
@@ -352,7 +352,7 @@ void Schema::enumerate()
 }
 
 // Junction insert if needed
-bool Schema::insideConnected(int x, int y, const Wire &wire)
+bool Schematic::insideConnected(int x, int y, const Wire &wire)
 {
     if ((wire.x1 == wire.x2 && x == wire.x1 &&
         ((y > wire.y1 && y < wire.y2) ||
@@ -369,7 +369,7 @@ bool Schema::insideConnected(int x, int y, const Wire &wire)
 }
 
 // Junction insert if needed
-bool Schema::insideConnected(const Pin &pin, const Wire &wire)
+bool Schematic::insideConnected(const Pin &pin, const Wire &wire)
 {
     if ((wire.x1 == wire.x2 && pin.x == wire.x1 &&
         ((pin.y > wire.y1 && pin.y < wire.y2) ||
@@ -385,7 +385,7 @@ bool Schema::insideConnected(const Pin &pin, const Wire &wire)
     return 0;
 }
 
-bool Schema::joinLines(int &x11, int &x12, int &x21, int &x22)
+bool Schematic::joinLines(int &x11, int &x12, int &x21, int &x22)
 {
     int min1, max1, min2, max2;
 
@@ -414,7 +414,7 @@ bool Schema::joinLines(int &x11, int &x12, int &x21, int &x22)
     return false;
 }
 
-bool Schema::joinWires(Wire &wire1, Wire &wire2)
+bool Schematic::joinWires(Wire &wire1, Wire &wire2)
 {
     if (wire1.x1 == wire1.x2 && wire2.x1 == wire2.x2 && wire1.x1 == wire2.x1)
         return joinLines(wire1.y1, wire1.y2, wire2.y1, wire2.y2);
@@ -425,7 +425,7 @@ bool Schema::joinWires(Wire &wire1, Wire &wire2)
     return false;
 }
 
-void Schema::move(int x, int y)
+void Schematic::move(int x, int y)
 {
     static int center;
     static int nameID;
@@ -529,7 +529,7 @@ void Schema::move(int x, int y)
     }
 }
 
-void Schema::moveGroup()
+void Schematic::moveGroup()
 {
     int dx = points[2].x - points[0].x;
     int dy = points[2].y - points[0].y;
@@ -648,7 +648,7 @@ void Schema::moveGroup()
     symbols2.clear();
 }
 
-void Schema::moveGroup(int x, int y)
+void Schematic::moveGroup(int x, int y)
 {
     Point point(x, y);
     points.push_back(point);
@@ -670,27 +670,27 @@ void Schema::moveGroup(int x, int y)
     points.clear();
 }
 
-void Schema::moveDown()
+void Schematic::moveDown()
 {
     //centerY += 0.1 * windowSizeY / scale;
 }
 
-void Schema::moveLeft()
+void Schematic::moveLeft()
 {
     //centerX -= 0.1 * windowSizeY / scale;
 }
 
-void Schema::moveRight()
+void Schematic::moveRight()
 {
     //centerX += 0.1 * windowSizeY / scale;
 }
 
-void Schema::moveUp()
+void Schematic::moveUp()
 {
     //centerY -= 0.1 * windowSizeY / scale;  // equal step for x and y
 }
 
-void Schema::readFile(const QString &filename, QString &text)
+void Schematic::readFile(const QString &filename, QString &text)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -700,7 +700,7 @@ void Schema::readFile(const QString &filename, QString &text)
     file.close();
 }
 
-void Schema::readJsonFile(const QString &filename, QByteArray &byteArray)
+void Schematic::readJsonFile(const QString &filename, QByteArray &byteArray)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly))
@@ -709,7 +709,7 @@ void Schema::readJsonFile(const QString &filename, QByteArray &byteArray)
     file.close();
 }
 
-void Schema::readPackageLibrary(const QString &libraryname)
+void Schematic::readPackageLibrary(const QString &libraryname)
 {
     QByteArray byteArray;
     readJsonFile(libraryname, byteArray);
@@ -731,7 +731,7 @@ void Schema::readPackageLibrary(const QString &libraryname)
     }
 }
 
-void Schema::readSymbolLibrary(const QString &libraryname)
+void Schematic::readSymbolLibrary(const QString &libraryname)
 {
     QByteArray byteArray;
     readJsonFile(libraryname, byteArray);
@@ -754,7 +754,7 @@ void Schema::readSymbolLibrary(const QString &libraryname)
 }
 
 // Reduce number of wires
-void Schema::reduceWires(std::list <Wire> &wires)
+void Schematic::reduceWires(std::list <Wire> &wires)
 {
     WireIt i, j;
 
@@ -771,7 +771,7 @@ void Schema::reduceWires(std::list <Wire> &wires)
     }
 }
 
-void Schema::setNetNumber(int &net1, int &net2)
+void Schematic::setNetNumber(int &net1, int &net2)
 {
     if (net1 == -1) {
         net1 = net2;
@@ -787,7 +787,7 @@ void Schema::setNetNumber(int &net1, int &net2)
         net2 = net1;
 }
 
-void Schema::setValue(int x, int y)
+void Schematic::setValue(int x, int y)
 {
     static int center;
     static int number;
@@ -829,7 +829,7 @@ void Schema::setValue(int x, int y)
 }
 
 // Update nets and insert junctions if needed
-void Schema::updateNets()
+void Schematic::updateNets()
 {
     const int maxLength = 10;
     int connect;

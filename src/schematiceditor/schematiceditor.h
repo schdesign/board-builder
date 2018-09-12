@@ -4,7 +4,7 @@
 #ifndef SCHEMATICEDITOR_H
 #define SCHEMATICEDITOR_H
 
-#include "schema.h"
+#include "schematic.h"
 #include "ui_schematiceditor.h"
 #include <QJsonObject>
 #include <QKeyEvent>
@@ -13,7 +13,7 @@
 #include <QSignalMapper>
 #include <QToolButton>
 
-const static char *schemaDirectory = "";
+const static char *schematicDirectory = "";
 const static int maxButton = 47;
 
 enum ToolButton
@@ -64,7 +64,7 @@ private:
     QPoint mousePoint;
     QSignalMapper *signalMapper;
     QToolButton *toolButton[maxButton];
-    Schema schema;
+    Schematic schematic;
     std::vector<Line> lines;
 
     void paintEvent(QPaintEvent *);

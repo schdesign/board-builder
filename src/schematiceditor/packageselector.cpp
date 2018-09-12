@@ -4,23 +4,23 @@
 #include "packageselector.h"
 #include <QtGlobal>
 
-PackageSelector::PackageSelector(Schema &schema, QDialog *parent):
-    QDialog(parent), schema(schema)
+PackageSelector::PackageSelector(Schematic &schematic, QDialog *parent):
+    QDialog(parent), schematic(schematic)
 {
     setupUi(this);
     setGeometry(QRect(93, 100, 600, 500));
 
-    for (auto sa : schema.arrays) {
+    for (auto sa : schematic.arrays) {
         elementNames.push_back(sa.second.reference + "  " + sa.second.name + "  ");
         packageNames.push_back(sa.second.package);
         elementPins.push_back(sa.second.pins.size());
     }
-    for (auto sd : schema.devices) {
+    for (auto sd : schematic.devices) {
         elementNames.push_back(sd.second.reference + "  " + sd.second.name + "  ");
         packageNames.push_back(sd.second.package);
         elementPins.push_back(sd.second.pins.size());
     }
-    for (auto se : schema.elements) {
+    for (auto se : schematic.elements) {
         elementNames.push_back(se.second.reference + "  " + se.second.value + "  ");
         packageNames.push_back(se.second.package);
         elementPins.push_back(se.second.pins.size());
@@ -30,8 +30,8 @@ PackageSelector::PackageSelector(Schema &schema, QDialog *parent):
         elementListWidget->insertItem(row, elementNames[row] + packageNames[row]);
     elementListWidget->setCurrentRow(0);
 
-    for (uint row = 0; row < schema.packages.size(); row++)
-        packageListWidget->insertItem(row, schema.packages[row].name);
+    for (uint row = 0; row < schematic.packages.size(); row++)
+        packageListWidget->insertItem(row, schematic.packages[row].name);
     packageListWidget->setCurrentRow(0);
 
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
@@ -44,11 +44,11 @@ void PackageSelector::accept()
 {
     int row = 0;
 
-    for (auto &sa : schema.arrays)
+    for (auto &sa : schematic.arrays)
         sa.second.package = packageNames[row++];
-    for (auto &sd : schema.devices)
+    for (auto &sd : schematic.devices)
         sd.second.package = packageNames[row++];
-    for (auto &se : schema.elements)
+    for (auto &se : schematic.elements)
         se.second.package = packageNames[row++];
 
     done(1);
@@ -67,9 +67,9 @@ void PackageSelector::connectPackage()
 {
     int row = elementListWidget->currentRow();
     int row2 = packageListWidget->currentRow();
-    if (elementPins[row] != schema.packages[row2].pins)
+    if (elementPins[row] != schematic.packages[row2].pins)
         return;
-    packageNames[row] = schema.packages[row2].name;
+    packageNames[row] = schematic.packages[row2].name;
     elementListWidget->takeItem(row);
     elementListWidget->insertItem(row, elementNames[row] + packageNames[row]);
     elementListWidget->setCurrentRow(row);

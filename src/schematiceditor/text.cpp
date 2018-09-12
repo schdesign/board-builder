@@ -2,7 +2,7 @@
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "exceptiondata.h"
-#include "schema.h"
+#include "schematic.h"
 #include "text.h"
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -16,7 +16,7 @@ void compareString(const QString &str, const QString &str2)
         throw ExceptionData(str2 + " error");
 }
 
-void Schema::addPackage(const QJsonValue &value)
+void Schematic::addPackage(const QJsonValue &value)
 {
     Package package;
 
@@ -30,7 +30,7 @@ void Schema::addPackage(const QJsonValue &value)
     packages.push_back(package);
 }
 
-void Schema::componentList(QString &text)
+void Schematic::componentList(QString &text)
 {
     std::map <QString, QString> components;         // reference, value
     std::multimap <QString, QString> components2;   // value, reference
@@ -62,7 +62,7 @@ void Schema::componentList(QString &text)
         text += c.first + "\t" + c.second + "\n";
 }
 
-void Schema::errorCheck(QString &text)
+void Schematic::errorCheck(QString &text)
 {
     std::map<QString, QString> components; // reference pin, error
 
@@ -83,7 +83,7 @@ void Schema::errorCheck(QString &text)
             text += c.first + "\t" + c.second + "\n";
 }
 
-template <class Type> void Schema::errorCheck(std::map<QString, QString> &components, Type t)
+template <class Type> void Schematic::errorCheck(std::map<QString, QString> &components, Type t)
 {
     int netNumber;
     int x, y;
@@ -106,7 +106,7 @@ template <class Type> void Schema::errorCheck(std::map<QString, QString> &compon
     }
 }
 
-void Schema::fromJson(const QByteArray &array)
+void Schematic::fromJson(const QByteArray &array)
 {
     QJsonDocument document(QJsonDocument::fromJson(array));
     if (document.isNull())
@@ -168,7 +168,7 @@ void Schema::fromJson(const QByteArray &array)
     updateNets();
 }
 
-QJsonObject Schema::netlist()
+QJsonObject Schematic::netlist()
 {
     QJsonArray netlistElements;
 
@@ -191,7 +191,7 @@ QJsonObject Schema::netlist()
 }
 
 template <class Type>
-void Schema::netlist(QJsonArray &netlistElements, Type t, QString str)
+void Schematic::netlist(QJsonArray &netlistElements, Type t, QString str)
 {
     QJsonArray elementPads;
 
@@ -225,7 +225,7 @@ void Schema::netlist(QJsonArray &netlistElements, Type t, QString str)
     netlistElements.append(object);
 }
 
-void Schema::readPackages(const QByteArray &byteArray)
+void Schematic::readPackages(const QByteArray &byteArray)
 {
     QJsonParseError error;
     QString str;
@@ -245,7 +245,7 @@ void Schema::readPackages(const QByteArray &byteArray)
         addPackage(p);
 }
 
-void Schema::readSymbols(const QByteArray &byteArray)
+void Schematic::readSymbols(const QByteArray &byteArray)
 {
     QJsonDocument document(QJsonDocument::fromJson(byteArray));
     if (document.isNull())
@@ -278,7 +278,7 @@ void Schema::readSymbols(const QByteArray &byteArray)
     }
 }
 
-QJsonObject Schema::toJson()
+QJsonObject Schematic::toJson()
 {
     QJsonArray schemaArrays;
     for (auto a : arrays)

@@ -100,7 +100,7 @@ void SchematicEditor::paintEvent(QPaintEvent *)
 
     painter.translate(dx, dy);
 
-    schema.draw(painter);
+    schematic.draw(painter);
 }
 
 void SchematicEditor::selectArray(int type, int &pins, int &orientation)
@@ -125,7 +125,7 @@ void SchematicEditor::selectDevice(int &deviceNameID)
 
 void SchematicEditor::selectPackages()
 {
-    PackageSelector packageSelector(schema);
+    PackageSelector packageSelector(schematic);
     packageSelector.exec();
 }
 
@@ -144,7 +144,7 @@ void SchematicEditor::buttonsSetEnabled(const char *params)
 void SchematicEditor::openFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open sch file"),
-                       schemaDirectory, tr("sch files (*.sch)"));
+                       schematicDirectory, tr("sch files (*.sch)"));
     if (fileName.isNull()) {
         QMessageBox::warning(this, tr("Error"), tr("Filename is null"));
         return;
@@ -157,7 +157,7 @@ void SchematicEditor::openFile()
     file.close();
 
     try {
-        schema.fromJson(array);
+        schematic.fromJson(array);
     }
     catch (ExceptionData &e) {
         QMessageBox::warning(this, tr("Error"), e.show());
@@ -176,13 +176,13 @@ void SchematicEditor::openFile()
 void SchematicEditor::saveFile()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save sch file"),
-                       schemaDirectory, tr("sch files (*.sch)"));
+                       schematicDirectory, tr("sch files (*.sch)"));
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly))
         return;
 
-    QJsonDocument document(schema.toJson());
+    QJsonDocument document(schematic.toJson());
     QByteArray array(document.toJson());
 
     file.write(array);
@@ -191,7 +191,7 @@ void SchematicEditor::saveFile()
 
 void SchematicEditor::closeFile()
 {
-    schema.clear();
+    schematic.clear();
 
     actionOpenFile->setEnabled(true);
     actionCloseFile->setEnabled(false);
@@ -205,7 +205,7 @@ void SchematicEditor::closeFile()
 void SchematicEditor::saveComponentList()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save lst file"),
-                       schemaDirectory, tr("lst files (*.lst)"));
+                       schematicDirectory, tr("lst files (*.lst)"));
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -214,7 +214,7 @@ void SchematicEditor::saveComponentList()
     QTextStream out(&file);
     QString text;
 
-    schema.componentList(text);
+    schematic.componentList(text);
     out << text;
 
     file.close();
@@ -223,7 +223,7 @@ void SchematicEditor::saveComponentList()
 void SchematicEditor::saveErrorCheck()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save erc file"),
-                       schemaDirectory, tr("erc files (*.erc)"));
+                       schematicDirectory, tr("erc files (*.erc)"));
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -232,7 +232,7 @@ void SchematicEditor::saveErrorCheck()
     QTextStream out(&file);
     QString text;
 
-    schema.errorCheck(text);
+    schematic.errorCheck(text);
     out << text;
 
     file.close();
@@ -241,13 +241,13 @@ void SchematicEditor::saveErrorCheck()
 void SchematicEditor::saveNetlist()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save net file"),
-                       schemaDirectory, tr("net files (*.net)"));
+                       schematicDirectory, tr("net files (*.net)"));
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly))
         return;
 
-    QJsonDocument document(schema.netlist());
+    QJsonDocument document(schematic.netlist());
     QByteArray array(document.toJson());
 
     file.write(array);
@@ -262,7 +262,7 @@ void SchematicEditor::saveSVG()
     constexpr int height = 1000;
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save svg file"),
-                       schemaDirectory, tr("svg files (*.svg)"));
+                       schematicDirectory, tr("svg files (*.svg)"));
 
     QSvgGenerator generator;
     generator.setFileName(fileName);
@@ -274,7 +274,7 @@ void SchematicEditor::saveSVG()
     QPainter painter;
     painter.begin(&generator);
     painter.fillRect(x, y, width, height, Qt::white);
-    schema.draw(painter);
+    schematic.draw(painter);
     painter.end();
 }
 
@@ -282,9 +282,9 @@ void SchematicEditor::saveJSON()
 {
     QDir::setCurrent(QCoreApplication::applicationDirPath());
 
-    writeLibraryFile("arrays.sym", schema.array.writeSymbols());
-    writeLibraryFile("devices.sym", schema.device.writeSymbols());
-    writeLibraryFile("elements.sym", schema.element.writeSymbols());
+    writeLibraryFile("arrays.sym", schematic.array.writeSymbols());
+    writeLibraryFile("devices.sym", schematic.device.writeSymbols());
+    writeLibraryFile("elements.sym", schematic.element.writeSymbols());
 }
 
 void SchematicEditor::writeLibraryFile(QString filename, QJsonObject object)
@@ -324,7 +324,7 @@ void SchematicEditor::selectCommand(int number)
         stepLineEdit->setText(str.setNum(step/grid));
         break;
     case ENUMERATE:
-        schema.enumerate();
+        schematic.enumerate();
         break;
     case INCREASE_STEP:
         step *= 2;
@@ -333,17 +333,17 @@ void SchematicEditor::selectCommand(int number)
         stepLineEdit->setText(str.setNum(step/grid));
         break;
     case MOVE:
-        schema.selectedArray = false;
-        schema.selectedDevice = false;
-        schema.selectedElement = false;
-        schema.selectedSymbol = false;
+        schematic.selectedArray = false;
+        schematic.selectedDevice = false;
+        schematic.selectedElement = false;
+        schematic.selectedSymbol = false;
         break;
     case MOVE_DOWN:
         dy += step;
         dyLineEdit->setText(str.setNum(-dy/grid));
         break;
     case MOVE_GROUP:
-        schema.points.clear();
+        schematic.points.clear();
         break;
     case MOVE_LEFT:
         dx -= step;
@@ -358,41 +358,41 @@ void SchematicEditor::selectCommand(int number)
         dyLineEdit->setText(str.setNum(-dy/grid));
         break;
     case PLACE_DEVICE:
-        selectDevice(schema.deviceNameID);
-        if (schema.deviceNameID == -1)
+        selectDevice(schematic.deviceNameID);
+        if (schematic.deviceNameID == -1)
             command = SELECT;
         break;
     case PLACE_FEMALE_CONNECTOR:
-        selectArray(ARRAY_FCON, schema.arrayNumber, schema.arrayOrientation);
-        if (!schema.arrayNumber)
+        selectArray(ARRAY_FCON, schematic.arrayNumber, schematic.arrayOrientation);
+        if (!schematic.arrayNumber)
             command = SELECT;
         break;
     case PLACE_MALE_CONNECTOR:
-        selectArray(ARRAY_MCON, schema.arrayNumber, schema.arrayOrientation);
-        if (!schema.arrayNumber)
+        selectArray(ARRAY_MCON, schematic.arrayNumber, schematic.arrayOrientation);
+        if (!schematic.arrayNumber)
             command = SELECT;
         break;
     case PLACE_NET_NAME:
-        schema.selectedWire = false;
+        schematic.selectedWire = false;
         break;
     case PLACE_SWITCH:
-        selectArray(ARRAY_SW, schema.arrayNumber, schema.arrayOrientation);
-        if (!schema.arrayNumber)
+        selectArray(ARRAY_SW, schematic.arrayNumber, schematic.arrayOrientation);
+        if (!schematic.arrayNumber)
             command = SELECT;
         break;
     case PLACE_WIRE:
-        schema.pointNumber = 0;
+        schematic.pointNumber = 0;
         break;
     case SELECT_PACKAGES:
         selectPackages();
         command = SELECT;
         break;
     case SET_VALUE:
-        schema.selectedArray = false;
-        schema.selectedElement = false;
+        schematic.selectedArray = false;
+        schematic.selectedElement = false;
         break;
     case SHOW_NET_NUMBERS:
-        schema.showNetNumbers ^= true;
+        schematic.showNetNumbers ^= true;
         break;
     case TURN_TO_LEFT:
         if (previousCommand >= PLACE_BATTERY &&
@@ -413,7 +413,7 @@ void SchematicEditor::selectCommand(int number)
         }
         break;    
     case UPDATE_NETS:
-        schema.updateNets();
+        schematic.updateNets();
         break;    
     }
 
@@ -424,19 +424,19 @@ void SchematicEditor::keyPressEvent(QKeyEvent *event)
 {
     switch (command) {    
     case PLACE_NET_NAME:
-        if (schema.selectedWire) {
+        if (schematic.selectedWire) {
             if (event->text() != QString("q"))
-                schema.value += event->text();
+                schematic.value += event->text();
             else
-                schema.addNetName(0, 0);
+                schematic.addNetName(0, 0);
         }
         break;
     case SET_VALUE:
-        if (schema.selectedArray || schema.selectedElement) {
+        if (schematic.selectedArray || schematic.selectedElement) {
             if (event->text() != QString("q"))
-                schema.value += event->text();
+                schematic.value += event->text();
             else
-                schema.setValue(0, 0);
+                schematic.setValue(0, 0);
         }
         break;
     }
@@ -457,53 +457,53 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
         limit(y, 0, 10000);
 
         if (command >= PLACE_BATTERY && command <= PLACE_ZENER)
-            schema.addElement(elementType[command], x, y, orientation);
+            schematic.addElement(elementType[command], x, y, orientation);
 
         switch (command) {
         case DELETE:
-            schema.deleteElement(x, y);
+            schematic.deleteElement(x, y);
             break;
         case DELETE_JUNCTION:
-            schema.deleteJunction(x, y);
+            schematic.deleteJunction(x, y);
             break;
         case DELETE_NET:
-            schema.deleteNet(x, y);
+            schematic.deleteNet(x, y);
             break;
         case DELETE_WIRE:
-            schema.deleteWire(x, y);
+            schematic.deleteWire(x, y);
             break;
         case MOVE:
-            schema.move(x, y);
+            schematic.move(x, y);
             break;
         case MOVE_GROUP:
-            schema.moveGroup(x, y);
+            schematic.moveGroup(x, y);
             break;
         case PLACE_DEVICE:
-            schema.addDevice(schema.deviceNameID, x, y);
+            schematic.addDevice(schematic.deviceNameID, x, y);
             break;
         case PLACE_FEMALE_CONNECTOR:
-            schema.addArray(ARRAY_FCON, schema.arrayNumber, x, y, schema.arrayOrientation);
+            schematic.addArray(ARRAY_FCON, schematic.arrayNumber, x, y, schematic.arrayOrientation);
             break;
         case PLACE_GROUND:
-            schema.addSymbol(GROUND, x, y);
+            schematic.addSymbol(GROUND, x, y);
             break;        
         case PLACE_JUNCTION:
-            schema.addJunction(x, y);
+            schematic.addJunction(x, y);
             break;
         case PLACE_MALE_CONNECTOR:
-            schema.addArray(ARRAY_MCON, schema.arrayNumber, x, y, schema.arrayOrientation);
+            schematic.addArray(ARRAY_MCON, schematic.arrayNumber, x, y, schematic.arrayOrientation);
             break;
         case PLACE_NET_NAME:
-            schema.addNetName(x, y);
+            schematic.addNetName(x, y);
             break;
         case PLACE_SWITCH:
-            schema.addArray(ARRAY_SW, schema.arrayNumber, x, y, schema.arrayOrientation);
+            schematic.addArray(ARRAY_SW, schematic.arrayNumber, x, y, schematic.arrayOrientation);
             break;
         case PLACE_WIRE:
-            schema.addPoint(x, y);
+            schematic.addPoint(x, y);
             break;        
         case SET_VALUE:
-            schema.setValue(x, y);
+            schematic.setValue(x, y);
             break;
         }
 
@@ -519,13 +519,13 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
 
         switch (command) {
         case PLACE_WIRE:
-            schema.addNet();
+            schematic.addNet();
             break;        
         default:
             command = SELECT;
-            schema.selectedArray = false;
-            schema.selectedElement = false;
-            schema.selectedSymbol = false;
+            schematic.selectedArray = false;
+            schematic.selectedElement = false;
+            schematic.selectedSymbol = false;
         }
 
         update();
