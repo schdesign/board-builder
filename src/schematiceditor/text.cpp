@@ -2,6 +2,7 @@
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "exceptiondata.h"
+#include "function.h"
 #include "schematic.h"
 #include "text.h"
 #include <QJsonArray>
@@ -32,8 +33,8 @@ void Schematic::addPackage(const QJsonValue &value)
 
 void Schematic::componentList(QString &text)
 {
-    std::map <QString, QString> components;         // reference, value
-    std::multimap <QString, QString> components2;   // value, reference
+    std::map <QString, QString, LessReference> components;  // reference, value
+    std::multimap <QString, QString> components2;           // value, reference
 
     for (auto a : arrays) {
         if (a.second.name.isEmpty())
@@ -52,19 +53,29 @@ void Schematic::componentList(QString &text)
         components2.insert(std::make_pair(e.second.value, e.second.reference));
     }
 
-    text = "List by reference.\n";
+    int maxSize = 0;
     for (auto c : components)
-        text += c.first + "\t" + c.second + "\n";
+        if (c.first.size() > maxSize)
+            maxSize = c.first.size();
+
+    text = "Component list by reference.\n";
+    for (auto c : components)
+        text += c.first.leftJustified(maxSize + 2, ' ') + c.second + "\n";
     text += "\n";
 
-    text += "List by value.\n";
+    maxSize = 0;
     for (auto c : components2)
-        text += c.first + "\t" + c.second + "\n";
+        if (c.first.size() > maxSize)
+            maxSize = c.first.size();
+
+    text += "Component list by value.\n";
+    for (auto c : components2)
+        text += c.first.leftJustified(maxSize + 2, ' ') + c.second + "\n";
 }
 
 void Schematic::errorCheck(QString &text)
 {
-    std::map<QString, QString> components; // reference pin, error
+    std::map<QString, QString> components;  // reference pin, error
 
     for (auto i = arrays.begin(); i != arrays.end(); ++i)
         errorCheck(components, i);

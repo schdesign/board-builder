@@ -15,6 +15,11 @@ QJsonArray intArrayToJson(const int n[], int size);
 
 void jsonToIntArray(const QJsonValue &value, int n[], int size);
 
+struct LessReference
+{
+    bool operator() (const QString &str, const QString &str2);
+};
+
 void limit(int &value, int min, int max);
 
 #endif  // FUNCTION_H
