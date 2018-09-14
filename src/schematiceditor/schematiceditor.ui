@@ -2364,7 +2364,7 @@
      <enum>Qt::NoArrow</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="placeShottkyButton">
+   <widget class="QToolButton" name="placeSchottkyButton">
     <property name="geometry">
      <rect>
       <x>30</x>

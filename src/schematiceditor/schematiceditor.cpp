@@ -48,7 +48,7 @@ SchematicEditor::SchematicEditor(QWidget *parent) : QMainWindow(parent)
         placeLEDButton, placeMaleConnectorButton, placeNetNameButton, placeNoConnectionButton,
         placeNpnTransistorButton, placePhotodiodeButton, placePnpTransistorButton,
         placePolarCapacitorButton, placePowerButton, placeQuartzButton, placeResistorANSIButton,
-        placeResistorIECButton, placeShottkyButton, placeSwitchButton, placeWireButton, placeZenerButton,
+        placeResistorIECButton, placeSchottkyButton, placeSwitchButton, placeWireButton, placeZenerButton,
         selectButton, selectPackagesButton, setValueButton, showNetNumbersButton, turnToLeftButton,
         turnToRightButton, updateNetsButton
     };

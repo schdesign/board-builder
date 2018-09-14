@@ -12,7 +12,7 @@ enum ElementType
     BATTERY = 1, BUTTON, CAPACITOR, CELL, CORE_INDUCTOR,
     DIODE, INDUCTOR, LED, NPN_TRANSISTOR, PHOTODIODE,
     PNP_TRANSISTOR, POLAR_CAPACITOR, QUARTZ, RESISTOR_ANSI,
-    RESISTOR_IEC, SHOTTKY, ZENER
+    RESISTOR_IEC, SCHOTTKY, ZENER
 };
 
 const char elementTypeString[elementTypes][32] =
@@ -20,7 +20,7 @@ const char elementTypeString[elementTypes][32] =
     "", "Battery", "Button", "Capacitor", "Cell", "Core Inductor",
     "Diode", "Inductor", "Led", "NPN Transistor", "Photodiode",
     "PNP Transistor", "Polar Capacitor", "Quarts", "Resistor ANSI",
-    "Resistor IEC", "Shottky", "Zener"
+    "Resistor IEC", "Schottky", "Zener"
 };
 
 const char elementReference[elementTypes][8] =
