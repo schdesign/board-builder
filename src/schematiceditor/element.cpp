@@ -118,8 +118,8 @@ void Element::addSymbol(const QJsonValue &value)
 
 void Element::draw(QPainter &painter)
 {
-    for (auto a : arcs)
-        painter.drawArc(a.x, a.y, a.w, a.h, a.startAngle, a.spanAngle);
+    for (auto a : arcs)  // angle unit: 1/16th of degree
+        painter.drawArc(a.x, a.y, a.w, a.h, a.startAngle << 4, a.spanAngle << 4);
 
     for (auto l : lines)
         painter.drawLine(l.x1, l.y1, l.x2, l.y2);
@@ -143,17 +143,18 @@ bool Element::exist(int x, int y)
 void Element::init()
 {
     const ElementSymbol &symbol = symbols[type];
+    const int a[4][4] = {{1,0,0,1}, {2,-1,1,0}, {1,0,2,-1}, {0,1,1,0}};    // arc
+    const int l[4][4] = {{1,0,0,1}, {0,-1,1,0}, {-1,0,0,-1}, {0,1,-1,0}};  // line
 
-    if (orientation < 0 || orientation > 3)
-        orientation = 0;
-
-    const int c[4][4] = {{1,0,0,1}, {0,-1,1,0}, {-1,0,0,-1}, {0,1,-1,0}};
     int t = orientation;
 
-    border.leftX = refX + c[t][0] * symbol.border.leftX + c[t][1] * symbol.border.topY;
-    border.topY = refY + c[t][2] * symbol.border.leftX + c[t][3] * symbol.border.topY;
-    border.rightX = refX + c[t][0] * symbol.border.rightX + c[t][1] * symbol.border.bottomY;
-    border.bottomY = refY + c[t][2] * symbol.border.rightX + c[t][3] * symbol.border.bottomY;
+    if (t < 0 || t > 3)
+        t = 0;
+
+    border.leftX = refX + l[t][0] * symbol.border.leftX + l[t][1] * symbol.border.topY;
+    border.topY = refY + l[t][2] * symbol.border.leftX + l[t][3] * symbol.border.topY;
+    border.rightX = refX + l[t][0] * symbol.border.rightX + l[t][1] * symbol.border.bottomY;
+    border.bottomY = refY + l[t][2] * symbol.border.rightX + l[t][3] * symbol.border.bottomY;
 
     centerX = (border.leftX + border.rightX) / 2;
     centerY = (border.topY + border.bottomY) / 2;
@@ -171,29 +172,28 @@ void Element::init()
 
     Arc arc;
     for (auto sa : symbol.arcs) {
-        arc.x = refX + c[t][0] * sa.x + c[t][1] * sa.y;
-        arc.y = refY + c[t][2] * sa.x + c[t][3] * sa.y;
+        arc.x = refX + a[t][0] * sa.x + a[t][1] * sa.y;
+        arc.y = refY + a[t][2] * sa.x + a[t][3] * sa.y;
         arc.w = sa.w;
         arc.h = sa.h;
-        // Angle unit: 1/16th of degree
-        arc.startAngle = sa.startAngle + 90 * 16 * orientation;
+        arc.startAngle = sa.startAngle - 90 * t;
         arc.spanAngle = sa.spanAngle;
         arcs.push_back(arc);
     }
 
     Line line;
     for (auto sl : symbol.lines) {
-        line.x1 = refX + c[t][0] * sl.x1 + c[t][1] * sl.y1;
-        line.y1 = refY + c[t][2] * sl.x1 + c[t][3] * sl.y1;
-        line.x2 = refX + c[t][0] * sl.x2 + c[t][1] * sl.y2;
-        line.y2 = refY + c[t][2] * sl.x2 + c[t][3] * sl.y2;
+        line.x1 = refX + l[t][0] * sl.x1 + l[t][1] * sl.y1;
+        line.y1 = refY + l[t][2] * sl.x1 + l[t][3] * sl.y1;
+        line.x2 = refX + l[t][0] * sl.x2 + l[t][1] * sl.y2;
+        line.y2 = refY + l[t][2] * sl.x2 + l[t][3] * sl.y2;
         lines.push_back(line);
     }
 
     Point pin;
     for (auto sp : symbol.pins) {
-        pin.x = refX + c[t][0] * sp.x + c[t][1] * sp.y;
-        pin.y = refY + c[t][2] * sp.x + c[t][3] * sp.y;
+        pin.x = refX + l[t][0] * sp.x + l[t][1] * sp.y;
+        pin.y = refY + l[t][2] * sp.x + l[t][3] * sp.y;
         pins.push_back(pin);
     }
 }
