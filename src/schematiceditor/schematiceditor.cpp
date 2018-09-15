@@ -142,8 +142,17 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
 
     if (event->button() == Qt::LeftButton) {
         mousePoint = event->pos();
-        x = grid * ((mousePoint.x() + grid / 2) / grid);
-        y = grid * ((mousePoint.y() + grid / 2) / grid);
+        x = mousePoint.x();
+        y = mousePoint.y();
+
+        if (command == DELETE)
+            schematic.deleteElement(x, y);
+        if (command == SET_VALUE)
+            schematic.setValue(x, y);
+
+        // Set grid for x, y
+        x = grid * ((x + grid / 2) / grid);
+        y = grid * ((y + grid / 2) / grid);
         limit(x, 0, 10000);
         limit(y, 0, 10000);
 
@@ -151,9 +160,6 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             schematic.addElement(elementType[command], x, y, orientation);
 
         switch (command) {
-        case DELETE:
-            schematic.deleteElement(x, y);
-            break;
         case DELETE_JUNCTION:
             schematic.deleteJunction(x, y);
             break;
@@ -192,9 +198,6 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             break;
         case PLACE_WIRE:
             schematic.addPoint(x, y);
-            break;
-        case SET_VALUE:
-            schematic.setValue(x, y);
             break;
         }
 
