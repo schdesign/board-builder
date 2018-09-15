@@ -79,54 +79,11 @@ SchematicEditor::SchematicEditor(QWidget *parent) : QMainWindow(parent)
     dyLineEdit->setText(str.setNum(-dy/grid));
     stepLineEdit->setText(str.setNum(step/grid));
 }
-    
-void SchematicEditor::paintEvent(QPaintEvent *)
+
+void SchematicEditor::about()
 {
-    QPainter painter(this);
-    QFont serifFont("Times", 10, QFont::Normal);
-    QString str;
-
-    painter.fillRect(91, 0, 1160, 840, QColor(255, 255, 255, 255));
-
-    painter.setPen(Qt::black);
-    painter.setFont(serifFont);
-
-    int gridX = 100;
-    int gridY = 40;
-
-    for (int i = 0; i < 1150 / grid; i++)
-        for (int j = 0; j < 800 / grid; j++)
-            painter.drawPoint(gridX + grid * i, gridY + grid * j);
-
-    painter.translate(dx, dy);
-
-    schematic.draw(painter);
-}
-
-void SchematicEditor::selectArray(int type, int &pins, int &orientation)
-{
-    QString titles[3] = {"Connector Selector", "Connector Selector", "Switch Selector"};
-
-    ArraySelector arraySelector(titles[type]);
-
-    int n = arraySelector.exec();
-    pins = n >> 1;
-    orientation = n & 1;
-}
-
-void SchematicEditor::selectDevice(int &deviceNameID)
-{
-    QStringList deviceNames;
-    for (auto ds : Device::symbols)
-        deviceNames += ds.second.name;
-    DeviceSelector deviceSelector(deviceNames);
-    deviceNameID = deviceSelector.exec() - 1;
-}
-
-void SchematicEditor::selectPackages()
-{
-    PackageSelector packageSelector(schematic);
-    packageSelector.exec();
+    QMessageBox::information(this, tr("About Schematic Editor"),
+        tr("Schematic Editor\n""Copyright (C) 2018 Alexander Karpeko"));
 }
 
 /*
@@ -140,6 +97,131 @@ void SchematicEditor::buttonsSetEnabled(const char *params)
     }
 }
 */
+
+void SchematicEditor::closeFile()
+{
+    schematic.clear();
+
+    actionOpenFile->setEnabled(true);
+    actionCloseFile->setEnabled(false);
+
+    // Left, right, up, down, zoom in, zoom out
+    // buttonsSetEnabled("000000");
+
+    update();
+}
+
+void SchematicEditor::keyPressEvent(QKeyEvent *event)
+{
+    switch (command) {
+    case PLACE_NET_NAME:
+        if (schematic.selectedWire) {
+            if (event->text() != QString("q"))
+                schematic.value += event->text();
+            else
+                schematic.addNetName(0, 0);
+        }
+        break;
+    case SET_VALUE:
+        if (schematic.selectedArray || schematic.selectedElement) {
+            if (event->text() != QString("q"))
+                schematic.value += event->text();
+            else
+                schematic.setValue(0, 0);
+        }
+        break;
+    }
+
+    update();
+}
+
+void SchematicEditor::mousePressEvent(QMouseEvent *event)
+{
+    int x;
+    int y;
+
+    if (event->button() == Qt::LeftButton) {
+        mousePoint = event->pos();
+        x = grid * ((mousePoint.x() + grid / 2) / grid);
+        y = grid * ((mousePoint.y() + grid / 2) / grid);
+        limit(x, 0, 10000);
+        limit(y, 0, 10000);
+
+        if (command >= PLACE_BATTERY && command <= PLACE_ZENER)
+            schematic.addElement(elementType[command], x, y, orientation);
+
+        switch (command) {
+        case DELETE:
+            schematic.deleteElement(x, y);
+            break;
+        case DELETE_JUNCTION:
+            schematic.deleteJunction(x, y);
+            break;
+        case DELETE_NET:
+            schematic.deleteNet(x, y);
+            break;
+        case DELETE_WIRE:
+            schematic.deleteWire(x, y);
+            break;
+        case MOVE:
+            schematic.move(x, y);
+            break;
+        case MOVE_GROUP:
+            schematic.moveGroup(x, y);
+            break;
+        case PLACE_DEVICE:
+            schematic.addDevice(schematic.deviceNameID, x, y);
+            break;
+        case PLACE_FEMALE_CONNECTOR:
+            schematic.addArray(ARRAY_FCON, schematic.arrayNumber, x, y, schematic.arrayOrientation);
+            break;
+        case PLACE_GROUND:
+            schematic.addSymbol(GROUND, x, y);
+            break;
+        case PLACE_JUNCTION:
+            schematic.addJunction(x, y);
+            break;
+        case PLACE_MALE_CONNECTOR:
+            schematic.addArray(ARRAY_MCON, schematic.arrayNumber, x, y, schematic.arrayOrientation);
+            break;
+        case PLACE_NET_NAME:
+            schematic.addNetName(x, y);
+            break;
+        case PLACE_SWITCH:
+            schematic.addArray(ARRAY_SW, schematic.arrayNumber, x, y, schematic.arrayOrientation);
+            break;
+        case PLACE_WIRE:
+            schematic.addPoint(x, y);
+            break;
+        case SET_VALUE:
+            schematic.setValue(x, y);
+            break;
+        }
+
+        update();
+    }
+
+    if (event->button() == Qt::RightButton) {
+        mousePoint = event->pos();
+        x = grid * ((mousePoint.x() + grid / 2) / grid);
+        y = grid * ((mousePoint.y() + grid / 2) / grid);
+        limit(x, 0, 10000);
+        limit(y, 0, 10000);
+
+        switch (command) {
+        case PLACE_WIRE:
+            schematic.addNet();
+            break;
+        default:
+            command = SELECT;
+            schematic.selectedArray = false;
+            schematic.selectedElement = false;
+            schematic.selectedSymbol = false;
+        }
+
+        update();
+    }
+}
 
 void SchematicEditor::openFile()
 {
@@ -173,33 +255,27 @@ void SchematicEditor::openFile()
     update();
 }
 
-void SchematicEditor::saveFile()
+void SchematicEditor::paintEvent(QPaintEvent *)
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save sch file"),
-                       schematicDirectory, tr("sch files (*.sch)"));
+    QPainter painter(this);
+    QFont serifFont("Times", 10, QFont::Normal);
+    QString str;
 
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly))
-        return;
+    painter.fillRect(91, 0, 1160, 840, QColor(255, 255, 255, 255));
 
-    QJsonDocument document(schematic.toJson());
-    QByteArray array(document.toJson());
+    painter.setPen(Qt::black);
+    painter.setFont(serifFont);
 
-    file.write(array);
-    file.close();
-}
+    int gridX = 100;
+    int gridY = 40;
 
-void SchematicEditor::closeFile()
-{
-    schematic.clear();
+    for (int i = 0; i < 1150 / grid; i++)
+        for (int j = 0; j < 800 / grid; j++)
+            painter.drawPoint(gridX + grid * i, gridY + grid * j);
 
-    actionOpenFile->setEnabled(true);
-    actionCloseFile->setEnabled(false);
+    painter.translate(dx, dy);
 
-    // Left, right, up, down, zoom in, zoom out
-    // buttonsSetEnabled("000000");
-
-    update();
+    schematic.draw(painter);
 }
 
 void SchematicEditor::saveComponentList()
@@ -236,6 +312,31 @@ void SchematicEditor::saveErrorCheck()
     out << text;
 
     file.close();
+}
+
+void SchematicEditor::saveFile()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save sch file"),
+                       schematicDirectory, tr("sch files (*.sch)"));
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly))
+        return;
+
+    QJsonDocument document(schematic.toJson());
+    QByteArray array(document.toJson());
+
+    file.write(array);
+    file.close();
+}
+
+void SchematicEditor::saveJSON()
+{
+    QDir::setCurrent(QCoreApplication::applicationDirPath());
+
+    writeLibraryFile("arrays.sym", schematic.array.writeSymbols());
+    writeLibraryFile("devices.sym", schematic.device.writeSymbols());
+    writeLibraryFile("elements.sym", schematic.element.writeSymbols());
 }
 
 void SchematicEditor::saveNetlist()
@@ -278,32 +379,15 @@ void SchematicEditor::saveSVG()
     painter.end();
 }
 
-void SchematicEditor::saveJSON()
+void SchematicEditor::selectArray(int type, int &pins, int &orientation)
 {
-    QDir::setCurrent(QCoreApplication::applicationDirPath());
+    QString titles[3] = {"Connector Selector", "Connector Selector", "Switch Selector"};
 
-    writeLibraryFile("arrays.sym", schematic.array.writeSymbols());
-    writeLibraryFile("devices.sym", schematic.device.writeSymbols());
-    writeLibraryFile("elements.sym", schematic.element.writeSymbols());
-}
+    ArraySelector arraySelector(titles[type]);
 
-void SchematicEditor::writeLibraryFile(QString filename, QJsonObject object)
-{
-    QFile file("library/json/" + filename);
-    if (!file.open(QIODevice::WriteOnly))
-        return;
-
-    QJsonDocument document(object);
-    QByteArray array(document.toJson());
-
-    file.write(array);
-    file.close();
-}
-
-void SchematicEditor::about()
-{
-    QMessageBox::information(this, tr("About Schematic Editor"),
-        tr("Schematic Editor\n""Copyright (C) 2018 Alexander Karpeko"));
+    int n = arraySelector.exec();
+    pins = n >> 1;
+    orientation = n & 1;
 }
 
 void SchematicEditor::selectCommand(int number)
@@ -420,114 +504,30 @@ void SchematicEditor::selectCommand(int number)
     update();
 }
 
-void SchematicEditor::keyPressEvent(QKeyEvent *event)
+void SchematicEditor::selectDevice(int &deviceNameID)
 {
-    switch (command) {    
-    case PLACE_NET_NAME:
-        if (schematic.selectedWire) {
-            if (event->text() != QString("q"))
-                schematic.value += event->text();
-            else
-                schematic.addNetName(0, 0);
-        }
-        break;
-    case SET_VALUE:
-        if (schematic.selectedArray || schematic.selectedElement) {
-            if (event->text() != QString("q"))
-                schematic.value += event->text();
-            else
-                schematic.setValue(0, 0);
-        }
-        break;
-    }
-
-    update();
+    QStringList deviceNames;
+    for (auto ds : Device::symbols)
+        deviceNames += ds.second.name;
+    DeviceSelector deviceSelector(deviceNames);
+    deviceNameID = deviceSelector.exec() - 1;
 }
 
-void SchematicEditor::mousePressEvent(QMouseEvent *event)
+void SchematicEditor::selectPackages()
 {
-    int x;
-    int y;
+    PackageSelector packageSelector(schematic);
+    packageSelector.exec();
+}
 
-    if (event->button() == Qt::LeftButton) {
-        mousePoint = event->pos();
-        x = grid * ((mousePoint.x() + grid / 2) / grid);
-        y = grid * ((mousePoint.y() + grid / 2) / grid);
-        limit(x, 0, 10000);
-        limit(y, 0, 10000);
+void SchematicEditor::writeLibraryFile(QString filename, QJsonObject object)
+{
+    QFile file("library/json/" + filename);
+    if (!file.open(QIODevice::WriteOnly))
+        return;
 
-        if (command >= PLACE_BATTERY && command <= PLACE_ZENER)
-            schematic.addElement(elementType[command], x, y, orientation);
+    QJsonDocument document(object);
+    QByteArray array(document.toJson());
 
-        switch (command) {
-        case DELETE:
-            schematic.deleteElement(x, y);
-            break;
-        case DELETE_JUNCTION:
-            schematic.deleteJunction(x, y);
-            break;
-        case DELETE_NET:
-            schematic.deleteNet(x, y);
-            break;
-        case DELETE_WIRE:
-            schematic.deleteWire(x, y);
-            break;
-        case MOVE:
-            schematic.move(x, y);
-            break;
-        case MOVE_GROUP:
-            schematic.moveGroup(x, y);
-            break;
-        case PLACE_DEVICE:
-            schematic.addDevice(schematic.deviceNameID, x, y);
-            break;
-        case PLACE_FEMALE_CONNECTOR:
-            schematic.addArray(ARRAY_FCON, schematic.arrayNumber, x, y, schematic.arrayOrientation);
-            break;
-        case PLACE_GROUND:
-            schematic.addSymbol(GROUND, x, y);
-            break;        
-        case PLACE_JUNCTION:
-            schematic.addJunction(x, y);
-            break;
-        case PLACE_MALE_CONNECTOR:
-            schematic.addArray(ARRAY_MCON, schematic.arrayNumber, x, y, schematic.arrayOrientation);
-            break;
-        case PLACE_NET_NAME:
-            schematic.addNetName(x, y);
-            break;
-        case PLACE_SWITCH:
-            schematic.addArray(ARRAY_SW, schematic.arrayNumber, x, y, schematic.arrayOrientation);
-            break;
-        case PLACE_WIRE:
-            schematic.addPoint(x, y);
-            break;        
-        case SET_VALUE:
-            schematic.setValue(x, y);
-            break;
-        }
-
-        update();
-    }
-
-    if (event->button() == Qt::RightButton) {
-        mousePoint = event->pos();
-        x = grid * ((mousePoint.x() + grid / 2) / grid);
-        y = grid * ((mousePoint.y() + grid / 2) / grid);
-        limit(x, 0, 10000);
-        limit(y, 0, 10000);
-
-        switch (command) {
-        case PLACE_WIRE:
-            schematic.addNet();
-            break;        
-        default:
-            command = SELECT;
-            schematic.selectedArray = false;
-            schematic.selectedElement = false;
-            schematic.selectedSymbol = false;
-        }
-
-        update();
-    }
+    file.write(array);
+    file.close();
 }

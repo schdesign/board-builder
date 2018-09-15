@@ -67,24 +67,24 @@ private:
     Schematic schematic;
     std::vector<Line> lines;
 
+    // Set buttons: left, right, up, down, zoom in, zoom out
+    // void buttonsSetEnabled(const char *params);
     void paintEvent(QPaintEvent *);
     void selectArray(int type, int &pins, int &orientation);
     void selectDevice(int &deviceNameID);
     void selectPackages();
     void writeLibraryFile(QString filename, QJsonObject object);
-    // Set buttons: left, right, up, down, zoom in, zoom out
-    // void buttonsSetEnabled(const char *params);
 
 private slots:
-    void openFile();
-    void saveFile();
+    void about();
     void closeFile();
+    void openFile();
     void saveComponentList();
     void saveErrorCheck();
+    void saveFile();
+    void saveJSON();
     void saveNetlist();
     void saveSVG();
-    void saveJSON();
-    void about();
     void selectCommand(int);    
 };
 
