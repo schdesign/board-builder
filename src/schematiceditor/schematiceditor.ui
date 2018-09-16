@@ -3596,7 +3596,6 @@
     <addaction name="actionSaveComponentList"/>
     <addaction name="actionSaveNetlist"/>
     <addaction name="actionSaveSVG"/>
-    <addaction name="actionSaveJSON"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuBuild"/>

@@ -73,7 +73,7 @@ private:
     void selectArray(int type, int &pins, int &orientation);
     void selectDevice(int &deviceNameID);
     void selectPackages();
-    void writeLibraryFile(QString filename, QJsonObject object);
+    // void writeLibraryFile(QString filename, QJsonObject object);
 
 private slots:
     void about();
@@ -82,7 +82,7 @@ private slots:
     void saveComponentList();
     void saveErrorCheck();
     void saveFile();
-    void saveJSON();
+    // void saveJSON();
     void saveNetlist();
     void saveSVG();
     void selectCommand(int);    

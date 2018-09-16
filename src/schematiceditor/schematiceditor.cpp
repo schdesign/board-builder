@@ -34,7 +34,7 @@ SchematicEditor::SchematicEditor(QWidget *parent) : QMainWindow(parent)
     connect(actionSaveErrorCheck, SIGNAL(triggered()), this, SLOT(saveErrorCheck()));
     connect(actionSaveNetlist, SIGNAL(triggered()), this, SLOT(saveNetlist()));
     connect(actionSaveSVG, SIGNAL(triggered()), this, SLOT(saveSVG()));
-    connect(actionSaveJSON, SIGNAL(triggered()), this, SLOT(saveJSON()));
+    // connect(actionSaveJSON, SIGNAL(triggered()), this, SLOT(saveJSON()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
     QToolButton *tmp[maxButton] =
@@ -332,7 +332,7 @@ void SchematicEditor::saveFile()
     file.write(array);
     file.close();
 }
-
+/*
 void SchematicEditor::saveJSON()
 {
     QDir::setCurrent(QCoreApplication::applicationDirPath());
@@ -341,7 +341,7 @@ void SchematicEditor::saveJSON()
     writeLibraryFile("devices.sym", schematic.device.writeSymbols());
     writeLibraryFile("elements.sym", schematic.element.writeSymbols());
 }
-
+*/
 void SchematicEditor::saveNetlist()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save net file"),
@@ -522,6 +522,7 @@ void SchematicEditor::selectPackages()
     packageSelector.exec();
 }
 
+/*
 void SchematicEditor::writeLibraryFile(QString filename, QJsonObject object)
 {
     QFile file("library/json/" + filename);
@@ -534,3 +535,4 @@ void SchematicEditor::writeLibraryFile(QString filename, QJsonObject object)
     file.write(array);
     file.close();
 }
+*/
