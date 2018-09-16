@@ -831,8 +831,7 @@ void Schematic::setValue(int x, int y)
 // Update nets and insert junctions if needed
 void Schematic::updateNets()
 {
-    const int maxLength = 10;
-    int connect;
+    const int groundNet = 0;
 
     pins.clear();
 
@@ -857,7 +856,7 @@ void Schematic::updateNets()
     // Get all pins of ground
     for (auto s : symbols)
         pins.push_back(Pin(symbolTypeString[s.second.type], 1,
-            s.second.refX, s.second.refY, 0));
+            s.second.refX, s.second.refY, groundNet));
 
     reduceWires(wires);
 
@@ -866,7 +865,7 @@ void Schematic::updateNets()
 
     // Add junctions
     for (auto i = pins.begin(); i != pins.end(); ++i) {
-        connect = 0;
+        int connect = 0;
         for (auto j = i; j != pins.end();) {
             ++j;
             if ((*i).x == (*j).x && (*i).y == (*j).y)
@@ -881,58 +880,79 @@ void Schematic::updateNets()
             addJunction((*i).x, (*i).y);
     }
 
-    int netNumber = 0;
-    int delta = 0;
+    // Current state:
+    // ground pins: net = groundNet, other pins: net = -1
+    // wires: net = -1
 
-    for (auto i = pins.begin(); i != pins.end(); ++i) {
+    bool finished = false;
+    int netNumber = groundNet;
+    int tmpNumber = -2;
 
-        if ((*i).net > 0)
-            continue;
+    while (!finished) {
+        for (auto i = pins.begin(); i != pins.end(); ++i) {
+            if (netNumber == groundNet && (*i).net != groundNet)
+                continue;
+            if (netNumber != groundNet && (*i).net != -1)
+                continue;
+            else
+                (*i).net = netNumber;
 
-        delta = 1;
-
-        // Set net number for pin to pin connection
-        for (auto j = i; j != pins.end();) {
-            ++j;
-            if ((*i).x == (*j).x && (*i).y == (*j).y) {
-                if ((*i).net == -1 && (*j).net == -1) {
-                    (*i).net = netNumber + delta;
-                    delta = 0;
-                    (*j).net = (*i).net;
+            // Set tmpNumber for pin to pin connection
+            for (auto j = pins.begin(); j != pins.end(); ++j) {
+                if (i == j || (*j).net != -1)
                     continue;
+                if ((*i).x == (*j).x && (*i).y == (*j).y)
+                    (*j).net = tmpNumber;
+            }
+
+            // Set netNumber for pin to wire connection
+            for (auto &w : wires)
+                if (connected(*i, w) && w.net == -1)
+                    w.net = netNumber;
+
+            if (netNumber != groundNet)
+                break;
+        }
+
+        // Change pin net with tmpNumber to netNumber
+        for (auto i = pins.begin(); i != pins.end(); ++i)
+            if ((*i).net == tmpNumber)
+                (*i).net = netNumber;
+
+        // Set net number for wire to wire connection
+        bool wireUpdated = true;
+        while (wireUpdated) {
+            wireUpdated = false;
+            for (auto j = wires.begin(); j != wires.end(); ++j) {
+                if ((*j).net != netNumber)
+                    continue;
+                for (auto k = wires.begin(); k != wires.end(); ++k) {
+                    if (j == k || (*k).net != -1)
+                        continue;
+                    if (connected(*j, *k)) {
+                        (*k).net = netNumber;
+                        wireUpdated = true;
+                    }
                 }
-                setNetNumber((*i).net, (*j).net);
             }
         }
 
-        // Set net number for pin to wire connection
-        for (auto &w : wires)
-            if (connected(*i, w)) {
-                if ((*i).net == -1 && w.net == -1) {
-                    (*i).net = netNumber + delta;
-                    delta = 0;
-                    w.net = (*i).net;
-                    continue;
-                }
-                setNetNumber((*i).net, w.net);
-            }
-
-        // Set net number for wire to wire connection
-        for (int l = 0; l < maxLength; l++)
-            for (auto j = wires.begin(); j != wires.end(); ++j)
-                for (auto k = wires.begin(); k != wires.end(); ++k)
-                    if (j != k && connected(*j, *k))
-                        setNetNumber((*j).net, (*k).net);
-
         // Set net number for wire to pin connection
-        for (auto w : wires)
-            for (auto k = i; k != pins.end();) {
-                ++k;
-                if (connected(*k, w))
-                    setNetNumber(w.net, (*k).net);
+        for (auto w : wires) {
+            if (w.net != netNumber)
+                continue;
+            for (auto i = pins.begin(); i != pins.end(); ++i)
+                if (connected(*i, w) && (*i).net == -1)
+                    (*i).net = netNumber;
+        }
+
+        finished = true;
+        for (auto i = pins.begin(); i != pins.end(); ++i)
+            if ((*i).net == -1) {
+                finished = false;
+                break;
             }
 
-        if (!delta)
-            netNumber++;
+        netNumber++;
     }
 }
