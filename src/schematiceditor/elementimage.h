@@ -4,29 +4,29 @@
 #ifndef ELEMENT_IMAGE_H
 #define ELEMENT_IMAGE_H
 
-const int elementTypes = 18;
+const int elementTypes = 20;
 const int elementReferences = 10;
 
 enum ElementType
 {
     BATTERY = 1, BUTTON, CAPACITOR, CELL, CORE_INDUCTOR,
-    DIODE, INDUCTOR, LED, NPN_TRANSISTOR, PHOTODIODE,
-    PNP_TRANSISTOR, POLAR_CAPACITOR, QUARTZ, RESISTOR_ANSI,
-    RESISTOR_IEC, SCHOTTKY, ZENER
+    DIODE, INDUCTOR, LED, N_MOSFET, NPN_TRANSISTOR,
+    PHOTODIODE, P_MOSFET, PNP_TRANSISTOR, POLAR_CAPACITOR,
+    QUARTZ, RESISTOR_ANSI, RESISTOR_IEC, SCHOTTKY, ZENER
 };
 
 const char elementTypeString[elementTypes][32] =
 {
     "", "Battery", "Button", "Capacitor", "Cell", "Core Inductor",
-    "Diode", "Inductor", "Led", "NPN Transistor", "Photodiode",
-    "PNP Transistor", "Polar Capacitor", "Quarts", "Resistor ANSI",
-    "Resistor IEC", "Schottky", "Zener"
+    "Diode", "Inductor", "Led", "N channel MOSFET", "NPN Transistor",
+    "Photodiode", "P channel MOSFET", "PNP Transistor", "Polar Capacitor",
+    "Quarts", "Resistor ANSI", "Resistor IEC", "Schottky", "Zener"
 };
 
 const char elementReference[elementTypes][8] =
 {
     "", "GB", "SB", "C", "G", "L", "VD", "L", "HL", "VT",
-    "VD", "VT", "C", "ZQ", "R", "R", "VD", "VD"
+    "VT", "VD", "VT", "VT", "C", "ZQ", "R", "R", "VD", "VD"
 };
 
 enum ElementReferenceType
@@ -37,7 +37,7 @@ enum ElementReferenceType
 const int elementReferenceTypes[elementTypes] =
 {
     0, GB, SB, C, G, L, VD, L, HL, VT,
-    VD, VT, C, ZQ, R, R, VD, VD
+    VT, VD, VT, VT, C, ZQ, R, R, VD, VD
 };
 
 enum Orientation {UP, RIGHT, DOWN, LEFT};

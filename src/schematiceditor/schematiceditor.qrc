@@ -54,5 +54,7 @@
         <file>icons/zoom_in_grid.png</file>
         <file>icons/zoom_out.png</file>
         <file>icons/zoom_out_grid.png</file>
+        <file>icons/place_n_mosfet.png</file>
+        <file>icons/place_p_mosfet.png</file>
     </qresource>
 </RCC>
