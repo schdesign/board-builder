@@ -11,30 +11,34 @@ CONFIG += c++14
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-SOURCES += main.cpp \
-    pcbeditor.cpp \
+SOURCES += board.cpp \
     element.cpp \
-    types.cpp \
-    text.cpp \
-    board.cpp \
+    function.cpp \
     layers.cpp \
-    track.cpp \
+    main.cpp \
+    packageeditor.cpp \
+    pcbeditor.cpp \
     pcbtypes.cpp \
     router.cpp \
-    function.cpp
+    text.cpp \
+    track.cpp \
+    types.cpp
 
-HEADERS += pcbeditor.h \
+HEADERS += board.h \
     element.h \
     exceptiondata.h \
-    types.h \
-    text.h \
-    board.h \
+    function.h \
     layers.h \
-    track.h \
+    packageeditor.h \
+    pcbeditor.h \
     pcbtypes.h \
     router.h \
-    function.h
+    text.h \
+    track.h \
+    types.h
 
-FORMS += pcbeditor.ui
+FORMS += packageeditor.ui \
+    pcbeditor.ui
 
-RESOURCES += pcbeditor.qrc
+RESOURCES += packageeditor.qrc \
+    pcbeditor.qrc
