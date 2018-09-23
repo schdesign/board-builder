@@ -3,10 +3,8 @@
 Printed circuit board design.
 
 Qt projects.
-packageeditor
 pcbeditor
 schematiceditor
-symboleditor
 
 Projects are tested with Qt 5.9.
 
@@ -16,6 +14,6 @@ from executable file directory.
 pcbeditor/board.h file:
 packagesDirectory = "../../../library/packages";
 
-schematiceditor/schema.h file:
+schematiceditor/schematic.h file:
 packagesDirectory = "../../../library/packages";
 symbolsDirectory = "../../../library/symbols";

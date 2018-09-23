@@ -11,43 +11,47 @@ CONFIG += c++14
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-SOURCES += main.cpp \
-    schematiceditor.cpp \
-    element.cpp \
-    schematic.cpp \
-    types.cpp \
-    symbol.cpp \
-    unit.cpp \
-    device.cpp \
-    text.cpp \
-    deviceselector.cpp \
-    function.cpp \
-    array.cpp \
+SOURCES += array.cpp \
     arrayselector.cpp \
-    packageselector.cpp
+    device.cpp \
+    deviceselector.cpp \
+    element.cpp \
+    function.cpp \
+    main.cpp \
+    packageselector.cpp \
+    schematic.cpp \
+    schematiceditor.cpp \
+    symbol.cpp \
+    symboleditor.cpp \
+    text.cpp \
+    types.cpp \
+    unit.cpp
 
-HEADERS += schematiceditor.h \
-    element.h \
-    exceptiondata.h \
-    schematic.h \
-    types.h \
-    elementimage.h \
-    symbol.h \
-    symbolimage.h \
-    unit.h \
-    unitimage.h \
-    device.h \
-    text.h \
-    deviceselector.h \
-    function.h \
-    array.h \
+HEADERS += array.h \
     arrayimage.h \
     arrayselector.h \
-    packageselector.h
+    device.h \
+    deviceselector.h \
+    element.h \
+    elementimage.h \
+    exceptiondata.h \
+    function.h \
+    packageselector.h \
+    schematic.h \
+    schematiceditor.h \
+    symbol.h \
+    symboleditor.h \
+    symbolimage.h \
+    text.h \
+    types.h \
+    unit.h \
+    unitimage.h
 
-FORMS += schematiceditor.ui \
-    arrayselector.ui \
+FORMS += arrayselector.ui \
     deviceselector.ui \
-    packageselector.ui
+    packageselector.ui \
+    schematiceditor.ui \
+    symboleditor.ui
 
-RESOURCES += schematiceditor.qrc
+RESOURCES += schematiceditor.qrc \
+    symboleditor.qrc
