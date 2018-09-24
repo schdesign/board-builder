@@ -11,23 +11,24 @@
 class DevicePin
 {
 public:
+    DevicePin() {}
+    DevicePin(int x, int y, QString name, bool side, int unit):
+        x(x), y(y), name(name), side(side), unit(unit) {}
+    DevicePin(const QJsonValue &value);
+    QJsonObject toJson();
+
     int x;
     int y;
     QString name;
     bool side;  // 0: left, 1: right
     int unit;   // unit number
-
-    DevicePin() {}
-    DevicePin(int _x, int _y, QString _name, bool _side, int _unit):
-        x(_x), y(_y), name(_name), side(_side), unit(_unit) {}
-    DevicePin(const QJsonValue &value);
-    ~DevicePin() {}
-    QJsonObject toJson();
 };
 
 class DeviceSymbol
 {
 public:
+    QJsonObject toJson();
+
     bool showPinName;
     int nameID;
     int nameTextX;
@@ -42,13 +43,23 @@ public:
     QString reference;
     Unit unit;
     std::vector<DevicePin> pins;
-
-    QJsonObject toJson();
 };
 
 class Device
 {
 public:
+    Device() {}
+    Device(int nameID, int refX, int refY);
+    Device(const QJsonObject &object);
+    static void addSymbol(const QJsonValue &value);
+    static QJsonObject writeSymbols();
+    void draw(QPainter &painter);
+    int exist(int x, int y);
+    void init();
+    bool inside(int leftX, int topY, int rightX, int bottomY,
+                std::vector<int> &unitNumbers);
+    QJsonObject toJson();
+
     static int symbolID;
     static std::map <int, DeviceSymbol> symbols;  // device nameID, deviceSymbol
     bool showPinName;
@@ -70,19 +81,6 @@ public:
     Unit unit;
     std::vector<DevicePin> pins;
     std::vector<Unit> units;
-
-    Device() {}
-    Device(int nameID, int refX, int refY);
-    Device(const QJsonObject &object);
-    ~Device() {}
-    static void addSymbol(const QJsonValue &value);
-    static QJsonObject writeSymbols();
-    void draw(QPainter &painter);
-    int exist(int x, int y);    
-    void init();
-    bool inside(int leftX, int topY, int rightX, int bottomY,
-                std::vector<int> &unitNumbers);
-    QJsonObject toJson();
 };
 
 #endif  // DEVICE_H

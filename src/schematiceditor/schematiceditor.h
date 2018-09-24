@@ -48,26 +48,12 @@ class SchematicEditor : public QMainWindow, private Ui::SchematicEditor
 
 public:
     explicit SchematicEditor(QWidget *parent = 0);
-    ~SchematicEditor() {}
 
 protected:
     void keyPressEvent(QKeyEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
 private:
-    int command;
-    int dx, dy;
-    int grid;
-    int maxX, maxY;
-    int orientation;
-    int previousCommand;
-    int step;
-    QPoint mousePoint;
-    QSignalMapper *signalMapper;
-    QToolButton *toolButton[maxButton];
-    Schematic schematic;
-    std::vector<Line> lines;
-
     // Set buttons: left, right, up, down, zoom in, zoom out
     // void buttonsSetEnabled(const char *params);
     void paintEvent(QPaintEvent *);
@@ -86,7 +72,21 @@ private slots:
     // void saveJSON();
     void saveNetlist();
     void saveSVG();
-    void selectCommand(int);    
+    void selectCommand(int);
+
+private:
+    int command;
+    int dx, dy;
+    int grid;
+    int maxX, maxY;
+    int orientation;
+    int previousCommand;
+    int step;
+    QPoint mousePoint;
+    QSignalMapper *signalMapper;
+    QToolButton *toolButton[maxButton];
+    Schematic schematic;
+    std::vector<Line> lines;
 };
 
 #endif  // SCHEMATICEDITOR_H

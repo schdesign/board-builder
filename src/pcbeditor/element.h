@@ -27,6 +27,8 @@ const QString textAlignmentString[1] =
 class Pad
 {
 public:
+    QJsonObject toJson();
+
     int number;         // number in package
     int net;            // net number
     int width;          // width > height
@@ -35,13 +37,13 @@ public:
     int orientation;    // up, right
     int x;              // center
     int y;
-
-    QJsonObject toJson();
 };
 
 class Package
 {
 public:
+    QJsonObject toJson();
+
     Border border;
     Ellipse ellipse;
     int nameTextHeight;
@@ -58,16 +60,27 @@ public:
     int refY;
     QString name;
     QString type;
-    std::vector <Line> lines;
-    std::vector <Pad> pads;
-
-    QJsonObject toJson();
+    std::vector<Line> lines;
+    std::vector<Pad> pads;
 };
 
 class Element
 {
 public:
-    static std::vector <Package> packages;
+    Element() {}
+    Element(int refX, int refY, int orientation, QString name,
+            QString packageName, QString reference);
+    Element(const QJsonObject &object);
+    Element(const QJsonObject &object, int refX, int refY);
+    static void addPackage(const QJsonValue &value);
+    static QJsonObject writePackages(const QString &packageType);
+    void draw(QPainter &painter, const Layers &layers, double scale);
+    bool exist(int x, int y);
+    void init();
+    bool inside(int leftX, int topY, int rightX, int bottomY);
+    QJsonObject toJson();
+
+    static std::vector<Package> packages;
     bool enabled;
     bool fixed;             // fixed on board
     bool group;
@@ -87,21 +100,8 @@ public:
     QString name;           // name or value
     QString packageName;    // SMD0805
     QString reference;      // R1
-    std::vector <Line> lines;
-    std::vector <Pad> pads;
-
-    Element() {}
-    Element(int refX, int refY, int orientation, QString name,
-            QString packageName, QString reference);
-    Element(const QJsonObject &object);
-    Element(const QJsonObject &object, int refX, int refY);
-    static void addPackage(const QJsonValue &value);
-    static QJsonObject writePackages(const QString &packageType);
-    void draw(QPainter &painter, const Layers &layers, double scale);
-    bool exist(int x, int y);
-    void init();
-    bool inside(int leftX, int topY, int rightX, int bottomY);
-    QJsonObject toJson();
+    std::vector<Line> lines;
+    std::vector<Pad> pads;
 };
 
 #endif  // ELEMENT_H

@@ -7,8 +7,8 @@
 
 #include <list>
 
-typedef std::list <int> Group;      // number of group: group[0]
-typedef std::list <Group> Groups;   // number of group >= 10000h
+typedef std::list<int> Group;      // number of group: group[0]
+typedef std::list<Group> Groups;   // number of group >= 10000h
 
 // Placer parameters
 class Placer

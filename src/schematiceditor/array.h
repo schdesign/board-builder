@@ -14,6 +14,8 @@
 class ArraySymbol
 {
 public:
+    QJsonObject toJson();
+
     bool showPinName;
     bool showPinNumber;
     Border border;
@@ -33,14 +35,24 @@ public:
     QString reference;
     std::vector<Line> lines;
     std::vector<Point> pins;
-
-    QJsonObject toJson();
 };
 
 class Array
 {
 public:
-    static std::map <int, ArraySymbol> symbols; // array nameID, array Symbol
+    Array() {}
+    Array(int type, int number, int refX,
+          int refY, int orientation);
+    Array(const QJsonObject &object);
+    static void addSymbol(const QJsonValue &value);
+    static QJsonObject writeSymbols();
+    void draw(QPainter &painter);
+    bool exist(int x, int y);
+    void init();
+    bool inside(int leftX, int topY, int rightX, int bottomY);
+    QJsonObject toJson();
+
+    static std::map<int, ArraySymbol> symbols; // array nameID, array Symbol
     bool showPinName;
     bool showPinNumber;
     Border border;
@@ -68,20 +80,6 @@ public:
     std::vector<QString> pinName;
     std::vector<Line> lines;
     std::vector<Point> pins;
-
-    Array() {}
-    Array(int type, int number, int refX,
-          int refY, int orientation);
-    Array(const QJsonObject &object);
-    ~Array() {}
-    static void addSymbol(const QJsonValue &value);
-    static QJsonObject writeSymbols();
-    void draw(QPainter &painter);
-    bool exist(int x, int y);
-    void init();
-    bool inside(int leftX, int topY, int rightX, int bottomY);
-    QJsonObject toJson();
 };
 
 #endif  // ARRAY_H
-

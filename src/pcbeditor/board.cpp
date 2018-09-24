@@ -192,7 +192,7 @@ void Board::deletePolygon(int x, int y)
     }
 }
 
-int Board::deletePolygon(int x, int y, std::list <Polygon> &polygons)
+int Board::deletePolygon(int x, int y, std::list<Polygon> &polygons)
 {
     int netNumber = -1;
 
@@ -687,7 +687,7 @@ void Board::fillPolygon(int x, int y)
         fillPolygon(x, y, backPolygons);
 }
 
-void Board::fillPolygon(int x, int y, std::list <Polygon> &polygons)
+void Board::fillPolygon(int x, int y, std::list<Polygon> &polygons)
 {
     for (auto i = polygons.begin(); i != polygons.end(); ++i) {
         int b = 0;
@@ -713,7 +713,7 @@ void Board::fillPolygon(int x, int y, std::list <Polygon> &polygons)
 
 void Board::getNets()
 {
-    std::set <int> netNumbers;
+    std::set<int> netNumbers;
 
     for (auto e : elements)
         for (auto ep : e.pads)
@@ -977,9 +977,9 @@ void Board::readPackageLibrary(const QString &libraryname)
 }
 
 // Reduce number of wires
-void Board::reduceSegments(std::list <Segment> &segments)
+void Board::reduceSegments(std::list<Segment> &segments)
 {
-    std::list <Segment>::iterator i, j;
+    std::list<Segment>::iterator i, j;
 
     i = segments.end();
     while (i != segments.begin()) {

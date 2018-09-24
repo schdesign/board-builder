@@ -16,19 +16,19 @@
 class Segment
 {
 public:
-    int x1;
-    int y1;
-    int x2;
-    int y2;
-    int net;    // net number
-    int width;  // um
-
     Segment() {}
     Segment(int x1, int y1, int x2, int y2, int net, int width):
          x1(x1), y1(y1), x2(x2), y2(y2), net(net), width(width) {}
     Segment(const QJsonValue &value);
     void fromJson(const QJsonValue &value);
     QJsonObject toJson();
+
+    int x1;
+    int y1;
+    int x2;
+    int y2;
+    int net;    // net number
+    int width;  // um
 };
 
 /*
@@ -42,7 +42,7 @@ public:
     double y[4];
 };
 
-typedef std::vector <Segment> Curve;
+typedef std::vector<Segment> Curve;
 
 class Track
 {

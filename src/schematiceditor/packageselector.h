@@ -16,16 +16,16 @@ class PackageSelector : public QDialog, private Ui::PackageSelector
 public:
     explicit PackageSelector(Schematic &schematic, QDialog *parent = 0);
 
+private slots:
+    void accept();
+    void clearPackage();
+    void connectPackage();
+
 private:
     Schematic &schematic;
     std::vector<int> elementPins;
     std::vector<QString> elementNames;
     std::vector<QString> packageNames;
-
-private slots:
-    void accept();
-    void clearPackage();
-    void connectPackage();
 };
 
 #endif  // PACKAGESELECTOR_H

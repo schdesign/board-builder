@@ -59,19 +59,6 @@ protected:
     //void mousePressEvent(QMouseEvent *event);
 
 private:
-    int command;
-    int dx, dy;
-    int grid;
-    int maxX, maxY;
-    int orientation;
-    int previousCommand;
-    int step;
-    QPoint mousePoint;
-    //QSignalMapper *signalMapper;
-    //QToolButton *toolButton[maxButton];
-    //Symbol symbol;
-    //std::vector<Line> lines;
-
     void paintEvent(QPaintEvent *);
     void readJsonFile(const QString &filename, QByteArray &byteArray);
     void readSymbols(const QByteArray &byteArray);
@@ -85,6 +72,20 @@ private slots:
     void openFile();
     void saveAsFile();
     void saveFile();
+
+private:
+    int command;
+    int dx, dy;
+    int grid;
+    int maxX, maxY;
+    int orientation;
+    int previousCommand;
+    int step;
+    QPoint mousePoint;
+    //QSignalMapper *signalMapper;
+    //QToolButton *toolButton[maxButton];
+    //Symbol symbol;
+    //std::vector<Line> lines;
 };
 
 #endif  // SYMBOLEDITOR_H

@@ -8,7 +8,7 @@
 #include <cmath>
 #include <QJsonArray>
 
-std::map <int, ElementSymbol> Element::symbols;
+std::map<int, ElementSymbol> Element::symbols;
 
 QJsonObject ElementSymbol::toJson()
 {

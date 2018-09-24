@@ -15,37 +15,37 @@ class Net
 {
 public:
     int number;                 // net number
-    std::vector <Point> pads;   // x: element, y: pad
+    std::vector<Point> pads;   // x: element, y: pad
 };
 
 class Polygon
 {
 public:
-    bool fill;
-    int net;
-    std::vector <Point> points;
-
     Polygon() {}
     Polygon(const QJsonValue &value);
     void draw(QPainter &painter, double scale, QBrush brush);
     void fromJson(const QJsonValue &value);
     QJsonObject toJson();
+
+    bool fill;
+    int net;
+    std::vector<Point> points;
 };
 
 // Circle
 class Via
 {
 public:
+    Via() {}
+    Via(const QJsonValue &value);
+    void fromJson(const QJsonValue &value);
+    QJsonObject toJson();
+
     int innerRadius;
     int net;            // net number
     int outerRadius;
     int x;              // center
     int y;
-
-    Via() {}
-    Via(const QJsonValue &value);
-    void fromJson(const QJsonValue &value);
-    QJsonObject toJson();
 };
 
 // Horizontal or vertical lines

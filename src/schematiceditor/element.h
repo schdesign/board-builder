@@ -14,6 +14,8 @@
 class ElementSymbol
 {
 public:
+    QJsonObject toJson();
+
     Border border;
     int referenceTextX[4];  // up, right, down, left
     int referenceTextY[4];
@@ -27,13 +29,23 @@ public:
     std::vector<Arc> arcs;
     std::vector<Line> lines;
     std::vector<Point> pins;
-
-    QJsonObject toJson();
 };
 
 class Element
 {
 public:
+    Element() {}
+    Element(int type, int refX, int refY,
+            int orientation, QString value = "1");
+    Element(const QJsonObject &object);
+    static void addSymbol(const QJsonValue &value);
+    static QJsonObject writeSymbols();
+    void draw(QPainter &painter);
+    bool exist(int x, int y);
+    void init();
+    bool inside(int leftX, int topY, int rightX, int bottomY);
+    QJsonObject toJson();
+
     static std::map <int, ElementSymbol> symbols;  // element nameID, elementSymbol
     Border border;
     int center;
@@ -54,19 +66,6 @@ public:
     std::vector<Arc> arcs;
     std::vector<Line> lines;
     std::vector<Point> pins;
-
-    Element() {}
-    Element(int type, int refX, int refY,
-            int orientation, QString value = "1");
-    Element(const QJsonObject &object);
-    ~Element() {}
-    static void addSymbol(const QJsonValue &value);
-    static QJsonObject writeSymbols();
-    void draw(QPainter &painter);
-    bool exist(int x, int y);
-    void init();
-    bool inside(int leftX, int topY, int rightX, int bottomY);
-    QJsonObject toJson();
 };
 
 #endif  // ELEMENT_H

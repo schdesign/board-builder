@@ -17,7 +17,7 @@
 const QString packagesDirectory = "../../../library/packages";
 const QString packagesFile = "packages.lib";
 
-typedef std::list <Segment> Track;
+typedef std::list<Segment> Track;
 
 class Board
 {
@@ -33,61 +33,6 @@ public:
     static const int maxTurn = maxStep;
     static const int defaultLineWidth = 700;
     static const int defaultPolygonSpace = 1000;
-    bool selectedElement;
-    bool showGroundNets;
-    bool showMessage;
-    bool showNets;
-    int coordinateNumber;
-    int hLines;         // number of horizontal lines
-    int lineNumber;
-    int minRow, maxRow;
-    int minColumn, maxColumn;
-    int netNumber;
-    int pointNumber;
-    int polygonSpace;
-    int tmpTrackLength;
-    int trackLines;
-    int vLines;         // number of vertical lines
-    Element element;
-    Group group;
-    Groups groups;
-    Layers layers;
-    Placer placer;
-    Point point;
-    Polygon border;
-    Polygon polygon;
-    QRect groupBorder;
-    QString message;
-    Router router;
-    Segment segment;
-    Track track;
-    double tmpTrack[maxLines][4];
-    double tracks[maxNet][maxLine][4];  // x1, y1, x2, y2
-    double trackX[rows][columns];
-    double trackY[rows][columns];
-    int maxStep2[maxNet];
-    int tmpData[maxData];
-    int table[rows][columns];
-    int stepTable[rows][columns];   // steps table
-    int turnTable[rows][columns];   // turns table
-    int hLineIndex[maxLines];       // horizontal line index sorted by y1
-    int vLineIndex[maxLines];       // vertical line index sorted by x1
-    int lineIndex[4][maxLines];     // index sorted by coordinate from 0 to max
-    int trackLine[maxNet];          // number of lines
-    QColor netColor[maxNet];
-    std::list <Polygon> frontPolygons;
-    std::list <Polygon> backPolygons;
-    std::list <Segment> frontSegments;
-    std::list <Segment> backSegments;
-    std::list <Via> vias;
-    std::vector <Element> elements;
-    std::vector <Net> nets;
-    std::vector <Point> points;
-    std::vector <Point> points2;
-
-    // Test data
-    std::vector <int> pointX;
-    std::vector <int> pointY;
 
     Board();
     void addJumper(int x, int y, int orientation);
@@ -107,15 +52,15 @@ public:
     void deleteJumper(int x, int y);
     void deleteNetSegments(int x, int y);
     void deletePolygon(int x, int y);
-    int deletePolygon(int x, int y, std::list <Polygon> &polygons);
+    int deletePolygon(int x, int y, std::list<Polygon> &polygons);
     void deleteSegment(int x, int y);
-    int deleteSegment(int x, int y, std::list <Segment> &segments);
+    int deleteSegment(int x, int y, std::list<Segment> &segments);
     void deleteVia(int x, int y);
     void draw(QPainter &painter, double scale);
     void errorCheck(QString &text);
     void extendSpace(int netNumber);
     void fillPolygon(int x, int y);
-    void fillPolygon(int x, int y, std::list <Polygon> &polygons);
+    void fillPolygon(int x, int y, std::list<Polygon> &polygons);
     void findTableBorder();
     void fromNetlist(const QByteArray &array);
     void fromJson(const QByteArray &array);
@@ -161,7 +106,7 @@ public:
     void readJsonFile(const QString &filename, QByteArray &byteArray);
     void readPackageLibrary(const QString &libraryname);
     void readPackages(const QByteArray &byteArray);
-    void reduceSegments(std::list <Segment> &segments);
+    void reduceSegments(std::list<Segment> &segments);
     void reduceTrack(double track[][4], int &trackLength);
     void removeUnconnectedLines(double track[][4], int &trackLength,
                                 int *netPadsRow, int *netPadsCol, int netPadsLength);
@@ -182,6 +127,62 @@ public:
     QJsonObject toJson();
     void turnElement(int x, int y, int direction);
     int waveRoute();
+
+    bool selectedElement;
+    bool showGroundNets;
+    bool showMessage;
+    bool showNets;
+    int coordinateNumber;
+    int hLines;         // number of horizontal lines
+    int lineNumber;
+    int minRow, maxRow;
+    int minColumn, maxColumn;
+    int netNumber;
+    int pointNumber;
+    int polygonSpace;
+    int tmpTrackLength;
+    int trackLines;
+    int vLines;         // number of vertical lines
+    Element element;
+    Group group;
+    Groups groups;
+    Layers layers;
+    Placer placer;
+    Point point;
+    Polygon border;
+    Polygon polygon;
+    QRect groupBorder;
+    QString message;
+    Router router;
+    Segment segment;
+    Track track;
+    double tmpTrack[maxLines][4];
+    double tracks[maxNet][maxLine][4];  // x1, y1, x2, y2
+    double trackX[rows][columns];
+    double trackY[rows][columns];
+    int maxStep2[maxNet];
+    int tmpData[maxData];
+    int table[rows][columns];
+    int stepTable[rows][columns];   // steps table
+    int turnTable[rows][columns];   // turns table
+    int hLineIndex[maxLines];       // horizontal line index sorted by y1
+    int vLineIndex[maxLines];       // vertical line index sorted by x1
+    int lineIndex[4][maxLines];     // index sorted by coordinate from 0 to max
+    int trackLine[maxNet];          // number of lines
+    QColor netColor[maxNet];
+    std::list<Polygon> frontPolygons;
+    std::list<Polygon> backPolygons;
+    std::list<Segment> frontSegments;
+    std::list<Segment> backSegments;
+    std::list<Via> vias;
+    std::vector<Element> elements;
+    std::vector<Net> nets;
+    std::vector<Point> points;
+    std::vector<Point> points2;
+
+    // Test data
+    std::vector<int> pointX;
+    std::vector<int> pointY;
 };
 
 #endif  // BOARD_H

@@ -15,11 +15,11 @@ class DeviceSelector : public QDialog, private Ui::DeviceSelector
 public:
     explicit DeviceSelector(QStringList &deviceNames, QDialog *parent = 0);
 
-private:
-    QStringList &deviceNames;
-
 private slots:
     void accept();
+
+private:
+    QStringList &deviceNames;
 };
 
 #endif  // DEVICE_SELECTOR_H

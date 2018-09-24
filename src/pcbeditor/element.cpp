@@ -10,7 +10,7 @@
 
 enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
 
-std::vector <Package> Element::packages;
+std::vector<Package> Element::packages;
 
 QJsonObject Pad::toJson()
 {

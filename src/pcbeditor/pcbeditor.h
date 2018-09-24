@@ -55,6 +55,27 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 private:
+    void paintEvent(QPaintEvent *);
+    void selectDevice(int &deviceNameID);
+    void writeLibraryFile(QString filename, QJsonObject object);
+    // Set buttons: left, right, up, down, zoom in, zoom out
+    // void buttonsSetEnabled(const char *params);
+
+private slots:
+    void about();
+    void closeFile();
+    void newFile();
+    void openFile();
+    void saveErrorCheck();
+    void saveFile();
+    void saveSVG();
+    void saveJSON();
+    void selectCheckBox();
+    void selectPushButton(int number);
+    void selectRadioButton();
+    void selectToolButton(int number);
+
+private:
     const static int grids = 11;
     const int grid[grids] = {   // um in grid step
         50, 100, 125, 200, 250, 500, 1000, 1250, 2500, 5000, 10000
@@ -82,6 +103,7 @@ private:
     int space;
     int step;
     int width;
+    Board board;
     QPoint mousePoint;
     QSignalMapper *checkBoxMapper;
     QSignalMapper *radioButtonMapper;
@@ -91,28 +113,7 @@ private:
     QRadioButton *radioButton[radioButtons];
     QPushButton *pushButton[pushButtons];
     QToolButton *toolButton[toolButtons];
-    Board board;
-    std::vector <Line> lines;
-
-    void paintEvent(QPaintEvent *);
-    void selectDevice(int &deviceNameID);
-    void writeLibraryFile(QString filename, QJsonObject object);
-    // Set buttons: left, right, up, down, zoom in, zoom out
-    // void buttonsSetEnabled(const char *params);
-
-private slots:
-    void about();
-    void closeFile();
-    void newFile();
-    void openFile();
-    void saveErrorCheck();
-    void saveFile();
-    void saveSVG();
-    void saveJSON();
-    void selectCheckBox();
-    void selectPushButton(int number);
-    void selectRadioButton();
-    void selectToolButton(int number);
+    std::vector<Line> lines;
 };
 
 #endif  // PCBEDITOR_H

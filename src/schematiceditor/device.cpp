@@ -8,7 +8,7 @@
 #include <QJsonArray>
 
 int Device::symbolID = 0;
-std::map <int, DeviceSymbol> Device::symbols;
+std::map<int, DeviceSymbol> Device::symbols;
 
 DevicePin::DevicePin(const QJsonValue &value)
 {

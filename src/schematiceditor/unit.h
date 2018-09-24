@@ -15,6 +15,8 @@
 class UnitSymbol
 {
 public:
+    QJsonObject toJson();
+
     Border border;
     int nameID;
     int number;
@@ -24,14 +26,22 @@ public:
     int refY;
     std::vector<Ellipse> ellipses;
     std::vector<Line> lines;
-
-    QJsonObject toJson();
 };
 
 class Unit
 {
 public:
-    static std::map <int, UnitSymbol> symbols;  // unit nameID, unitSymbol
+    Unit() {}
+    Unit(int deviceID, int number, int refX, int refY);
+    Unit(int deviceID, const QJsonObject &object);
+    static void addSymbol(const QJsonValue &value, int deviceID);
+    void draw(QPainter &painter);
+    bool exist(int x, int y);
+    void init();
+    bool inside(int leftX, int topY, int rightX, int bottomY);
+    QJsonObject toJson();
+
+    static std::map<int, UnitSymbol> symbols;  // unit nameID, unitSymbol
     int center;
     int centerX;
     int centerY;
@@ -45,17 +55,6 @@ public:
     QString reference;      // D1.1
     std::vector<Ellipse> ellipses;
     std::vector<Line> lines;
-
-    Unit() {}
-    Unit(int deviceID, int number, int refX, int refY);
-    Unit(int deviceID, const QJsonObject &object);
-    ~Unit() {}
-    static void addSymbol(const QJsonValue &value, int deviceID);
-    void draw(QPainter &painter);
-    bool exist(int x, int y);    
-    void init();
-    bool inside(int leftX, int topY, int rightX, int bottomY);
-    QJsonObject toJson();
 };
 
 #endif  // UNIT_H

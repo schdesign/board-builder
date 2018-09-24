@@ -33,11 +33,11 @@ const int layerColors[layersNumber][3] =
 class Layers
 {
 public:
+    Layers();
+
     int draw;   // bit enabled: draw layer
     int edit;   // number of editing layer
     QColor color[layersNumber];
-
-    Layers();
 };
 
 #endif  // LAYERS_H
