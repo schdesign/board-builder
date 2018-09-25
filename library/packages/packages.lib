@@ -1,0 +1,8 @@
+{
+    "filenames": [
+        "connectors.pkg",
+        "devices.pkg",
+        "rcpackages.pkg"
+    ],
+    "object": "packageLibrary"
+}

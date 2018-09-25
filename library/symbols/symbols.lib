@@ -1,0 +1,8 @@
+{
+    "filenames": [
+        "arrays.sym",
+        "devices.sym",
+        "elements.sym"
+    ],
+    "object": "symbolLibrary"
+}
