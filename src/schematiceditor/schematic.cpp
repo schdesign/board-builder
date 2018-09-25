@@ -29,9 +29,9 @@ Schematic::Schematic()
     }
 
     selectedArray = false;
+    selectedCircuitSymbol = false;
     selectedDevice = false;
     selectedElement = false;
-    selectedSymbol = false;
     selectedWire = false;
     showNetNumbers = false;
 }
@@ -40,6 +40,12 @@ void Schematic::addArray(int type, int number, int x, int y, int orientation)
 {
     Array array(type, number, x, y, orientation);
     arrays[array.center] = array;
+}
+
+void Schematic::addCircuitSymbol(int circuitSymbolType, int x, int y)
+{
+    CircuitSymbol circuitSymbol(circuitSymbolType, x, y);
+    circuitSymbols[circuitSymbol.center] = circuitSymbol;
 }
 
 void Schematic::addDevice(int nameID, int x, int y)
@@ -112,18 +118,12 @@ void Schematic::addPoint(int x, int y)
     pointNumber++;
 }
 
-void Schematic::addSymbol(int symbolType, int x, int y)
-{
-    Symbol symbol(symbolType, x, y);
-    symbols[symbol.center] = symbol;
-}
-
 void Schematic::clear()
 {
     arrays.clear();
     devices.clear();
     elements.clear();
-    symbols.clear();
+    circuitSymbols.clear();
     pins.clear();
     wires.clear();
     junctions.clear();
@@ -198,6 +198,12 @@ void Schematic::deleteElement(int x, int y)
             return;
         }
 
+    for (auto &c : circuitSymbols)
+        if (c.second.exist(x, y)) {
+            circuitSymbols.erase(c.first);
+            return;
+        }
+
     for (auto &d : devices)
         if (d.second.exist(x, y)) {
             devices.erase(d.first);
@@ -207,12 +213,6 @@ void Schematic::deleteElement(int x, int y)
     for (auto &e : elements)
         if (e.second.exist(x, y)) {
             elements.erase(e.first);
-            return;
-        }
-
-    for (auto &s : symbols)
-        if (s.second.exist(x, y)) {
-            symbols.erase(s.first);
             return;
         }
 }
@@ -267,6 +267,11 @@ void Schematic::draw(QPainter &painter)
     for (auto a : arrays)
         a.second.draw(painter);
 
+    // Draw circuit symbols
+    painter.setPen(QColor(200, 100, 100));
+    for (auto c : circuitSymbols)
+        c.second.draw(painter);
+
     // Draw devices
     for (auto d : devices)
         d.second.draw(painter);
@@ -280,11 +285,6 @@ void Schematic::draw(QPainter &painter)
         painter.setPen(QColor(200, 0, 0));
         painter.drawRect(groupBorder);
     }
-
-    // Draw symbols
-    painter.setPen(QColor(200, 100, 100));
-    for (auto s : symbols)
-        s.second.draw(painter);
 
     // Draw wires
     painter.setPen(QColor(0, 200, 0));
@@ -438,8 +438,8 @@ void Schematic::move(int x, int y)
     static std::vector<QString> pinName;
     QString str;
 
-    if (!selectedArray && !selectedDevice &&
-        !selectedElement && !selectedSymbol) {
+    if (!selectedArray && !selectedCircuitSymbol &&
+        !selectedDevice && !selectedElement) {
         for (auto a : arrays)
             if (a.second.exist(x, y)) {
                 center = a.second.center;
@@ -448,6 +448,13 @@ void Schematic::move(int x, int y)
                 pinName = a.second.pinName;
                 number = a.second.number;
                 selectedArray = true;
+                return;
+            }
+        for (auto c : circuitSymbols)
+            if (c.second.exist(x, y)) {
+                center = c.second.center;
+                type = c.second.type;
+                selectedCircuitSymbol = true;
                 return;
             }
         for (auto d : devices)
@@ -467,13 +474,6 @@ void Schematic::move(int x, int y)
                 selectedElement = true;
                 return;
             }
-        for (auto s : symbols)
-            if (s.second.exist(x, y)) {
-                center = s.second.center;
-                type = s.second.type;
-                selectedSymbol = true;
-                return;
-            }
     }
 
     if (selectedArray) {
@@ -483,6 +483,13 @@ void Schematic::move(int x, int y)
         arrays[array.center] = array;
         selectedArray = false;
         return;
+    }
+
+    if (selectedCircuitSymbol) {
+        circuitSymbols.erase(center);
+        CircuitSymbol circuitSymbol(type, x, y);
+        circuitSymbols[circuitSymbol.center] = circuitSymbol;
+        selectedCircuitSymbol = false;
     }
 
     if (selectedDevice) {
@@ -520,13 +527,6 @@ void Schematic::move(int x, int y)
         selectedElement = false;
         return;
     }
-
-    if (selectedSymbol) {
-        symbols.erase(center);
-        Symbol symbol(type, x, y);
-        symbols[symbol.center] = symbol;
-        selectedSymbol = false;
-    }
 }
 
 void Schematic::moveGroup()
@@ -544,7 +544,7 @@ void Schematic::moveGroup()
     std::map<int, Array> arrays2;
     std::map<int, Device> devices2;
     std::map<int, Element> elements2;
-    std::map<int, Symbol> symbols2;
+    std::map<int, CircuitSymbol> circuitSymbols2;
     std::vector<int> centers;
     std::vector<int> unitNumbers;
     std::vector<QString> pinName;
@@ -570,6 +570,24 @@ void Schematic::moveGroup()
     for (auto c : arrays2)
         arrays[c.second.center] = c.second;
     arrays2.clear();
+
+    // Move circuit symbols
+    for (auto c : circuitSymbols)
+        if (c.second.inside(points[0].x, points[0].y,
+                            points[1].x, points[1].y)) {
+            centers.push_back(c.second.center);
+            type = c.second.type;
+            x = c.second.refX + dx;
+            y = c.second.refY + dy;
+            CircuitSymbol circuitSymbol(type, x, y);
+            circuitSymbols2[circuitSymbol.center] = circuitSymbol;
+        }
+    for (uint i = 0; i < centers.size(); i++)
+        circuitSymbols.erase(centers[i]);
+    centers.clear();
+    for (auto c : circuitSymbols2)
+        circuitSymbols[c.second.center] = c.second;
+    circuitSymbols2.clear();
 
     // Move device units
     for (auto d : devices)
@@ -628,24 +646,6 @@ void Schematic::moveGroup()
     for (auto e : elements2)
         elements[e.second.center] = e.second;
     elements2.clear();
-
-    // Move symbols
-    for (auto s : symbols)
-        if (s.second.inside(points[0].x, points[0].y,
-                            points[1].x, points[1].y)) {
-            centers.push_back(s.second.center);
-            type = s.second.type;
-            x = s.second.refX + dx;
-            y = s.second.refY + dy;
-            Symbol symbol(type, x, y);
-            symbols2[symbol.center] = symbol;
-        }
-    for (uint i = 0; i < centers.size(); i++)
-        symbols.erase(centers[i]);
-    centers.clear();
-    for (auto s : symbols2)
-        symbols[s.second.center] = s.second;
-    symbols2.clear();
 }
 
 void Schematic::moveGroup(int x, int y)
@@ -854,9 +854,9 @@ void Schematic::updateNets()
                 e.second.pins[j].x, e.second.pins[j].y, -1));
 
     // Get all pins of ground
-    for (auto s : symbols)
-        pins.push_back(Pin(symbolTypeString[s.second.type], 1,
-            s.second.refX, s.second.refY, groundNet));
+    for (auto c : circuitSymbols)
+        pins.push_back(Pin(circuitSymbolTypeString[c.second.type], 1,
+            c.second.refX, c.second.refY, groundNet));
 
     reduceWires(wires);
 

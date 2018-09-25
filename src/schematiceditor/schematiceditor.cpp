@@ -183,7 +183,7 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             schematic.addArray(ARRAY_FCON, schematic.arrayNumber, x, y, schematic.arrayOrientation);
             break;
         case PLACE_GROUND:
-            schematic.addSymbol(GROUND, x, y);
+            schematic.addCircuitSymbol(GROUND, x, y);
             break;
         case PLACE_JUNCTION:
             schematic.addJunction(x, y);
@@ -219,8 +219,8 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
         default:
             command = SELECT;
             schematic.selectedArray = false;
+            schematic.selectedCircuitSymbol = false;
             schematic.selectedElement = false;
-            schematic.selectedSymbol = false;
         }
 
         update();
@@ -373,8 +373,8 @@ void SchematicEditor::saveSVG()
     generator.setFileName(fileName);
     generator.setSize(QSize(width, height));
     generator.setViewBox(QRect(x, y, width, height));
-    generator.setTitle(tr("Schema"));
-    generator.setDescription(tr("Schema"));
+    generator.setTitle(tr("Schematic"));
+    generator.setDescription(tr("Schematic"));
 
     QPainter painter;
     painter.begin(&generator);
@@ -422,9 +422,9 @@ void SchematicEditor::selectCommand(int number)
         break;
     case MOVE:
         schematic.selectedArray = false;
+        schematic.selectedCircuitSymbol = false;
         schematic.selectedDevice = false;
         schematic.selectedElement = false;
-        schematic.selectedSymbol = false;
         break;
     case MOVE_DOWN:
         dy += step;

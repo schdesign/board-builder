@@ -94,7 +94,8 @@ void Schematic::errorCheck(QString &text)
             text += c.first + "\t" + c.second + "\n";
 }
 
-template <class Type> void Schematic::errorCheck(std::map<QString, QString> &components, Type t)
+template <class Type>
+void Schematic::errorCheck(std::map<QString, QString> &components, Type t)
 {
     int netNumber;
     int x, y;
@@ -121,43 +122,43 @@ void Schematic::fromJson(const QByteArray &array)
 {
     QJsonDocument document(QJsonDocument::fromJson(array));
     if (document.isNull())
-        throw ExceptionData("Shema file read error");
+        throw ExceptionData("Shematic file read error");
 
     QJsonObject object = document.object();
 
     clear();
 
-    if (object["object"].toString() != "schema")
-        throw ExceptionData("File is not a shema file");
+    if (object["object"].toString() != "schematic")
+        throw ExceptionData("File is not a shematic file");
 
-    QJsonArray schemaArrays(object["arrays"].toArray());
-    QJsonArray schemaDevices(object["devices"].toArray());
-    QJsonArray schemaElements(object["elements"].toArray());
-    QJsonArray schemaSymbols(object["symbols"].toArray());
-    QJsonArray schemaWires(object["wires"].toArray());
-    QJsonArray schemaJunctions(object["junctions"].toArray());
+    QJsonArray schematicArrays(object["arrays"].toArray());
+    QJsonArray schematicDevices(object["devices"].toArray());
+    QJsonArray schematicElements(object["elements"].toArray());
+    QJsonArray schematicCircuitSymbols(object["circuitSymbols"].toArray());
+    QJsonArray schematicWires(object["wires"].toArray());
+    QJsonArray schematicJunctions(object["junctions"].toArray());
 
-    for (auto s : schemaArrays) {
+    for (auto s : schematicArrays) {
         Array array(s.toObject());
         arrays[array.center] = array;
     }
 
-    for (auto s : schemaDevices) {
+    for (auto c : schematicCircuitSymbols) {
+        CircuitSymbol circuitSymbol(c.toObject());
+        circuitSymbols[circuitSymbol.center] = circuitSymbol;
+    }
+
+    for (auto s : schematicDevices) {
         Device device(s.toObject());
         devices[device.center] = device;
     }
 
-    for (auto s : schemaElements) {
+    for (auto s : schematicElements) {
         Element element(s.toObject());
         elements[element.center] = element;
     }
 
-    for (auto s : schemaSymbols) {
-        Symbol symbol(s.toObject());
-        symbols[symbol.center] = symbol;
-    }
-
-    for (auto s : schemaWires) {
+    for (auto s : schematicWires) {
         QJsonObject obj(s.toObject());
         Wire wire;
         wire.x1 = obj["x1"].toInt();
@@ -170,7 +171,7 @@ void Schematic::fromJson(const QByteArray &array)
         wires.push_back(wire);
     }
 
-    for (auto s : schemaJunctions) {
+    for (auto s : schematicJunctions) {
         int x = s.toObject()["x"].toInt();
         int y = s.toObject()["y"].toInt();
         addJunction(x, y);
@@ -291,25 +292,25 @@ void Schematic::readSymbols(const QByteArray &byteArray)
 
 QJsonObject Schematic::toJson()
 {
-    QJsonArray schemaArrays;
+    QJsonArray schematicArrays;
     for (auto a : arrays)
-        schemaArrays.append(a.second.toJson());
+        schematicArrays.append(a.second.toJson());
 
-    QJsonArray schemaDevices;
+    QJsonArray schematicCircuitSymbols;
+    for (auto c : circuitSymbols)
+        schematicCircuitSymbols.append(c.second.toJson());
+
+    QJsonArray schematicDevices;
     for (auto d : devices)
-        schemaDevices.append(d.second.toJson());
+        schematicDevices.append(d.second.toJson());
 
-    QJsonArray schemaElements;
+    QJsonArray schematicElements;
     for (auto e : elements)
-        schemaElements.append(e.second.toJson());
+        schematicElements.append(e.second.toJson());
 
-    QJsonArray schemaSymbols;
-    for (auto s : symbols)
-        schemaSymbols.append(s.second.toJson());
-
-    QJsonArray schemaWires;
+    QJsonArray schematicWires;
     for (auto w : wires) {
-        QJsonObject schemaWire
+        QJsonObject schematicWire
         {
             {"x1", w.x1},
             {"y1", w.y1},
@@ -319,28 +320,28 @@ QJsonObject Schematic::toJson()
             {"name", w.name},
             {"nameSide", w.nameSide}
         };
-        schemaWires.append(schemaWire);
+        schematicWires.append(schematicWire);
     }
 
-    QJsonArray schemaJunctions;
+    QJsonArray schematicJunctions;
     for (auto j : junctions) {
-        QJsonObject schemaJunction
+        QJsonObject schematicJunction
         {
             {"x", (j >> 16) & 0xffff},
             {"y", j & 0xffff}
         };
-        schemaJunctions.append(schemaJunction);
+        schematicJunctions.append(schematicJunction);
     }
 
     QJsonObject object
     {
-        {"object", "schema"},
-        {"arrays", schemaArrays},
-        {"devices", schemaDevices},
-        {"elements", schemaElements},
-        {"symbols", schemaSymbols},
-        {"wires", schemaWires},
-        {"junctions", schemaJunctions}
+        {"object", "schematic"},
+        {"arrays", schematicArrays},
+        {"circuitSymbols", schematicCircuitSymbols},
+        {"devices", schematicDevices},
+        {"elements", schematicElements},
+        {"wires", schematicWires},
+        {"junctions", schematicJunctions}
     };
 
     return object;

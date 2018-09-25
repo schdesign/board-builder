@@ -13,6 +13,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += array.cpp \
     arrayselector.cpp \
+    circuitsymbol.cpp \
     device.cpp \
     deviceselector.cpp \
     element.cpp \
@@ -21,7 +22,6 @@ SOURCES += array.cpp \
     packageselector.cpp \
     schematic.cpp \
     schematiceditor.cpp \
-    symbol.cpp \
     symboleditor.cpp \
     text.cpp \
     types.cpp \
@@ -30,6 +30,8 @@ SOURCES += array.cpp \
 HEADERS += array.h \
     arrayimage.h \
     arrayselector.h \
+    circuitsymbol.h \
+    circuitsymbolimage.h \
     device.h \
     deviceselector.h \
     element.h \
@@ -39,9 +41,7 @@ HEADERS += array.h \
     packageselector.h \
     schematic.h \
     schematiceditor.h \
-    symbol.h \
     symboleditor.h \
-    symbolimage.h \
     text.h \
     types.h \
     unit.h \

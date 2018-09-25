@@ -1,22 +1,22 @@
-// symbol.h
+// circuitsymbol.h
 // Copyright (C) 2018 Alexander Karpeko
 
-#ifndef SYMBOL_H
-#define SYMBOL_H
+#ifndef CIRCUITSYMBOL_H
+#define CIRCUITSYMBOL_H
 
-#include "symbolimage.h"
+#include "circuitsymbolimage.h"
 #include <QJsonObject>
 #include <QPainter>
 #include <QString>
 #include <QStringRef>
 #include <QVector>
 
-class Symbol
+class CircuitSymbol
 {
 public:
-    Symbol() {}
-    Symbol(int type, int refX, int refY);
-    Symbol(const QJsonObject &object);
+    CircuitSymbol() {}
+    CircuitSymbol(int type, int refX, int refY);
+    CircuitSymbol(const QJsonObject &object);
     void draw(QPainter &painter);
     bool exist(int x, int y);
     void init();
@@ -24,16 +24,16 @@ public:
     void placeLines(const int (*image)[4]);
     QJsonObject toJson();
 
-    int lines[16][4];           // lines number <= 16
-    int arcs[4][4];             // arcs number <= 4
+    int lines[16][4];   // lines number <= 16
+    int arcs[4][4];     // arcs number <= 4
     int linesNumber;
     int arcsNumber;
-    int type;                   // GROUND
-    int refX;                   // reference point
+    int type;           // GROUND
+    int refX;           // reference point
     int refY;
     int centerX;
     int centerY;
     int center;
 };
 
-#endif  // SYMBOL_H
+#endif  // CIRCUITSYMBOL_H

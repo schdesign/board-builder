@@ -1,41 +1,42 @@
-// symbol.cpp
+// circuitsymbol.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "exceptiondata.h"
 #include "function.h"
-#include "symbol.h"
+#include "circuitsymbol.h"
 #include "text.h"
 #include <cstring>
 #include <QJsonArray>
 
-Symbol::Symbol(int type, int refX, int refY):
+CircuitSymbol::CircuitSymbol(int type, int refX, int refY):
     type(type), refX(refX), refY(refY)
 {
     init();
 }
 
-Symbol::Symbol(const QJsonObject &object)
+CircuitSymbol::CircuitSymbol(const QJsonObject &object)
 {
     QString typeString(object["type"].toString());
     refX = object["refX"].toInt();
     refY = object["refY"].toInt();
 
-    if (!findIndex(type, typeString, symbolTypeString, symbolTypes))
-        throw ExceptionData("Symbol type error");
+    if (!findIndex(type, typeString,
+                   circuitSymbolTypeString, circuitSymbolTypes))
+        throw ExceptionData("Circuit symbol type error");
 
     init();
 }
 
-void Symbol::draw(QPainter &painter)
+void CircuitSymbol::draw(QPainter &painter)
 {
     for (int i = 0; i < linesNumber; i++)
         painter.drawLine(lines[i][0], lines[i][1], lines[i][2], lines[i][3]);
 }
 
-bool Symbol::exist(int x, int y)
+bool CircuitSymbol::exist(int x, int y)
 {
-    int dx = (symbolBorder[type][2] - symbolBorder[type][0]) / 2;
-    int dy = (symbolBorder[type][3] - symbolBorder[type][1]) / 2;
+    int dx = (circuitSymbolBorder[type][2] - circuitSymbolBorder[type][0]) / 2;
+    int dy = (circuitSymbolBorder[type][3] - circuitSymbolBorder[type][1]) / 2;
 
     if (x >= (centerX - dx) && x <= (centerX + dx) &&
         y >= (centerY - dy) && y <= (centerY + dy))
@@ -44,22 +45,22 @@ bool Symbol::exist(int x, int y)
     return false;
 }
 
-void Symbol::init()
+void CircuitSymbol::init()
 {
-    centerX = refX + (symbolBorder[type][0] + symbolBorder[type][2]) / 2;
-    centerY = refY + (symbolBorder[type][1] + symbolBorder[type][3]) / 2;
+    centerX = refX + (circuitSymbolBorder[type][0] + circuitSymbolBorder[type][2]) / 2;
+    centerY = refY + (circuitSymbolBorder[type][1] + circuitSymbolBorder[type][3]) / 2;
     center = (centerX << 16) + centerY;
 
-    const int (*symbolImages[symbolTypes])[4] = {gnd};
+    const int (*symbolImages[circuitSymbolTypes])[4] = {gnd};
     const int (*symbolImage)[4] = symbolImages[type];
 
-    linesNumber = symbolLines[type];
+    linesNumber = circuitSymbolLines[type];
     arcsNumber = 0;
 
     placeLines(symbolImage);
 }
 
-bool Symbol::inside(int leftX, int topY, int rightX, int bottomY)
+bool CircuitSymbol::inside(int leftX, int topY, int rightX, int bottomY)
 {
     if (centerX >= leftX && centerX <= rightX &&
         centerY >= topY && centerY <= bottomY)
@@ -68,7 +69,7 @@ bool Symbol::inside(int leftX, int topY, int rightX, int bottomY)
     return false;
 }
 
-void Symbol::placeLines(const int (*image)[4])
+void CircuitSymbol::placeLines(const int (*image)[4])
 {
     for (int i = 0; i < linesNumber; i++) {
         lines[i][0] = refX + (*((*image) + 4 * i));
@@ -78,9 +79,9 @@ void Symbol::placeLines(const int (*image)[4])
     }
 }
 
-QJsonObject Symbol::toJson()
+QJsonObject CircuitSymbol::toJson()
 {
-    QString typeString(symbolTypeString[type]);
+    QString typeString(circuitSymbolTypeString[type]);
 
     QJsonObject object
     {

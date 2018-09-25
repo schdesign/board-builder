@@ -7,7 +7,7 @@
 #include "array.h"
 #include "device.h"
 #include "element.h"
-#include "symbol.h"
+#include "circuitsymbol.h"
 #include "types.h"
 #include <iterator>
 #include <list>
@@ -70,6 +70,7 @@ class Schematic
 public:
     Schematic();
     void addArray(int type, int pins, int x, int y, int orientation);
+    void addCircuitSymbol(int circuitSymbolType, int x, int y);
     void addDevice(int nameID, int x, int y);
     void addElement(int elementType, int x, int y, int orientation);
     void addJunction(int x, int y);
@@ -77,7 +78,6 @@ public:
     void addNetName(int x, int y);
     void addPackage(const QJsonValue &value);
     void addPoint(int x, int y);
-    void addSymbol(int symbolType, int x, int y);
     void clear();
     void componentList(QString &text);
     bool connected(const Pin &pin, const Wire &wire);
@@ -120,10 +120,10 @@ public:
     QJsonObject writePackageLibrary();
     QJsonObject writeSymbolLibrary();
 
-    std::map<int, Array> arrays;        // array.center, array
-    std::map<int, Device> devices;      // device.center, device
-    std::map<int, Element> elements;    // element.center, element
-    std::map<int, Symbol> symbols;      // symbol.center, symbol
+    std::map<int, Array> arrays;                  // array.center, array
+    std::map<int, CircuitSymbol> circuitSymbols;  // circuitSymbol.center, circuitSymbol
+    std::map<int, Device> devices;                // device.center, device
+    std::map<int, Element> elements;              // element.center, element
     std::list<Pin> pins;
     std::list<Wire> wires;
     std::set<int> junctions;    // x > 0 (16 high bits), y > 0 (16 low bits)
@@ -137,9 +137,9 @@ public:
     std::vector<Point> points;
     int pointNumber;
     bool selectedArray;
+    bool selectedCircuitSymbol;
     bool selectedDevice;
     bool selectedElement;
-    bool selectedSymbol;
     bool selectedWire;
     bool showNetNumbers;
     QRect groupBorder;
