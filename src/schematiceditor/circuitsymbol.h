@@ -21,7 +21,7 @@ public:
     bool exist(int x, int y);
     void init();
     bool inside(int leftX, int topY, int rightX, int bottomY);
-    void placeLines(const int (*image)[4]);
+    void placeLines(const int (*symbolLines)[4]);
     QJsonObject toJson();
 
     int lines[16][4];   // lines number <= 16

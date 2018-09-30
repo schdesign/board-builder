@@ -44,14 +44,14 @@ SchematicEditor::SchematicEditor(QWidget *parent) : QMainWindow(parent)
         moveGroupButton, moveDownButton, moveLeftButton, moveRightButton,
         moveUpButton, placeBatteryButton, placeButtonButton, placeCapacitorButton,
         placeCellButton, placeCoreInductorButton, placeDeviceButton, placeDiodeButton,
-        placeFemaleConnectorButton, placeGroundButton, placeInductorButton, placeJunctionButton,
-        placeLEDButton, placeMaleConnectorButton, placeNetNameButton, placeNMosfetButton,
-        placeNoConnectionButton, placeNpnTransistorButton, placePhotodiodeButton, placePMosfetButton,
-        placePnpTransistorButton, placePolarCapacitorButton, placePowerButton, placeQuartzButton,
-        placeResistorANSIButton, placeResistorIECButton, placeSchottkyButton, placeSwitchButton,
-        placeWireButton, placeZenerButton, selectButton, selectPackagesButton,
-        setValueButton, showNetNumbersButton, turnToLeftButton, turnToRightButton,
-        updateNetsButton
+        placeFemaleConnectorButton, placeGroundButton, placeGroundIECButton, placeInductorButton,
+        placeJunctionButton, placeLEDButton, placeMaleConnectorButton, placeNetNameButton,
+        placeNMosfetButton, placeNoConnectionButton, placeNpnTransistorButton, placePhotodiodeButton,
+        placePMosfetButton, placePnpTransistorButton, placePolarCapacitorButton, placePowerButton,
+        placeQuartzButton, placeResistorANSIButton, placeResistorIECButton, placeSchottkyButton,
+        placeSwitchButton, placeWireButton, placeZenerButton, selectButton,
+        selectPackagesButton, setValueButton, showNetNumbersButton, turnToLeftButton,
+        turnToRightButton, updateNetsButton
     };
 
     std::copy(tmp, tmp + maxButton, toolButton);
@@ -184,6 +184,9 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             break;
         case PLACE_GROUND:
             schematic.addCircuitSymbol(GROUND, x, y);
+            break;
+        case PLACE_GROUND_IEC:
+            schematic.addCircuitSymbol(GROUND_IEC, x, y);
             break;
         case PLACE_JUNCTION:
             schematic.addJunction(x, y);

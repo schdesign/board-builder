@@ -4,26 +4,30 @@
 #ifndef CIRCUITSYMBOLIMAGE_H
 #define CIRCUITSYMBOLIMAGE_H
 
-const int circuitSymbolTypes = 1;
+const int circuitSymbolTypes = 2;
 
 enum CircuitSymbolType
 {
-    GROUND
+    GROUND, GROUND_IEC
 };
 
 const char circuitSymbolTypeString[circuitSymbolTypes][32] =
 {
-    "Ground"
+    "Ground", "Ground IEC"
 };
 
 // Border for symbol selection: left, top, right, bottom.
 const int circuitSymbolBorder[circuitSymbolTypes][4] =
 {
-    {-8,2,8,12}     // gnd
+    {-8,2,8,12}, {-12,2,12,16}
 };
 
-const int circuitSymbolLines[circuitSymbolTypes] = {2};
+const int circuitSymbolLinesNumber[circuitSymbolTypes] = {2, 4};
 
-const int gnd[2][4] = {{0,0,0,10}, {-6,10,6,10}};
+const int circuitSymbolLines[circuitSymbolTypes][16][4] =
+{
+    {{0,0,0,10}, {-6,10,6,10}},                               // Ground
+    {{0,0,0,10}, {-10,10,10,10}, {-6,14,6,14}, {-3,18,3,18}}  // Ground IEC
+};
 
 #endif  // CIRCUITSYMBOLIMAGE_H

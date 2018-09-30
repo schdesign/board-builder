@@ -831,7 +831,22 @@ void Schematic::setValue(int x, int y)
 // Update nets and insert junctions if needed
 void Schematic::updateNets()
 {
-    const int groundNet = 0;
+    int groundNet = -1;
+    int groundIecNet = -1;
+    int maxGroundNet = 0;
+
+    // Set groundIecNet
+    for (auto c : circuitSymbols) {
+        if (c.second.type == GROUND)
+            groundNet = 0;
+        if (c.second.type == GROUND_IEC)
+            groundIecNet = 0;
+    }
+
+    if (!groundNet && !groundIecNet) {
+        groundIecNet = 1;
+        maxGroundNet = 1;
+    }
 
     pins.clear();
 
@@ -854,9 +869,17 @@ void Schematic::updateNets()
                 e.second.pins[j].x, e.second.pins[j].y, -1));
 
     // Get all pins of ground
-    for (auto c : circuitSymbols)
+    for (auto c : circuitSymbols) {
+        int n = -1;
+        if (c.second.type == GROUND)
+            n = groundNet;
+        if (c.second.type == GROUND_IEC)
+            n = groundIecNet;
+        if (n == -1)
+            continue;
         pins.push_back(Pin(circuitSymbolTypeString[c.second.type], 1,
-            c.second.refX, c.second.refY, groundNet));
+                           c.second.refX, c.second.refY, n));
+    }
 
     reduceWires(wires);
 
@@ -881,21 +904,23 @@ void Schematic::updateNets()
     }
 
     // Current state:
-    // ground pins: net = groundNet, other pins: net = -1
+    // ground pins: net = 0 and may be 1, other pins: net = -1
     // wires: net = -1
 
     bool finished = false;
-    int netNumber = groundNet;
+    int netNumber = 0;
     int tmpNumber = -2;
 
     while (!finished) {
         for (auto i = pins.begin(); i != pins.end(); ++i) {
-            if (netNumber == groundNet && (*i).net != groundNet)
-                continue;
-            if (netNumber != groundNet && (*i).net != -1)
-                continue;
-            else
+            if (netNumber <= maxGroundNet)
+                if ((*i).net != netNumber)
+                    continue;
+            if (netNumber > maxGroundNet) {
+                if ((*i).net != -1)
+                    continue;
                 (*i).net = netNumber;
+            }
 
             // Set tmpNumber for pin to pin connection
             for (auto j = pins.begin(); j != pins.end(); ++j) {
@@ -910,7 +935,7 @@ void Schematic::updateNets()
                 if (connected(*i, w) && w.net == -1)
                     w.net = netNumber;
 
-            if (netNumber != groundNet)
+            if (netNumber > maxGroundNet)
                 break;
         }
 
@@ -954,5 +979,22 @@ void Schematic::updateNets()
             }
 
         netNumber++;
+    }
+
+    // Set net = -1 for unconnected pins
+    for (auto i = pins.begin(); i != pins.end(); ++i) {
+        if ((*i).net == -1)
+            continue;
+        bool connection = false;
+        for (auto j = pins.begin(); j != pins.end(); ++j) {
+            if (i == j)
+                continue;
+            if ((*i).net == (*j).net) {
+                connection = true;
+                break;
+            }
+        }
+        if (!connection)
+            (*i).net = -1;
     }
 }

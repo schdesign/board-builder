@@ -56,5 +56,6 @@
         <file>icons/schematiceditor/zoom_in_grid.png</file>
         <file>icons/schematiceditor/zoom_out.png</file>
         <file>icons/schematiceditor/zoom_out_grid.png</file>
+        <file>icons/schematiceditor/place_ground_iec.png</file>
     </qresource>
 </RCC>

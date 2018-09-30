@@ -51,13 +51,10 @@ void CircuitSymbol::init()
     centerY = refY + (circuitSymbolBorder[type][1] + circuitSymbolBorder[type][3]) / 2;
     center = (centerX << 16) + centerY;
 
-    const int (*symbolImages[circuitSymbolTypes])[4] = {gnd};
-    const int (*symbolImage)[4] = symbolImages[type];
-
-    linesNumber = circuitSymbolLines[type];
+    linesNumber = circuitSymbolLinesNumber[type];
     arcsNumber = 0;
 
-    placeLines(symbolImage);
+    placeLines(circuitSymbolLines[type]);
 }
 
 bool CircuitSymbol::inside(int leftX, int topY, int rightX, int bottomY)
@@ -69,13 +66,13 @@ bool CircuitSymbol::inside(int leftX, int topY, int rightX, int bottomY)
     return false;
 }
 
-void CircuitSymbol::placeLines(const int (*image)[4])
+void CircuitSymbol::placeLines(const int (*symbolLines)[4])
 {
     for (int i = 0; i < linesNumber; i++) {
-        lines[i][0] = refX + (*((*image) + 4 * i));
-        lines[i][1] = refY + (*((*image) + 4 * i + 1));
-        lines[i][2] = refX + (*((*image) + 4 * i + 2));
-        lines[i][3] = refY + (*((*image) + 4 * i + 3));
+        lines[i][0] = refX + (*((*symbolLines) + 4 * i));
+        lines[i][1] = refY + (*((*symbolLines) + 4 * i + 1));
+        lines[i][2] = refX + (*((*symbolLines) + 4 * i + 2));
+        lines[i][3] = refY + (*((*symbolLines) + 4 * i + 3));
     }
 }
 
