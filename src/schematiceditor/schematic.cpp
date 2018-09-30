@@ -910,8 +910,11 @@ void Schematic::updateNets()
     bool finished = false;
     int netNumber = 0;
     int tmpNumber = -2;
+    int unconnectedNumber = -3;
 
     while (!finished) {
+        int connect = 1;
+        auto tmp = pins.begin();
         for (auto i = pins.begin(); i != pins.end(); ++i) {
             if (netNumber <= maxGroundNet)
                 if ((*i).net != netNumber)
@@ -920,14 +923,18 @@ void Schematic::updateNets()
                 if ((*i).net != -1)
                     continue;
                 (*i).net = netNumber;
+                tmp = i;
+                connect = 0;
             }
 
             // Set tmpNumber for pin to pin connection
             for (auto j = pins.begin(); j != pins.end(); ++j) {
                 if (i == j || (*j).net != -1)
                     continue;
-                if ((*i).x == (*j).x && (*i).y == (*j).y)
+                if ((*i).x == (*j).x && (*i).y == (*j).y) {
                     (*j).net = tmpNumber;
+                    connect = 1;
+                }
             }
 
             // Set netNumber for pin to wire connection
@@ -967,9 +974,17 @@ void Schematic::updateNets()
             if (w.net != netNumber)
                 continue;
             for (auto i = pins.begin(); i != pins.end(); ++i)
-                if (connected(*i, w) && (*i).net == -1)
+                if (connected(*i, w) && (*i).net == -1) {
                     (*i).net = netNumber;
+                    connect = 1;
+                }
         }
+
+        if (netNumber <= maxGroundNet || connect)
+            netNumber++;
+
+        if (netNumber > maxGroundNet && !connect)
+            (*tmp).net = unconnectedNumber;
 
         finished = true;
         for (auto i = pins.begin(); i != pins.end(); ++i)
@@ -977,24 +992,10 @@ void Schematic::updateNets()
                 finished = false;
                 break;
             }
-
-        netNumber++;
     }
 
     // Set net = -1 for unconnected pins
-    for (auto i = pins.begin(); i != pins.end(); ++i) {
-        if ((*i).net == -1)
-            continue;
-        bool connection = false;
-        for (auto j = pins.begin(); j != pins.end(); ++j) {
-            if (i == j)
-                continue;
-            if ((*i).net == (*j).net) {
-                connection = true;
-                break;
-            }
-        }
-        if (!connection)
+    for (auto i = pins.begin(); i != pins.end(); ++i)
+        if ((*i).net == unconnectedNumber)
             (*i).net = -1;
-    }
 }
