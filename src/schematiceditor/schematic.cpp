@@ -431,7 +431,6 @@ void Schematic::move(int x, int y)
     static int nameID;
     static int number;
     static int orientation;
-    static int pinNumber;
     static int type;
     static int unitNumber;
     static QString value;
@@ -457,14 +456,16 @@ void Schematic::move(int x, int y)
                 selectedCircuitSymbol = true;
                 return;
             }
-        for (auto d : devices)
-            if (unitNumber == d.second.exist(x, y)) {
+        for (auto d : devices) {
+            unitNumber = d.second.exist(x, y);
+            if (unitNumber > 0) {
                 unitNumber--;
                 center = d.second.center;
                 nameID = d.second.nameID;
                 selectedDevice = true;
                 return;
             }
+        }
         for (auto e : elements)
             if (e.second.exist(x, y)) {
                 center = e.second.center;
@@ -478,7 +479,7 @@ void Schematic::move(int x, int y)
 
     if (selectedArray) {
         arrays.erase(center);
-        Array array(type, pinNumber, x, y, orientation);
+        Array array(type, number, x, y, orientation);
         array.pinName = pinName;
         arrays[array.center] = array;
         selectedArray = false;
