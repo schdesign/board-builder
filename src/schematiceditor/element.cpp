@@ -29,16 +29,22 @@ QJsonObject ElementSymbol::toJson()
     for (auto p : pins)
         elementPins.append(p.toJson());
 
+    int size = orientations;
+
+    if (!mirror)
+        size /= 2;
+
     QJsonObject object
     {
         {"border", border.toJson()},
-        {"referenceTextX", intArrayToJson(referenceTextX, 4)},
-        {"referenceTextY", intArrayToJson(referenceTextY, 4)},
+        {"mirror", mirror},
+        {"referenceTextX", intArrayToJson(referenceTextX, size)},
+        {"referenceTextY", intArrayToJson(referenceTextY, size)},
         {"refX", refX},
         {"refY", refY},
         {"type", typeString},
-        {"valueTextX", intArrayToJson(valueTextX, 4)},
-        {"valueTextY", intArrayToJson(valueTextY, 4)},
+        {"valueTextX", intArrayToJson(valueTextX, size)},
+        {"valueTextY", intArrayToJson(valueTextY, size)},
         {"name", name},
         {"arcs", elementArcs},
         {"lines", elementLines},
@@ -58,6 +64,7 @@ Element::Element(const QJsonObject &object)
 {
     QString typeString(object["type"].toString());
     QString orientationString(object["orientation"].toString());
+    mirror = object["mirror"].toBool();
     refX = object["refX"].toInt();
     refY = object["refY"].toInt();
     QString referenceString(object["reference"].toString());
@@ -67,7 +74,7 @@ Element::Element(const QJsonObject &object)
     if (!findIndex(type, typeString, elementTypeString, elementTypes))
         throw ExceptionData("Element type error");
 
-    if (!findIndex(orientation, orientationString, elementOrientationString, 4))
+    if (!findIndex(orientation, orientationString, elementOrientationString, orientations))
         throw ExceptionData("Element orientation error");
 
     init();
@@ -79,9 +86,16 @@ void Element::addSymbol(const QJsonValue &value)
     ElementSymbol symbol;
     QJsonObject object = value.toObject();
 
+    int size = orientations;
+
+    symbol.mirror = object["mirror"].toBool();
+
+    if (!symbol.mirror)
+        size /= 2;
+
     symbol.border.fromJson(object["border"]);
-    jsonToIntArray(object["referenceTextX"], symbol.referenceTextX, 4);
-    jsonToIntArray(object["referenceTextY"], symbol.referenceTextY, 4);
+    jsonToIntArray(object["referenceTextX"], symbol.referenceTextX, size);
+    jsonToIntArray(object["referenceTextY"], symbol.referenceTextY, size);
     symbol.refX = object["refX"].toInt();
     symbol.refY = object["refY"].toInt();
 
@@ -90,8 +104,8 @@ void Element::addSymbol(const QJsonValue &value)
         throw ExceptionData("Element type error");
     symbol.reference = elementReference[symbol.type];
 
-    jsonToIntArray(object["valueTextX"], symbol.valueTextX, 4);
-    jsonToIntArray(object["valueTextY"], symbol.valueTextY, 4);
+    jsonToIntArray(object["valueTextX"], symbol.valueTextX, size);
+    jsonToIntArray(object["valueTextY"], symbol.valueTextY, size);
 
     symbol.name = object["name"].toString();
     QJsonArray arrayArcs = object["arcs"].toArray();
@@ -143,12 +157,24 @@ bool Element::exist(int x, int y)
 void Element::init()
 {
     const ElementSymbol &symbol = symbols[type];
-    const int a[4][4] = {{1,0,0,1}, {2,-1,1,0}, {1,0,2,-1}, {0,1,1,0}};    // arc
-    const int l[4][4] = {{1,0,0,1}, {0,-1,1,0}, {-1,0,0,-1}, {0,1,-1,0}};  // line
+
+    constexpr int a[orientations][4] =  // arc
+    {
+        {1,0,0,1}, {2,-1,1,0}, {1,0,2,-1}, {0,1,1,0},
+        {1,0,0,1}, {2,-1,1,0}, {1,0,2,-1}, {0,1,1,0}
+    };
+
+    constexpr int l[orientations][4] =  // line
+    {
+        {1,0,0,1}, {0,-1,1,0}, {-1,0,0,-1}, {0,1,-1,0},
+        {-1,0,0,1}, {0,1,1,0}, {1,0,0,-1}, {0,-1,-1,0}
+    };
+
+    mirror = symbol.mirror;
 
     int t = orientation;
 
-    if (t < 0 || t > 3)
+    if (t < 0 || (t > 3 && !mirror) || t > 7)
         t = 0;
 
     border.leftX = refX + l[t][0] * symbol.border.leftX + l[t][1] * symbol.border.topY;
@@ -215,6 +241,7 @@ QJsonObject Element::toJson()
     QJsonObject object
     {
         {"type", typeString},
+        {"mirror", mirror},
         {"orientation", orientationString},
         {"refX", refX},
         {"refY", refY},

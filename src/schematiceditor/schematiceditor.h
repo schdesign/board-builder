@@ -14,12 +14,12 @@
 #include <QToolButton>
 
 const static char *schematicDirectory = "";
-const static int maxButton = 50;
+constexpr static int maxButton = 51;
 
 enum ToolButton
 {
     DECREASE_STEP, DELETE, DELETE_JUNCTION, DELETE_NET,
-    DELETE_WIRE, ENUMERATE, INCREASE_STEP, MOVE,
+    DELETE_WIRE, ENUMERATE, HORIZONTAL_MIRROR, INCREASE_STEP, MOVE,
     MOVE_GROUP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT,
     MOVE_UP, PLACE_BATTERY, PLACE_BUTTON, PLACE_CAPACITOR,
     PLACE_CELL, PLACE_CORE_INDUCTOR, PLACE_DEVICE, PLACE_DIODE,
@@ -34,9 +34,9 @@ enum ToolButton
 };
 
 // elementType[ToolButton]
-const int elementType[maxButton] =
+constexpr int elementType[maxButton] =
 {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, BATTERY, BUTTON, CAPACITOR,
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, BATTERY, BUTTON, CAPACITOR,
     CELL, CORE_INDUCTOR, 0, DIODE, 0, 0, 0, INDUCTOR, 0, LED, 0, 0, N_MOSFET,
     0, NPN_TRANSISTOR, PHOTODIODE, P_MOSFET, PNP_TRANSISTOR, POLAR_CAPACITOR, 0,
     QUARTZ, RESISTOR_ANSI, RESISTOR_IEC, SCHOTTKY, 0, 0, ZENER, 0, 0, 0, 0, 0, 0

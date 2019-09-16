@@ -92,6 +92,7 @@ public:
     template <class Type>
     void errorCheck(std::map<QString, QString> &components, Type t);
     void fromJson(const QByteArray &array);
+    void horizontalMirror(int x, int y);
     bool insideConnected(int x, int y, const Wire &wire);
     bool insideConnected(const Pin &pin, const Wire &wire);
     bool joinLines(int &x11, int &x12, int &x21, int &x22);

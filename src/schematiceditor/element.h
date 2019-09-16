@@ -16,14 +16,16 @@ class ElementSymbol
 public:
     QJsonObject toJson();
 
+    static constexpr int orientations = 8;
+    bool mirror;
     Border border;
-    int referenceTextX[4];  // up, right, down, left
-    int referenceTextY[4];
+    int referenceTextX[orientations];  // 0...3: up, right, down, left
+    int referenceTextY[orientations];  // 4...7: up mirror, right mirror, down mirror, left mirror
     int refX;
     int refY;
     int type;
-    int valueTextX[4];      // left bottom point of text
-    int valueTextY[4];
+    int valueTextX[orientations];      // left bottom point of text
+    int valueTextY[orientations];
     QString name;
     QString reference;
     std::vector<Arc> arcs;
@@ -47,6 +49,8 @@ public:
     QJsonObject toJson();
 
     static std::map <int, ElementSymbol> symbols;  // element nameID, elementSymbol
+    static constexpr int orientations = 8;
+    bool mirror;
     Border border;
     int center;
     int centerX;

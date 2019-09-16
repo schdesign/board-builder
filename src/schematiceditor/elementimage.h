@@ -40,11 +40,15 @@ const int elementReferenceTypes[elementTypes] =
     VT, VD, VT, VT, C, ZQ, R, R, VD, VD
 };
 
-enum Orientation {UP, RIGHT, DOWN, LEFT};
+enum Orientation {
+    UP, RIGHT, DOWN, LEFT,
+    UP_MIRROR, RIGHT_MIRROR, DOWN_MIRROR, LEFT_MIRROR
+};
 
-const char elementOrientationString[4][32] =
+const char elementOrientationString[8][32] =
 {
-    "Up", "Right", "Down", "Left"
+    "Up", "Right", "Down", "Left",
+    "Up Mirror", "Right Mirror", "Down Mirror", "Left Mirror"
 };
 
 #endif  // ELEMENT_IMAGE_H

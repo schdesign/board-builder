@@ -351,6 +351,36 @@ void Schematic::enumerate()
     }
 }
 
+void Schematic::horizontalMirror(int x, int y)
+{
+    int center;
+    int orientation;
+    int refX;
+    int refY;
+    int type;
+    QString value;
+
+    for (auto e : elements)
+        if (e.second.exist(x, y)) {
+            if (!e.second.mirror)
+                continue;
+            center = e.second.center;
+            orientation = e.second.orientation;
+            if (orientation < UP_MIRROR)
+                orientation += UP_MIRROR;
+            else
+                orientation -= UP_MIRROR;
+            refX = e.second.refX;
+            refY = e.second.refY;
+            type = e.second.type;
+            value = e.second.value;
+            elements.erase(center);
+            Element element(type, refX, refY, orientation, value);
+            elements[element.center] = element;
+            return;
+        }
+}
+
 // Junction insert if needed
 bool Schematic::insideConnected(int x, int y, const Wire &wire)
 {

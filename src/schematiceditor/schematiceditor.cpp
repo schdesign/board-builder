@@ -39,19 +39,18 @@ SchematicEditor::SchematicEditor(QWidget *parent) : QMainWindow(parent)
 
     QToolButton *tmp[maxButton] =
     {
-        decreaseStepButton, deleteButton, deleteJunctionButton, deleteNetButton,
-        deleteWireButton, enumerateButton, increaseStepButton, moveButton,
-        moveGroupButton, moveDownButton, moveLeftButton, moveRightButton,
-        moveUpButton, placeBatteryButton, placeButtonButton, placeCapacitorButton,
-        placeCellButton, placeCoreInductorButton, placeDeviceButton, placeDiodeButton,
-        placeFemaleConnectorButton, placeGroundButton, placeGroundIECButton, placeInductorButton,
-        placeJunctionButton, placeLEDButton, placeMaleConnectorButton, placeNetNameButton,
-        placeNMosfetButton, placeNoConnectionButton, placeNpnTransistorButton, placePhotodiodeButton,
-        placePMosfetButton, placePnpTransistorButton, placePolarCapacitorButton, placePowerButton,
-        placeQuartzButton, placeResistorANSIButton, placeResistorIECButton, placeSchottkyButton,
-        placeSwitchButton, placeWireButton, placeZenerButton, selectButton,
-        selectPackagesButton, setValueButton, showNetNumbersButton, turnToLeftButton,
-        turnToRightButton, updateNetsButton
+        decreaseStepButton, deleteButton, deleteJunctionButton, deleteNetButton, deleteWireButton,
+        enumerateButton, horizontalMirrorButton, increaseStepButton, moveButton, moveGroupButton,
+        moveDownButton, moveLeftButton, moveRightButton, moveUpButton, placeBatteryButton,
+        placeButtonButton, placeCapacitorButton, placeCellButton, placeCoreInductorButton,
+        placeDeviceButton, placeDiodeButton, placeFemaleConnectorButton, placeGroundButton,
+        placeGroundIECButton, placeInductorButton, placeJunctionButton, placeLEDButton,
+        placeMaleConnectorButton, placeNetNameButton, placeNMosfetButton, placeNoConnectionButton,
+        placeNpnTransistorButton, placePhotodiodeButton, placePMosfetButton, placePnpTransistorButton,
+        placePolarCapacitorButton, placePowerButton, placeQuartzButton, placeResistorANSIButton,
+        placeResistorIECButton, placeSchottkyButton, placeSwitchButton, placeWireButton,
+        placeZenerButton, selectButton, selectPackagesButton, setValueButton, showNetNumbersButton,
+        turnToLeftButton, turnToRightButton, updateNetsButton
     };
 
     std::copy(tmp, tmp + maxButton, toolButton);
@@ -169,6 +168,9 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             break;
         case DELETE_WIRE:
             schematic.deleteWire(x, y);
+            break;
+        case HORIZONTAL_MIRROR:
+            schematic.horizontalMirror(x, y);
             break;
         case MOVE:
             schematic.move(x, y);
