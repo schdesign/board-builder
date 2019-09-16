@@ -14,7 +14,7 @@ class ArraySelector : public QDialog, private Ui::ArraySelector
     Q_OBJECT
 
 public:
-    explicit ArraySelector(const QString &title, QDialog *parent = 0);
+    explicit ArraySelector(const QString &title, QDialog *parent = nullptr);
 
 private slots:
     void accept();

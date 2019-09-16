@@ -52,7 +52,7 @@ class SymbolEditor : public QMainWindow, private Ui::SymbolEditor
     Q_OBJECT
 
 public:
-    explicit SymbolEditor(QWidget *parent = 0);
+    explicit SymbolEditor(QWidget *parent = nullptr);
 
 protected:
     //void keyPressEvent(QKeyEvent *event);

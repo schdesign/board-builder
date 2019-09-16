@@ -14,7 +14,7 @@ class PackageSelector : public QDialog, private Ui::PackageSelector
     Q_OBJECT
 
 public:
-    explicit PackageSelector(Schematic &schematic, QDialog *parent = 0);
+    explicit PackageSelector(Schematic &schematic, QDialog *parent = nullptr);
 
 private slots:
     void accept();

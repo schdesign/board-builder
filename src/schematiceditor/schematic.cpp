@@ -25,7 +25,7 @@ Schematic::Schematic()
         readSymbolLibrary(symbolsDirectory + "/" + symbolsFile);
     }
     catch (ExceptionData &e) {
-        QMessageBox::warning(NULL, QString("Error"), e.show());
+        QMessageBox::warning(nullptr, QString("Error"), e.show());
     }
 
     selectedArray = false;
@@ -90,8 +90,8 @@ void Schematic::addNetName(int x, int y)
                 (insideConnected(x, y, *i) || (x == (*i).x1 || x == (*i).x2))) {
                 deleteJunction(x, y);
                 (*i).nameSide = 0;
-                if (((*i).x2 > (*i).x1 && fabs(x - (*i).x2) < fabs(x - (*i).x1)) ||
-                    ((*i).x1 > (*i).x2 && fabs(x - (*i).x1) < fabs(x - (*i).x2)))
+                if (((*i).x2 > (*i).x1 && abs(x - (*i).x2) < abs(x - (*i).x1)) ||
+                    ((*i).x1 > (*i).x2 && abs(x - (*i).x1) < abs(x - (*i).x2)))
                     (*i).nameSide = 1;
                 wireIt = i;
                 value.clear();
@@ -107,7 +107,7 @@ void Schematic::addNetName(int x, int y)
 void Schematic::addPoint(int x, int y)
 {
     if (pointNumber) {
-        if (fabs(x - point.x) >= fabs(y - point.y))
+        if (abs(x - point.x) >= abs(y - point.y))
             y = point.y;
         else
             x = point.x;

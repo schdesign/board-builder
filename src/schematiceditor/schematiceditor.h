@@ -47,7 +47,7 @@ class SchematicEditor : public QMainWindow, private Ui::SchematicEditor
     Q_OBJECT
 
 public:
-    explicit SchematicEditor(QWidget *parent = 0);
+    explicit SchematicEditor(QWidget *parent = nullptr);
 
 protected:
     void keyPressEvent(QKeyEvent *event);

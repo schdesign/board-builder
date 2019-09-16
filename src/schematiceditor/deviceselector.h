@@ -13,7 +13,7 @@ class DeviceSelector : public QDialog, private Ui::DeviceSelector
     Q_OBJECT
 
 public:
-    explicit DeviceSelector(QStringList &deviceNames, QDialog *parent = 0);
+    explicit DeviceSelector(QStringList &deviceNames, QDialog *parent = nullptr);
 
 private slots:
     void accept();

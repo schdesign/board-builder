@@ -153,8 +153,8 @@ void Array::draw(QPainter &painter)
 
 bool Array::exist(int x, int y)
 {
-    int dx = fabs(border.rightX - border.leftX) / 2;
-    int dy = fabs(border.bottomY - border.topY) / 2;
+    int dx = abs(border.rightX - border.leftX) / 2;
+    int dy = abs(border.bottomY - border.topY) / 2;
 
     if (x >= (centerX - dx) && x <= (centerX + dx) &&
         y >= (centerY - dy) && y <= (centerY + dy))
