@@ -1209,39 +1209,39 @@
         },
         {
             "name": "IRU1206-33CY",
-            "nameTextX": 2,
+            "nameTextX": 8,
             "nameTextY": 30,
-            "package": "SOT-223",
+            "package": "SOT223",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
             "pinNameY": 0,
             "pins": [
                 {
                     "name": "VIN",
-                    "side": true,
+                    "side": false,
                     "unit": 1,
-                    "x": 90,
+                    "x": 0,
                     "y": 0
                 },
                 {
                     "name": "GND",
-                    "side": true,
+                    "side": false,
                     "unit": 1,
-                    "x": 90,
+                    "x": 0,
                     "y": 10
                 },
                 {
                     "name": "VOUT",
-                    "side": false,
+                    "side": true,
                     "unit": 1,
-                    "x": 0,
+                    "x": 100,
                     "y": 0
                 },
                 {
                     "name": "GND",
-                    "side": false,
+                    "side": true,
                     "unit": 1,
-                    "x": 0,
+                    "x": 100,
                     "y": 10
                 }
             ],
@@ -1252,7 +1252,7 @@
                     "border": {
                         "bottomY": 20,
                         "leftX": 10,
-                        "rightX": 80,
+                        "rightX": 90,
                         "topY": -10
                     },
                     "ellipses": [
@@ -1265,44 +1265,44 @@
                             "y2": 20
                         },
                         {
-                            "x1": 80,
-                            "x2": 80,
+                            "x1": 90,
+                            "x2": 90,
                             "y1": -10,
                             "y2": 20
                         },
                         {
                             "x1": 10,
-                            "x2": 80,
+                            "x2": 90,
                             "y1": -10,
                             "y2": -10
                         },
                         {
                             "x1": 10,
-                            "x2": 80,
+                            "x2": 90,
                             "y1": 20,
                             "y2": 20
                         },
                         {
-                            "x1": 80,
-                            "x2": 90,
+                            "x1": 0,
+                            "x2": 10,
                             "y1": 0,
                             "y2": 0
                         },
                         {
-                            "x1": 80,
-                            "x2": 90,
+                            "x1": 0,
+                            "x2": 10,
                             "y1": 10,
                             "y2": 10
                         },
                         {
-                            "x1": 0,
-                            "x2": 10,
+                            "x1": 90,
+                            "x2": 100,
                             "y1": 0,
                             "y2": 0
                         },
                         {
-                            "x1": 0,
-                            "x2": 10,
+                            "x1": 90,
+                            "x2": 100,
                             "y1": 10,
                             "y2": 10
                         }
@@ -1310,13 +1310,134 @@
                     "number": 1,
                     "refX": 0,
                     "refY": 0,
-                    "referenceTextX": 34,
+                    "referenceTextX": 38,
                     "referenceTextY": -10
                 }
             ],
             "unitsNumber": 1
         },
-
+        {
+            "name": "LP2985AIM5-3.0",
+            "nameTextX": 18,
+            "nameTextY": 40,
+            "package": "SOT23-5",
+            "pinNameXLeft": 14,
+            "pinNameXRight": -12,
+            "pinNameY": 0,
+            "pins": [
+                {
+                    "name": "VIN",
+                    "side": false,
+                    "unit": 1,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "name": "GND",
+                    "side": false,
+                    "unit": 1,
+                    "x": 0,
+                    "y": 10
+                },
+                {
+                    "name": "ON/OFF",
+                    "side": false,
+                    "unit": 1,
+                    "x": 0,
+                    "y": 20
+                },
+                {
+                    "name": "BYPASS",
+                    "side": true,
+                    "unit": 1,
+                    "x": 130,
+                    "y": 20
+                },
+                {
+                    "name": "VOUT",
+                    "side": true,
+                    "unit": 1,
+                    "x": 130,
+                    "y": 0
+                }
+            ],
+            "showPinName": true,
+            "type": "Analog device",
+            "units": [
+                {
+                    "border": {
+                        "bottomY": 30,
+                        "leftX": 10,
+                        "rightX": 120,
+                        "topY": -10
+                    },
+                    "ellipses": [
+                    ],
+                    "lines": [
+                        {
+                            "x1": 10,
+                            "x2": 10,
+                            "y1": -10,
+                            "y2": 30
+                        },
+                        {
+                            "x1": 120,
+                            "x2": 120,
+                            "y1": -10,
+                            "y2": 30
+                        },
+                        {
+                            "x1": 10,
+                            "x2": 120,
+                            "y1": -10,
+                            "y2": -10
+                        },
+                        {
+                            "x1": 10,
+                            "x2": 120,
+                            "y1": 30,
+                            "y2": 30
+                        },
+                        {
+                            "x1": 0,
+                            "x2": 10,
+                            "y1": 0,
+                            "y2": 0
+                        },
+                        {
+                            "x1": 0,
+                            "x2": 10,
+                            "y1": 10,
+                            "y2": 10
+                        },
+                        {
+                            "x1": 0,
+                            "x2": 10,
+                            "y1": 20,
+                            "y2": 20
+                        },
+                        {
+                            "x1": 120,
+                            "x2": 130,
+                            "y1": 20,
+                            "y2": 20
+                        },
+                        {
+                            "x1": 120,
+                            "x2": 130,
+                            "y1": 0,
+                            "y2": 0
+                        }
+                    ],
+                    "number": 1,
+                    "refX": 0,
+                    "refY": 0,
+                    "referenceTextX": 54,
+                    "referenceTextY": -10
+                }
+            ],
+            "unitsNumber": 1
+        },
         {
             "name": "OPA2336U",
             "nameTextX": -9,
