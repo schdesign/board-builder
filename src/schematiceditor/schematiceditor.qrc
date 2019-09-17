@@ -57,5 +57,7 @@
         <file>icons/schematiceditor/zoom_out.png</file>
         <file>icons/schematiceditor/zoom_out_grid.png</file>
         <file>icons/schematiceditor/place_ground_iec.png</file>
+        <file>icons/schematiceditor/place_double_diode.png</file>
+        <file>icons/schematiceditor/place_double_schottky.png</file>
     </qresource>
 </RCC>

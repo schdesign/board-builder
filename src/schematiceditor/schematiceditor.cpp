@@ -3,6 +3,7 @@
 
 #include "arrayselector.h"
 #include "deviceselector.h"
+#include "diodeselector.h"
 #include "exceptiondata.h"
 #include "function.h"
 #include "packageselector.h"
@@ -43,14 +44,14 @@ SchematicEditor::SchematicEditor(QWidget *parent) : QMainWindow(parent)
         enumerateButton, horizontalMirrorButton, increaseStepButton, moveButton, moveGroupButton,
         moveDownButton, moveLeftButton, moveRightButton, moveUpButton, placeBatteryButton,
         placeButtonButton, placeCapacitorButton, placeCellButton, placeCoreInductorButton,
-        placeDeviceButton, placeDiodeButton, placeFemaleConnectorButton, placeGroundButton,
-        placeGroundIECButton, placeInductorButton, placeJunctionButton, placeLEDButton,
-        placeMaleConnectorButton, placeNetNameButton, placeNMosfetButton, placeNoConnectionButton,
-        placeNpnTransistorButton, placePhotodiodeButton, placePMosfetButton, placePnpTransistorButton,
-        placePolarCapacitorButton, placePowerButton, placeQuartzButton, placeResistorANSIButton,
-        placeResistorIECButton, placeSchottkyButton, placeSwitchButton, placeWireButton,
-        placeZenerButton, selectButton, selectPackagesButton, setValueButton, showNetNumbersButton,
-        turnToLeftButton, turnToRightButton, updateNetsButton
+        placeDeviceButton, placeDiodeButton, placeDoubleDiodeButton, placeDoubleSchottkyButton,
+        placeFemaleConnectorButton, placeGroundButton, placeGroundIECButton, placeInductorButton,
+        placeJunctionButton, placeLEDButton, placeMaleConnectorButton, placeNetNameButton,
+        placeNMosfetButton, placeNoConnectionButton, placeNpnTransistorButton, placePhotodiodeButton,
+        placePMosfetButton, placePnpTransistorButton, placePolarCapacitorButton, placePowerButton,
+        placeQuartzButton, placeResistorANSIButton, placeResistorIECButton, placeSchottkyButton,
+        placeSwitchButton, placeWireButton, placeZenerButton, selectButton, selectPackagesButton,
+        setValueButton, showNetNumbersButton, turnToLeftButton, turnToRightButton, updateNetsButton
     };
 
     std::copy(tmp, tmp + maxButton, toolButton);
@@ -180,6 +181,12 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             break;
         case PLACE_DEVICE:
             schematic.addDevice(schematic.deviceNameID, x, y);
+            break;
+        case PLACE_DOUBLE_DIODE:
+            schematic.addElement(schematic.diodeTypeID, x, y, orientation);
+            break;
+        case PLACE_DOUBLE_SCHOTTKY:
+            schematic.addElement(schematic.diodeTypeID, x, y, orientation);
             break;
         case PLACE_FEMALE_CONNECTOR:
             schematic.addArray(ARRAY_FCON, schematic.arrayNumber, x, y, schematic.arrayOrientation);
@@ -455,6 +462,16 @@ void SchematicEditor::selectCommand(int number)
         if (schematic.deviceNameID == -1)
             command = SELECT;
         break;
+    case PLACE_DOUBLE_DIODE:
+        selectDiode("Double Diode", schematic.diodeTypeID);
+        if (schematic.diodeTypeID == -1)
+            command = SELECT;
+        break;
+    case PLACE_DOUBLE_SCHOTTKY:
+        selectDiode("Double Schottky Diode", schematic.diodeTypeID);
+        if (schematic.diodeTypeID == -1)
+            command = SELECT;
+        break;
     case PLACE_FEMALE_CONNECTOR:
         selectArray(ARRAY_FCON, schematic.arrayNumber, schematic.arrayOrientation);
         if (!schematic.arrayNumber)
@@ -520,6 +537,12 @@ void SchematicEditor::selectDevice(int &deviceNameID)
         deviceNames += ds.second.name;
     DeviceSelector deviceSelector(deviceNames);
     deviceNameID = deviceSelector.exec() - 1;
+}
+
+void SchematicEditor::selectDiode(QString title, int &diodeTypeID)
+{
+    DiodeSelector diodeSelector(title);
+    diodeTypeID = diodeSelector.exec() - 1;
 }
 
 void SchematicEditor::selectPackages()

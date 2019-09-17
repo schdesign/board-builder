@@ -8,7 +8,7 @@ ArraySelector::ArraySelector(const QString &title, QDialog *parent):
     QDialog(parent)
 {
     setupUi(this);    
-    setGeometry(QRect(93, 100, 250, 200));
+    setGeometry(QRect(97, 111, 250, 200));
     setWindowTitle(title);
 
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));

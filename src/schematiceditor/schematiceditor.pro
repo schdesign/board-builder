@@ -16,6 +16,7 @@ SOURCES += array.cpp \
     circuitsymbol.cpp \
     device.cpp \
     deviceselector.cpp \
+    diodeselector.cpp \
     element.cpp \
     function.cpp \
     main.cpp \
@@ -34,6 +35,7 @@ HEADERS += array.h \
     circuitsymbolimage.h \
     device.h \
     deviceselector.h \
+    diodeselector.h \
     element.h \
     elementimage.h \
     exceptiondata.h \
@@ -49,6 +51,7 @@ HEADERS += array.h \
 
 FORMS += arrayselector.ui \
     deviceselector.ui \
+    diodeselector.ui \
     packageselector.ui \
     schematiceditor.ui \
     symboleditor.ui

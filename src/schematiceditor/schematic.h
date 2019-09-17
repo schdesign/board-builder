@@ -146,9 +146,10 @@ public:
     QRect groupBorder;
     QString key;
     QString value;
-    int arrayOrientation;
     int arrayNumber;
+    int arrayOrientation;
     int deviceNameID;
+    int diodeTypeID;
 };
 
 #endif  // SCHEMATIC_H

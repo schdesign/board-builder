@@ -7,7 +7,7 @@ DeviceSelector::DeviceSelector(QStringList &deviceNames, QDialog *parent):
     QDialog(parent), deviceNames(deviceNames)
 {
     setupUi(this);
-    setGeometry(QRect(93, 100, 250, 300));
+    setGeometry(QRect(97, 111, 250, 300));
 
     deviceListWidget->insertItems(0, deviceNames);
     deviceListWidget->setCurrentRow(0);

@@ -8,7 +8,7 @@ PackageSelector::PackageSelector(Schematic &schematic, QDialog *parent):
     QDialog(parent), schematic(schematic)
 {
     setupUi(this);
-    setGeometry(QRect(93, 100, 600, 500));
+    setGeometry(QRect(97, 111, 600, 500));
 
     for (auto sa : schematic.arrays) {
         elementNames.push_back(sa.second.reference + "  " + sa.second.name + "  ");
