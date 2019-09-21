@@ -140,6 +140,8 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
 {
     int x;
     int y;
+    int type = -1;
+    int typeID = -1;
 
     if (event->button() == Qt::LeftButton) {
         mousePoint = event->pos();
@@ -183,8 +185,6 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             schematic.addDevice(schematic.deviceNameID, x, y);
             break;
         case PLACE_DOUBLE_DIODE:
-            schematic.addElement(schematic.diodeTypeID, x, y, orientation);
-            break;
         case PLACE_DOUBLE_SCHOTTKY:
             schematic.addElement(schematic.diodeTypeID, x, y, orientation);
             break;

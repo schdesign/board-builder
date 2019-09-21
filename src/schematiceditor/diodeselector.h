@@ -4,6 +4,7 @@
 #ifndef DIODE_SELECTOR_H
 #define DIODE_SELECTOR_H
 
+#include "elementimage.h"
 #include "ui_diodeselector.h"
 #include <QDialog>
 
@@ -16,6 +17,9 @@ public:
 
 private slots:
     void accept();
+
+private:
+    int selectorType;
 };
 
 #endif  // DIODE_SELECTOR_H

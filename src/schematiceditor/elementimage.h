@@ -26,7 +26,7 @@ const char elementTypeString[elementTypes][32] =
     "Led", "N channel MOSFET", "NPN Transistor", "Photodiode",
     "P channel MOSFET", "PNP Transistor", "Polar Capacitor", "Quarts",
     "Resistor ANSI", "Resistor IEC", "Schottky", "Series Diodes",
-    "Series Schottky", "Single Diodes", "Single Schottky", "Zener"
+    "Series Schottky", "Single Diode", "Single Schottky", "Zener"
 };
 
 const char elementReference[elementTypes][8] =

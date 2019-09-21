@@ -158,10 +158,10 @@ void Element::init()
 {
     const ElementSymbol &symbol = symbols[type];
 
-    constexpr int a[orientations][4] =  // arc
+    constexpr int a[orientations][2] =  // arc
     {
-        {1,0,0,1}, {2,-1,1,0}, {1,0,2,-1}, {0,1,1,0},
-        {1,0,0,1}, {2,-1,1,0}, {1,0,2,-1}, {0,1,1,0}
+        {1,0}, {0,1}, {1,0}, {0,1},
+        {1,0}, {0,1}, {1,0}, {0,1}
     };
 
     constexpr int l[orientations][4] =  // line
@@ -198,10 +198,14 @@ void Element::init()
 
     Arc arc;
     for (auto sa : symbol.arcs) {
-        arc.x = refX + a[t][0] * sa.x + a[t][1] * sa.y;
-        arc.y = refY + a[t][2] * sa.x + a[t][3] * sa.y;
-        arc.w = sa.w;
-        arc.h = sa.h;
+        int arcCenterX = sa.x + sa.w / 2;
+        int arcCenterY = sa.y + sa.h / 2;
+        int arcCenterX2 = refX + l[t][0] * arcCenterX + l[t][1] * arcCenterY;
+        int arcCenterY2 = refY + l[t][2] * arcCenterX + l[t][3] * arcCenterY;
+        arc.x = arcCenterX2 - a[t][0] * sa.w / 2 - a[t][1] * sa.h / 2;
+        arc.y = arcCenterY2 - a[t][1] * sa.w / 2 - a[t][0] * sa.h / 2;
+        arc.w = a[t][0] * sa.w + a[t][1] * sa.h;
+        arc.h = a[t][1] * sa.w + a[t][0] * sa.h;
         arc.startAngle = sa.startAngle - 90 * t;
         arc.spanAngle = sa.spanAngle;
         arcs.push_back(arc);
