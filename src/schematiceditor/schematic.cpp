@@ -1,4 +1,4 @@
-// schematic.cpp
+﻿// schematic.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "exceptiondata.h"
@@ -259,8 +259,9 @@ void Schematic::deleteWire(int x, int y)
 
 void Schematic::draw(QPainter &painter)
 {
+    int fontSize = 10;
     painter.setPen(QColor(200, 100, 100));
-    QFont serifFont("Times", 10, QFont::Normal);
+    QFont serifFont("Times", fontSize, QFont::Normal);
     painter.setFont(serifFont);
 
     // Draw arrays
@@ -291,10 +292,18 @@ void Schematic::draw(QPainter &painter)
     for (auto w : wires) {
         painter.drawLine(w.x1, w.y1, w.x2, w.y2);
         if (!w.name.isEmpty()) {
-            if (!w.nameSide)
-                painter.drawText(w.x1, w.y1, w.name);
-            else
-                painter.drawText(w.x2 - 10 * w.name.size(), w.y1, w.name);
+            int width = 3 * fontSize * w.name.size() / 2;
+            int height = fontSize;
+            if (!w.nameSide) {
+                int leftX = (w.x1 < w.x2) ? w.x1 : w.x2;
+                painter.drawText(leftX, w.y1 - height, width, height,
+                                 Qt::AlignLeft | Qt::AlignVCenter, w.name);
+            }
+            else {
+                int rightX = (w.x2 > w.x1) ? w.x2 : w.x1;
+                painter.drawText(rightX - width, w.y1 - height, width, height,
+                                 Qt::AlignRight | Qt::AlignVCenter, w.name);
+            }
         }
     }
     for (auto n : net)
