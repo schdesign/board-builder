@@ -1001,7 +1001,8 @@ void Schematic::updateNets()
                 for (auto k = wires.begin(); k != wires.end(); ++k) {
                     if (j == k || (*k).net != -1)
                         continue;
-                    if (connected(*j, *k)) {
+                    if (connected(*j, *k) ||
+                        (!(*j).name.isEmpty() && (*j).name == (*k).name)) {
                         (*k).net = netNumber;
                         wireUpdated = true;
                     }
