@@ -56,12 +56,8 @@ SchematicEditor::SchematicEditor(QWidget *parent) : QMainWindow(parent)
 
     std::copy(tmp, tmp + maxButton, toolButton);
 
-    signalMapper = new QSignalMapper(this);
-    for (int i = 0; i < maxButton; i++) {
-        signalMapper->setMapping(toolButton[i], i);
-        connect(toolButton[i], SIGNAL(clicked()), signalMapper, SLOT(map()));
-    }
-    connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(selectCommand(int)));
+    for (int i = 0; i < maxButton; i++)
+        connect(toolButton[i], &QToolButton::clicked, [=] () { selectCommand(i); });
 
     command = SELECT;
     previousCommand = command;
