@@ -136,8 +136,6 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
 {
     int x;
     int y;
-    int type = -1;
-    int typeID = -1;
 
     if (event->button() == Qt::LeftButton) {
         mousePoint = event->pos();
@@ -214,12 +212,6 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
     }
 
     if (event->button() == Qt::RightButton) {
-        mousePoint = event->pos();
-        x = grid * ((mousePoint.x() + grid / 2) / grid);
-        y = grid * ((mousePoint.y() + grid / 2) / grid);
-        limit(x, 0, 10000);
-        limit(y, 0, 10000);
-
         switch (command) {
         case PLACE_WIRE:
             schematic.addNet();

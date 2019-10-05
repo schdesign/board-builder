@@ -1,4 +1,4 @@
-﻿// schematic.cpp
+// schematic.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "exceptiondata.h"
@@ -426,20 +426,11 @@ bool Schematic::insideConnected(const Pin &pin, const Wire &wire)
 
 bool Schematic::joinLines(int &x11, int &x12, int &x21, int &x22)
 {
-    int min1, max1, min2, max2;
+    int min1 = (x11 < x12) ? x11 : x12;
+    int max1 = (x11 < x12) ? x12 : x11;
+    int min2 = (x21 < x22) ? x21 : x22;
+    int max2 = (x21 < x22) ? x22 : x21;
 
-    min1 = x11;
-    max1 = x12;
-    if (x12 < x11) {
-        min1 = x12;
-        max1 = x11;
-    }
-    min2 = x21;
-    max2 = x22;
-    if (x22 < x21) {
-        min2 = x22;
-        max2 = x21;
-    }
     if (max1 >= min2 && max2 >= min1) {
         x11 = min1;
         if (min2 < min1)
@@ -453,6 +444,7 @@ bool Schematic::joinLines(int &x11, int &x12, int &x21, int &x22)
     return false;
 }
 
+// Join wires to wire1
 bool Schematic::joinWires(Wire &wire1, Wire &wire2)
 {
     if (wire1.x1 == wire1.x2 && wire2.x1 == wire2.x2 && wire1.x1 == wire2.x1)
@@ -796,18 +788,18 @@ void Schematic::readSymbolLibrary(const QString &libraryname)
 // Reduce number of wires
 void Schematic::reduceWires(std::list <Wire> &wires)
 {
-    WireIt i, j;
-
-    i = wires.end();
-    while (i != wires.begin()) {
-        --i;
-        j = wires.end();
-        --j;
-        while (j != i) {
-            if (joinWires(*i, *j))
-                wires.erase(j);
-            --j;
+    for (auto i = wires.begin(); i != wires.end();) {
+        bool wiresJoined = false;
+        for (auto j = wires.begin(); j != wires.end(); ++j) {
+            if (i != j)
+                if (joinWires(*j, *i)) {
+                    i = wires.erase(i);
+                    wiresJoined = true;
+                    break;
+                }
         }
+        if (!wiresJoined)
+            ++i;
     }
 }
 
