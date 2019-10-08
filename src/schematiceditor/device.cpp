@@ -235,6 +235,8 @@ void Device::init()
 bool Device::inside(int leftX, int topY, int rightX, int bottomY,
                     std::vector<int> &unitNumbers)
 {
+    unitNumbers.clear();
+
     for (uint i = 0; i < units.size(); i++)
         if (units[i].inside(leftX, topY, rightX, bottomY))
             unitNumbers.push_back(i);

@@ -578,8 +578,10 @@ void Schematic::moveGroup()
     std::map<int, Element> elements2;
     std::map<int, CircuitSymbol> circuitSymbols2;
     std::vector<int> centers;
+    std::vector<int> junctions2;
     std::vector<int> unitNumbers;
     std::vector<QString> pinName;
+    std::vector<Wire> wires2;
 
     // Move arrays
     for (auto a : arrays)
@@ -650,6 +652,14 @@ void Schematic::moveGroup()
                     device.units[unitNumber] = unit;
                 }
             }
+            int n;
+            for (uint i = 0; i < device.pins.size(); i++) {
+                n = device.pins[i].unit - 1;
+                device.pins[i].x = device.units[n].refX +
+                                   Device::symbols[nameID].pins[i].x;
+                device.pins[i].y = device.units[n].refY +
+                                   Device::symbols[nameID].pins[i].y;
+            }
             devices2[device.center] = device;
         }
     for (uint i = 0; i < centers.size(); i++)
@@ -678,6 +688,41 @@ void Schematic::moveGroup()
     for (auto e : elements2)
         elements[e.second.center] = e.second;
     elements2.clear();
+
+    // Move junctions
+    for (auto i = junctions.begin(); i != junctions.end();) {
+        x = *i >> 16;
+        y = *i & 0xffff;
+        if (x >= points[0].x && x <= points[1].x &&
+            y >= points[0].y && y <= points[1].y) {
+            int point = ((x + dx) << 16) + y + dy;
+            junctions2.push_back(point);
+            i = junctions.erase(i);
+        }
+        else
+            ++i;
+    }
+    for (auto j : junctions2)
+        junctions.insert(j);
+
+    // Move wires
+    for (auto i = wires.begin(); i != wires.end();) {
+        if ((*i).x1 >= points[0].x && (*i).x1 <= points[1].x &&
+            (*i).y1 >= points[0].y && (*i).y1 <= points[1].y &&
+            (*i).x2 >= points[0].x && (*i).x2 <= points[1].x &&
+            (*i).y2 >= points[0].y && (*i).y2 <= points[1].y) {
+            (*i).x1 += dx;
+            (*i).y1 += dy;
+            (*i).x2 += dx;
+            (*i).y2 += dy;
+            wires2.push_back(*i);
+            i = wires.erase(i);
+        }
+        else
+            ++i;
+    }
+    for (auto w : wires2)
+        wires.push_back(w);
 }
 
 void Schematic::moveGroup(int x, int y)
