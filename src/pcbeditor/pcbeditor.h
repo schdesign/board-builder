@@ -16,10 +16,10 @@
 
 const static char *boardDirectory = "";
 
-const int checkBoxes = 13;
-const int pushButtons = 6;
-const int radioButtons = 4;
-const int toolButtons = 44;
+constexpr static int checkBoxes = 13;
+constexpr static int pushButtons = 6;
+constexpr static int radioButtons = 4;
+constexpr static int toolButtons = 44;
 
 enum PushButton
 {
@@ -47,7 +47,7 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
     Q_OBJECT
     
 public:
-    explicit PcbEditor(QWidget *parent = 0);
+    explicit PcbEditor(QWidget *parent = nullptr);
     void limit(int &value, int min, int max);
 
 protected:

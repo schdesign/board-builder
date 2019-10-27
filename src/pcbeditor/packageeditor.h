@@ -12,7 +12,7 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
     Q_OBJECT
 
 public:
-    explicit PackageEditor(QWidget *parent = 0);
+    explicit PackageEditor(QWidget *parent = nullptr);
 };
 
 #endif  // PACKAGEEDITOR_H

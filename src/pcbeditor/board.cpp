@@ -25,7 +25,7 @@ Board::Board()
         readPackageLibrary(packagesDirectory + "/" + packagesFile);
     }
     catch (ExceptionData &e) {
-        QMessageBox::warning(NULL, QString("Error"), e.show());
+        QMessageBox::warning(nullptr, QString("Error"), e.show());
         return;
     }
 
@@ -104,13 +104,13 @@ void Board::addSegmentPoint(int x, int y, int width)
         dy = y - point.y;
         if (!dx && !dy)
             return;
-        if (fabs(dx) > 2 * fabs(dy))
+        if (abs(dx) > 2 * abs(dy))
             y = point.y;
         else {
-            if (2 * fabs(dx) < fabs(dy))
+            if (2 * abs(dx) < abs(dy))
                 x = point.x;
             else
-                y = (dy / fabs(dy)) * fabs(dx) + point.y;
+                y = (dy / abs(dy)) * abs(dx) + point.y;
         }
         track.push_back(Segment(point.x, point.y, x, y, -1, width));
     }
@@ -272,7 +272,7 @@ int Board::deleteSegment(int x, int y, std::list<Segment> &segments)
             return netNumber;
         }
         y3 = a * x + b;
-        if (fabs(y - y3) < 0.7 * w) {
+        if (abs(y - y3) < 0.7 * w) {
             netNumber = (*i).net;
             segments.erase(i);
             return netNumber;
