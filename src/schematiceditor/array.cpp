@@ -64,12 +64,12 @@ Array::Array(const QJsonObject &object)
     refY = object["refY"].toInt();
     reference = object["reference"].toString();
     name = object["name"].toString();
+    number = object["number"].toInt();
     package = object["package"].toString();
-    QJsonArray arrayPins = object["pins"].toArray();
-    number = arrayPins.size();
+    QJsonArray arrayPinNames = object["pinNames"].toArray();
 
-    for (auto a : arrayPins)
-        pinName.push_back(a.toString());
+    for (auto a : arrayPinNames)
+        pinNames.push_back(a.toString());
 
     if (!findIndex(type, typeString, arrayTypeString, arrayTypes))
         throw ExceptionData("Array type error");
@@ -125,8 +125,12 @@ void Array::addSymbol(const QJsonValue &value)
 
 void Array::draw(QPainter &painter)
 {
+    const ArraySymbol &symbol = symbols[type];
     int dx;
     QString str;
+
+    int t = orientation;
+    limit(t, 0, 1);
 
     for (auto l : lines)
         painter.drawLine(l.x1, l.y1, l.x2, l.y2);
@@ -135,16 +139,25 @@ void Array::draw(QPainter &painter)
         painter.drawText(nameTextX, nameTextY + deltaY * number, name);
 
     if (showPinName) {
-        for (uint i = 0; i < pinName.size(); i++)
-            painter.drawText(pinNameTextX, pinNameTextY + deltaY * i, pinName[i]);
+        for (uint i = 0; i < pinNames.size(); i++)
+            painter.drawText(pinNameTextX, pinNameTextY + deltaY * i, pinNames[i]);
     }
 
     if (showPinNumber) {
         dx = 0;
         for (int i = 0; i < number; i++) {
-            if (i == 9)
-                dx = -6;
-            painter.drawText(pinNumberTextX + dx, pinNumberTextY + deltaY * i, str.setNum(i + 1));
+            for (auto j = 0UL; j < symbol.pins.size(); j++) {
+                if (symbol.pins.size() * i + j == 9)
+                    dx = -6;
+                if (symbol.pins.size() == 1)
+                    painter.drawText(pinNumberTextX + dx, pinNumberTextY + deltaY * i,
+                                     str.setNum(i + 1));
+                if (symbol.pins.size() == 2) {
+                    int x = refX + symbol.pins[j].x - t * symbol.pins[1].x;
+                    int y = refY + symbol.pins[j].y + symbol.deltaY * i;
+                    painter.drawText(x + dx, y, str.setNum(2 * i + j + 1));
+                }
+            }
         }
     }
 
@@ -202,7 +215,7 @@ void Array::init()
         reference = symbol.reference;
 
     if (showPinName)
-        pinName.resize(number);
+        pinNames.resize(number);
 
     Line line;
     for (int i = 0; i < number; i++)
@@ -237,9 +250,9 @@ QJsonObject Array::toJson()
     QString typeString(arrayTypeString[type]);
     QString orientationString(arrayOrientationString[orientation]);
 
-    QJsonArray arrayPins;
-    for (auto p : pinName)
-        arrayPins.append(p);
+    QJsonArray arrayPinNames;
+    for (auto p : pinNames)
+        arrayPinNames.append(p);
 
     QJsonObject object
     {
@@ -249,8 +262,9 @@ QJsonObject Array::toJson()
         {"refY", refY},
         {"reference", reference},
         {"name", name},
+        {"number", number},
         {"package", package},
-        {"pins", arrayPins}
+        {"pinNames", arrayPinNames}
     };
 
     return object;

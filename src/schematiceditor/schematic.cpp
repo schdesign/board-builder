@@ -465,7 +465,7 @@ void Schematic::move(int x, int y)
     static int type;
     static int unitNumber;
     static QString value;
-    static std::vector<QString> pinName;
+    static std::vector<QString> pinNames;
     QString str;
 
     if (!selectedArray && !selectedCircuitSymbol &&
@@ -475,7 +475,7 @@ void Schematic::move(int x, int y)
                 center = a.second.center;
                 type = a.second.type;
                 orientation = a.second.orientation;
-                pinName = a.second.pinName;
+                pinNames = a.second.pinNames;
                 number = a.second.number;
                 selectedArray = true;
                 return;
@@ -511,7 +511,7 @@ void Schematic::move(int x, int y)
     if (selectedArray) {
         arrays.erase(center);
         Array array(type, number, x, y, orientation);
-        array.pinName = pinName;
+        array.pinNames = pinNames;
         arrays[array.center] = array;
         selectedArray = false;
         return;
@@ -580,7 +580,7 @@ void Schematic::moveGroup()
     std::vector<int> centers;
     std::vector<int> junctions2;
     std::vector<int> unitNumbers;
-    std::vector<QString> pinName;
+    std::vector<QString> pinNames;
     std::vector<Wire> wires2;
 
     // Move arrays
@@ -592,10 +592,10 @@ void Schematic::moveGroup()
             x = a.second.refX + dx;
             y = a.second.refY + dy;
             orientation = a.second.orientation;
-            pinName = a.second.pinName;
+            pinNames = a.second.pinNames;
             number = a.second.number;
             Array array(type, number, x, y, orientation);
-            array.pinName = pinName;
+            array.pinNames = pinNames;
             arrays2[array.center] = array;
         }
     for (uint i = 0; i < centers.size(); i++)
@@ -884,7 +884,7 @@ void Schematic::setValue(int x, int y)
         if (number == arrays[center].number)
             arrays[center].name = value;
         else
-            arrays[center].pinName[number] = value;
+            arrays[center].pinNames[number] = value;
         selectedArray = false;
         return;
     }

@@ -77,7 +77,7 @@ public:
     QString name;
     QString package;
     QString reference;      // X1
-    std::vector<QString> pinName;
+    std::vector<QString> pinNames;
     std::vector<Line> lines;
     std::vector<Point> pins;
 };
