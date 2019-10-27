@@ -42,12 +42,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     std::copy(tmpCheckBox, tmpCheckBox + checkBoxes, checkBox);
 
-    checkBoxMapper = new QSignalMapper(this);
-    for (int i = 0; i < checkBoxes; i++) {
-        checkBoxMapper->setMapping(checkBox[i], i);
-        connect(checkBox[i], SIGNAL(clicked()), checkBoxMapper, SLOT(map()));
-    }
-    connect(checkBoxMapper, SIGNAL(mapped(int)), this, SLOT(selectCheckBox()));
+    for (int i = 0; i < checkBoxes; i++)
+        connect(checkBox[i], &QCheckBox::clicked, [=] () { selectCheckBox(); });
 
     QPushButton *tmpPushButton[pushButtons] =
     {
@@ -57,12 +53,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     std::copy(tmpPushButton, tmpPushButton + pushButtons, pushButton);
 
-    pushButtonMapper = new QSignalMapper(this);
-    for (int i = 0; i < pushButtons; i++) {
-        pushButtonMapper->setMapping(pushButton[i], i);
-        connect(pushButton[i], SIGNAL(clicked()), pushButtonMapper, SLOT(map()));
-    }
-    connect(pushButtonMapper, SIGNAL(mapped(int)), this, SLOT(selectPushButton(int)));
+    for (int i = 0; i < pushButtons; i++)
+        connect(pushButton[i], &QPushButton::clicked, [=] () { selectPushButton(i); });
 
     QRadioButton *tmpRadioButton[radioButtons] =
     {
@@ -71,12 +63,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     std::copy(tmpRadioButton, tmpRadioButton + radioButtons, radioButton);
 
-    radioButtonMapper = new QSignalMapper(this);
-    for (int i = 0; i < radioButtons; i++) {
-        radioButtonMapper->setMapping(radioButton[i], i);
-        connect(radioButton[i], SIGNAL(clicked()), radioButtonMapper, SLOT(map()));
-    }
-    connect(radioButtonMapper, SIGNAL(mapped(int)), this, SLOT(selectRadioButton()));
+    for (int i = 0; i < radioButtons; i++)
+        connect(radioButton[i], &QRadioButton::clicked, [=] () { selectRadioButton(); });
 
     QToolButton *tmpToolButton[toolButtons] =
     {
@@ -95,12 +83,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     std::copy(tmpToolButton, tmpToolButton + toolButtons, toolButton);
 
-    toolButtonMapper = new QSignalMapper(this);
-    for (int i = 0; i < toolButtons; i++) {
-        toolButtonMapper->setMapping(toolButton[i], i);
-        connect(toolButton[i], SIGNAL(clicked()), toolButtonMapper, SLOT(map()));
-    }
-    connect(toolButtonMapper, SIGNAL(mapped(int)), this, SLOT(selectToolButton(int)));
+    for (int i = 0; i < toolButtons; i++)
+        connect(toolButton[i], &QToolButton::clicked, [=] () { selectToolButton(i); });
 
     QString str;
     command = SELECT;
