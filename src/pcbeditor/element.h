@@ -6,12 +6,9 @@
 #define ELEMENT_H
 
 #include "layers.h"
-#include "types.h"
-#include <QJsonObject>
+#include "package.h"
 #include <QPainter>
-#include <QString>
 #include <QStringRef>
-#include <vector>
 
 const QString elementOrientationString[4] =
 {
@@ -21,47 +18,6 @@ const QString elementOrientationString[4] =
 const QString textAlignmentString[1] =
 {
     "Center"
-};
-
-// Rounded rectangle
-class Pad
-{
-public:
-    QJsonObject toJson();
-
-    int number;         // number in package
-    int net;            // net number
-    int width;          // width > height
-    int height;
-    int radius;
-    int orientation;    // up, right
-    int x;              // center
-    int y;
-};
-
-class Package
-{
-public:
-    QJsonObject toJson();
-
-    Border border;
-    Ellipse ellipse;
-    int nameTextHeight;
-    int nameTextAlignmentX;
-    int nameTextAlignmentY;
-    int nameTextX[4];       // left bottom point of text
-    int nameTextY[4];
-    int referenceTextHeight;
-    int referenceTextAlignmentX;
-    int referenceTextAlignmentY;
-    int referenceTextX[4];  // up, right, down, left
-    int referenceTextY[4];
-    int refX;
-    int refY;
-    QString name;
-    QString type;
-    std::vector<Line> lines;
-    std::vector<Pad> pads;
 };
 
 class Element

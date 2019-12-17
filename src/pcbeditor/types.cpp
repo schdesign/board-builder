@@ -14,6 +14,14 @@ Border::Border(const QJsonValue &value)
     bottomY = object["bottomY"].toInt();
 }
 
+void Border::clear()
+{
+    leftX = 0;
+    topY = 0;
+    rightX = 0;
+    bottomY = 0;
+}
+
 void Border::fromJson(const QJsonValue &value)
 {
     QJsonObject object = value.toObject();
@@ -45,6 +53,14 @@ Ellipse::Ellipse(const QJsonValue &value)
     y = object["y"].toInt();
     w = object["w"].toInt();
     h = object["h"].toInt();
+}
+
+void Ellipse::clear()
+{
+    x = 0;
+    y = 0;
+    w = 0;
+    h = 0;
 }
 
 void Ellipse::fromJson(const QJsonValue &value)

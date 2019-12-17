@@ -5,6 +5,7 @@
 #define PCBEDITOR_H
 
 #include "board.h"
+#include "packageeditor.h"
 #include "ui_pcbeditor.h"
 #include <QJsonObject>
 #include <QMainWindow>
@@ -66,6 +67,7 @@ private slots:
     void closeFile();
     void newFile();
     void openFile();
+    void openPackageEditor();
     void saveErrorCheck();
     void saveFile();
     void saveSVG();
@@ -104,6 +106,7 @@ private:
     int step;
     int width;
     Board board;
+    PackageEditor packageEditor;
     QPoint mousePoint;
     QSignalMapper *checkBoxMapper;
     QSignalMapper *radioButtonMapper;

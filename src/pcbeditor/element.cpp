@@ -12,81 +12,6 @@ enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
 
 std::vector<Package> Element::packages;
 
-QJsonObject Pad::toJson()
-{
-    QJsonObject object
-    {
-        {"orientation", orientation},
-        {"x", x},
-        {"y", y}
-    };
-
-    return object;
-}
-
-QJsonObject Package::toJson()
-{
-    QJsonObject nameText
-    {
-        {"height", nameTextHeight},
-        {"alignmentX", nameTextAlignmentX},
-        {"alignmentY", nameTextAlignmentY},
-        {"upX", nameTextX[0]},
-        {"upY", nameTextY[0]},
-        {"rightX", nameTextX[1]},
-        {"rightY", nameTextY[1]},
-        {"downX", nameTextX[2]},
-        {"downY", nameTextY[2]},
-        {"leftX", nameTextX[3]},
-        {"leftY", nameTextY[3]}
-    };
-
-    QJsonObject referenceText
-    {
-        {"height", referenceTextHeight},
-        {"alignmentX", referenceTextAlignmentX},
-        {"alignmentY", referenceTextAlignmentY},
-        {"upX", referenceTextX[0]},
-        {"upY", referenceTextY[0]},
-        {"rightX", referenceTextX[1]},
-        {"rightY", referenceTextY[1]},
-        {"downX", referenceTextX[2]},
-        {"downY", referenceTextY[2]},
-        {"leftX", referenceTextX[3]},
-        {"leftY", referenceTextY[3]}
-    };
-
-    QJsonObject padParams
-    {
-        {"width", pads[0].width},
-        {"height", pads[0].height},
-        {"radius", pads[0].radius}
-    };
-
-    QJsonArray linesArray;
-    for (auto l : lines)
-        linesArray.append(l.toJson());
-
-    QJsonArray padsArray;
-    for (auto p : pads)
-        padsArray.append(p.toJson());
-
-    QJsonObject object
-    {
-        {"border", border.toJson()},
-        {"ellipse", border.toJson()},
-        {"name", name},
-        {"nameText", nameText},
-        {"referenceText", referenceText},
-        {"type", type},
-        {"padParams", padParams},
-        {"lines", linesArray},
-        {"pads", padsArray}
-   };
-
-    return object;
-}
-
 Element::Element(int refX, int refY, int orientation, QString name,
                  QString packageName, QString reference):
     orientation(orientation), refX(refX), refY(refY),
@@ -226,8 +151,8 @@ void Element::addPackage(const QJsonValue &value)
     package.border.fromJson(object["border"]);
 
     package.referenceTextHeight = referenceTextObject["height"].toInt();
-    package.referenceTextAlignmentX = referenceTextObject["alignmentX"].toInt();
-    package.referenceTextAlignmentY = referenceTextObject["alignmentY"].toInt();
+    //package.referenceTextAlignmentX = referenceTextObject["alignmentX"].toInt();
+    //package.referenceTextAlignmentY = referenceTextObject["alignmentY"].toInt();
     package.referenceTextX[0] = referenceTextObject["upX"].toInt();
     package.referenceTextY[0] = referenceTextObject["upY"].toInt();
     package.referenceTextX[1] = referenceTextObject["rightX"].toInt();
@@ -238,8 +163,8 @@ void Element::addPackage(const QJsonValue &value)
     package.referenceTextY[3] = referenceTextObject["leftY"].toInt();
 
     package.nameTextHeight = nameTextObject["height"].toInt();
-    package.nameTextAlignmentX = nameTextObject["alignmentX"].toInt();
-    package.nameTextAlignmentY = nameTextObject["alignmentY"].toInt();
+    //package.nameTextAlignmentX = nameTextObject["alignmentX"].toInt();
+    //package.nameTextAlignmentY = nameTextObject["alignmentY"].toInt();
     package.nameTextX[0] = nameTextObject["upX"].toInt();
     package.nameTextY[0] = nameTextObject["upY"].toInt();
     package.nameTextX[1] = nameTextObject["rightX"].toInt();
@@ -270,7 +195,16 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
             y = scale * p.y - h / 2;
             rx = scale * p.radius;
             ry = rx;
-            painter.drawRoundedRect(x, y, w, h, rx, ry);
+            QPainterPath path;
+            path.addRoundedRect(x, y, w, h, rx, ry);
+            painter.setBrush(layers.color[PAD]);
+            painter.drawPath(path);
+            if (2 * rx == w && 2 * ry == h) {
+                QPainterPath path2;
+                path2.addRoundedRect(x + w / 4, y + h / 4, w / 2, h / 2, rx / 2, ry / 2);
+                painter.setBrush(QColor(255, 255, 255));
+                painter.drawPath(path2);
+            }
             //painter.drawText(x, y, w, h, Qt::AlignCenter, str.setNum(p.net));
         }
     }

@@ -11,7 +11,7 @@ typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 
-const double minValue = 1E-9;
+constexpr double minValue = 1E-9;
 
 class Border
 {
@@ -20,6 +20,7 @@ public:
     Border(int leftX, int topY, int rightX, int bottomY):
          leftX(leftX), topY(topY), rightX(rightX), bottomY(bottomY) {}
     Border(const QJsonValue &value);
+    void clear();
     void fromJson(const QJsonValue &value);
     QJsonObject toJson();
 
@@ -36,6 +37,7 @@ public:
     Ellipse(int x, int y, int w, int h):
         x(x), y(y), w(w), h(h) {}
     Ellipse(const QJsonValue &value);
+    void clear();
     void fromJson(const QJsonValue &value);
     QJsonObject toJson();
 

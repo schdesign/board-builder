@@ -16,6 +16,7 @@ SOURCES += board.cpp \
     function.cpp \
     layers.cpp \
     main.cpp \
+    package.cpp \
     packageeditor.cpp \
     pcbeditor.cpp \
     pcbtypes.cpp \
@@ -29,6 +30,7 @@ HEADERS += board.h \
     exceptiondata.h \
     function.h \
     layers.h \
+    package.h \
     packageeditor.h \
     pcbeditor.h \
     pcbtypes.h \

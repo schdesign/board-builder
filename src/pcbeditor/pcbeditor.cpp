@@ -30,6 +30,7 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     connect(actionSaveErrorCheck, SIGNAL(triggered()), this, SLOT(saveErrorCheck()));
     connect(actionSaveSVG, SIGNAL(triggered()), this, SLOT(saveSVG()));
     connect(actionSaveJSON, SIGNAL(triggered()), this, SLOT(saveJSON()));
+    connect(actionPackageEditor, SIGNAL(triggered()), this, SLOT(openPackageEditor()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
     QCheckBox *tmpCheckBox[checkBoxes] =
@@ -348,6 +349,11 @@ void PcbEditor::openFile()
     update();
 }
 
+void PcbEditor::openPackageEditor()
+{
+    packageEditor.show();
+}
+
 void PcbEditor::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -412,16 +418,23 @@ void PcbEditor::saveFile()
 
 void PcbEditor::saveSVG()
 {
+    constexpr int x = 0;
+    constexpr int y = 0;
+    constexpr int width = 1500;
+    constexpr int height = 1000;
+
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save svg file"),
                        boardDirectory, tr("svg files (*.svg)"));
+
     QSvgGenerator generator;
     generator.setFileName(fileName);
-    generator.setSize(QSize(1000, 1000));
-    generator.setViewBox(QRect(0, 0, 1000, 1000));
+    generator.setSize(QSize(width, height));
+    generator.setViewBox(QRect(x, y, width, height));
     generator.setTitle(tr("Board"));
     generator.setDescription(tr("Board"));
     QPainter painter;
     painter.begin(&generator);
+    painter.fillRect(x, y, width, height, Qt::white);
     board.draw(painter, scale);
     painter.end();
 }
