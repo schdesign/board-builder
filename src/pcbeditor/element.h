@@ -41,21 +41,21 @@ public:
     bool fixed;             // fixed on board
     bool group;
     Border border;
-    Ellipse ellipse;        // point to pad 1
     int centerX;
     int centerY;
     int nameID;
-    int nameTextX;          // left bottom point of text
+    int nameTextX;
     int nameTextY;
     int orientation;        // up, right, down, left
     int packageID;
-    int referenceTextX;     // left bottom point of text
+    int referenceTextX;
     int referenceTextY;
     int refX;               // point of pad 1
     int refY;
     QString name;           // name or value
     QString packageName;    // SMD0805
     QString reference;      // R1
+    std::vector<Ellipse> ellipses;
     std::vector<Line> lines;
     std::vector<Pad> pads;
 };

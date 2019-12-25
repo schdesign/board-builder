@@ -15,7 +15,6 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <set>
-#include <iostream>
 
 Board::Board()
 {
@@ -1023,14 +1022,14 @@ bool Board::segmentNets()
                 dx = f.x2 - f.x1;
                 dy = f.y2 - f.y1;
                 if (!dx)
-                    if (fabs(x - f.x1) < w &&
+                    if (abs(x - f.x1) < w &&
                         ((y + w > f.y1 && y - w < f.y2) || (y + w > f.y2 && y - w < f.y1)))
                         f.net = n.number;
                 if (!dy)
-                    if (fabs(y - f.y1) < w &&
+                    if (abs(y - f.y1) < w &&
                         ((x + w > f.x1 && x - w < f.x2) || (x + w > f.x2 && x - w < f.x1)))
                         f.net = n.number;
-                if (dx && fabs(dx) - fabs(dy) < 0.1) {
+                if (dx && abs(dx) - abs(dy) < 0.1) {
                     a = double(dy) / (dx);
                     b = f.y1 - a * f.x1;
                     if (((x + w > f.x1 && x - w < f.x2) || (x + w > f.x2 && x - w < f.x1)) &&
@@ -1052,7 +1051,7 @@ bool Board::segmentNets()
             yMax = (*i).y2;
             dx = (*i).x2 - (*i).x1;
             dy = (*i).y2 - (*i).y1;
-            if (dx && fabs(dx) - fabs(dy) < 0.1) {
+            if (dx && abs(dx) - abs(dy) < 0.1) {
                 a = double(dy) / (dx);
                 b = (*i).y1 - a * (*i).x1;
             }
@@ -1084,7 +1083,7 @@ bool Board::segmentNets()
                         continue;
                     }
                 }
-                if (dx2 && fabs(dx2) - fabs(dy2) < 0.1) {
+                if (dx2 && abs(dx2) - abs(dy2) < 0.1) {
                     a2 = double(dy2) / (dx2);
                     b2 = (*j).y1 - a * (*j).x1;
                 }

@@ -8,12 +8,8 @@
                 "rightX": 250,
                 "topY": 25
             },
-            "ellipse": {
-                "bottomY": 1025,
-                "leftX": -250,
-                "rightX": 250,
-                "topY": 25
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -250,
@@ -66,19 +62,24 @@
                 "upX": 0,
                 "upY": 775
             },
-            "padParams": {
-                "height": 450,
-                "radius": 112,
-                "width": 500
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 450,
+                    "innerDiameter": 0,
+                    "width": 500
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 1050
                 }
@@ -96,7 +97,7 @@
                 "upX": 0,
                 "upY": 275
             },
-            "type": "RC"
+            "type": "SMD"
         },
         {
             "border": {
@@ -105,12 +106,8 @@
                 "rightX": 400,
                 "topY": -75
             },
-            "ellipse": {
-                "bottomY": 1525,
-                "leftX": -400,
-                "rightX": 400,
-                "topY": -75
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -400,
@@ -163,19 +160,24 @@
                 "upX": 0,
                 "upY": 1125
             },
-            "padParams": {
-                "height": 650,
-                "radius": 162,
-                "width": 900
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 650,
+                    "innerDiameter": 0,
+                    "width": 900
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 1450
                 }
@@ -193,7 +195,7 @@
                 "upX": 0,
                 "upY": 325
             },
-            "type": "RC"
+            "type": "SMD"
         },
         {
             "border": {
@@ -202,12 +204,8 @@
                 "rightX": 625,
                 "topY": 175
             },
-            "ellipse": {
-                "bottomY": 2175,
-                "leftX": -625,
-                "rightX": 625,
-                "topY": 175
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -625,
@@ -260,19 +258,24 @@
                 "upX": 0,
                 "upY": 1675
             },
-            "padParams": {
-                "height": 1150,
-                "radius": 287,
-                "width": 1300
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 1150,
+                    "innerDiameter": 0,
+                    "width": 1300
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 2350
                 }
@@ -290,7 +293,7 @@
                 "upX": 0,
                 "upY": 675
             },
-            "type": "RC"
+            "type": "SMD"
         },
         {
             "border": {
@@ -299,12 +302,8 @@
                 "rightX": 800,
                 "topY": 100
             },
-            "ellipse": {
-                "bottomY": 3300,
-                "leftX": -800,
-                "rightX": 800,
-                "topY": 100
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -800,
@@ -357,19 +356,24 @@
                 "upX": 0,
                 "upY": 2500
             },
-            "padParams": {
-                "height": 1300,
-                "radius": 325,
-                "width": 1700
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 1300,
+                    "innerDiameter": 0,
+                    "width": 1700
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 3400
                 }
@@ -387,7 +391,7 @@
                 "upX": 0,
                 "upY": 900
             },
-            "type": "RC"
+            "type": "SMD"
         },
         {
             "border": {
@@ -396,12 +400,8 @@
                 "rightX": 1250,
                 "topY": 100
             },
-            "ellipse": {
-                "bottomY": 3300,
-                "leftX": -1250,
-                "rightX": 1250,
-                "topY": 100
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -1250,
@@ -454,19 +454,24 @@
                 "upX": 0,
                 "upY": 2500
             },
-            "padParams": {
-                "height": 1300,
-                "radius": 325,
-                "width": 2700
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 1300,
+                    "innerDiameter": 0,
+                    "width": 2700
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 3400
                 }
@@ -484,7 +489,7 @@
                 "upX": 0,
                 "upY": 900
             },
-            "type": "RC"
+            "type": "SMD"
         },
         {
             "border": {
@@ -493,12 +498,8 @@
                 "rightX": 1500,
                 "topY": 100
             },
-            "ellipse": {
-                "bottomY": 4600,
-                "leftX": -1500,
-                "rightX": 1500,
-                "topY": 100
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -1500,
@@ -551,19 +552,24 @@
                 "upX": 0,
                 "upY": 3475
             },
-            "padParams": {
-                "height": 1400,
-                "radius": 350,
-                "width": 3200
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 1400,
+                    "innerDiameter": 0,
+                    "width": 3200
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 4700
                 }
@@ -581,7 +587,7 @@
                 "upX": 0,
                 "upY": 1225
             },
-            "type": "RC"
+            "type": "SMD"
         },
         {
             "border": {
@@ -590,12 +596,8 @@
                 "rightX": 1600,
                 "topY": -150
             },
-            "ellipse": {
-                "bottomY": 6150,
-                "leftX": -1600,
-                "rightX": 1600,
-                "topY": -150
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -1600,
@@ -648,19 +650,24 @@
                 "upX": 0,
                 "upY": 4575
             },
-            "padParams": {
-                "height": 2100,
-                "radius": 525,
-                "width": 3400
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 2100,
+                    "innerDiameter": 0,
+                    "width": 3400
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 6000
                 }
@@ -678,7 +685,7 @@
                 "upX": 0,
                 "upY": 1425
             },
-            "type": "RC"
+            "type": "SMD"
         }
     ]
 }

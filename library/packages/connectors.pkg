@@ -8,12 +8,8 @@
                 "rightX": 2250,
                 "topY": -1500
             },
-            "ellipse": {
-                "bottomY": 4500,
-                "leftX": -2250,
-                "rightX": 2250,
-                "topY": -1500
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -2250,
@@ -60,19 +56,24 @@
                 "upX": 0,
                 "upY": 4125
             },
-            "padParams": {
-                "height": 1500,
-                "radius": 375,
-                "width": 3000
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 750,
+                    "height": 1500,
+                    "innerDiameter": 0,
+                    "width": 3000
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 3000
                 }
@@ -90,7 +91,7 @@
                 "upX": 0,
                 "upY": -1125
             },
-            "type": "Connector"
+            "type": "SMD"
         },
         {
             "border": {
@@ -99,12 +100,8 @@
                 "rightX": 4000,
                 "topY": -3000
             },
-            "ellipse": {
-                "bottomY": 9000,
-                "leftX": -4000,
-                "rightX": 4000,
-                "topY": -3000
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -4000,
@@ -151,19 +148,24 @@
                 "upX": 0,
                 "upY": 8250
             },
-            "padParams": {
-                "height": 3000,
-                "radius": 750,
-                "width": 6000
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 1500,
+                    "height": 3000,
+                    "innerDiameter": 0,
+                    "width": 6000
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 6000
                 }
@@ -181,7 +183,7 @@
                 "upX": 0,
                 "upY": -2250
             },
-            "type": "Connector"
+            "type": "SMD"
         },
         {
             "border": {
@@ -190,12 +192,8 @@
                 "rightX": 2250,
                 "topY": -1500
             },
-            "ellipse": {
-                "bottomY": 6000,
-                "leftX": -2250,
-                "rightX": 2250,
-                "topY": -1500
-            },
+            "ellipses": [
+            ],
             "lines": [
                 {
                     "x1": -2250,
@@ -248,24 +246,30 @@
                 "upX": 0,
                 "upY": 5625
             },
-            "padParams": {
-                "height": 1500,
-                "radius": 375,
-                "width": 3000
-            },
+            "padTypesParams": [
+                {
+                    "diameter": 750,
+                    "height": 1500,
+                    "innerDiameter": 0,
+                    "width": 3000
+                }
+            ],
             "pads": [
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 0
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 3000
                 },
                 {
                     "orientation": 0,
+                    "typeNumber": 0,
                     "x": 0,
                     "y": 6000
                 }
@@ -283,7 +287,281 @@
                 "upX": 0,
                 "upY": -1125
             },
-            "type": "Connector"
+            "type": "SMD"
+        },
+        {
+            "border": {
+                "bottomY": 10500,
+                "leftX": -2250,
+                "rightX": 2250,
+                "topY": -1500
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": -2250,
+                    "x2": -2250,
+                    "y1": -1500,
+                    "y2": 10500
+                },
+                {
+                    "x1": 2250,
+                    "x2": 2250,
+                    "y1": -1500,
+                    "y2": 10500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": -1500,
+                    "y2": -1500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": 10500,
+                    "y2": 10500
+                }
+            ],
+            "name": "CON4",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": 1125,
+                "height": 250,
+                "leftX": 3000,
+                "leftY": -1125,
+                "rightX": -3000,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": 5625
+            },
+            "padTypesParams": [
+                {
+                    "diameter": 750,
+                    "height": 1500,
+                    "innerDiameter": 0,
+                    "width": 3000
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 3000
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 6000
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 9000
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -5625,
+                "height": 250,
+                "leftX": 0,
+                "leftY": -1125,
+                "rightX": -6000,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": -1125
+            },
+            "type": "SMD"
+        },
+        {
+            "border": {
+                "bottomY": 4500,
+                "leftX": -2250,
+                "rightX": 2250,
+                "topY": -1500
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": -2250,
+                    "x2": -2250,
+                    "y1": -1500,
+                    "y2": 4500
+                },
+                {
+                    "x1": 2250,
+                    "x2": 2250,
+                    "y1": -1500,
+                    "y2": 4500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": -1500,
+                    "y2": -1500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": 4500,
+                    "y2": 4500
+                },
+                {
+                    "x1": -2250,
+                    "x2": 2250,
+                    "y1": 1500,
+                    "y2": 1500
+                }
+            ],
+            "name": "CON16",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": 1125,
+                "height": 250,
+                "leftX": 3000,
+                "leftY": -1125,
+                "rightX": 0,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": 4125
+            },
+            "padTypesParams": [
+                {
+                    "diameter": 1000,
+                    "height": 1000,
+                    "innerDiameter": 0,
+                    "width": 1000
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 10000,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 2540
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 10000,
+                    "y": 2540
+                },
+{
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 5080
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 10000,
+                    "y": 5080
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 7620
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 10000,
+                    "y": 7620
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 10160
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 10000,
+                    "y": 10160
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 12700
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 10000,
+                    "y": 12700
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 15240
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 10000,
+                    "y": 15240
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 17780
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 10000,
+                    "y": 17780
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -4125,
+                "height": 250,
+                "leftX": 0,
+                "leftY": -1125,
+                "rightX": -3000,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": -1125
+            },
+            "type": "SMD"
         }
     ]
 }

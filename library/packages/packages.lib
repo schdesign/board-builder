@@ -2,7 +2,9 @@
     "filenames": [
         "connectors.pkg",
         "devices.pkg",
-        "rcpackages.pkg"
+        "dip.pkg",
+        "rcpackages.pkg",
+        "transistors.pkg"
     ],
     "object": "packageLibrary"
 }

@@ -16,7 +16,6 @@
 #include <QSvgGenerator>
 #include <QTextStream>
 #include <QVBoxLayout>
-#include <iostream>
 
 PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 {

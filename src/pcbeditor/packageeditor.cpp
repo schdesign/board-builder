@@ -19,7 +19,6 @@
 #include <QSvgGenerator>
 #include <QTextStream>
 #include <QVBoxLayout>
-#include <iostream>
 
 PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
 {
@@ -43,6 +42,10 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     };
 
     std::copy(tmpPackageComboBox, tmpPackageComboBox + packageComboBoxes, packageComboBox);
+
+    for (int i = 0; i < packageComboBoxes; i++)
+        connect(packageComboBox[i], QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
+        [=] (const QString &text) { selectComboBox(i, text); });
 
     QLineEdit *tmpPackageLineEdit[packageLineEdits] =
     {
@@ -443,7 +446,7 @@ void Element::addPackage(const QJsonValue &value)
 
 void PackageEditor::paintEvent(QPaintEvent *)
 {
-    constexpr int w = 760;
+    constexpr int w = 680;
     constexpr int h = 600;
 
     QPainter painter(this);
@@ -487,6 +490,11 @@ void PackageEditor::saveFile()
 
     //file.write(array);
     file.close();*/
+}
+
+void PackageEditor::selectComboBox(int number, const QString &text)
+{
+
 }
 
 /*

@@ -1,0 +1,97 @@
+{
+    "object": "packages",
+    "packages": [
+        {
+            "border": {
+                "bottomY": -1650,
+                "leftX": -500,
+                "rightX": 2400,
+                "topY": -350
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": -500,
+                    "x2": -500,
+                    "y1": -350,
+                    "y2": -1650
+                },
+                {
+                    "x1": 2400,
+                    "x2": 2400,
+                    "y1": -350,
+                    "y2": -1650
+                },
+                {
+                    "x1": -500,
+                    "x2": 2400,
+                    "y1": -350,
+                    "y2": -350
+                },
+                {
+                    "x1": -500,
+                    "x2": 2400,
+                    "y1": -1650,
+                    "y2": -1650
+                }
+            ],
+            "name": "SOT23",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": -3000,
+                "downY": -655,
+                "height": 250,
+                "leftX": 1905,
+                "leftY": -2000,
+                "rightX": -1905,
+                "rightY": 4000,
+                "upX": 3000,
+                "upY": 3155
+            },
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 900,
+                    "innerDiameter": 0,
+                    "width": 800
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 1900,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 950,
+                    "y": -2000
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": -1200,
+                "downY": -1000,
+                "height": 250,
+                "leftX": 1905,
+                "leftY": -2000,
+                "rightX": -1905,
+                "rightY": 0,
+                "upX": 800,
+                "upY": -2900
+            },
+            "type": "SMD"
+        }
+    ]
+}

@@ -1,0 +1,235 @@
+{
+    "object": "packages",
+    "packages": [
+        {
+            "border": {
+                "bottomY": 1500,
+                "leftX": -230,
+                "rightX": 2770,
+                "topY": -1500
+            },
+            "ellipses": [
+            ],
+            "name": "LED3mm",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": 1125,
+                "height": 250,
+                "leftX": 3000,
+                "leftY": -1125,
+                "rightX": 0,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": 4125
+            },
+            "padTypesParams": [
+                {
+                    "diameter": 1600,
+                    "height": 1600,
+                    "innerDiameter": 700,
+                    "width": 1600
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 2540
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -4125,
+                "height": 250,
+                "leftX": 0,
+                "leftY": -1125,
+                "rightX": -3000,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": -1125
+            },
+            "type": "DIP"
+        },
+        {
+            "border": {
+                "bottomY": 18890,
+                "leftX": -1190,
+                "rightX": 8810,
+                "topY": -1110
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": -1190,
+                    "x2": -1190,
+                    "y1": -1110,
+                    "y2": 18890
+                },
+                {
+                    "x1": 8810,
+                    "x2": 8810,
+                    "y1": -1110,
+                    "y2": 18890
+                },
+                {
+                    "x1": -1190,
+                    "x2": 8810,
+                    "y1": -1110,
+                    "y2": -1110
+                },
+                {
+                    "x1": -1190,
+                    "x2": 8810,
+                    "y1": 18890,
+                    "y2": 18890
+                }
+           ],
+            "name": "Switch8",
+            "nameText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": 1125,
+                "height": 250,
+                "leftX": 3000,
+                "leftY": -1125,
+                "rightX": 0,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": 4125
+            },
+            "padTypesParams": [
+                {
+                    "diameter": 1600,
+                    "height": 1600,
+                    "innerDiameter": 700,
+                    "width": 1600
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 7620,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 2540
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 7620,
+                    "y": 2540
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 5080
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 7620,
+                    "y": 5080
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 7620
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 7620,
+                    "y": 7620
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 10160
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 7620,
+                    "y": 10160
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 12700
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 7620,
+                    "y": 12700
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 15240
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 7620,
+                    "y": 15240
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 17780
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 7620,
+                    "y": 17780
+                }
+            ],
+            "referenceText": {
+                "alignmentX": 0,
+                "alignmentY": 0,
+                "downX": 0,
+                "downY": -4125,
+                "height": 250,
+                "leftX": 0,
+                "leftY": -1125,
+                "rightX": -3000,
+                "rightY": -1125,
+                "upX": 0,
+                "upY": -1125
+            },
+            "type": "DIP"
+        }
+    ]
+}

@@ -1180,10 +1180,10 @@ int Board::padSpace(const Element &element1, const Element &element2)
 
     for (auto &e1 : element1.pads)
         for (auto &e2 : element2.pads) {
-            dx = fabs(e2.x - e1.x);
-            dy = fabs(e2.y - e1.y);
-            w = 0.5 * (e2.width + e1.width);
-            h = 0.5 * (e2.height + e1.height);
+            dx = abs(e2.x - e1.x);
+            dy = abs(e2.y - e1.y);
+            w = 0.5 * (e1.width + e2.width);
+            h = 0.5 * (e1.height + e2.height);
             sx = dx - w;
             sy = dy - h;
             if (sx < 0)

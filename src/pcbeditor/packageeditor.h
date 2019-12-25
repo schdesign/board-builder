@@ -74,6 +74,7 @@ private slots:
     void newPackage();
     void openFile();
     void saveFile();
+    void selectComboBox(int number, const QString &text);
     //void selectCheckBox();
     //void selectPushButton(int number);
     //void selectRadioButton();
@@ -86,7 +87,7 @@ private:
         50, 100, 125, 200, 250, 500, 1000, 1250, 2500, 5000, 10000
     };
     constexpr static int gridStep = 10;    // pixels
-    constexpr static int gridX = 490;
+    constexpr static int gridX = 570;
     constexpr static int gridY = 30;
     constexpr static int spaceStep = 100;  // um
     constexpr static int widthStep = 100;

@@ -109,50 +109,28 @@ void Element::addPackage(const QJsonValue &value)
 {
     Package package;
 
-    package.refX = 0;
-    package.refY = 0;
-
     QJsonObject object = value.toObject();
 
-    package.name = object["name"].toString();
-    package.type = object["type"].toString();
-
-    QJsonObject padParamsObject = object["padParams"].toObject();
-    QJsonArray padsArray = object["pads"].toArray();
+    QJsonArray ellipsesArray = object["ellipses"].toArray();
     QJsonArray linesArray = object["lines"].toArray();
-    QJsonObject referenceTextObject = object["referenceText"].toObject();
+    QJsonArray padsArray = object["pads"].toArray();
+    QJsonArray padTypesParamsArray = object["padTypesParams"].toArray();
     QJsonObject nameTextObject = object["nameText"].toObject();
-
-    int width = padParamsObject["width"].toInt();
-    int height = padParamsObject["height"].toInt();
-    int radius = padParamsObject["radius"].toInt();
-
-    for (int i = 0; i < padsArray.size(); i++) {
-        QJsonObject packagePad = padsArray[i].toObject();
-        Pad pad;
-        pad.number = i + 1;
-        pad.net = 0;
-        pad.width = width;
-        pad.height = height;
-        pad.radius = radius;
-        pad.orientation = packagePad["orientation"].toInt();
-        pad.x = packagePad["x"].toInt();
-        pad.y = packagePad["y"].toInt();
-        package.pads.push_back(pad);
-    }
-
-    package.ellipse.fromJson(object["ellipse"]);
-
-    for (auto l : linesArray) {
-        Line line(l);
-        package.lines.push_back(line);
-    }
+    QJsonObject referenceTextObject = object["referenceText"].toObject();
 
     package.border.fromJson(object["border"]);
 
+    package.nameTextHeight = nameTextObject["height"].toInt();
+    package.nameTextX[0] = nameTextObject["upX"].toInt();
+    package.nameTextY[0] = nameTextObject["upY"].toInt();
+    package.nameTextX[1] = nameTextObject["rightX"].toInt();
+    package.nameTextY[1] = nameTextObject["rightY"].toInt();
+    package.nameTextX[2] = nameTextObject["downX"].toInt();
+    package.nameTextY[2] = nameTextObject["downY"].toInt();
+    package.nameTextX[3] = nameTextObject["leftX"].toInt();
+    package.nameTextY[3] = nameTextObject["leftY"].toInt();
+
     package.referenceTextHeight = referenceTextObject["height"].toInt();
-    //package.referenceTextAlignmentX = referenceTextObject["alignmentX"].toInt();
-    //package.referenceTextAlignmentY = referenceTextObject["alignmentY"].toInt();
     package.referenceTextX[0] = referenceTextObject["upX"].toInt();
     package.referenceTextY[0] = referenceTextObject["upY"].toInt();
     package.referenceTextX[1] = referenceTextObject["rightX"].toInt();
@@ -162,17 +140,51 @@ void Element::addPackage(const QJsonValue &value)
     package.referenceTextX[3] = referenceTextObject["leftX"].toInt();
     package.referenceTextY[3] = referenceTextObject["leftY"].toInt();
 
-    package.nameTextHeight = nameTextObject["height"].toInt();
-    //package.nameTextAlignmentX = nameTextObject["alignmentX"].toInt();
-    //package.nameTextAlignmentY = nameTextObject["alignmentY"].toInt();
-    package.nameTextX[0] = nameTextObject["upX"].toInt();
-    package.nameTextY[0] = nameTextObject["upY"].toInt();
-    package.nameTextX[1] = nameTextObject["rightX"].toInt();
-    package.nameTextY[1] = nameTextObject["rightY"].toInt();
-    package.nameTextX[2] = nameTextObject["downX"].toInt();
-    package.nameTextY[2] = nameTextObject["downY"].toInt();
-    package.nameTextX[3] = nameTextObject["leftX"].toInt();
-    package.nameTextY[3] = nameTextObject["leftY"].toInt();
+    package.refX = 0;
+    package.refY = 0;
+
+    package.name = object["name"].toString();
+    package.nameTextAlignH = object["nameTextAlignH"].toString();
+    package.nameTextAlignV = object["nameTextAlignV"].toString();
+    package.referenceTextAlignH = object["referenceTextAlignH"].toString();
+    package.referenceTextAlignV = object["referenceTextAlignV"].toString();
+    package.type = object["type"].toString();
+
+    for (auto e : ellipsesArray) {
+        Ellipse ellipse(e);
+        package.ellipses.push_back(ellipse);
+    }
+
+    for (auto l : linesArray) {
+        Line line(l);
+        package.lines.push_back(line);
+    }
+
+    for (auto p : padTypesParamsArray) {
+        QJsonObject paramsObject = p.toObject();
+        PadTypeParams params;
+        params.diameter = paramsObject["diameter"].toInt();
+        params.height = paramsObject["height"].toInt();
+        params.innerDiameter = paramsObject["innerDiameter"].toInt();
+        params.width = paramsObject["width"].toInt();
+        package.padTypesParams.push_back(params);
+    }
+
+    for (int i = 0; i < padsArray.size(); i++) {
+        QJsonObject packagePad = padsArray[i].toObject();
+        Pad pad;
+        pad.net = 0;
+        pad.number = i + 1;
+        pad.orientation = packagePad["orientation"].toInt();
+        pad.typeNumber = packagePad["typeNumber"].toInt();
+        pad.diameter = package.padTypesParams[pad.typeNumber].diameter;
+        pad.height = package.padTypesParams[pad.typeNumber].height;
+        pad.innerDiameter = package.padTypesParams[pad.typeNumber].innerDiameter;
+        pad.width = package.padTypesParams[pad.typeNumber].width;
+        pad.x = packagePad["x"].toInt();
+        pad.y = packagePad["y"].toInt();
+        package.pads.push_back(pad);
+    }
 
     Element::packages.push_back(package);
 }
@@ -193,7 +205,7 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
             }
             x = scale * p.x - w / 2;
             y = scale * p.y - h / 2;
-            rx = scale * p.radius;
+            rx = 0.5 * scale * p.diameter;
             ry = rx;
             QPainterPath path;
             path.addRoundedRect(x, y, w, h, rx, ry);
@@ -211,9 +223,10 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
 
     if (layers.draw & (1 << PACKAGE)) {
         painter.setPen(layers.color[PACKAGE]);
-        painter.drawEllipse(scale * (ellipse.x - ellipse.w / 2),
-                            scale * (ellipse.y - ellipse.h / 2),
-                            scale * ellipse.w, scale * ellipse.h);
+        for (auto e : ellipses)
+            painter.drawEllipse(scale * (e.x - e.w / 2),
+                                scale * (e.y - e.h / 2),
+                                scale * e.w, scale * e.h);
         for (auto l : lines)
             painter.drawLine(scale * l.x1, scale * l.y1,
                              scale * l.x2, scale * l.y2);
@@ -274,10 +287,14 @@ void Element::init()
     nameTextX = refX + package.nameTextX[t];
     nameTextY = refY + package.nameTextY[t];
 
-    ellipse.x = refX + c[t][0] * package.ellipse.x + c[t][1] * package.ellipse.y;
-    ellipse.y = refY + c[t][2] * package.ellipse.x + c[t][3] * package.ellipse.y;
-    ellipse.w = package.ellipse.w;
-    ellipse.h = package.ellipse.h;
+    Ellipse ellipse;
+    for (auto e : package.ellipses) {
+        ellipse.x = refX + c[t][0] * e.x + c[t][1] * e.y;
+        ellipse.y = refY + c[t][2] * e.x + c[t][3] * e.y;
+        ellipse.w = e.w;
+        ellipse.h = e.h;
+        ellipses.push_back(ellipse);
+    }
 
     Line line;
     for (auto p : package.lines) {
@@ -290,10 +307,10 @@ void Element::init()
 
     Pad pad;
     for (auto p : package.pads) {
-        pad.number = p.number;
-        pad.width = p.width;
+        pad.diameter = p.diameter;
         pad.height = p.height;
-        pad.radius = p.radius;
+        pad.innerDiameter = p.innerDiameter;
+        pad.number = p.number;
         pad.orientation = p.orientation;
         if (orientation == LEFT || orientation == RIGHT) {
             if (pad.orientation == UP)
@@ -301,6 +318,8 @@ void Element::init()
             else if (pad.orientation == RIGHT)
                 pad.orientation = UP;
         }
+        pad.typeNumber = p.typeNumber;
+        pad.width = p.width;
         pad.x = refX + c[t][0] * p.x + c[t][1] * p.y;
         pad.y = refY + c[t][2] * p.x + c[t][3] * p.y;
         pads.push_back(pad);
