@@ -60,9 +60,9 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
         nameTextHeightLineEdit, nameTextDownXLineEdit, nameTextLeftXLineEdit,
         nameTextRightXLineEdit, nameTextUpXLineEdit, nameTextDownYLineEdit,
         nameTextLeftYLineEdit, nameTextRightYLineEdit,nameTextUpYLineEdit,
-        padType0LineEdit1, padType0LineEdit2, padType0LineEdit3,
-        padType1LineEdit1, padType1LineEdit2, padType1LineEdit3,
-        padType2LineEdit1, padType2LineEdit2, padType2LineEdit3,
+        padType0LineEdit1, padType0LineEdit2, padType0LineEdit3, padType0LineEdit4,
+        padType1LineEdit1, padType1LineEdit2, padType1LineEdit3, padType1LineEdit4,
+        padType2LineEdit1, padType2LineEdit2, padType2LineEdit3, padType2LineEdit4,
         padsLineEdit, referenceTextHeightLineEdit, referenceTextDownXLineEdit,
         referenceTextLeftXLineEdit, referenceTextRightXLineEdit, referenceTextUpXLineEdit,
         referenceTextDownYLineEdit, referenceTextLeftYLineEdit, referenceTextRightYLineEdit,
@@ -129,6 +129,23 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     for (int i = 0; i < toolButtons; i++)
         connect(toolButton[i], &QToolButton::clicked, [=] () { selectToolButton(i); });
 */
+
+    padType0Label3->hide();
+    padType0Label4->hide();
+    padType1Label3->hide();
+    padType1Label4->hide();
+    padType2Label3->hide();
+    padType2Label4->hide();
+
+    padType0LineEdit3->hide();
+    padType0LineEdit4->hide();
+    padType1LineEdit3->hide();
+    padType1LineEdit4->hide();
+    padType2LineEdit3->hide();
+    padType2LineEdit4->hide();
+
+    tmpPackage.pads.resize(2);
+
     //QString str;
     //command = SELECT;
     //previousCommand = command;
@@ -494,7 +511,166 @@ void PackageEditor::saveFile()
 
 void PackageEditor::selectComboBox(int number, const QString &text)
 {
+    constexpr int padTypeShapeComboBoxNumbers[3] =
+    {
+        PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE, PAD_TYPE_2_SHAPE
+    };
 
+    QComboBox *padTypeShapeComboBox[3] =
+    {
+        padType0ShapeComboBox, padType1ShapeComboBox, padType2ShapeComboBox
+    };
+
+    switch (number) {
+    case ADD_PAD_ORIENTATION:
+        if (text == "Up")
+            tmpPackage.pads[1].orientation = 0;
+        if (text == "Right")
+            tmpPackage.pads[1].orientation = 1;
+        break;
+    case ADD_PAD_TYPE:
+        if (text == "0" || text == "1" || text == "2")
+            tmpPackage.pads[1].typeNumber = text.toInt();
+        break;
+    case ADD_PADS_ORIENTATION:
+        if (text == "Up")
+            tmpPackage.pads[2].orientation = 0;
+        if (text == "Right")
+            tmpPackage.pads[2].orientation = 1;
+        break;
+    case ADD_PADS_TYPE:
+        if (text == "0" || text == "1" || text == "2")
+            tmpPackage.pads[2].typeNumber = text.toInt();
+        break;
+    case NAME_TEXT_ALIGN_H:
+        if (text == "Center" || text == "Left" || text == "Right")
+            tmpPackage.nameTextAlignH = text;
+        break;
+    case NAME_TEXT_ALIGN_V:
+        if (text == "Center" || text == "Top" || text == "Bottom")
+            tmpPackage.nameTextAlignV = text;
+        break;
+    case PAD_TYPE_0_SHAPE:
+    case PAD_TYPE_1_SHAPE:
+    case PAD_TYPE_2_SHAPE:
+        selectPadTypeComboBox(number, text);
+        break;
+    case REFERENCE_TEXT_ALIGN_H:
+        if (text == "Center" || text == "Left" || text == "Right")
+            tmpPackage.referenceTextAlignH = text;
+        break;
+    case REFERENCE_TEXT_ALIGN_V:
+        if (text == "Center" || text == "Top" || text == "Bottom")
+            tmpPackage.referenceTextAlignV = text;
+        break;
+    case SELECTED_PAD_ORIENTATION:
+        if (text == "Up")
+            tmpPackage.pads[0].orientation = 0;
+        if (text == "Right")
+            tmpPackage.pads[0].orientation = 1;
+        break;
+    case SELECTED_PAD_TYPE:
+        if (text == "0" || text == "1" || text == "2")
+            tmpPackage.pads[0].typeNumber = text.toInt();
+        break;
+    case PACKAGE_TYPE:
+        if (text == "SMD" || text == "DIP") {
+            tmpPackage.type = text;
+            for (int i = 0; i < 3; i++) {
+                QString text2 = padTypeShapeComboBox[i]->currentText();
+                selectPadTypeComboBox(padTypeShapeComboBoxNumbers[i], text2);
+            }
+        }
+        break;
+    }
+}
+
+void PackageEditor::selectPadTypeComboBox(int number, const QString &text)
+{
+    QLabel *padTypeLabel[3][4] =
+    {
+        { padType0Label1, padType0Label2, padType0Label3, padType0Label4 },
+        { padType1Label1, padType1Label2, padType1Label3, padType1Label4 },
+        { padType2Label1, padType2Label2, padType2Label3, padType2Label4 }
+    };
+
+    QLineEdit *padTypeLineEdit[3][4] =
+    {
+        { padType0LineEdit1, padType0LineEdit2, padType0LineEdit3, padType0LineEdit4 },
+        { padType1LineEdit1, padType1LineEdit2, padType1LineEdit3, padType1LineEdit4 },
+        { padType2LineEdit1, padType2LineEdit2, padType2LineEdit3, padType2LineEdit4 }
+    };
+
+    int padType = -1;
+
+    switch (number) {
+    case PAD_TYPE_0_SHAPE:
+        padType = 0;
+    case PAD_TYPE_1_SHAPE:
+        if (padType == -1)
+            padType = 1;
+    case PAD_TYPE_2_SHAPE:
+        if (padType == -1)
+            padType = 2;
+        if (text == "Rectangle") {
+            padTypeLabel[padType][0]->setText("w");
+            padTypeLabel[padType][0]->show();
+            padTypeLineEdit[padType][0]->show();
+            padTypeLabel[padType][1]->setText("h");
+            padTypeLabel[padType][1]->show();
+            padTypeLineEdit[padType][1]->show();
+            if (tmpPackage.type == "DIP") {
+                padTypeLabel[padType][2]->setText("d in");
+                padTypeLabel[padType][2]->show();
+                padTypeLineEdit[padType][2]->show();
+            }
+            else {
+                padTypeLabel[padType][2]->hide();
+                padTypeLineEdit[padType][2]->hide();
+            }
+            padTypeLabel[padType][3]->hide();
+            padTypeLineEdit[padType][3]->hide();
+        }
+        if (text == "Rounded rectangle") {
+            padTypeLabel[padType][0]->setText("w");
+            padTypeLabel[padType][0]->show();
+            padTypeLineEdit[padType][0]->show();
+            padTypeLabel[padType][1]->setText("h");
+            padTypeLabel[padType][1]->show();
+            padTypeLineEdit[padType][1]->show();
+            padTypeLabel[padType][2]->setText("r");
+            padTypeLabel[padType][2]->show();
+            padTypeLineEdit[padType][2]->show();
+            if (tmpPackage.type == "DIP") {
+                padTypeLabel[padType][3]->setText("d in");
+                padTypeLabel[padType][3]->show();
+                padTypeLineEdit[padType][3]->show();
+            }
+            else {
+                padTypeLabel[padType][3]->hide();
+                padTypeLineEdit[padType][3]->hide();
+            }
+        }
+        if (text == "Circle") {
+            padTypeLabel[padType][0]->setText("d");
+            padTypeLabel[padType][0]->show();
+            padTypeLineEdit[padType][0]->show();
+            if (tmpPackage.type == "DIP") {
+                padTypeLabel[padType][1]->setText("d in");
+                padTypeLabel[padType][1]->show();
+                padTypeLineEdit[padType][1]->show();
+            }
+            else {
+                padTypeLabel[padType][1]->hide();
+                padTypeLineEdit[padType][1]->hide();
+            }
+            padTypeLabel[padType][2]->hide();
+            padTypeLineEdit[padType][2]->hide();
+            padTypeLabel[padType][3]->hide();
+            padTypeLineEdit[padType][3]->hide();
+        }
+        break;
+    }
 }
 
 /*

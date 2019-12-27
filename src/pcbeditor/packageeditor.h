@@ -17,7 +17,16 @@
 const static char *packageDirectory = "";
 
 constexpr static int packageComboBoxes = 14;
-constexpr static int packageLineEdits = 63;
+constexpr static int packageLineEdits = 66;
+
+enum ComboBox
+{
+    ADD_PAD_ORIENTATION, ADD_PAD_TYPE, ADD_PADS_ORIENTATION,
+    ADD_PADS_TYPE, NAME_TEXT_ALIGN_H, NAME_TEXT_ALIGN_V,
+    PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE, PAD_TYPE_2_SHAPE,
+    REFERENCE_TEXT_ALIGN_H, REFERENCE_TEXT_ALIGN_V,
+    SELECTED_PAD_ORIENTATION, SELECTED_PAD_TYPE, PACKAGE_TYPE
+};
 
 /*
 constexpr static int checkBoxes = 13;
@@ -75,6 +84,7 @@ private slots:
     void openFile();
     void saveFile();
     void selectComboBox(int number, const QString &text);
+    void selectPadTypeComboBox(int number, const QString &text);
     //void selectCheckBox();
     //void selectPushButton(int number);
     //void selectRadioButton();
@@ -106,10 +116,14 @@ private:
     int gridNumber;
     int orientation;
     int previousCommand;
+    int selectedEllipseIndex;
+    int selectedLineIndex;
+    int selectedPadIndex;
     int space;
     int step;
     int width;
     Package package;
+    Package tmpPackage;
     QPoint mousePoint;
     QSignalMapper *checkBoxMapper;
     QSignalMapper *radioButtonMapper;
