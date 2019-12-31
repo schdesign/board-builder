@@ -17,36 +17,36 @@
 
 const static char *boardDirectory = "";
 
-constexpr static int checkBoxes = 13;
-constexpr static int pushButtons = 6;
-constexpr static int radioButtons = 4;
-constexpr static int toolButtons = 44;
-
-enum PushButton
-{
-    DEC_GRID, DEC_SPACE, DEC_WIDTH,
-    INC_GRID, INC_SPACE, INC_WIDTH
-};
-
-enum ToolButton
-{
-    CREATE_GROUPS, DECREASE_STEP, DELETE, DELETE_JUNCTION,
-    DELETE_POLYGON, DELETE_NET_SEGMENTS, DELETE_SEGMENT, ENUMERATE,
-    FILL_POLYGON, INCREASE_STEP, METER, MOVE,
-    MOVE_GROUP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT,
-    MOVE_UP, PLACE_ELEMENTS, PLACE_INDUCTOR, PLACE_INDUCTOR2,
-    PLACE_JUNCTION, PLACE_LINE, PLACE_NO_CONNECTION, PLACE_NPN_TRANSISTOR,
-    PLACE_PNP_TRANSISTOR, PLACE_POLYGON, PLACE_POWER, PLACE_QUARTZ,
-    PLACE_SEGMENT, PLACE_SHOTTKY, PLACE_SWITCH, PLACE_ZENER,
-    ROUTE_TRACKS, SEGMENT_NETS, SELECT, SET_VALUE,
-    SHOW_GROUND_NETS, TABLE_ROUTE, TURN_TO_LEFT, TURN_TO_RIGHT,
-    UPDATE_NETS, WAVE_ROUTE, ZOOM_IN, ZOOM_OUT
-};
-
 class PcbEditor : public QMainWindow, private Ui::PcbEditor
 {
     Q_OBJECT
-    
+
+    constexpr static int checkBoxes = 13;
+    constexpr static int pushButtons = 6;
+    constexpr static int radioButtons = 4;
+    constexpr static int toolButtons = 44;
+
+    enum PushButton
+    {
+        DEC_GRID, DEC_SPACE, DEC_WIDTH,
+        INC_GRID, INC_SPACE, INC_WIDTH
+    };
+
+    enum ToolButton
+    {
+        CREATE_GROUPS, DECREASE_STEP, DELETE, DELETE_JUNCTION,
+        DELETE_POLYGON, DELETE_NET_SEGMENTS, DELETE_SEGMENT, ENUMERATE,
+        FILL_POLYGON, INCREASE_STEP, METER, MOVE,
+        MOVE_GROUP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT,
+        MOVE_UP, PLACE_ELEMENTS, PLACE_INDUCTOR, PLACE_INDUCTOR2,
+        PLACE_JUNCTION, PLACE_LINE, PLACE_NO_CONNECTION, PLACE_NPN_TRANSISTOR,
+        PLACE_PNP_TRANSISTOR, PLACE_POLYGON, PLACE_POWER, PLACE_QUARTZ,
+        PLACE_SEGMENT, PLACE_SHOTTKY, PLACE_SWITCH, PLACE_ZENER,
+        ROUTE_TRACKS, SEGMENT_NETS, SELECT, SET_VALUE,
+        SHOW_GROUND_NETS, TABLE_ROUTE, TURN_TO_LEFT, TURN_TO_RIGHT,
+        UPDATE_NETS, WAVE_ROUTE, ZOOM_IN, ZOOM_OUT
+    };
+
 public:
     explicit PcbEditor(QWidget *parent = nullptr);
     void limit(int &value, int min, int max);

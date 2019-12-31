@@ -317,6 +317,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="borderRightXLineEdit">
     <property name="geometry">
@@ -329,6 +332,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="borderTopYLineEdit">
@@ -343,6 +349,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="borderBottomLineEdit">
     <property name="geometry">
@@ -355,6 +364,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="borderLabel">
@@ -481,6 +493,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="selectedEllipseWLineEdit">
     <property name="geometry">
@@ -494,6 +509,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="selectedEllipseYLineEdit">
     <property name="geometry">
@@ -506,6 +524,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="selectedEllipseLabel">
@@ -568,6 +589,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="nameLabel">
     <property name="geometry">
@@ -596,6 +620,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="typeLabel">
@@ -661,6 +688,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="referenceTextDownXLineEdit">
     <property name="geometry">
@@ -674,6 +704,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="referenceTextUpXLineEdit">
     <property name="geometry">
@@ -686,6 +719,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="referenceTextYLabel">
@@ -715,6 +751,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="referenceTextXLabel">
@@ -761,6 +800,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="referenceTextRightYLineEdit">
     <property name="geometry">
@@ -774,6 +816,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addLineY1LineEdit">
     <property name="geometry">
@@ -786,6 +831,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="addLineLabel">
@@ -816,6 +864,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addLineX1LineEdit">
     <property name="geometry">
@@ -829,6 +880,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addLineY2LineEdit">
     <property name="geometry">
@@ -841,6 +895,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="lineX2Label">
@@ -871,6 +928,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="selectedLineX2LineEdit">
     <property name="geometry">
@@ -884,6 +944,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="selectedLineY1LineEdit">
     <property name="geometry">
@@ -896,6 +959,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="lineY1Label">
@@ -974,6 +1040,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addEllipseYLineEdit">
     <property name="geometry">
@@ -986,6 +1055,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="addEllipseWLineEdit">
@@ -1000,6 +1072,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addEllipseHLineEdit">
     <property name="geometry">
@@ -1013,6 +1088,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addEllipseXLineEdit">
     <property name="geometry">
@@ -1025,6 +1103,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="addEllipseLabel">
@@ -1044,6 +1125,9 @@
     </property>
    </widget>
    <widget class="QComboBox" name="typeComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>400</x>
@@ -1070,6 +1154,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="referenceTextAlignHComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -1171,6 +1258,9 @@
     </property>
    </widget>
    <widget class="QComboBox" name="referenceTextAlignVComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>305</x>
@@ -1208,6 +1298,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="nameTextAlignHComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -1245,6 +1338,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="nameTextAlignVComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>305</x>
@@ -1309,6 +1405,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="padType0Label2">
     <property name="geometry">
@@ -1341,6 +1440,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="padType0Label1">
     <property name="geometry">
@@ -1369,6 +1471,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="padType0Label">
@@ -1418,6 +1523,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="padType1LineEdit1">
     <property name="geometry">
@@ -1430,6 +1538,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="padType1LineEdit2">
@@ -1444,6 +1555,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="padType2LineEdit1">
     <property name="geometry">
@@ -1456,6 +1570,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="padType2LineEdit2">
@@ -1470,6 +1587,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="padType2LineEdit3">
     <property name="geometry">
@@ -1482,6 +1602,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="padType2Label">
@@ -1501,6 +1624,9 @@
     </property>
    </widget>
    <widget class="QComboBox" name="padType0ShapeComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -1538,6 +1664,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="padType1ShapeComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -1575,6 +1704,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="padType2ShapeComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>100</x>
@@ -1623,6 +1755,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="selectedPadNumberLineEdit">
     <property name="geometry">
@@ -1635,6 +1770,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="padYLabel">
@@ -1670,10 +1808,13 @@
     </property>
    </widget>
    <widget class="QPushButton" name="updatePushButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>580</x>
-      <y>665</y>
+      <y>615</y>
       <width>100</width>
       <height>25</height>
      </rect>
@@ -1694,6 +1835,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addPadYLineEdit">
     <property name="geometry">
@@ -1706,6 +1850,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="addPadLabel">
@@ -1864,6 +2011,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addPadXLineEdit">
     <property name="geometry">
@@ -1876,6 +2026,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="padXLabel">
@@ -1906,6 +2059,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addPadsFirstYLineEdit">
     <property name="geometry">
@@ -1918,6 +2074,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="addPadsFirstXLineEdit">
@@ -1932,6 +2091,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addPadsDxLineEdit">
     <property name="geometry">
@@ -1945,6 +2107,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="addPadsFirstLineEdit">
     <property name="geometry">
@@ -1957,6 +2122,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="addPadsLabel">
@@ -1986,6 +2154,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="addPadsDxLabel">
@@ -2117,6 +2288,9 @@
     </property>
    </widget>
    <widget class="QComboBox" name="selectedPadTypeComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -2154,6 +2328,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="addPadTypeComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -2191,6 +2368,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="addPadsTypeComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -2228,6 +2408,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="selectedPadOrientationComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -2254,6 +2437,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="addPadOrientationComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>270</x>
@@ -2280,6 +2466,9 @@
     </item>
    </widget>
    <widget class="QComboBox" name="addPadsOrientationComboBox">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>340</x>
@@ -2333,6 +2522,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="referenceTextLeftYLineEdit">
     <property name="geometry">
@@ -2345,6 +2537,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="referenceTextHeightLineEdit">
@@ -2359,6 +2554,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="nameTextHeightLineEdit">
     <property name="geometry">
@@ -2371,6 +2569,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="textLeftLabel">
@@ -2433,6 +2634,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="nameTextLeftXLineEdit">
     <property name="geometry">
@@ -2445,6 +2649,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="nameTextUpXLineEdit">
@@ -2459,6 +2666,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="nameTextDownXLineEdit">
     <property name="geometry">
@@ -2471,6 +2681,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="nameTextYLabel">
@@ -2501,6 +2714,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="nameTextLeftYLineEdit">
     <property name="geometry">
@@ -2513,6 +2729,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLineEdit" name="nameTextUpYLineEdit">
@@ -2527,6 +2746,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="nameTextDownYLineEdit">
     <property name="geometry">
@@ -2539,6 +2761,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QToolButton" name="toolButton_13">
@@ -2740,6 +2965,9 @@
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLineEdit" name="padType2LineEdit4">
     <property name="geometry">
@@ -2752,6 +2980,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="padType0Label4">
@@ -2784,6 +3015,9 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="padType1Label3">
@@ -2912,6 +3146,319 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="cancelPushButton">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>665</y>
+      <width>100</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Cancel</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="readOnlyModeRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>640</y>
+      <width>140</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Read only mode</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="nameRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>665</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Name</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="typeRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>690</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Type</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="borderRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>715</y>
+      <width>140</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selection border</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="textPlaceRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>740</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Text place</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="textParamsRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>765</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Text params</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="selectedLineRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>790</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selected line</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="addLineRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>640</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add line</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="selectedEllipseRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>665</y>
+      <width>140</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selected ellipse</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="addEllipseRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>690</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add ellipse</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="editLabel">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>615</y>
+      <width>70</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edit</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="padTypesRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>715</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pad types</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="selectedPadRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>740</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selected pad</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="addPadRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>765</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add pad</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="addPadsRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>790</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add pads</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="textCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>640</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Text</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="viewLabel">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>615</y>
+      <width>70</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="linesCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>665</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Lines</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="ellipsesCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>690</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ellipses</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="padsCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>715</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pads</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="borderCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>740</y>
+      <width>140</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Selection border</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>

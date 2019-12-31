@@ -10,6 +10,7 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
+typedef unsigned long ulong;
 
 constexpr double minValue = 1E-9;
 

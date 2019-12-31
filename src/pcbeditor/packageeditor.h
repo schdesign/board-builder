@@ -16,49 +16,36 @@
 
 const static char *packageDirectory = "";
 
-constexpr static int packageComboBoxes = 14;
-constexpr static int packageLineEdits = 66;
-
-enum ComboBox
-{
-    ADD_PAD_ORIENTATION, ADD_PAD_TYPE, ADD_PADS_ORIENTATION,
-    ADD_PADS_TYPE, NAME_TEXT_ALIGN_H, NAME_TEXT_ALIGN_V,
-    PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE, PAD_TYPE_2_SHAPE,
-    REFERENCE_TEXT_ALIGN_H, REFERENCE_TEXT_ALIGN_V,
-    SELECTED_PAD_ORIENTATION, SELECTED_PAD_TYPE, PACKAGE_TYPE
-};
-
-/*
-constexpr static int checkBoxes = 13;
-constexpr static int pushButtons = 6;
-constexpr static int radioButtons = 4;
-constexpr static int toolButtons = 44;
-
-
-enum PushButton
-{
-    DEC_GRID, DEC_SPACE, DEC_WIDTH,
-    INC_GRID, INC_SPACE, INC_WIDTH
-};
-
-enum ToolButton
-{
-    CREATE_GROUPS, DECREASE_STEP, DELETE, DELETE_JUNCTION,
-    DELETE_POLYGON, DELETE_NET_SEGMENTS, DELETE_SEGMENT, ENUMERATE,
-    FILL_POLYGON, INCREASE_STEP, METER, MOVE,
-    MOVE_GROUP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT,
-    MOVE_UP, PLACE_ELEMENTS, PLACE_INDUCTOR, PLACE_INDUCTOR2,
-    PLACE_JUNCTION, PLACE_LINE, PLACE_NO_CONNECTION, PLACE_NPN_TRANSISTOR,
-    PLACE_PNP_TRANSISTOR, PLACE_POLYGON, PLACE_POWER, PLACE_QUARTZ,
-    PLACE_SEGMENT, PLACE_SHOTTKY, PLACE_SWITCH, PLACE_ZENER,
-    ROUTE_TRACKS, SEGMENT_NETS, SELECT, SET_VALUE,
-    SHOW_GROUND_NETS, TABLE_ROUTE, TURN_TO_LEFT, TURN_TO_RIGHT,
-    UPDATE_NETS, WAVE_ROUTE, ZOOM_IN, ZOOM_OUT
-};
-*/
 class PackageEditor : public QMainWindow, private Ui::PackageEditor
 {
     Q_OBJECT
+
+    constexpr static int checkBoxes = 5;
+    constexpr static int comboBoxes = 14;
+    constexpr static int lineEdits = 66;
+    constexpr static int radioButtons = 14;
+
+    enum CheckBox
+    {
+        SHOW_BORDER, SHOW_ELLIPSES, SHOW_LINES,
+        SHOW_PADS, SHOW_TEXT
+    };
+
+    enum ComboBox
+    {
+        ADD_PAD_ORIENTATION, ADD_PAD_TYPE, ADD_PADS_ORIENTATION,
+        ADD_PADS_TYPE, NAME_TEXT_ALIGN_H, NAME_TEXT_ALIGN_V,
+        PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE, PAD_TYPE_2_SHAPE,
+        REFERENCE_TEXT_ALIGN_H, REFERENCE_TEXT_ALIGN_V,
+        SELECTED_PAD_ORIENTATION, SELECTED_PAD_TYPE, PACKAGE_TYPE
+    };
+
+    enum RadioButton
+    {
+        ADD_ELLIPSE, ADD_LINE, ADD_PAD, ADD_PADS, BORDER, NAME,
+        PAD_TYPES, READ_ONLY_MODE, SELECTED_ELLIPSE, SELECTED_LINE,
+        SELECTED_PAD, TEXT_PARAMS, TEXT_PLACE, TYPE
+    };
 
 public:
     explicit PackageEditor(QWidget *parent = nullptr);
@@ -70,6 +57,8 @@ protected:
 
 private:
     void paintEvent(QPaintEvent *);
+    void selectRadioButton(int number, bool state);
+    void setRadioButton(QRadioButton *button, bool state);
     void showPackageData();
     //void selectDevice(int &deviceNameID);
     //void writeLibraryFile(QString filename, QJsonObject object);
@@ -83,11 +72,11 @@ private slots:
     void newPackage();
     void openFile();
     void saveFile();
+    void selectCheckBox(int number);
     void selectComboBox(int number, const QString &text);
     void selectPadTypeComboBox(int number, const QString &text);
-    //void selectCheckBox();
+    void selectRadioButton(int number);
     //void selectPushButton(int number);
-    //void selectRadioButton();
     //void selectToolButton(int number);
     void updatePackage();
 
@@ -107,6 +96,11 @@ private:
     constexpr static int maxSpace = 100000;
     constexpr static int minWidth = 100;
     constexpr static int maxWidth = 100000;
+    constexpr static int maxPads = 10000;
+    constexpr static int padTypes = 3;
+    bool isEllipseSelected;
+    bool isLineSelected;
+    bool isPadSelected;
     double scale;
     int centerX;
     int centerY;
@@ -116,12 +110,12 @@ private:
     int gridNumber;
     int orientation;
     int previousCommand;
-    int selectedEllipseIndex;
-    int selectedLineIndex;
-    int selectedPadIndex;
     int space;
     int step;
     int width;
+    ulong selectedEllipseIndex;
+    ulong selectedLineIndex;
+    ulong selectedPadIndex;
     Package package;
     Package tmpPackage;
     QPoint mousePoint;
@@ -129,10 +123,11 @@ private:
     QSignalMapper *radioButtonMapper;
     QSignalMapper *pushButtonMapper;
     QSignalMapper *toolButtonMapper;
-    QComboBox *packageComboBox[packageComboBoxes];
-    QLineEdit *packageLineEdit[packageLineEdits];
-    //QCheckBox *checkBox[checkBoxes];
-    //QRadioButton *radioButton[radioButtons];
+    QString padTypeShape[padTypes];
+    QCheckBox *checkBox[checkBoxes];
+    QComboBox *comboBox[comboBoxes];
+    QLineEdit *lineEdit[lineEdits];
+    QRadioButton *radioButton[radioButtons];
     //QPushButton *pushButton[pushButtons];
     //QToolButton *toolButton[toolButtons];
     //std::vector<Line> lines;
