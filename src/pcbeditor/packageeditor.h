@@ -22,7 +22,8 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 
     constexpr static int checkBoxes = 5;
     constexpr static int comboBoxes = 14;
-    constexpr static int lineEdits = 66;
+    constexpr static int lineEdits = 68;
+    constexpr static int pushButtons = 2;
     constexpr static int radioButtons = 14;
 
     enum CheckBox
@@ -38,6 +39,11 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
         PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE, PAD_TYPE_2_SHAPE,
         REFERENCE_TEXT_ALIGN_H, REFERENCE_TEXT_ALIGN_V,
         SELECTED_PAD_ORIENTATION, SELECTED_PAD_TYPE, PACKAGE_TYPE
+    };
+
+    enum PushButton
+    {
+        CANCEL, UPDATE
     };
 
     enum RadioButton
@@ -56,10 +62,12 @@ protected:
     //void mousePressEvent(QMouseEvent *event);
 
 private:
+    void cancelPackageChange();
     void paintEvent(QPaintEvent *);
     void selectRadioButton(int number, bool state);
     void setRadioButton(QRadioButton *button, bool state);
     void showPackageData();
+    void updatePackage();
     //void selectDevice(int &deviceNameID);
     //void writeLibraryFile(QString filename, QJsonObject object);
     // Set buttons: left, right, up, down, zoom in, zoom out
@@ -75,10 +83,9 @@ private slots:
     void selectCheckBox(int number);
     void selectComboBox(int number, const QString &text);
     void selectPadTypeComboBox(int number, const QString &text);
+    void selectPushButton(int number);
     void selectRadioButton(int number);
-    //void selectPushButton(int number);
     //void selectToolButton(int number);
-    void updatePackage();
 
 private:
     constexpr static int grids = 11;
@@ -123,12 +130,14 @@ private:
     QSignalMapper *radioButtonMapper;
     QSignalMapper *pushButtonMapper;
     QSignalMapper *toolButtonMapper;
+    QString elementName;
+    QString elementReference;
     QString padTypeShape[padTypes];
     QCheckBox *checkBox[checkBoxes];
     QComboBox *comboBox[comboBoxes];
     QLineEdit *lineEdit[lineEdits];
+    QPushButton *pushButton[pushButtons];
     QRadioButton *radioButton[radioButtons];
-    //QPushButton *pushButton[pushButtons];
     //QToolButton *toolButton[toolButtons];
     //std::vector<Line> lines;
     std::vector<Package> packages;

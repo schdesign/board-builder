@@ -1159,7 +1159,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>340</x>
       <y>295</y>
       <width>95</width>
       <height>25</height>
@@ -1196,7 +1196,7 @@
    <widget class="QLabel" name="textAlignHLabel">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>340</x>
       <y>270</y>
       <width>95</width>
       <height>25</height>
@@ -1244,7 +1244,7 @@
    <widget class="QLabel" name="textAlignVLabel">
     <property name="geometry">
      <rect>
-      <x>305</x>
+      <x>445</x>
       <y>270</y>
       <width>95</width>
       <height>25</height>
@@ -1263,7 +1263,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>305</x>
+      <x>445</x>
       <y>295</y>
       <width>95</width>
       <height>25</height>
@@ -1303,7 +1303,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>340</x>
       <y>325</y>
       <width>95</width>
       <height>25</height>
@@ -1343,7 +1343,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>305</x>
+      <x>445</x>
       <y>325</y>
       <width>95</width>
       <height>25</height>
@@ -2545,7 +2545,7 @@
    <widget class="QLineEdit" name="referenceTextHeightLineEdit">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>270</x>
       <y>295</y>
       <width>60</width>
       <height>25</height>
@@ -2561,7 +2561,7 @@
    <widget class="QLineEdit" name="nameTextHeightLineEdit">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>270</x>
       <y>325</y>
       <width>60</width>
       <height>25</height>
@@ -2593,7 +2593,7 @@
    <widget class="QLabel" name="textHeightLabel">
     <property name="geometry">
      <rect>
-      <x>130</x>
+      <x>270</x>
       <y>270</y>
       <width>60</width>
       <height>25</height>
@@ -3459,6 +3459,60 @@
     </property>
     <property name="checked">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="referenceTextLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>295</y>
+      <width>130</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>REF</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="nameTextLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>325</y>
+      <width>130</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>ELEMENT</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="textLabel">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>270</y>
+      <width>130</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>text</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
