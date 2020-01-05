@@ -3365,11 +3365,43 @@
      <string>Add pads</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="textCheckBox">
+   <widget class="QCheckBox" name="borderCheckBox">
     <property name="geometry">
      <rect>
       <x>1020</x>
       <y>640</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Border</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="viewLabel">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>615</y>
+      <width>80</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>View</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="textCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>665</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -3381,39 +3413,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="viewLabel">
-    <property name="geometry">
-     <rect>
-      <x>1020</x>
-      <y>615</y>
-      <width>70</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>View</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="linesCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>1020</x>
-      <y>665</y>
-      <width>80</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Lines</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="ellipsesCheckBox">
+   <widget class="QCheckBox" name="packageCheckBox">
     <property name="geometry">
      <rect>
       <x>1020</x>
@@ -3423,7 +3423,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Ellipses</string>
+     <string>Package</string>
     </property>
     <property name="checked">
      <bool>true</bool>
@@ -3440,22 +3440,6 @@
     </property>
     <property name="text">
      <string>Pads</string>
-    </property>
-    <property name="checked">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="borderCheckBox">
-    <property name="geometry">
-     <rect>
-      <x>1020</x>
-      <y>740</y>
-      <width>140</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Selection border</string>
     </property>
     <property name="checked">
      <bool>true</bool>

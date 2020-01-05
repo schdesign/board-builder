@@ -194,20 +194,20 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
             board.deleteWire(x, y);
             break;*/
         case DELETE_POLYGON:
-            if (board.layers.edit == FRONT || board.layers.edit == BACK ||
-                board.layers.edit == BORDER)
+            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
+                board.layers.edit == BORDER_LAYER)
                 board.deletePolygon(x, y);
             break;
         case DELETE_NET_SEGMENTS:
-            if (board.layers.edit == FRONT || board.layers.edit == BACK)
+            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
                 board.deleteNetSegments(x, y);
             break;
         case DELETE_SEGMENT:
-            if (board.layers.edit == FRONT || board.layers.edit == BACK)
+            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
                 board.deleteSegment(x, y);
             break;
         case FILL_POLYGON:
-            if (board.layers.edit == FRONT || board.layers.edit == BACK)
+            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
                 board.fillPolygon(x, y);
             break;
         case METER:
@@ -234,12 +234,12 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         case PLACE_LINE:
             break;
         case PLACE_POLYGON:
-            if (board.layers.edit == FRONT || board.layers.edit == BACK ||
-                board.layers.edit == BORDER)
+            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
+                board.layers.edit == BORDER_LAYER)
                 board.points.push_back(Point(x, y));
             break;
         case PLACE_SEGMENT:
-            if (board.layers.edit == FRONT || board.layers.edit == BACK)
+            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
                 board.addSegmentPoint(x, y, width);
             break;
        // case SET_VALUE:
@@ -265,12 +265,12 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         case PLACE_LINE:
             break;
         case PLACE_POLYGON:
-            if (board.layers.edit == FRONT || board.layers.edit == BACK ||
-                board.layers.edit == BORDER)
+            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
+                board.layers.edit == BORDER_LAYER)
                 board.addPolygon();
             break;
         case PLACE_SEGMENT:
-            if (board.layers.edit == FRONT || board.layers.edit == BACK)
+            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
                 board.addTrack();
             break;
         default:
@@ -589,19 +589,19 @@ void PcbEditor::selectToolButton(int number)
     case PLACE_LINE:
         break;
     case PLACE_POLYGON:
-        if (board.layers.edit == FRONT || board.layers.edit == BACK ||
-            board.layers.edit == BORDER)
+        if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
+            board.layers.edit == BORDER_LAYER)
             board.points.clear();
         break;
     case PLACE_SEGMENT:
-        if (board.layers.edit == FRONT || board.layers.edit == BACK)
+        if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
             board.pointNumber = 0;
         break;
     case ROUTE_TRACKS:
         board.routeTracks();
         break;
     case SEGMENT_NETS:
-        if (board.layers.edit == FRONT || board.layers.edit == BACK)
+        if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
             board.segmentNets();
         break;
     case SELECT:

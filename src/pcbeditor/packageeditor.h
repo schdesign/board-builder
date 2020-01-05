@@ -4,6 +4,8 @@
 #ifndef PACKAGEEDITOR_H
 #define PACKAGEEDITOR_H
 
+#include "element.h"
+#include "layers.h"
 #include "package.h"
 #include "ui_packageeditor.h"
 #include <QJsonObject>
@@ -20,7 +22,7 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 {
     Q_OBJECT
 
-    constexpr static int checkBoxes = 5;
+    constexpr static int checkBoxes = 4;
     constexpr static int comboBoxes = 14;
     constexpr static int lineEdits = 68;
     constexpr static int pushButtons = 2;
@@ -28,8 +30,7 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 
     enum CheckBox
     {
-        SHOW_BORDER, SHOW_ELLIPSES, SHOW_LINES,
-        SHOW_PADS, SHOW_TEXT
+        SHOW_BORDER, SHOW_PACKAGE, SHOW_PADS, SHOW_TEXT
     };
 
     enum ComboBox
@@ -66,8 +67,10 @@ private:
     void paintEvent(QPaintEvent *);
     void selectRadioButton(int number, bool state);
     void setRadioButton(QRadioButton *button, bool state);
+    void showLayer(int number, bool state);
     void showPackageData();
     void updatePackage();
+    void updateElement();
     //void selectDevice(int &deviceNameID);
     //void writeLibraryFile(QString filename, QJsonObject object);
     // Set buttons: left, right, up, down, zoom in, zoom out
@@ -93,6 +96,8 @@ private:
         50, 100, 125, 200, 250, 500, 1000, 1250, 2500, 5000, 10000
     };
     constexpr static int gridStep = 10;    // pixels
+    constexpr static int gridWidth = 680;
+    constexpr static int gridHeight = 600;
     constexpr static int gridX = 570;
     constexpr static int gridY = 30;
     constexpr static int spaceStep = 100;  // um
@@ -117,12 +122,16 @@ private:
     int gridNumber;
     int orientation;
     int previousCommand;
+    int refX;
+    int refY;
     int space;
     int step;
     int width;
     ulong selectedEllipseIndex;
     ulong selectedLineIndex;
     ulong selectedPadIndex;
+    Element element;
+    Layers layers;
     Package package;
     Package tmpPackage;
     QPoint mousePoint;
@@ -139,8 +148,6 @@ private:
     QPushButton *pushButton[pushButtons];
     QRadioButton *radioButton[radioButtons];
     //QToolButton *toolButton[toolButtons];
-    //std::vector<Line> lines;
-    std::vector<Package> packages;
 };
 
 #endif  // PACKAGEEDITOR_H

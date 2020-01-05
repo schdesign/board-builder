@@ -34,8 +34,7 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
 
     QCheckBox *tmpCheckBox[checkBoxes] =
     {
-        borderCheckBox, ellipsesCheckBox, linesCheckBox,
-        padsCheckBox, textCheckBox
+        borderCheckBox, packageCheckBox, padsCheckBox, textCheckBox
     };
 
     std::copy(tmpCheckBox, tmpCheckBox + checkBoxes, checkBox);
@@ -160,13 +159,18 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     //step = gridStep;
     //gridNumber = 6; // 1000 um in grid step
     //scale = double(gridStep) / grid[gridNumber];
+
+    scale = double(gridStep) / 10;
+
     //gridLineEdit->setText(str.setNum(grid[gridNumber]));
     //space = package.defaultPolygonSpace;
     //spaceLineEdit->setText(str.setNum(space));
     //width = package.defaultLineWidth;
     //widthLineEdit->setText(str.setNum(width));
-    //dx = gridX;
-    //dy = gridY;
+
+    dx = gridX;
+    dy = gridY;
+
     //centerX = 57 * grid[gridNumber];
     //centerY = 40 * grid[gridNumber];
     //maxXLineEdit->setText(str.setNum(maxX));
@@ -174,6 +178,12 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     //dxLineEdit->setText(str.setNum(dx));
     //dyLineEdit->setText(str.setNum(dy));
     //stepLineEdit->setText(str.setNum(step));
+
+    refX = gridStep * (gridWidth / (2 * gridStep));
+    refY = gridStep * (gridHeight / (2 * gridStep));
+    orientation = 0;  // "Up"
+
+    updateElement();
 }
 
 void PackageEditor::about()
@@ -470,34 +480,35 @@ void Element::addPackage(const QJsonValue &value)
 
 void PackageEditor::paintEvent(QPaintEvent *)
 {
-    constexpr int w = 680;
-    constexpr int h = 600;
-
     QPainter painter(this);
     QFont serifFont("Times", 10, QFont::Normal);
     QFont serifFont2("Times", 12, QFont::Normal);
 
     painter.fillRect(gridX - gridStep, gridY - gridStep,
-                     w + gridStep, h + gridStep, QColor(255, 255, 255, 255));
+                     gridWidth + gridStep, gridHeight + gridStep,
+                     QColor(255, 255, 255, 255));
 
     painter.setPen(Qt::black);
     painter.setFont(serifFont);
 
     //if (showGridCheckBox->isChecked()) {
-        for (int i = 0; i < w / gridStep; i++)
-            for (int j = 0; j < h / gridStep; j++)
+        for (int i = 0; i < gridWidth / gridStep; i++)
+            for (int j = 0; j < gridHeight / gridStep; j++)
                 painter.drawPoint(gridX + gridStep * i, gridY + gridStep * j);
     //}
-/*
-    // Draw message
-    if (package.showMessage) {
-        painter.setFont(serifFont2);
-        painter.drawText(90, 890, package.message);
-    }
 
     painter.translate(dx, dy);
 
-    package.draw(painter, scale); */
+    if (layers.draw & (1 << BORDER_LAYER)) {
+        painter.setPen(layers.color[BORDER_LAYER]);
+        int x = scale * element.border.leftX;
+        int y = scale * element.border.topY;
+        int w = scale * (element.border.rightX - element.border.leftX);
+        int h = scale * (element.border.bottomY - element.border.topY);
+        painter.drawRect(x, y, w, h);
+    }
+
+    element.draw(painter, layers, scale);
 }
 
 void PackageEditor::saveFile()
@@ -516,8 +527,6 @@ void PackageEditor::saveFile()
     file.close();*/
 }
 
-// radioButtonSetEnabled();
-
 void PackageEditor::selectCheckBox(int number)
 {
     bool state = checkBox[number]->isChecked();
@@ -525,28 +534,39 @@ void PackageEditor::selectCheckBox(int number)
     switch (number) {
     case SHOW_BORDER:
         setRadioButton(borderRadioButton, state);
+        showLayer(BORDER_LAYER, state);
         break;
-    case SHOW_ELLIPSES:
+    case SHOW_PACKAGE:
         setRadioButton(addEllipseRadioButton, state);
-        setRadioButton(selectedEllipseRadioButton, state);
-        break;
-    case SHOW_LINES:
         setRadioButton(addLineRadioButton, state);
+        setRadioButton(selectedEllipseRadioButton, state);
         setRadioButton(selectedLineRadioButton, state);
+        showLayer(PACKAGE_LAYER, state);
         break;
     case SHOW_PADS:
         setRadioButton(addPadRadioButton, state);
         setRadioButton(addPadsRadioButton, state);
         setRadioButton(padTypesRadioButton, state);
         setRadioButton(selectedPadRadioButton, state);
+        showLayer(PAD_LAYER, state);
         break;
     case SHOW_TEXT:
         setRadioButton(textParamsRadioButton, state);
         setRadioButton(textPlaceRadioButton, state);
+        showLayer(NAME_LAYER, state);
+        showLayer(REFERENCE_LAYER, state);
         break;
     }
 
     update();
+}
+
+void PackageEditor::showLayer(int number, bool state)
+{
+    if (state)
+        layers.draw |= (1 << number);
+    else
+        layers.draw &= ~(1 << number);
 }
 
 void PackageEditor::selectComboBox(int number, const QString &text)
@@ -712,6 +732,11 @@ void PackageEditor::selectPadTypeComboBox(int number, const QString &text)
         }
         break;
     }
+
+    if (padType >= 0)
+        for (int i = 0; i < 4; i++)
+            if (padTypeLineEdit[padType][i]->isVisible())
+                padTypeLineEdit[padType][i]->setReadOnly(false);
 }
 
 void PackageEditor::selectPushButton(int number)
@@ -722,6 +747,7 @@ void PackageEditor::selectPushButton(int number)
         break;
     case UPDATE:
         updatePackage();
+        updateElement();
         break;
     }
 
@@ -731,18 +757,31 @@ void PackageEditor::selectPushButton(int number)
 void PackageEditor::selectRadioButton(int number)
 {
     static int previousNumber = READ_ONLY_MODE;
+
+    if (number != previousNumber)
+        showPackageData();
+
     selectRadioButton(previousNumber, true);
     selectRadioButton(number, false);
+
     bool state = false;
     if (number != READ_ONLY_MODE)
         state = true;
     cancelPushButton->setEnabled(state);
     updatePushButton->setEnabled(state);
+
     previousNumber = number;
 }
 
 void PackageEditor::selectRadioButton(int number, bool state)
 {
+    QLineEdit *padTypeLineEdit[3][4] =
+    {
+        { padType0LineEdit1, padType0LineEdit2, padType0LineEdit3, padType0LineEdit4 },
+        { padType1LineEdit1, padType1LineEdit2, padType1LineEdit3, padType1LineEdit4 },
+        { padType2LineEdit1, padType2LineEdit2, padType2LineEdit3, padType2LineEdit4 }
+    };
+
     switch (number) {
     case ADD_ELLIPSE:
         addEllipseHLineEdit->setReadOnly(state);
@@ -758,6 +797,8 @@ void PackageEditor::selectRadioButton(int number, bool state)
         break;
     case ADD_PAD:
         addPadNumberLineEdit->setReadOnly(state);
+        addPadOrientationComboBox->setEnabled(!state);
+        addPadTypeComboBox->setEnabled(!state);
         addPadXLineEdit->setReadOnly(state);
         addPadYLineEdit->setReadOnly(state);
         break;
@@ -768,6 +809,8 @@ void PackageEditor::selectRadioButton(int number, bool state)
         addPadsFirstXLineEdit->setReadOnly(state);
         addPadsFirstYLineEdit->setReadOnly(state);
         addPadsLastLineEdit->setReadOnly(state);
+        addPadsOrientationComboBox->setEnabled(!state);
+        addPadsTypeComboBox->setEnabled(!state);
         break;
     case BORDER:
         borderBottomLineEdit->setReadOnly(state);
@@ -779,6 +822,13 @@ void PackageEditor::selectRadioButton(int number, bool state)
         nameLineEdit->setReadOnly(state);
         break;
     case PAD_TYPES:
+        padType0ShapeComboBox->setEnabled(!state);
+        padType1ShapeComboBox->setEnabled(!state);
+        padType2ShapeComboBox->setEnabled(!state);
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 4; j++)
+                if (padTypeLineEdit[i][j]->isVisible())
+                    padTypeLineEdit[i][j]->setReadOnly(state);
         break;
     case READ_ONLY_MODE:
         break;
@@ -796,12 +846,18 @@ void PackageEditor::selectRadioButton(int number, bool state)
         break;
     case SELECTED_PAD:
         selectedPadNumberLineEdit->setReadOnly(state);
+        selectedPadOrientationComboBox->setEnabled(!state);
+        selectedPadTypeComboBox->setEnabled(!state);
         selectedPadXLineEdit->setReadOnly(state);
         selectedPadYLineEdit->setReadOnly(state);
         break;
     case TEXT_PARAMS:
+        nameTextAlignHComboBox->setEnabled(!state);
+        nameTextAlignVComboBox->setEnabled(!state);
         nameTextHeightLineEdit->setReadOnly(state);
         nameTextLineEdit->setReadOnly(state);
+        referenceTextAlignHComboBox->setEnabled(!state);
+        referenceTextAlignVComboBox->setEnabled(!state);
         referenceTextHeightLineEdit->setReadOnly(state);
         referenceTextLineEdit->setReadOnly(state);
         break;
@@ -824,6 +880,7 @@ void PackageEditor::selectRadioButton(int number, bool state)
         referenceTextLeftYLineEdit->setReadOnly(state);
         break;
     case TYPE:
+        typeComboBox->setEnabled(!state);
         break;
     }
 }
@@ -950,7 +1007,7 @@ void PackageEditor::showPackageData()
     QString str;
 
     nameLineEdit->setText(package.name);
-    //package.type = typeComboBox->currentText();
+    typeComboBox->setCurrentText(package.type);
 
     borderBottomLineEdit->setText(str.setNum(package.border.bottomY));
     borderLeftXLineEdit->setText(str.setNum(package.border.leftX));
@@ -977,11 +1034,11 @@ void PackageEditor::showPackageData()
     nameTextLineEdit->setText(elementName);
     referenceTextLineEdit->setText(elementReference);
 
-    //package.nameTextAlignH = nameTextAlignHComboBox->currentText();
-    //package.nameTextAlignV = nameTextAlignVComboBox->currentText();
+    nameTextAlignHComboBox->setCurrentText(package.nameTextAlignH);
+    nameTextAlignVComboBox->setCurrentText(package.nameTextAlignV);
     nameTextHeightLineEdit->setText(str.setNum(package.nameTextHeight));
-    //package.referenceTextAlignH = referenceTextAlignHComboBox->currentText();
-    //package.referenceTextAlignV = referenceTextAlignVComboBox->currentText();
+    referenceTextAlignHComboBox->setCurrentText(package.referenceTextAlignH);
+    referenceTextAlignVComboBox->setCurrentText(package.referenceTextAlignV);
     referenceTextHeightLineEdit->setText(str.setNum(package.referenceTextHeight));
 
     selectedEllipseHLineEdit->clear();
@@ -1032,6 +1089,8 @@ void PackageEditor::showPackageData()
 
 void PackageEditor::updatePackage()
 {
+    const QString warningMessage = "Parameter is not an integer number";
+    bool isValid;
     bool ok[16];
     int dx;
     int dy;
@@ -1064,6 +1123,8 @@ void PackageEditor::updatePackage()
             addEllipseXLineEdit->clear();
             addEllipseYLineEdit->clear();
         }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case ADD_LINE:
         line.x1 = addLineX1LineEdit->text().toInt(&ok[0]);
@@ -1077,6 +1138,8 @@ void PackageEditor::updatePackage()
             addLineY1LineEdit->clear();
             addLineY2LineEdit->clear();
         }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case ADD_PAD:
         pad.number = addPadNumberLineEdit->text().toInt(&ok[0]);
@@ -1094,6 +1157,8 @@ void PackageEditor::updatePackage()
             addPadXLineEdit->clear();
             addPadYLineEdit->clear();
         }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case ADD_PADS:
         dx = addPadsDxLineEdit->text().toInt(&ok[0]);
@@ -1124,6 +1189,8 @@ void PackageEditor::updatePackage()
             addPadsOrientationComboBox->setCurrentIndex(0);
             addPadsTypeComboBox->setCurrentIndex(0);
         }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case BORDER:
         tmpPackage.border.bottomY = borderBottomLineEdit->text().toInt(&ok[0]);
@@ -1132,6 +1199,8 @@ void PackageEditor::updatePackage()
         tmpPackage.border.topY = borderTopYLineEdit->text().toInt(&ok[3]);
         if (ok[0] && ok [1] && ok[2] && ok[3])
             package.border = tmpPackage.border;
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case NAME:
         package.name = nameLineEdit->text();
@@ -1155,6 +1224,8 @@ void PackageEditor::updatePackage()
                 isEllipseSelected = false;
             }
         }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case SELECTED_LINE:
         if (isLineSelected) {
@@ -1171,6 +1242,8 @@ void PackageEditor::updatePackage()
                 isLineSelected = false;
             }
         }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case SELECTED_PAD:
         if (isPadSelected) {
@@ -1191,6 +1264,8 @@ void PackageEditor::updatePackage()
                 isPadSelected = false;
             }
         }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case TEXT_PARAMS:
         tmpPackage.nameTextHeight = nameTextHeightLineEdit->text().toInt(&ok[0]);
@@ -1200,29 +1275,45 @@ void PackageEditor::updatePackage()
             elementReference = referenceTextLineEdit->text();
             package.nameTextAlignH = nameTextAlignHComboBox->currentText();
             package.nameTextAlignV = nameTextAlignVComboBox->currentText();
+            package.nameTextHeight = tmpPackage.nameTextHeight;
             package.referenceTextAlignH = referenceTextAlignHComboBox->currentText();
             package.referenceTextAlignV = referenceTextAlignVComboBox->currentText();
+            package.referenceTextHeight = tmpPackage.referenceTextHeight;
         }
         else
-            QMessageBox::warning(this, tr("Error"), tr("Parameter is not an integer number"));
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case TEXT_PLACE:
-        package.nameTextX[0] = nameTextUpXLineEdit->text().toInt();
-        package.nameTextY[0] = nameTextUpYLineEdit->text().toInt();
-        package.nameTextX[1] = nameTextRightXLineEdit->text().toInt();
-        package.nameTextY[1] = nameTextRightYLineEdit->text().toInt();
-        package.nameTextX[2] = nameTextDownXLineEdit->text().toInt();
-        package.nameTextY[2] = nameTextDownYLineEdit->text().toInt();
-        package.nameTextX[3] = nameTextLeftXLineEdit->text().toInt();
-        package.nameTextY[3] = nameTextLeftYLineEdit->text().toInt();
-        package.referenceTextX[0] = referenceTextUpXLineEdit->text().toInt();
-        package.referenceTextY[0] = referenceTextUpYLineEdit->text().toInt();
-        package.referenceTextX[1] = referenceTextRightXLineEdit->text().toInt();
-        package.referenceTextY[1] = referenceTextRightYLineEdit->text().toInt();
-        package.referenceTextX[2] = referenceTextDownXLineEdit->text().toInt();
-        package.referenceTextY[2] = referenceTextDownYLineEdit->text().toInt();
-        package.referenceTextX[3] = referenceTextLeftXLineEdit->text().toInt();
-        package.referenceTextY[3] = referenceTextLeftYLineEdit->text().toInt();
+        tmpPackage.nameTextX[0] = nameTextUpXLineEdit->text().toInt(&ok[0]);
+        tmpPackage.nameTextY[0] = nameTextUpYLineEdit->text().toInt(&ok[1]);
+        tmpPackage.nameTextX[1] = nameTextRightXLineEdit->text().toInt(&ok[2]);
+        tmpPackage.nameTextY[1] = nameTextRightYLineEdit->text().toInt(&ok[3]);
+        tmpPackage.nameTextX[2] = nameTextDownXLineEdit->text().toInt(&ok[4]);
+        tmpPackage.nameTextY[2] = nameTextDownYLineEdit->text().toInt(&ok[5]);
+        tmpPackage.nameTextX[3] = nameTextLeftXLineEdit->text().toInt(&ok[6]);
+        tmpPackage.nameTextY[3] = nameTextLeftYLineEdit->text().toInt(&ok[7]);
+        tmpPackage.referenceTextX[0] = referenceTextUpXLineEdit->text().toInt(&ok[8]);
+        tmpPackage.referenceTextY[0] = referenceTextUpYLineEdit->text().toInt(&ok[9]);
+        tmpPackage.referenceTextX[1] = referenceTextRightXLineEdit->text().toInt(&ok[10]);
+        tmpPackage.referenceTextY[1] = referenceTextRightYLineEdit->text().toInt(&ok[11]);
+        tmpPackage.referenceTextX[2] = referenceTextDownXLineEdit->text().toInt(&ok[12]);
+        tmpPackage.referenceTextY[2] = referenceTextDownYLineEdit->text().toInt(&ok[13]);
+        tmpPackage.referenceTextX[3] = referenceTextLeftXLineEdit->text().toInt(&ok[14]);
+        tmpPackage.referenceTextY[3] = referenceTextLeftYLineEdit->text().toInt(&ok[15]);
+        isValid = true;
+        for (int i = 0; i < 16; i++)
+            if (!ok[i])
+                isValid = false;
+        if (isValid) {
+            for (int i = 0; i < 4; i++) {
+                package.nameTextX[i] = tmpPackage.nameTextX[i];
+                package.nameTextY[i] = tmpPackage.nameTextY[i];
+                package.referenceTextX[i] = tmpPackage.referenceTextX[i];
+                package.referenceTextY[i] = tmpPackage.referenceTextY[i];
+            }
+        }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case TYPE:
         package.type = typeComboBox->currentText();
@@ -1232,4 +1323,11 @@ void PackageEditor::updatePackage()
     ellipsesLineEdit->setText(QString::number(package.ellipses.size()));
     linesLineEdit->setText(QString::number(package.lines.size()));
     padsLineEdit->setText(QString::number(package.pads.size()));
+}
+
+void PackageEditor::updateElement()
+{
+    Element tmpElement(refX, refY, orientation, elementName,
+                       package, elementReference);
+    element = tmpElement;
 }

@@ -50,21 +50,21 @@ void Board::addPolygon()
         return;
     }
 
-    if (layers.edit == FRONT) {
+    if (layers.edit == FRONT_LAYER) {
         polygon.fill = false;
         polygon.net = -1;
         polygon.points.resize(points2.size());
         std::copy(points2.begin(), points2.end(), polygon.points.begin());
         frontPolygons.push_back(polygon);
     }
-    if (layers.edit == BACK) {
+    if (layers.edit == BACK_LAYER) {
         polygon.fill = false;
         polygon.net = -1;
         polygon.points.resize(points2.size());
         std::copy(points2.begin(), points2.end(), polygon.points.begin());
         backPolygons.push_back(polygon);
     }
-    if (layers.edit == BORDER) {
+    if (layers.edit == BORDER_LAYER) {
         border.fill = false;
         border.net = -1;
         border.points.resize(points2.size());
@@ -78,10 +78,10 @@ void Board::addPolygon()
 void Board::addTrack()
 {
     reduceSegments(track);
-    if (layers.edit == FRONT)
+    if (layers.edit == FRONT_LAYER)
         for (auto &t : track)
             frontSegments.push_back(t);
-    if (layers.edit == BACK)
+    if (layers.edit == BACK_LAYER)
         for (auto &t : track)
             backSegments.push_back(t);
     track.clear();
@@ -145,7 +145,7 @@ void Board::deleteNetSegments(int x, int y)
 {
     int netNumber = -1;
 
-    if (layers.edit == FRONT) {
+    if (layers.edit == FRONT_LAYER) {
         netNumber = deleteSegment(x, y, frontSegments);
         if (netNumber >= 0)
             for (auto i = frontSegments.end(); i != frontSegments.begin();) {
@@ -155,7 +155,7 @@ void Board::deleteNetSegments(int x, int y)
             }
     }
 
-    if (layers.edit == BACK) {
+    if (layers.edit == BACK_LAYER) {
         netNumber = deleteSegment(x, y, backSegments);
         if (netNumber >= 0)
             for (auto i = backSegments.end(); i != backSegments.begin();) {
@@ -168,13 +168,13 @@ void Board::deleteNetSegments(int x, int y)
 
 void Board::deletePolygon(int x, int y)
 {
-    if (layers.edit == FRONT)
+    if (layers.edit == FRONT_LAYER)
         deletePolygon(x, y, frontPolygons);
 
-    if (layers.edit == BACK)
+    if (layers.edit == BACK_LAYER)
         deletePolygon(x, y, backPolygons);
 
-    if (layers.edit == BORDER) {
+    if (layers.edit == BORDER_LAYER) {
         int b = 0;
         for (auto p : border.points) {
             if (p.x < x && p.y < y)
@@ -220,10 +220,10 @@ int Board::deletePolygon(int x, int y, std::list<Polygon> &polygons)
 
 void Board::deleteSegment(int x, int y)
 {
-    if (layers.edit == FRONT)
+    if (layers.edit == FRONT_LAYER)
         deleteSegment(x, y, frontSegments);
 
-    if (layers.edit == BACK)
+    if (layers.edit == BACK_LAYER)
         deleteSegment(x, y, backSegments);
 }
 
@@ -464,9 +464,9 @@ void Board::draw(QPainter &painter, double scale)
     int width = defaultLineWidth;
     QFont serifFont("Times", 10, QFont::Normal);
     painter.setFont(serifFont);
-    QBrush frontBrush(layers.color[FRONT]);
-    QBrush backBrush(layers.color[BACK]);
-    QBrush borderBrush(layers.color[BORDER]);
+    QBrush frontBrush(layers.color[FRONT_LAYER]);
+    QBrush backBrush(layers.color[BACK_LAYER]);
+    QBrush borderBrush(layers.color[BORDER_LAYER]);
     QBrush whiteBrush(QColor(255, 255, 255, 255));
     QPen frontPen(frontBrush, width * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     QPen backPen(backBrush, width * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -474,20 +474,20 @@ void Board::draw(QPainter &painter, double scale)
     QPen whitePen(whiteBrush, width * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
     // Draw border
-    if (layers.draw & (1 << BORDER)) {
+    if (layers.draw & (1 << BORDER_LAYER)) {
         painter.setPen(borderPen);
         border.draw(painter, scale, whiteBrush);
     }
 
     // Draw back polygons
-    if (layers.draw & (1 << BACK_POLYGON)) {
-        painter.setPen(layers.color[BACK]);
+    if (layers.draw & (1 << BACK_POLYGON_LAYER)) {
+        painter.setPen(layers.color[BACK_LAYER]);
         for (auto b : backPolygons)
             b.draw(painter, scale, backBrush);
     }
 
     // Draw segments
-    if (layers.draw & (1 << BACK)) {
+    if (layers.draw & (1 << BACK_LAYER)) {
         fill = false;
         for (auto i = backPolygons.begin(); i != backPolygons.end(); ++i)
             if ((*i).fill)
@@ -503,7 +503,7 @@ void Board::draw(QPainter &painter, double scale)
                 painter.drawLine(scale * b.x1, scale * b.y1,
                                  scale * b.x2, scale * b.y2);
             }
-            if (layers.edit == BACK) {
+            if (layers.edit == BACK_LAYER) {
                 for (auto t : track) {
                     if (t.width + 2 * space != width) {
                         whitePen.setWidth((t.width + 2 * space) * scale);
@@ -526,7 +526,7 @@ void Board::draw(QPainter &painter, double scale)
             painter.drawLine(scale * b.x1, scale * b.y1,
                              scale * b.x2, scale * b.y2);
         }
-        if (layers.edit == BACK) {
+        if (layers.edit == BACK_LAYER) {
             for (auto t : track) {
                 if (t.width != width) {
                     backPen.setWidth(t.width * scale);
@@ -540,14 +540,14 @@ void Board::draw(QPainter &painter, double scale)
     }
 
     // Draw front polygons
-    if (layers.draw & (1 << FRONT_POLYGON)) {
-        painter.setPen(layers.color[FRONT]);
+    if (layers.draw & (1 << FRONT_POLYGON_LAYER)) {
+        painter.setPen(layers.color[FRONT_LAYER]);
         for (auto f : frontPolygons)
             f.draw(painter, scale, frontBrush);
     }
 
     // Draw segments
-    if (layers.draw & (1 << FRONT)) {
+    if (layers.draw & (1 << FRONT_LAYER)) {
         fill = false;
         for (auto i = frontPolygons.begin(); i != frontPolygons.end(); ++i)
             if ((*i).fill)
@@ -563,7 +563,7 @@ void Board::draw(QPainter &painter, double scale)
                 painter.drawLine(scale * f.x1, scale * f.y1,
                                  scale * f.x2, scale * f.y2);
             }
-            if (layers.edit == FRONT) {
+            if (layers.edit == FRONT_LAYER) {
                 for (auto t : track) {
                     if (t.width + 2 * space != width) {
                         whitePen.setWidth((t.width + 2 * space) * scale);
@@ -586,7 +586,7 @@ void Board::draw(QPainter &painter, double scale)
             painter.drawLine(scale * f.x1, scale * f.y1,
                              scale * f.x2, scale * f.y2);
         }
-        if (layers.edit == FRONT) {
+        if (layers.edit == FRONT_LAYER) {
             for (auto t : track) {
                 if (t.width != width) {
                     frontPen.setWidth(t.width * scale);
@@ -631,7 +631,8 @@ void Board::draw(QPainter &painter, double scale)
     }
 
     // Draw points
-    if (layers.edit == FRONT || layers.edit == BACK || layers.edit == BORDER) {
+    if (layers.edit == FRONT_LAYER || layers.edit == BACK_LAYER ||
+        layers.edit == BORDER_LAYER) {
         painter.setPen(layers.color[layers.edit]);
         for (uint i = 1; i < points.size(); i++)
             painter.drawLine(scale * points[i-1].x, scale * points[i-1].y,
@@ -679,10 +680,10 @@ void Board::errorCheck(QString &text)
 
 void Board::fillPolygon(int x, int y)
 {
-    if (layers.edit == FRONT)
+    if (layers.edit == FRONT_LAYER)
         fillPolygon(x, y, frontPolygons);
 
-    if (layers.edit == BACK)
+    if (layers.edit == BACK_LAYER)
         fillPolygon(x, y, backPolygons);
 }
 

@@ -26,7 +26,15 @@ Element::Element(int refX, int refY, int orientation, QString name,
             throw ExceptionData("Package name error: " + packageName);
     }
 
-    init();
+    init(packages[packageID]);
+}
+
+Element::Element(int refX, int refY, int orientation, QString name,
+                 const Package &package, QString reference):
+    orientation(orientation), refX(refX), refY(refY),
+    name(name), packageName(package.name), reference(reference)
+{
+    init(package);
 }
 
 Element::Element(const QJsonObject &object)
@@ -57,7 +65,7 @@ Element::Element(const QJsonObject &object)
             throw ExceptionData("Element orientation error");
     }
 
-    init();
+    init(packages[packageID]);
 
     QJsonArray elementPads = object["pads"].toArray();
 
@@ -90,7 +98,7 @@ Element::Element(const QJsonObject &object, int refX, int refY):
 
     orientation = UP;
 
-    init();
+    init(packages[packageID]);
 
     QJsonArray elementPads = object["pads"].toArray();
 
@@ -194,8 +202,8 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
     int x, y, w, h, rx, ry;
     QString str;
 
-    if (layers.draw & (1 << PAD)) {
-        painter.setPen(layers.color[PAD]);
+    if (layers.draw & (1 << PAD_LAYER)) {
+        painter.setPen(layers.color[PAD_LAYER]);
         for (auto p : pads) {
             w = scale * p.width;
             h = scale * p.height;
@@ -209,7 +217,7 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
             ry = rx;
             QPainterPath path;
             path.addRoundedRect(x, y, w, h, rx, ry);
-            painter.setBrush(layers.color[PAD]);
+            painter.setBrush(layers.color[PAD_LAYER]);
             painter.drawPath(path);
             if (2 * rx == w && 2 * ry == h) {
                 QPainterPath path2;
@@ -221,8 +229,8 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
         }
     }
 
-    if (layers.draw & (1 << PACKAGE)) {
-        painter.setPen(layers.color[PACKAGE]);
+    if (layers.draw & (1 << PACKAGE_LAYER)) {
+        painter.setPen(layers.color[PACKAGE_LAYER]);
         for (auto e : ellipses)
             painter.drawEllipse(scale * (e.x - e.w / 2),
                                 scale * (e.y - e.h / 2),
@@ -232,19 +240,19 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
                              scale * l.x2, scale * l.y2);
     }
 
-    if (layers.draw & (1 << NAME)) {
-        painter.setPen(layers.color[NAME]);
+    if (layers.draw & (1 << NAME_LAYER)) {
+        painter.setPen(layers.color[NAME_LAYER]);
         w = 3 * scale * (border.rightX - border.leftX);
-        h = 5 * scale * packages[packageID].nameTextHeight;
+        h = 5 * scale * nameTextHeight;
         x = scale * nameTextX - w / 2;
         y = scale * nameTextY - h / 2;
         painter.drawText(x, y, w, h, Qt::AlignCenter, name);
     }
 
-    if (layers.draw & (1 << REFERENCE)) {
-        painter.setPen(layers.color[REFERENCE]);
+    if (layers.draw & (1 << REFERENCE_LAYER)) {
+        painter.setPen(layers.color[REFERENCE_LAYER]);
         w = 3 * scale * (border.rightX - border.leftX);
-        h = 5 * scale * packages[packageID].referenceTextHeight;
+        h = 5 * scale * referenceTextHeight;
         x = scale * referenceTextX - w / 2;
         y = scale * referenceTextY - h / 2;
         painter.drawText(x, y, w, h, Qt::AlignCenter, reference);
@@ -263,10 +271,8 @@ bool Element::exist(int x, int y)
     return false;
 }
 
-void Element::init()
+void Element::init(const Package &package)
 {
-    const Package &package = packages[packageID];
-
     if (orientation < 0 || orientation > 3)
         orientation = 0;
 
@@ -281,11 +287,13 @@ void Element::init()
     centerX = (border.leftX + border.rightX) / 2;
     centerY = (border.topY + border.bottomY) / 2;
 
-    referenceTextX = refX + package.referenceTextX[t];
-    referenceTextY = refY + package.referenceTextY[t];
-
+    nameTextHeight = package.nameTextHeight;
     nameTextX = refX + package.nameTextX[t];
     nameTextY = refY + package.nameTextY[t];
+
+    referenceTextHeight = package.referenceTextHeight;
+    referenceTextX = refX + package.referenceTextX[t];
+    referenceTextY = refY + package.referenceTextY[t];
 
     Ellipse ellipse;
     for (auto e : package.ellipses) {

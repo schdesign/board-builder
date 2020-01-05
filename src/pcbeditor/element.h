@@ -26,13 +26,15 @@ public:
     Element() {}
     Element(int refX, int refY, int orientation, QString name,
             QString packageName, QString reference);
+    Element(int refX, int refY, int orientation, QString name,
+            const Package &package, QString reference);
     Element(const QJsonObject &object);
     Element(const QJsonObject &object, int refX, int refY);
     static void addPackage(const QJsonValue &value);
     static QJsonObject writePackages(const QString &packageType);
     void draw(QPainter &painter, const Layers &layers, double scale);
     bool exist(int x, int y);
-    void init();
+    void init(const Package &package);
     bool inside(int leftX, int topY, int rightX, int bottomY);
     QJsonObject toJson();
 
@@ -44,10 +46,12 @@ public:
     int centerX;
     int centerY;
     int nameID;
+    int nameTextHeight;
     int nameTextX;
     int nameTextY;
     int orientation;        // up, right, down, left
     int packageID;
+    int referenceTextHeight;
     int referenceTextX;
     int referenceTextY;
     int refX;               // point of pad 1
