@@ -64,8 +64,12 @@ protected:
 
 private:
     void cancelPackageChange();
+    QString padShape(const PadTypeParams &padTypeParams);
     void paintEvent(QPaintEvent *);
     void selectRadioButton(int number, bool state);
+    void setPadTypeLineEdit(QLabel *label, const QString &labelText, QLineEdit *lineEdit,
+                            const QString &lineEditText, bool state);
+    void setPadTypeTexts(int padTypeNumber, int n1, int n2, int n3, int n4);
     void setRadioButton(QRadioButton *button, bool state);
     void showLayer(int number, bool state);
     void showPackageData();
@@ -109,7 +113,8 @@ private:
     constexpr static int minWidth = 100;
     constexpr static int maxWidth = 100000;
     constexpr static int maxPads = 10000;
-    constexpr static int padTypes = 3;
+    constexpr static int maxPadTypes = 3;
+    constexpr static int maxPadParams = 4;
     bool isEllipseSelected;
     bool isLineSelected;
     bool isPadSelected;
@@ -136,15 +141,17 @@ private:
     Package tmpPackage;
     QPoint mousePoint;
     QSignalMapper *checkBoxMapper;
-    QSignalMapper *radioButtonMapper;
     QSignalMapper *pushButtonMapper;
+    QSignalMapper *radioButtonMapper;
     QSignalMapper *toolButtonMapper;
     QString elementName;
     QString elementReference;
-    QString padTypeShape[padTypes];
+    QString padTypeShape[maxPadTypes];
     QCheckBox *checkBox[checkBoxes];
     QComboBox *comboBox[comboBoxes];
+    QComboBox *padTypeShapeComboBox[maxPadTypes];
     QLineEdit *lineEdit[lineEdits];
+    QLineEdit *padTypeLineEdit[maxPadTypes][maxPadParams];
     QPushButton *pushButton[pushButtons];
     QRadioButton *radioButton[radioButtons];
     //QToolButton *toolButton[toolButtons];

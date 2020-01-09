@@ -130,6 +130,25 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
         connect(toolButton[i], &QToolButton::clicked, [=] () { selectToolButton(i); });
 */
 
+    QLineEdit *tmpPadTypeLineEdit[maxPadTypes][maxPadParams] =
+    {
+        { padType0LineEdit1, padType0LineEdit2, padType0LineEdit3, padType0LineEdit4 },
+        { padType1LineEdit1, padType1LineEdit2, padType1LineEdit3, padType1LineEdit4 },
+        { padType2LineEdit1, padType2LineEdit2, padType2LineEdit3, padType2LineEdit4 }
+    };
+
+    for (int i = 0; i < maxPadTypes; i++)
+        for (int j = 0; j < maxPadParams; j++)
+            padTypeLineEdit[i][j] = tmpPadTypeLineEdit[i][j];
+
+    QComboBox *tmpPadTypeShapeComboBox[maxPadTypes] =
+    {
+        padType0ShapeComboBox, padType1ShapeComboBox, padType2ShapeComboBox
+    };
+
+    std::copy(tmpPadTypeShapeComboBox, tmpPadTypeShapeComboBox + maxPadTypes,
+              padTypeShapeComboBox);
+
     padType0Label3->hide();
     padType0Label4->hide();
     padType1Label3->hide();
@@ -144,13 +163,15 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     padType2LineEdit3->hide();
     padType2LineEdit4->hide();
 
-    package.clear();
-    tmpPackage.clear();
-
     elementName = "ELEMENT";
     elementReference = "REF";
     nameTextLineEdit->setText(elementName);
     referenceTextLineEdit->setText(elementReference);
+
+    package.clear();
+    tmpPackage.clear();
+
+    package.type = "SMD";
 
     //QString str;
     //command = SELECT;
@@ -478,6 +499,22 @@ void Element::addPackage(const QJsonValue &value)
 
 */
 
+QString PackageEditor::padShape(const PadTypeParams &padTypeParams)
+{
+    bool isDiameter = padTypeParams.diameter > 0;
+    bool isRectangle = padTypeParams.height > 0 && padTypeParams.width > 0;
+    QString text;
+
+    if (!isDiameter && isRectangle)
+        text = "Rectangle";
+    if (isDiameter && isRectangle)
+        text = "Rounded rectangle";
+    if (isDiameter && !isRectangle)
+        text = "Circle";
+
+    return text;
+}
+
 void PackageEditor::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
@@ -571,14 +608,9 @@ void PackageEditor::showLayer(int number, bool state)
 
 void PackageEditor::selectComboBox(int number, const QString &text)
 {
-    constexpr int padTypeShapeComboBoxNumbers[3] =
+    constexpr int padTypeShapeComboBoxNumbers[maxPadTypes] =
     {
         PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE, PAD_TYPE_2_SHAPE
-    };
-
-    QComboBox *padTypeShapeComboBox[3] =
-    {
-        padType0ShapeComboBox, padType1ShapeComboBox, padType2ShapeComboBox
     };
 
     switch (number) {
@@ -636,9 +668,11 @@ void PackageEditor::selectComboBox(int number, const QString &text)
     case PACKAGE_TYPE:
         if (text == "SMD" || text == "DIP") {
             tmpPackage.type = text;
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < maxPadTypes; i++) {
                 QString text2 = padTypeShapeComboBox[i]->currentText();
                 selectPadTypeComboBox(padTypeShapeComboBoxNumbers[i], text2);
+                for (int j = 0; j < maxPadParams; j++)
+                    padTypeLineEdit[i][j]->setReadOnly(true);
             }
         }
         break;
@@ -647,96 +681,61 @@ void PackageEditor::selectComboBox(int number, const QString &text)
 
 void PackageEditor::selectPadTypeComboBox(int number, const QString &text)
 {
-    QLabel *padTypeLabel[3][4] =
+    QLabel *padTypeLabel[maxPadTypes][maxPadParams] =
     {
         { padType0Label1, padType0Label2, padType0Label3, padType0Label4 },
         { padType1Label1, padType1Label2, padType1Label3, padType1Label4 },
         { padType2Label1, padType2Label2, padType2Label3, padType2Label4 }
     };
 
-    QLineEdit *padTypeLineEdit[3][4] =
-    {
-        { padType0LineEdit1, padType0LineEdit2, padType0LineEdit3, padType0LineEdit4 },
-        { padType1LineEdit1, padType1LineEdit2, padType1LineEdit3, padType1LineEdit4 },
-        { padType2LineEdit1, padType2LineEdit2, padType2LineEdit3, padType2LineEdit4 }
-    };
-
-    int padType = -1;
+    int t = -1;  // padType
 
     switch (number) {
     case PAD_TYPE_0_SHAPE:
-        padType = 0;
+        t = 0;
     case PAD_TYPE_1_SHAPE:
-        if (padType == -1)
-            padType = 1;
+        if (t == -1)
+            t = 1;
     case PAD_TYPE_2_SHAPE:
-        if (padType == -1)
-            padType = 2;
-        padTypeShape[padType] = text;
+        if (t == -1)
+            t = 2;
+        padTypeShape[t] = text;
         if (text == "Rectangle") {
-            padTypeLabel[padType][0]->setText("w");
-            padTypeLabel[padType][0]->show();
-            padTypeLineEdit[padType][0]->show();
-            padTypeLabel[padType][1]->setText("h");
-            padTypeLabel[padType][1]->show();
-            padTypeLineEdit[padType][1]->show();
-            if (tmpPackage.type == "DIP") {
-                padTypeLabel[padType][2]->setText("d in");
-                padTypeLabel[padType][2]->show();
-                padTypeLineEdit[padType][2]->show();
-            }
-            else {
-                padTypeLabel[padType][2]->hide();
-                padTypeLineEdit[padType][2]->hide();
-            }
-            padTypeLabel[padType][3]->hide();
-            padTypeLineEdit[padType][3]->hide();
+            setPadTypeLineEdit(padTypeLabel[t][0], "w", padTypeLineEdit[t][0], "", true);
+            setPadTypeLineEdit(padTypeLabel[t][1], "h", padTypeLineEdit[t][1], "", true);
+            if (tmpPackage.type == "DIP")
+                setPadTypeLineEdit(padTypeLabel[t][2], "d in", padTypeLineEdit[t][2], "", true);
+            else
+                setPadTypeLineEdit(padTypeLabel[t][2], "", padTypeLineEdit[t][2], "", false);
+            setPadTypeLineEdit(padTypeLabel[t][3], "", padTypeLineEdit[t][3], "", false);
         }
         if (text == "Rounded rectangle") {
-            padTypeLabel[padType][0]->setText("w");
-            padTypeLabel[padType][0]->show();
-            padTypeLineEdit[padType][0]->show();
-            padTypeLabel[padType][1]->setText("h");
-            padTypeLabel[padType][1]->show();
-            padTypeLineEdit[padType][1]->show();
-            padTypeLabel[padType][2]->setText("r");
-            padTypeLabel[padType][2]->show();
-            padTypeLineEdit[padType][2]->show();
-            if (tmpPackage.type == "DIP") {
-                padTypeLabel[padType][3]->setText("d in");
-                padTypeLabel[padType][3]->show();
-                padTypeLineEdit[padType][3]->show();
-            }
-            else {
-                padTypeLabel[padType][3]->hide();
-                padTypeLineEdit[padType][3]->hide();
-            }
+            setPadTypeLineEdit(padTypeLabel[t][0], "w", padTypeLineEdit[t][0], "", true);
+            setPadTypeLineEdit(padTypeLabel[t][1], "h", padTypeLineEdit[t][1], "", true);
+            setPadTypeLineEdit(padTypeLabel[t][2], "r", padTypeLineEdit[t][2], "", true);
+            if (tmpPackage.type == "DIP")
+                setPadTypeLineEdit(padTypeLabel[t][3], "d in", padTypeLineEdit[t][3], "", true);
+            else
+                setPadTypeLineEdit(padTypeLabel[t][3], "", padTypeLineEdit[t][3], "", false);
         }
         if (text == "Circle") {
-            padTypeLabel[padType][0]->setText("d");
-            padTypeLabel[padType][0]->show();
-            padTypeLineEdit[padType][0]->show();
-            if (tmpPackage.type == "DIP") {
-                padTypeLabel[padType][1]->setText("d in");
-                padTypeLabel[padType][1]->show();
-                padTypeLineEdit[padType][1]->show();
-            }
-            else {
-                padTypeLabel[padType][1]->hide();
-                padTypeLineEdit[padType][1]->hide();
-            }
-            padTypeLabel[padType][2]->hide();
-            padTypeLineEdit[padType][2]->hide();
-            padTypeLabel[padType][3]->hide();
-            padTypeLineEdit[padType][3]->hide();
+            setPadTypeLineEdit(padTypeLabel[t][0], "d",
+                               padTypeLineEdit[t][0], "", true);
+            if (tmpPackage.type == "DIP")
+                setPadTypeLineEdit(padTypeLabel[t][1], "d in",
+                                   padTypeLineEdit[t][1], "", true);
+            else
+                setPadTypeLineEdit(padTypeLabel[t][1], "", padTypeLineEdit[t][1], "", false);
+            setPadTypeLineEdit(padTypeLabel[t][2], "", padTypeLineEdit[t][2], "", false);
+            setPadTypeLineEdit(padTypeLabel[t][3], "", padTypeLineEdit[t][3], "", false);
         }
         break;
     }
 
-    if (padType >= 0)
-        for (int i = 0; i < 4; i++)
-            if (padTypeLineEdit[padType][i]->isVisible())
-                padTypeLineEdit[padType][i]->setReadOnly(false);
+    if (t >= 0)
+        for (int i = 0; i < maxPadParams; i++)
+            if (padTypeLineEdit[t][i]->isVisible())
+                padTypeLineEdit[t][i]->setReadOnly(false);
 }
 
 void PackageEditor::selectPushButton(int number)
@@ -775,13 +774,6 @@ void PackageEditor::selectRadioButton(int number)
 
 void PackageEditor::selectRadioButton(int number, bool state)
 {
-    QLineEdit *padTypeLineEdit[3][4] =
-    {
-        { padType0LineEdit1, padType0LineEdit2, padType0LineEdit3, padType0LineEdit4 },
-        { padType1LineEdit1, padType1LineEdit2, padType1LineEdit3, padType1LineEdit4 },
-        { padType2LineEdit1, padType2LineEdit2, padType2LineEdit3, padType2LineEdit4 }
-    };
-
     switch (number) {
     case ADD_ELLIPSE:
         addEllipseHLineEdit->setReadOnly(state);
@@ -825,8 +817,8 @@ void PackageEditor::selectRadioButton(int number, bool state)
         padType0ShapeComboBox->setEnabled(!state);
         padType1ShapeComboBox->setEnabled(!state);
         padType2ShapeComboBox->setEnabled(!state);
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 4; j++)
+        for (int i = 0; i < maxPadTypes; i++)
+            for (int j = 0; j < maxPadParams; j++)
                 if (padTypeLineEdit[i][j]->isVisible())
                     padTypeLineEdit[i][j]->setReadOnly(state);
         break;
@@ -883,6 +875,35 @@ void PackageEditor::selectRadioButton(int number, bool state)
         typeComboBox->setEnabled(!state);
         break;
     }
+}
+
+void PackageEditor::setPadTypeLineEdit(QLabel *label, const QString &labelText,
+                                       QLineEdit *lineEdit, const QString &lineEditText,
+                                       bool state)
+{
+    if (state) {
+        label->setText(labelText);
+        lineEdit->setText(lineEditText);
+        label->show();
+        lineEdit->show();
+    }
+    else {
+        label->hide();
+        lineEdit->hide();
+        label->clear();
+        lineEdit->clear();
+    }
+}
+
+void PackageEditor::setPadTypeTexts(int padTypeNumber, int n1, int n2, int n3, int n4)
+{
+    int n[maxPadParams] = {n1, n2, n3, n4};
+
+    for (int i = 0; i < maxPadParams; i++)
+        if (n[i] > 0)
+            padTypeLineEdit[padTypeNumber][i]->setText(QString::number(n[i]));
+        else
+            padTypeLineEdit[padTypeNumber][i]->clear();
 }
 
 void PackageEditor::setRadioButton(QRadioButton *button, bool state)
@@ -1061,6 +1082,32 @@ void PackageEditor::showPackageData()
     addLineY1LineEdit->clear();
     addLineY2LineEdit->clear();
 
+    for (int i = 0; i < maxPadTypes; i++) {
+        if (i < package.padTypesParams.size()) {
+            PadTypeParams &params = package.padTypesParams[i];
+            int innerDiameter = 0;
+            if (package.type == "DIP")
+                innerDiameter = params.innerDiameter;
+            QString text = padShape(params);
+            if (text.isEmpty()) {
+                for (int j = 0; j < maxPadParams; j++)
+                    padTypeLineEdit[i][j]->clear();
+                break;
+            }
+            selectPadTypeComboBox(i, text);
+            if (text == "Rectangle")
+                setPadTypeTexts(i, params.width, params.height, innerDiameter, 0);
+            if (text == "Rounded rectangle")
+                setPadTypeTexts(i, params.width, params.height,
+                                params.diameter / 2, innerDiameter);
+            if (text == "Circle")
+                setPadTypeTexts(i, params.diameter, innerDiameter, 0, 0);
+        }
+        else
+            for (int j = 0; j < maxPadParams; j++)
+                padTypeLineEdit[i][j]->clear();
+    }
+
     selectedPadNumberLineEdit->clear();
     selectedPadOrientationComboBox->setCurrentIndex(0);
     selectedPadTypeComboBox->setCurrentIndex(0);
@@ -1116,13 +1163,8 @@ void PackageEditor::updatePackage()
         ellipse.w = addEllipseWLineEdit->text().toInt(&ok[1]);
         ellipse.x = addEllipseXLineEdit->text().toInt(&ok[2]);
         ellipse.y = addEllipseYLineEdit->text().toInt(&ok[3]);
-        if (ok[0] && ok [1] && ok[2] && ok[3]) {
+        if (ok[0] && ok [1] && ok[2] && ok[3])
             package.ellipses.push_back(ellipse);
-            addEllipseHLineEdit->clear();
-            addEllipseWLineEdit->clear();
-            addEllipseXLineEdit->clear();
-            addEllipseYLineEdit->clear();
-        }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
@@ -1131,13 +1173,8 @@ void PackageEditor::updatePackage()
         line.x2 = addLineX2LineEdit->text().toInt(&ok[1]);
         line.y1 = addLineY1LineEdit->text().toInt(&ok[2]);
         line.y2 = addLineY2LineEdit->text().toInt(&ok[3]);
-        if (ok[0] && ok [1] && ok[2] && ok[3]) {
+        if (ok[0] && ok [1] && ok[2] && ok[3])
             package.lines.push_back(line);
-            addLineX1LineEdit->clear();
-            addLineX2LineEdit->clear();
-            addLineY1LineEdit->clear();
-            addLineY2LineEdit->clear();
-        }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
@@ -1149,14 +1186,8 @@ void PackageEditor::updatePackage()
         pad.typeNumber = addPadTypeComboBox->currentText().toInt(&ok[1]);
         pad.x = addPadXLineEdit->text().toInt(&ok[2]);
         pad.y = addPadYLineEdit->text().toInt(&ok[3]);
-        if (ok[0] && ok [1] && ok[2] && ok[3] && pad.number >= 1) {
+        if (ok[0] && ok [1] && ok[2] && ok[3] && pad.number >= 1)
             package.pads.push_back(pad);
-            addPadNumberLineEdit->clear();
-            addPadOrientationComboBox->setCurrentIndex(0);
-            addPadTypeComboBox->setCurrentIndex(0);
-            addPadXLineEdit->clear();
-            addPadYLineEdit->clear();
-        }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
@@ -1173,22 +1204,13 @@ void PackageEditor::updatePackage()
         pad.typeNumber = addPadsTypeComboBox->currentText().toInt(&ok[1]);
         if (ok[0] && ok[1] && ok[2] && ok[3] && ok[4] && ok[5] &&
             (abs(dx) > 0 || abs(dy) > 0) && first >= 1 &&
-            first < last && last <= maxPads) {
+            first < last && last <= maxPads)
             for (int i = first; i <= last; i++) {
                 pad.number = i;
                 pad.x = firstX + i * dx;
                 pad.y = firstY + i * dy;
                 package.pads.push_back(pad);
             }
-            addPadsDxLineEdit->clear();
-            addPadsDyLineEdit->clear();
-            addPadsFirstLineEdit->clear();
-            addPadsFirstXLineEdit->clear();
-            addPadsFirstYLineEdit->clear();
-            addPadsLastLineEdit->clear();
-            addPadsOrientationComboBox->setCurrentIndex(0);
-            addPadsTypeComboBox->setCurrentIndex(0);
-        }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
@@ -1206,6 +1228,70 @@ void PackageEditor::updatePackage()
         package.name = nameLineEdit->text();
         break;
     case PAD_TYPES:
+        tmpPackage.padTypesParams.clear();
+        for (int i = 0; i < maxPadTypes; i++) {
+            QString text = padTypeShapeComboBox[i]->currentText();
+            int d = 0;
+            int h = 0;
+            int inD = 0;
+            int w = 0;
+            if (text == "Rectangle") {
+                w = padTypeLineEdit[i][0]->text().toInt(&ok[0]);
+                if (w <= 0)
+                    ok[0] = false;
+                h = padTypeLineEdit[i][1]->text().toInt(&ok[1]);
+                if (h <= 0)
+                    ok[1] = false;
+                if (package.type == "DIP") {
+                    inD = padTypeLineEdit[i][2]->text().toInt(&ok[2]);
+                    if (inD <= 0)
+                        ok[2] = false;
+                }
+                else
+                    ok[2] = true;
+                ok[3] = true;
+            }
+            if (text == "Rounded rectangle") {
+                w = padTypeLineEdit[i][0]->text().toInt(&ok[0]);
+                if (w <= 0)
+                    ok[0] = false;
+                h = padTypeLineEdit[i][1]->text().toInt(&ok[1]);
+                if (h <= 0)
+                    ok[1] = false;
+                d = 2 * padTypeLineEdit[i][2]->text().toInt(&ok[2]);
+                if (d <= 0)
+                    ok[2] = false;
+                if (package.type == "DIP") {
+                    inD = padTypeLineEdit[i][3]->text().toInt(&ok[3]);
+                    if (inD <= 0)
+                        ok[3] = false;
+                }
+                else
+                    ok[3] = true;
+            }
+            if (text == "Circle") {
+                d = padTypeLineEdit[i][0]->text().toInt(&ok[0]);
+                if (d <= 0)
+                    ok[0] = false;
+                if (package.type == "DIP") {
+                    inD = padTypeLineEdit[i][1]->text().toInt(&ok[1]);
+                    if (inD <= 0)
+                        ok[1] = false;
+                }
+                else
+                    ok[1] = true;
+                ok[2] = true;
+                ok[3] = true;
+            }
+            if (ok[0] && ok [1] && ok[2] && ok[3]) {
+                PadTypeParams padTypeParams = {d, h, inD, w};
+                tmpPackage.padTypesParams.push_back(padTypeParams);
+            }
+            else
+                break;
+        }
+        if (!tmpPackage.padTypesParams.empty())
+            package.padTypesParams = tmpPackage.padTypesParams;
         break;
     case READ_ONLY_MODE:
         break;
