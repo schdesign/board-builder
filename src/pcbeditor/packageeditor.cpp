@@ -614,56 +614,10 @@ void PackageEditor::selectComboBox(int number, const QString &text)
     };
 
     switch (number) {
-    case ADD_PAD_ORIENTATION:
-        if (text == "Up")
-            tmpPackage.pads[1].orientation = 0;
-        if (text == "Right")
-            tmpPackage.pads[1].orientation = 1;
-        break;
-    case ADD_PAD_TYPE:
-        if (text == "0" || text == "1" || text == "2")
-            tmpPackage.pads[1].typeNumber = text.toInt();
-        break;
-    case ADD_PADS_ORIENTATION:
-        if (text == "Up")
-            tmpPackage.pads[2].orientation = 0;
-        if (text == "Right")
-            tmpPackage.pads[2].orientation = 1;
-        break;
-    case ADD_PADS_TYPE:
-        if (text == "0" || text == "1" || text == "2")
-            tmpPackage.pads[2].typeNumber = text.toInt();
-        break;
-    case NAME_TEXT_ALIGN_H:
-        if (text == "Center" || text == "Left" || text == "Right")
-            tmpPackage.nameTextAlignH = text;
-        break;
-    case NAME_TEXT_ALIGN_V:
-        if (text == "Center" || text == "Top" || text == "Bottom")
-            tmpPackage.nameTextAlignV = text;
-        break;
     case PAD_TYPE_0_SHAPE:
     case PAD_TYPE_1_SHAPE:
     case PAD_TYPE_2_SHAPE:
         selectPadTypeComboBox(number, text);
-        break;
-    case REFERENCE_TEXT_ALIGN_H:
-        if (text == "Center" || text == "Left" || text == "Right")
-            tmpPackage.referenceTextAlignH = text;
-        break;
-    case REFERENCE_TEXT_ALIGN_V:
-        if (text == "Center" || text == "Top" || text == "Bottom")
-            tmpPackage.referenceTextAlignV = text;
-        break;
-    case SELECTED_PAD_ORIENTATION:
-        if (text == "Up")
-            tmpPackage.pads[0].orientation = 0;
-        if (text == "Right")
-            tmpPackage.pads[0].orientation = 1;
-        break;
-    case SELECTED_PAD_TYPE:
-        if (text == "0" || text == "1" || text == "2")
-            tmpPackage.pads[0].typeNumber = text.toInt();
         break;
     case PACKAGE_TYPE:
         if (text == "SMD" || text == "DIP") {
@@ -688,6 +642,8 @@ void PackageEditor::selectPadTypeComboBox(int number, const QString &text)
         { padType2Label1, padType2Label2, padType2Label3, padType2Label4 }
     };
 
+    bool isDip = (tmpPackage.type == "DIP") ||
+                 (package.type == "DIP" && tmpPackage.type != "SMD");
     int t = -1;  // padType
 
     switch (number) {
@@ -703,7 +659,7 @@ void PackageEditor::selectPadTypeComboBox(int number, const QString &text)
         if (text == "Rectangle") {
             setPadTypeLineEdit(padTypeLabel[t][0], "w", padTypeLineEdit[t][0], "", true);
             setPadTypeLineEdit(padTypeLabel[t][1], "h", padTypeLineEdit[t][1], "", true);
-            if (tmpPackage.type == "DIP")
+            if (isDip)
                 setPadTypeLineEdit(padTypeLabel[t][2], "d in", padTypeLineEdit[t][2], "", true);
             else
                 setPadTypeLineEdit(padTypeLabel[t][2], "", padTypeLineEdit[t][2], "", false);
@@ -713,7 +669,7 @@ void PackageEditor::selectPadTypeComboBox(int number, const QString &text)
             setPadTypeLineEdit(padTypeLabel[t][0], "w", padTypeLineEdit[t][0], "", true);
             setPadTypeLineEdit(padTypeLabel[t][1], "h", padTypeLineEdit[t][1], "", true);
             setPadTypeLineEdit(padTypeLabel[t][2], "r", padTypeLineEdit[t][2], "", true);
-            if (tmpPackage.type == "DIP")
+            if (isDip)
                 setPadTypeLineEdit(padTypeLabel[t][3], "d in", padTypeLineEdit[t][3], "", true);
             else
                 setPadTypeLineEdit(padTypeLabel[t][3], "", padTypeLineEdit[t][3], "", false);
@@ -721,7 +677,7 @@ void PackageEditor::selectPadTypeComboBox(int number, const QString &text)
         if (text == "Circle") {
             setPadTypeLineEdit(padTypeLabel[t][0], "d",
                                padTypeLineEdit[t][0], "", true);
-            if (tmpPackage.type == "DIP")
+            if (isDip)
                 setPadTypeLineEdit(padTypeLabel[t][1], "d in",
                                    padTypeLineEdit[t][1], "", true);
             else
@@ -757,11 +713,14 @@ void PackageEditor::selectRadioButton(int number)
 {
     static int previousNumber = READ_ONLY_MODE;
 
-    if (number != previousNumber)
-        showPackageData();
+    if (number == previousNumber)
+        return;
 
-    selectRadioButton(previousNumber, true);
-    selectRadioButton(number, false);
+    tmpPackage.clear();
+    showPackageData();
+
+    selectRadioButton(previousNumber, false);
+    selectRadioButton(number, true);
 
     bool state = false;
     if (number != READ_ONLY_MODE)
@@ -776,103 +735,101 @@ void PackageEditor::selectRadioButton(int number, bool state)
 {
     switch (number) {
     case ADD_ELLIPSE:
-        addEllipseHLineEdit->setReadOnly(state);
-        addEllipseWLineEdit->setReadOnly(state);
-        addEllipseXLineEdit->setReadOnly(state);
-        addEllipseYLineEdit->setReadOnly(state);
+        addEllipseHLineEdit->setReadOnly(!state);
+        addEllipseWLineEdit->setReadOnly(!state);
+        addEllipseXLineEdit->setReadOnly(!state);
+        addEllipseYLineEdit->setReadOnly(!state);
         break;
     case ADD_LINE:
-        addLineX1LineEdit->setReadOnly(state);
-        addLineX2LineEdit->setReadOnly(state);
-        addLineY1LineEdit->setReadOnly(state);
-        addLineY2LineEdit->setReadOnly(state);
+        addLineX1LineEdit->setReadOnly(!state);
+        addLineX2LineEdit->setReadOnly(!state);
+        addLineY1LineEdit->setReadOnly(!state);
+        addLineY2LineEdit->setReadOnly(!state);
         break;
     case ADD_PAD:
-        addPadNumberLineEdit->setReadOnly(state);
-        addPadOrientationComboBox->setEnabled(!state);
-        addPadTypeComboBox->setEnabled(!state);
-        addPadXLineEdit->setReadOnly(state);
-        addPadYLineEdit->setReadOnly(state);
+        addPadOrientationComboBox->setEnabled(state);
+        addPadTypeComboBox->setEnabled(state);
+        addPadXLineEdit->setReadOnly(!state);
+        addPadYLineEdit->setReadOnly(!state);
         break;
     case ADD_PADS:
-        addPadsDxLineEdit->setReadOnly(state);
-        addPadsDyLineEdit->setReadOnly(state);
-        addPadsFirstLineEdit->setReadOnly(state);
-        addPadsFirstXLineEdit->setReadOnly(state);
-        addPadsFirstYLineEdit->setReadOnly(state);
-        addPadsLastLineEdit->setReadOnly(state);
-        addPadsOrientationComboBox->setEnabled(!state);
-        addPadsTypeComboBox->setEnabled(!state);
+        addPadsDxLineEdit->setReadOnly(!state);
+        addPadsDyLineEdit->setReadOnly(!state);
+        addPadsFirstXLineEdit->setReadOnly(!state);
+        addPadsFirstYLineEdit->setReadOnly(!state);
+        addPadsLastLineEdit->setReadOnly(!state);
+        addPadsOrientationComboBox->setEnabled(state);
+        addPadsTypeComboBox->setEnabled(state);
         break;
     case BORDER:
-        borderBottomLineEdit->setReadOnly(state);
-        borderLeftXLineEdit->setReadOnly(state);
-        borderRightXLineEdit->setReadOnly(state);
-        borderTopYLineEdit->setReadOnly(state);
+        borderBottomLineEdit->setReadOnly(!state);
+        borderLeftXLineEdit->setReadOnly(!state);
+        borderRightXLineEdit->setReadOnly(!state);
+        borderTopYLineEdit->setReadOnly(!state);
         break;
     case NAME:
-        nameLineEdit->setReadOnly(state);
+        nameLineEdit->setReadOnly(!state);
         break;
     case PAD_TYPES:
-        padType0ShapeComboBox->setEnabled(!state);
-        padType1ShapeComboBox->setEnabled(!state);
-        padType2ShapeComboBox->setEnabled(!state);
+        padType0ShapeComboBox->setEnabled(state);
+        padType1ShapeComboBox->setEnabled(state);
+        padType2ShapeComboBox->setEnabled(state);
         for (int i = 0; i < maxPadTypes; i++)
             for (int j = 0; j < maxPadParams; j++)
                 if (padTypeLineEdit[i][j]->isVisible())
-                    padTypeLineEdit[i][j]->setReadOnly(state);
+                    padTypeLineEdit[i][j]->setReadOnly(!state);
         break;
     case READ_ONLY_MODE:
         break;
     case SELECTED_ELLIPSE:
-        selectedEllipseHLineEdit->setReadOnly(state);
-        selectedEllipseWLineEdit->setReadOnly(state);
-        selectedEllipseXLineEdit->setReadOnly(state);
-        selectedEllipseYLineEdit->setReadOnly(state);
+        selectedEllipseHLineEdit->setReadOnly(!state);
+        selectedEllipseWLineEdit->setReadOnly(!state);
+        selectedEllipseXLineEdit->setReadOnly(!state);
+        selectedEllipseYLineEdit->setReadOnly(!state);
         break;
     case SELECTED_LINE:
-        selectedLineX1LineEdit->setReadOnly(state);
-        selectedLineX2LineEdit->setReadOnly(state);
-        selectedLineY1LineEdit->setReadOnly(state);
-        selectedLineY2LineEdit->setReadOnly(state);
+        selectedLineX1LineEdit->setReadOnly(!state);
+        selectedLineX2LineEdit->setReadOnly(!state);
+        selectedLineY1LineEdit->setReadOnly(!state);
+        selectedLineY2LineEdit->setReadOnly(!state);
         break;
     case SELECTED_PAD:
-        selectedPadNumberLineEdit->setReadOnly(state);
-        selectedPadOrientationComboBox->setEnabled(!state);
-        selectedPadTypeComboBox->setEnabled(!state);
-        selectedPadXLineEdit->setReadOnly(state);
-        selectedPadYLineEdit->setReadOnly(state);
+        selectedPadNumberLineEdit->setReadOnly(!state);
+        selectedPadOrientationComboBox->setEnabled(state);
+        selectedPadTypeComboBox->setEnabled(state);
+        selectedPadXLineEdit->setReadOnly(!state);
+        selectedPadYLineEdit->setReadOnly(!state);
         break;
     case TEXT_PARAMS:
-        nameTextAlignHComboBox->setEnabled(!state);
-        nameTextAlignVComboBox->setEnabled(!state);
-        nameTextHeightLineEdit->setReadOnly(state);
-        nameTextLineEdit->setReadOnly(state);
-        referenceTextAlignHComboBox->setEnabled(!state);
-        referenceTextAlignVComboBox->setEnabled(!state);
-        referenceTextHeightLineEdit->setReadOnly(state);
-        referenceTextLineEdit->setReadOnly(state);
+        nameTextAlignHComboBox->setEnabled(state);
+        nameTextAlignVComboBox->setEnabled(state);
+        nameTextHeightLineEdit->setReadOnly(!state);
+        nameTextLineEdit->setReadOnly(!state);
+        referenceTextAlignHComboBox->setEnabled(state);
+        referenceTextAlignVComboBox->setEnabled(state);
+        referenceTextHeightLineEdit->setReadOnly(!state);
+        referenceTextLineEdit->setReadOnly(!state);
         break;
     case TEXT_PLACE:
-        nameTextUpXLineEdit->setReadOnly(state);
-        nameTextUpYLineEdit->setReadOnly(state);
-        nameTextRightXLineEdit->setReadOnly(state);
-        nameTextRightYLineEdit->setReadOnly(state);
-        nameTextDownXLineEdit->setReadOnly(state);
-        nameTextDownYLineEdit->setReadOnly(state);
-        nameTextLeftXLineEdit->setReadOnly(state);
-        nameTextLeftYLineEdit->setReadOnly(state);
-        referenceTextUpXLineEdit->setReadOnly(state);
-        referenceTextUpYLineEdit->setReadOnly(state);
-        referenceTextRightXLineEdit->setReadOnly(state);
-        referenceTextRightYLineEdit->setReadOnly(state);
-        referenceTextDownXLineEdit->setReadOnly(state);
-        referenceTextDownYLineEdit->setReadOnly(state);
-        referenceTextLeftXLineEdit->setReadOnly(state);
-        referenceTextLeftYLineEdit->setReadOnly(state);
+        nameTextUpXLineEdit->setReadOnly(!state);
+        nameTextUpYLineEdit->setReadOnly(!state);
+        nameTextRightXLineEdit->setReadOnly(!state);
+        nameTextRightYLineEdit->setReadOnly(!state);
+        nameTextDownXLineEdit->setReadOnly(!state);
+        nameTextDownYLineEdit->setReadOnly(!state);
+        nameTextLeftXLineEdit->setReadOnly(!state);
+        nameTextLeftYLineEdit->setReadOnly(!state);
+        referenceTextUpXLineEdit->setReadOnly(!state);
+        referenceTextUpYLineEdit->setReadOnly(!state);
+        referenceTextRightXLineEdit->setReadOnly(!state);
+        referenceTextRightYLineEdit->setReadOnly(!state);
+        referenceTextDownXLineEdit->setReadOnly(!state);
+        referenceTextDownYLineEdit->setReadOnly(!state);
+        referenceTextLeftXLineEdit->setReadOnly(!state);
+        referenceTextLeftYLineEdit->setReadOnly(!state);
         break;
     case TYPE:
-        typeComboBox->setEnabled(!state);
+        typeComboBox->setEnabled(state);
         break;
     }
 }
@@ -1114,7 +1071,7 @@ void PackageEditor::showPackageData()
     selectedPadXLineEdit->clear();
     selectedPadYLineEdit->clear();
 
-    addPadNumberLineEdit->clear();
+    addPadNumberLineEdit->setText(str.setNum(package.pads.size() + 1));
     addPadOrientationComboBox->setCurrentIndex(0);
     addPadTypeComboBox->setCurrentIndex(0);
     addPadXLineEdit->clear();
@@ -1122,21 +1079,21 @@ void PackageEditor::showPackageData()
 
     addPadsDxLineEdit->clear();
     addPadsDyLineEdit->clear();
-    addPadsFirstLineEdit->clear();
+    addPadsFirstLineEdit->setText(str.setNum(package.pads.size() + 1));
     addPadsFirstXLineEdit->clear();
     addPadsFirstYLineEdit->clear();
     addPadsLastLineEdit->clear();
     addPadsOrientationComboBox->setCurrentIndex(0);
     addPadsTypeComboBox->setCurrentIndex(0);
 
-    ellipsesLineEdit->setText(QString::number(package.ellipses.size()));
-    linesLineEdit->setText(QString::number(package.lines.size()));
-    padsLineEdit->setText(QString::number(package.pads.size()));
+    ellipsesLineEdit->setText(str.setNum(package.ellipses.size()));
+    linesLineEdit->setText(str.setNum(package.lines.size()));
+    padsLineEdit->setText(str.setNum(package.pads.size()));
 }
 
 void PackageEditor::updatePackage()
 {
-    const QString warningMessage = "Parameter is not an integer number";
+    const QString warningMessage = "Parameter value error";
     bool isValid;
     bool ok[16];
     int dx;
@@ -1149,6 +1106,7 @@ void PackageEditor::updatePackage()
     Ellipse ellipse;
     Line line;
     Pad pad;
+    QString str;
 
     for (int i = 0; i < radioButtons; i++) {
         if (radioButton[i]->isChecked()) {
@@ -1179,38 +1137,54 @@ void PackageEditor::updatePackage()
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case ADD_PAD:
-        pad.number = addPadNumberLineEdit->text().toInt(&ok[0]);
+        pad.number = package.pads.size() + 1;
         pad.orientation = 0;  // "Up"
         if (addPadOrientationComboBox->currentText() == "Right")
             pad.orientation = 1;
-        pad.typeNumber = addPadTypeComboBox->currentText().toInt(&ok[1]);
-        pad.x = addPadXLineEdit->text().toInt(&ok[2]);
-        pad.y = addPadYLineEdit->text().toInt(&ok[3]);
-        if (ok[0] && ok [1] && ok[2] && ok[3] && pad.number >= 1)
+        pad.typeNumber = addPadTypeComboBox->currentText().toInt(&ok[0]);
+        pad.x = addPadXLineEdit->text().toInt(&ok[1]);
+        pad.y = addPadYLineEdit->text().toInt(&ok[2]);
+        if (ok[0] && ok [1] && ok[2] && pad.typeNumber < package.padTypesParams.size()) {
+            pad.diameter = package.padTypesParams[pad.typeNumber].diameter;
+            pad.height = package.padTypesParams[pad.typeNumber].height;
+            pad.innerDiameter = package.padTypesParams[pad.typeNumber].innerDiameter;
+            pad.net = 0;
+            pad.width = package.padTypesParams[pad.typeNumber].width;
             package.pads.push_back(pad);
+            addPadNumberLineEdit->setText(str.setNum(package.pads.size() + 1));
+            addPadsFirstLineEdit->setText(str.setNum(package.pads.size() + 1));
+        }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
     case ADD_PADS:
         dx = addPadsDxLineEdit->text().toInt(&ok[0]);
         dy = addPadsDyLineEdit->text().toInt(&ok[1]);
-        first = addPadsFirstLineEdit->text().toInt(&ok[2]);
-        firstX = addPadsFirstXLineEdit->text().toInt(&ok[3]);
-        firstY = addPadsFirstYLineEdit->text().toInt(&ok[4]);
-        last = addPadsLastLineEdit->text().toInt(&ok[5]);
+        first = package.pads.size() + 1;
+        firstX = addPadsFirstXLineEdit->text().toInt(&ok[2]);
+        firstY = addPadsFirstYLineEdit->text().toInt(&ok[3]);
+        last = addPadsLastLineEdit->text().toInt(&ok[4]);
         pad.orientation = 0;  // "Up"
         if (addPadsOrientationComboBox->currentText() == "Right")
             pad.orientation = 1;
-        pad.typeNumber = addPadsTypeComboBox->currentText().toInt(&ok[1]);
+        pad.typeNumber = addPadsTypeComboBox->currentText().toInt(&ok[5]);
         if (ok[0] && ok[1] && ok[2] && ok[3] && ok[4] && ok[5] &&
-            (abs(dx) > 0 || abs(dy) > 0) && first >= 1 &&
-            first < last && last <= maxPads)
+            (abs(dx) > 0 || abs(dy) > 0) && first < last && last <= maxPads &&
+            pad.typeNumber < package.padTypesParams.size()) {
             for (int i = first; i <= last; i++) {
+                pad.diameter = package.padTypesParams[pad.typeNumber].diameter;
+                pad.height = package.padTypesParams[pad.typeNumber].height;
+                pad.innerDiameter = package.padTypesParams[pad.typeNumber].innerDiameter;
+                pad.net = 0;
                 pad.number = i;
+                pad.width = package.padTypesParams[pad.typeNumber].width;
                 pad.x = firstX + i * dx;
                 pad.y = firstY + i * dy;
                 package.pads.push_back(pad);
             }
+            addPadNumberLineEdit->setText(str.setNum(package.pads.size() + 1));
+            addPadsFirstLineEdit->setText(str.setNum(package.pads.size() + 1));
+        }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
@@ -1406,9 +1380,9 @@ void PackageEditor::updatePackage()
         break;
     }
 
-    ellipsesLineEdit->setText(QString::number(package.ellipses.size()));
-    linesLineEdit->setText(QString::number(package.lines.size()));
-    padsLineEdit->setText(QString::number(package.pads.size()));
+    ellipsesLineEdit->setText(str.setNum(package.ellipses.size()));
+    linesLineEdit->setText(str.setNum(package.lines.size()));
+    padsLineEdit->setText(str.setNum(package.pads.size()));
 }
 
 void PackageEditor::updateElement()
