@@ -2,6 +2,7 @@
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "exceptiondata.h"
+#include "function.h"
 #include "packageeditor.h"
 #include "ui_packageeditor.h"
 #include <QFile>
@@ -237,6 +238,7 @@ void PackageEditor::closeFile()
     // Left, right, up, down, zoom in, zoom out
     // buttonsSetEnabled("000000");*/
 }
+
 /*
 void PackageEditor::keyPressEvent(QKeyEvent *event)
 {
@@ -259,15 +261,7 @@ void PackageEditor::keyPressEvent(QKeyEvent *event)
 
     update();
 }
-*/
-void PackageEditor::limit(int &value, int min, int max)
-{
-    if (value < min)
-        value = min;
-    if (value > max)
-        value = max;
-}
-/*
+
 void PackageEditor::mousePressEvent(QMouseEvent *event)
 {
     enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
@@ -359,7 +353,11 @@ void PackageEditor::openFile()
     file.close();
 
     try {
-        //package.fromJson(array);
+        readPackages(array);
+        if (!packages.empty()) {
+            package = packages[0];
+            updateElement();
+        }
     }
     catch (ExceptionData &e) {
         QMessageBox::warning(this, tr("Error"), e.show());
@@ -372,39 +370,7 @@ void PackageEditor::openFile()
     update();
 }
 
-/*
-void Board::readJsonFile(const QString &filename, QByteArray &byteArray)
-{
-    QFile file(filename);
-    if (!file.open(QIODevice::ReadOnly))
-        throw ExceptionData(filename + " open error");
-    byteArray = file.readAll();
-    file.close();
-}
-
-void Board::readPackageLibrary(const QString &libraryname)
-{
-    QByteArray byteArray;
-    readJsonFile(libraryname, byteArray);
-
-    QJsonDocument document(QJsonDocument::fromJson(byteArray));
-    if (document.isNull())
-        throw ExceptionData("Package library file read error");
-
-    QJsonObject object = document.object();
-
-    if (object["object"].toString() != "packageLibrary")
-        throw ExceptionData("File is not a package library file");
-
-    QJsonArray filenames(object["filenames"].toArray());
-
-    for (auto f : filenames) {
-        readJsonFile(packagesDirectory + "/" + f.toString(), byteArray);
-        readPackages(byteArray);
-    }
-}
-
-void Board::readPackages(const QByteArray &byteArray)
+void PackageEditor::readPackages(const QByteArray &byteArray)
 {
     QJsonParseError error;
     QString str;
@@ -420,84 +386,11 @@ void Board::readPackages(const QByteArray &byteArray)
         throw ExceptionData("File is not a packages file");
 
     QJsonArray packageArray(object["packages"].toArray());
-    for (auto p : packageArray)
-        Element::addPackage(p);
-}
-
-void Element::addPackage(const QJsonValue &value)
-{
-    Package package;
-
-    package.refX = 0;
-    package.refY = 0;
-
-    QJsonObject object = value.toObject();
-
-    package.name = object["name"].toString();
-    package.type = object["type"].toString();
-
-    QJsonObject padParamsObject = object["padParams"].toObject();
-    QJsonArray padsArray = object["pads"].toArray();
-    QJsonArray linesArray = object["lines"].toArray();
-    QJsonObject referenceTextObject = object["referenceText"].toObject();
-    QJsonObject nameTextObject = object["nameText"].toObject();
-
-    int width = padParamsObject["width"].toInt();
-    int height = padParamsObject["height"].toInt();
-    int radius = padParamsObject["radius"].toInt();
-
-    for (int i = 0; i < padsArray.size(); i++) {
-        QJsonObject packagePad = padsArray[i].toObject();
-        Pad pad;
-        pad.number = i + 1;
-        pad.net = 0;
-        pad.width = width;
-        pad.height = height;
-        pad.radius = radius;
-        pad.orientation = packagePad["orientation"].toInt();
-        pad.x = packagePad["x"].toInt();
-        pad.y = packagePad["y"].toInt();
-        package.pads.push_back(pad);
+    for (auto p : packageArray) {
+        Package package(p);
+        packages.push_back(package);
     }
-
-    package.ellipse.fromJson(object["ellipse"]);
-
-    for (auto l : linesArray) {
-        Line line(l);
-        package.lines.push_back(line);
-    }
-
-    package.border.fromJson(object["border"]);
-
-    package.referenceTextHeight = referenceTextObject["height"].toInt();
-    //package.referenceTextAlignmentX = referenceTextObject["alignmentX"].toInt();
-    //package.referenceTextAlignmentY = referenceTextObject["alignmentY"].toInt();
-    package.referenceTextX[0] = referenceTextObject["upX"].toInt();
-    package.referenceTextY[0] = referenceTextObject["upY"].toInt();
-    package.referenceTextX[1] = referenceTextObject["rightX"].toInt();
-    package.referenceTextY[1] = referenceTextObject["rightY"].toInt();
-    package.referenceTextX[2] = referenceTextObject["downX"].toInt();
-    package.referenceTextY[2] = referenceTextObject["downY"].toInt();
-    package.referenceTextX[3] = referenceTextObject["leftX"].toInt();
-    package.referenceTextY[3] = referenceTextObject["leftY"].toInt();
-
-    package.nameTextHeight = nameTextObject["height"].toInt();
-    //package.nameTextAlignmentX = nameTextObject["alignmentX"].toInt();
-    //package.nameTextAlignmentY = nameTextObject["alignmentY"].toInt();
-    package.nameTextX[0] = nameTextObject["upX"].toInt();
-    package.nameTextY[0] = nameTextObject["upY"].toInt();
-    package.nameTextX[1] = nameTextObject["rightX"].toInt();
-    package.nameTextY[1] = nameTextObject["rightY"].toInt();
-    package.nameTextX[2] = nameTextObject["downX"].toInt();
-    package.nameTextY[2] = nameTextObject["downY"].toInt();
-    package.nameTextX[3] = nameTextObject["leftX"].toInt();
-    package.nameTextY[3] = nameTextObject["leftY"].toInt();
-
-    Element::packages.push_back(package);
 }
-
-
-*/
 
 QString PackageEditor::padShape(const PadTypeParams &padTypeParams)
 {
@@ -549,19 +442,29 @@ void PackageEditor::paintEvent(QPaintEvent *)
 }
 
 void PackageEditor::saveFile()
-{/*
+{
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save pkg file"),
-                          packageDirectory, tr("pkg files (*.pkg)"));
+                           packageDirectory, tr("pkg files (*.pkg)"));
 
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly))
         return;
 
-    //QJsonDocument document(package.toJson());
-    //QByteArray array(document.toJson());
+    QJsonArray packagesArray;
 
-    //file.write(array);
-    file.close();*/
+    packagesArray.append(package.toJson());
+
+    QJsonObject packages
+    {
+        {"object", "packages"},
+        {"packages", packagesArray}
+    };
+
+    QJsonDocument document(packages);
+    QByteArray array(document.toJson());
+
+    file.write(array);
+    file.close();
 }
 
 void PackageEditor::selectCheckBox(int number)

@@ -3,6 +3,25 @@
 
 #include "function.h"
 
+int alignment(QString alignH, QString alignV)
+{
+    int h = Qt::AlignHCenter;
+
+    if (alignH == "Left")
+        h = Qt::AlignLeft;
+    if (alignH == "Right")
+        h = Qt::AlignRight;
+
+    int v = Qt::AlignVCenter;
+
+    if (alignV == "Top")
+        v = Qt::AlignTop;
+    if (alignV == "Bottom")
+        v = Qt::AlignBottom;
+
+    return h | v;
+}
+
 bool findIndex(int &type, const QString &typeString,
               const char typeStrings[][32], int size)
 {

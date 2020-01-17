@@ -3,6 +3,7 @@
 
 #include "element.h"
 #include "exceptiondata.h"
+#include "function.h"
 #include "text.h"
 #include <cmath>
 #include <QJsonArray>
@@ -115,90 +116,13 @@ Element::Element(const QJsonObject &object, int refX, int refY):
 
 void Element::addPackage(const QJsonValue &value)
 {
-    Package package;
-
-    QJsonObject object = value.toObject();
-
-    QJsonArray ellipsesArray = object["ellipses"].toArray();
-    QJsonArray linesArray = object["lines"].toArray();
-    QJsonArray padsArray = object["pads"].toArray();
-    QJsonArray padTypesParamsArray = object["padTypesParams"].toArray();
-    QJsonObject nameTextObject = object["nameText"].toObject();
-    QJsonObject referenceTextObject = object["referenceText"].toObject();
-
-    package.border.fromJson(object["border"]);
-
-    package.nameTextHeight = nameTextObject["height"].toInt();
-    package.nameTextX[0] = nameTextObject["upX"].toInt();
-    package.nameTextY[0] = nameTextObject["upY"].toInt();
-    package.nameTextX[1] = nameTextObject["rightX"].toInt();
-    package.nameTextY[1] = nameTextObject["rightY"].toInt();
-    package.nameTextX[2] = nameTextObject["downX"].toInt();
-    package.nameTextY[2] = nameTextObject["downY"].toInt();
-    package.nameTextX[3] = nameTextObject["leftX"].toInt();
-    package.nameTextY[3] = nameTextObject["leftY"].toInt();
-
-    package.referenceTextHeight = referenceTextObject["height"].toInt();
-    package.referenceTextX[0] = referenceTextObject["upX"].toInt();
-    package.referenceTextY[0] = referenceTextObject["upY"].toInt();
-    package.referenceTextX[1] = referenceTextObject["rightX"].toInt();
-    package.referenceTextY[1] = referenceTextObject["rightY"].toInt();
-    package.referenceTextX[2] = referenceTextObject["downX"].toInt();
-    package.referenceTextY[2] = referenceTextObject["downY"].toInt();
-    package.referenceTextX[3] = referenceTextObject["leftX"].toInt();
-    package.referenceTextY[3] = referenceTextObject["leftY"].toInt();
-
-    package.refX = 0;
-    package.refY = 0;
-
-    package.name = object["name"].toString();
-    package.nameTextAlignH = object["nameTextAlignH"].toString();
-    package.nameTextAlignV = object["nameTextAlignV"].toString();
-    package.referenceTextAlignH = object["referenceTextAlignH"].toString();
-    package.referenceTextAlignV = object["referenceTextAlignV"].toString();
-    package.type = object["type"].toString();
-
-    for (auto e : ellipsesArray) {
-        Ellipse ellipse(e);
-        package.ellipses.push_back(ellipse);
-    }
-
-    for (auto l : linesArray) {
-        Line line(l);
-        package.lines.push_back(line);
-    }
-
-    for (auto p : padTypesParamsArray) {
-        QJsonObject paramsObject = p.toObject();
-        PadTypeParams params;
-        params.diameter = paramsObject["diameter"].toInt();
-        params.height = paramsObject["height"].toInt();
-        params.innerDiameter = paramsObject["innerDiameter"].toInt();
-        params.width = paramsObject["width"].toInt();
-        package.padTypesParams.push_back(params);
-    }
-
-    for (int i = 0; i < padsArray.size(); i++) {
-        QJsonObject packagePad = padsArray[i].toObject();
-        Pad pad;
-        pad.net = 0;
-        pad.number = i + 1;
-        pad.orientation = packagePad["orientation"].toInt();
-        pad.typeNumber = packagePad["typeNumber"].toInt();
-        pad.diameter = package.padTypesParams[pad.typeNumber].diameter;
-        pad.height = package.padTypesParams[pad.typeNumber].height;
-        pad.innerDiameter = package.padTypesParams[pad.typeNumber].innerDiameter;
-        pad.width = package.padTypesParams[pad.typeNumber].width;
-        pad.x = packagePad["x"].toInt();
-        pad.y = packagePad["y"].toInt();
-        package.pads.push_back(pad);
-    }
-
+    Package package(value);
     Element::packages.push_back(package);
 }
 
 void Element::draw(QPainter &painter, const Layers &layers, double scale)
 {
+    int align;
     int x, y, w, h, rx, ry;
     QString str;
 
@@ -246,7 +170,8 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
         h = 5 * scale * nameTextHeight;
         x = scale * nameTextX - w / 2;
         y = scale * nameTextY - h / 2;
-        painter.drawText(x, y, w, h, Qt::AlignCenter, name);
+        align = alignment(nameTextAlignH, nameTextAlignV);
+        painter.drawText(x, y, w, h, align, name);
     }
 
     if (layers.draw & (1 << REFERENCE_LAYER)) {
@@ -255,14 +180,15 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
         h = 5 * scale * referenceTextHeight;
         x = scale * referenceTextX - w / 2;
         y = scale * referenceTextY - h / 2;
-        painter.drawText(x, y, w, h, Qt::AlignCenter, reference);
+        align = alignment(referenceTextAlignH, referenceTextAlignV);
+        painter.drawText(x, y, w, h, align, reference);
     }
 }
 
 bool Element::exist(int x, int y)
 {
-    int dx = fabs(border.rightX - border.leftX) / 2;
-    int dy = fabs(border.bottomY - border.topY) / 2;
+    int dx = abs(border.rightX - border.leftX) / 2;
+    int dy = abs(border.bottomY - border.topY) / 2;
 
     if (x >= (centerX - dx) && x <= (centerX + dx) &&
         y >= (centerY - dy) && y <= (centerY + dy))
@@ -287,10 +213,14 @@ void Element::init(const Package &package)
     centerX = (border.leftX + border.rightX) / 2;
     centerY = (border.topY + border.bottomY) / 2;
 
+    nameTextAlignH = package.nameTextAlignH;
+    nameTextAlignV = package.nameTextAlignV;
     nameTextHeight = package.nameTextHeight;
     nameTextX = refX + package.nameTextX[t];
     nameTextY = refY + package.nameTextY[t];
 
+    referenceTextAlignH = package.referenceTextAlignH;
+    referenceTextAlignV = package.referenceTextAlignV;
     referenceTextHeight = package.referenceTextHeight;
     referenceTextX = refX + package.referenceTextX[t];
     referenceTextY = refY + package.referenceTextY[t];

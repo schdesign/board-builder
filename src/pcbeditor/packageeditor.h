@@ -56,7 +56,6 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 
 public:
     explicit PackageEditor(QWidget *parent = nullptr);
-    void limit(int &value, int min, int max);
 
 protected:
     //void keyPressEvent(QKeyEvent *event);
@@ -66,6 +65,7 @@ private:
     void cancelPackageChange();
     QString padShape(const PadTypeParams &padTypeParams);
     void paintEvent(QPaintEvent *);
+    void readPackages(const QByteArray &byteArray);
     void selectRadioButton(int number, bool state);
     void setPadTypeLineEdit(QLabel *label, const QString &labelText, QLineEdit *lineEdit,
                             const QString &lineEditText, bool state);
@@ -155,6 +155,7 @@ private:
     QPushButton *pushButton[pushButtons];
     QRadioButton *radioButton[radioButtons];
     //QToolButton *toolButton[toolButtons];
+    std::vector<Package> packages;
 };
 
 #endif  // PACKAGEEDITOR_H

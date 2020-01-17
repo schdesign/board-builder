@@ -39,6 +39,8 @@ public:
 class Package
 {
 public:
+    Package() {}
+    Package(const QJsonValue &value);
     void clear();
     QJsonObject toJson();
 

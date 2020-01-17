@@ -49,7 +49,6 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
 
 public:
     explicit PcbEditor(QWidget *parent = nullptr);
-    void limit(int &value, int min, int max);
 
 protected:
     void keyPressEvent(QKeyEvent *event);

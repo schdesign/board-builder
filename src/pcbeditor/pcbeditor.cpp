@@ -2,6 +2,7 @@
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "exceptiondata.h"
+#include "function.h"
 #include "pcbeditor.h"
 #include <QFile>
 #include <QFileDialog>
@@ -160,14 +161,6 @@ void PcbEditor::keyPressEvent(QKeyEvent *event)
     }
 */
     update();
-}
-
-void PcbEditor::limit(int &value, int min, int max)
-{
-    if (value < min)
-        value = min;
-    if (value > max)
-        value = max;
 }
 
 void PcbEditor::mousePressEvent(QMouseEvent *event)

@@ -57,8 +57,12 @@ public:
     int refX;               // point of pad 1
     int refY;
     QString name;           // name or value
+    QString nameTextAlignH;
+    QString nameTextAlignV;
     QString packageName;    // SMD0805
     QString reference;      // R1
+    QString referenceTextAlignH;
+    QString referenceTextAlignV;
     std::vector<Ellipse> ellipses;
     std::vector<Line> lines;
     std::vector<Pad> pads;

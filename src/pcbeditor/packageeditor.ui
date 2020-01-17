@@ -3516,7 +3516,6 @@
     <addaction name="actionNewFile"/>
     <addaction name="actionOpenFile"/>
     <addaction name="actionSaveFile"/>
-    <addaction name="actionSaveAsFile"/>
     <addaction name="actionCloseFile"/>
     <addaction name="actionQuit"/>
    </widget>

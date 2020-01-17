@@ -8,6 +8,8 @@
 #include <QJsonValue>
 #include <QString>
 
+int alignment(QString alignH, QString alignV);
+
 bool findIndex(int &type, const QString &typeString,
                const char typeStrings[][32], int size);
 

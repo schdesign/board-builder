@@ -31,6 +31,86 @@ QJsonObject PadTypeParams::toJson()
     return object;
 }
 
+Package::Package(const QJsonValue &value)
+{
+    QJsonObject object = value.toObject();
+
+    QJsonArray ellipsesArray = object["ellipses"].toArray();
+    QJsonArray linesArray = object["lines"].toArray();
+    QJsonArray padsArray = object["pads"].toArray();
+    QJsonArray padTypesParamsArray = object["padTypesParams"].toArray();
+    QJsonObject nameTextObject = object["nameText"].toObject();
+    QJsonObject referenceTextObject = object["referenceText"].toObject();
+
+    border.fromJson(object["border"]);
+
+    nameTextHeight = nameTextObject["height"].toInt();
+    nameTextX[0] = nameTextObject["upX"].toInt();
+    nameTextY[0] = nameTextObject["upY"].toInt();
+    nameTextX[1] = nameTextObject["rightX"].toInt();
+    nameTextY[1] = nameTextObject["rightY"].toInt();
+    nameTextX[2] = nameTextObject["downX"].toInt();
+    nameTextY[2] = nameTextObject["downY"].toInt();
+    nameTextX[3] = nameTextObject["leftX"].toInt();
+    nameTextY[3] = nameTextObject["leftY"].toInt();
+
+    referenceTextHeight = referenceTextObject["height"].toInt();
+    referenceTextX[0] = referenceTextObject["upX"].toInt();
+    referenceTextY[0] = referenceTextObject["upY"].toInt();
+    referenceTextX[1] = referenceTextObject["rightX"].toInt();
+    referenceTextY[1] = referenceTextObject["rightY"].toInt();
+    referenceTextX[2] = referenceTextObject["downX"].toInt();
+    referenceTextY[2] = referenceTextObject["downY"].toInt();
+    referenceTextX[3] = referenceTextObject["leftX"].toInt();
+    referenceTextY[3] = referenceTextObject["leftY"].toInt();
+
+    refX = 0;
+    refY = 0;
+
+    name = object["name"].toString();
+    nameTextAlignH = object["nameTextAlignH"].toString();
+    nameTextAlignV = object["nameTextAlignV"].toString();
+    referenceTextAlignH = object["referenceTextAlignH"].toString();
+    referenceTextAlignV = object["referenceTextAlignV"].toString();
+    type = object["type"].toString();
+
+    for (auto e : ellipsesArray) {
+        Ellipse ellipse(e);
+        ellipses.push_back(ellipse);
+    }
+
+    for (auto l : linesArray) {
+        Line line(l);
+        lines.push_back(line);
+    }
+
+    for (auto p : padTypesParamsArray) {
+        QJsonObject paramsObject = p.toObject();
+        PadTypeParams params;
+        params.diameter = paramsObject["diameter"].toInt();
+        params.height = paramsObject["height"].toInt();
+        params.innerDiameter = paramsObject["innerDiameter"].toInt();
+        params.width = paramsObject["width"].toInt();
+        padTypesParams.push_back(params);
+    }
+
+    for (int i = 0; i < padsArray.size(); i++) {
+        QJsonObject packagePad = padsArray[i].toObject();
+        Pad pad;
+        pad.net = 0;
+        pad.number = i + 1;
+        pad.orientation = packagePad["orientation"].toInt();
+        pad.typeNumber = packagePad["typeNumber"].toInt();
+        pad.diameter = padTypesParams[pad.typeNumber].diameter;
+        pad.height = padTypesParams[pad.typeNumber].height;
+        pad.innerDiameter = padTypesParams[pad.typeNumber].innerDiameter;
+        pad.width = padTypesParams[pad.typeNumber].width;
+        pad.x = packagePad["x"].toInt();
+        pad.y = packagePad["y"].toInt();
+        pads.push_back(pad);
+    }
+}
+
 void Package::clear()
 {
     border.clear();
@@ -113,7 +193,7 @@ QJsonObject Package::toJson()
         {"lines", linesArray},
         {"pads", padsArray},
         {"padTypesParams", padTypesParamsArray}
-   };
+    };
 
     return object;
 }
