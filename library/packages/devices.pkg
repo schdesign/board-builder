@@ -37,19 +37,6 @@
                 }
             ],
             "name": "SO8",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": -3000,
-                "downY": -655,
-                "height": 250,
-                "leftX": 1905,
-                "leftY": -2000,
-                "rightX": -1905,
-                "rightY": 4000,
-                "upX": 3000,
-                "upY": 3155
-            },
             "padTypesParams": [
                 {
                     "diameter": 600,
@@ -108,19 +95,6 @@
                     "y": 0
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": -3000,
-                "downY": -3155,
-                "height": 250,
-                "leftX": 1905,
-                "leftY": -4000,
-                "rightX": -1905,
-                "rightY": 2000,
-                "upX": 3000,
-                "upY": 655
-            },
             "type": "SMD"
         },
         {
@@ -159,19 +133,6 @@
                 }
             ],
             "name": "SO14",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": -3000,
-                "downY": -1622,
-                "height": 250,
-                "leftX": 3810,
-                "leftY": -2000,
-                "rightX": -3810,
-                "rightY": 4000,
-                "upX": 3000,
-                "upY": 5998
-            },
             "padTypesParams": [
                 {
                     "diameter": 600,
@@ -266,19 +227,6 @@
                     "y": 0
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": -3000,
-                "downY": -5998,
-                "height": 250,
-                "leftX": 3810,
-                "leftY": -4000,
-                "rightX": -3810,
-                "rightY": 2000,
-                "upX": 3000,
-                "upY": 1622
-            },
             "type": "SMD"
         }
     ]

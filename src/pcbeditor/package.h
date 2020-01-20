@@ -45,20 +45,8 @@ public:
     QJsonObject toJson();
 
     Border border;
-    int nameTextHeight;
-    int nameTextX[4];   // up, right, down, left
-    int nameTextY[4];
-    int referenceTextHeight;
-    int referenceTextX[4];
-    int referenceTextY[4];
-    int refX;
-    int refY;
     QString name;
-    QString nameTextAlignH;       // elementNameTextAlignment
-    QString nameTextAlignV;
-    QString referenceTextAlignH;  // elementReferenceTextAlignment
-    QString referenceTextAlignV;
-    QString type;                 // SMD, DIP
+    QString type;       // SMD, DIP
     std::vector<Ellipse> ellipses;
     std::vector<Line> lines;
     std::vector<Pad> pads;

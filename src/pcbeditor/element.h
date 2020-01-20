@@ -32,7 +32,7 @@ public:
     Element(const QJsonObject &object, int refX, int refY);
     static void addPackage(const QJsonValue &value);
     static QJsonObject writePackages(const QString &packageType);
-    void draw(QPainter &painter, const Layers &layers, double scale);
+    void draw(QPainter &painter, const Layers &layers, int fontSize, double scale);
     bool exist(int x, int y);
     void init(const Package &package);
     bool inside(int leftX, int topY, int rightX, int bottomY);

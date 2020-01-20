@@ -48,8 +48,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     QPushButton *tmpPushButton[pushButtons] =
     {
-        decGridButton, decSpaceButton, decWidthButton,
-        incGridButton, incSpaceButton, incWidthButton
+        decFontSizeButton, decGridButton, decSpaceButton, decWidthButton,
+        incFontSizeButton, incGridButton, incSpaceButton, incWidthButton
     };
 
     std::copy(tmpPushButton, tmpPushButton + pushButtons, pushButton);
@@ -90,9 +90,11 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     QString str;
     command = SELECT;
     previousCommand = command;
-    mousePoint = QPoint(0, 0);    
+    mousePoint = QPoint(0, 0);
+    fontSize = defaultFontSize;
+    fontSizeLineEdit->setText(str.setNum(fontSize));
     step = gridStep;
-    gridNumber = 6; // 1000 um in grid step
+    gridNumber = defaultGridNumber;
     scale = double(gridStep) / grid[gridNumber];
     gridLineEdit->setText(str.setNum(grid[gridNumber]));
     space = board.defaultPolygonSpace;
@@ -102,7 +104,7 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     dx = gridX;
     dy = gridY;
     centerX = 57 * grid[gridNumber];
-    centerY = 40 * grid[gridNumber];
+    centerY = 39 * grid[gridNumber];
     maxXLineEdit->setText(str.setNum(maxX));
     maxYLineEdit->setText(str.setNum(maxY));
     dxLineEdit->setText(str.setNum(dx));
@@ -352,14 +354,14 @@ void PcbEditor::paintEvent(QPaintEvent *)
     QFont serifFont("Times", 10, QFont::Normal);
     QFont serifFont2("Times", 12, QFont::Normal);
 
-    painter.fillRect(91, 0, 1160, 840, QColor(255, 255, 255, 255));
+    painter.fillRect(91, 0, 1160, 820, QColor(255, 255, 255, 255));
 
     painter.setPen(Qt::black);
     painter.setFont(serifFont);
 
     if (showGridCheckBox->isChecked()) {
         for (int i = 0; i < 1150 / gridStep; i++)
-            for (int j = 0; j < 810 / gridStep; j++)
+            for (int j = 0; j < 790 / gridStep; j++)
                 painter.drawPoint(gridX + gridStep * i, gridY + gridStep * j);
     }
 
@@ -371,7 +373,7 @@ void PcbEditor::paintEvent(QPaintEvent *)
 
     painter.translate(dx, dy);
 
-    board.draw(painter, scale);
+    board.draw(painter, fontSize, scale);
 }
 
 void PcbEditor::saveErrorCheck()
@@ -427,7 +429,7 @@ void PcbEditor::saveSVG()
     QPainter painter;
     painter.begin(&generator);
     painter.fillRect(x, y, width, height, Qt::white);
-    board.draw(painter, scale);
+    board.draw(painter, fontSize, scale);
     painter.end();
 }
 
@@ -485,6 +487,13 @@ void PcbEditor::selectPushButton(int number)
     QString str;
 
     switch (number) {
+    case DEC_FONT_SIZE:
+        fontSize -= 2;
+    case INC_FONT_SIZE:
+        fontSize++;
+        limit(fontSize, minFontSize, maxFontSize);
+        fontSizeLineEdit->setText(str.setNum(fontSize));
+        break;
     case DEC_GRID:
         gridNumber -= 2;
     case INC_GRID:

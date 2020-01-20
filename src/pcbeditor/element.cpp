@@ -120,7 +120,7 @@ void Element::addPackage(const QJsonValue &value)
     Element::packages.push_back(package);
 }
 
-void Element::draw(QPainter &painter, const Layers &layers, double scale)
+void Element::draw(QPainter &painter, const Layers &layers, int fontSize, double scale)
 {
     int align;
     int x, y, w, h, rx, ry;
@@ -166,20 +166,24 @@ void Element::draw(QPainter &painter, const Layers &layers, double scale)
 
     if (layers.draw & (1 << NAME_LAYER)) {
         painter.setPen(layers.color[NAME_LAYER]);
-        w = 3 * scale * (border.rightX - border.leftX);
-        h = 5 * scale * nameTextHeight;
-        x = scale * nameTextX - w / 2;
-        y = scale * nameTextY - h / 2;
+        w = fontSize * name.size();
+        h = fontSize;
+        x = scale * centerX - w / 2;
+        y = scale * border.bottomY + 0.2 * fontSize;
+        nameTextAlignH = "Center";
+        nameTextAlignV = "Center";
         align = alignment(nameTextAlignH, nameTextAlignV);
         painter.drawText(x, y, w, h, align, name);
     }
 
     if (layers.draw & (1 << REFERENCE_LAYER)) {
         painter.setPen(layers.color[REFERENCE_LAYER]);
-        w = 3 * scale * (border.rightX - border.leftX);
-        h = 5 * scale * referenceTextHeight;
-        x = scale * referenceTextX - w / 2;
-        y = scale * referenceTextY - h / 2;
+        w = fontSize * name.size();
+        h = fontSize;
+        x = scale * centerX - w / 2;
+        y = scale * border.topY - 1.2 * fontSize;
+        referenceTextAlignH = "Center";
+        referenceTextAlignV = "Center";
         align = alignment(referenceTextAlignH, referenceTextAlignV);
         painter.drawText(x, y, w, h, align, reference);
     }
@@ -205,25 +209,30 @@ void Element::init(const Package &package)
     const int c[4][4] = {{1,0,0,1}, {0,-1,1,0}, {-1,0,0,-1}, {0,1,-1,0}};
     int t = orientation;
 
-    border.leftX = refX + c[t][0] * package.border.leftX + c[t][1] * package.border.topY;
-    border.topY = refY + c[t][2] * package.border.leftX + c[t][3] * package.border.topY;
-    border.rightX = refX + c[t][0] * package.border.rightX + c[t][1] * package.border.bottomY;
-    border.bottomY = refY + c[t][2] * package.border.rightX + c[t][3] * package.border.bottomY;
+    int leftX = refX + c[t][0] * package.border.leftX + c[t][1] * package.border.topY;
+    int topY = refY + c[t][2] * package.border.leftX + c[t][3] * package.border.topY;
+    int rightX = refX + c[t][0] * package.border.rightX + c[t][1] * package.border.bottomY;
+    int bottomY = refY + c[t][2] * package.border.rightX + c[t][3] * package.border.bottomY;
+
+    border.leftX = leftX < rightX ? leftX : rightX;
+    border.topY = topY < bottomY ? topY : bottomY;
+    border.rightX = leftX < rightX ? rightX : leftX;
+    border.bottomY = topY < bottomY ? bottomY : topY;
 
     centerX = (border.leftX + border.rightX) / 2;
     centerY = (border.topY + border.bottomY) / 2;
 
-    nameTextAlignH = package.nameTextAlignH;
-    nameTextAlignV = package.nameTextAlignV;
-    nameTextHeight = package.nameTextHeight;
-    nameTextX = refX + package.nameTextX[t];
-    nameTextY = refY + package.nameTextY[t];
+    nameTextAlignH = "";
+    nameTextAlignV = "";
+    nameTextHeight = 0;
+    nameTextX = 0;
+    nameTextY = 0;
 
-    referenceTextAlignH = package.referenceTextAlignH;
-    referenceTextAlignV = package.referenceTextAlignV;
-    referenceTextHeight = package.referenceTextHeight;
-    referenceTextX = refX + package.referenceTextX[t];
-    referenceTextY = refY + package.referenceTextY[t];
+    referenceTextAlignH = "";
+    referenceTextAlignV = "";
+    referenceTextHeight = 0;
+    referenceTextX = 0;
+    referenceTextY = 0;
 
     Ellipse ellipse;
     for (auto e : package.ellipses) {

@@ -37,19 +37,6 @@
                 }
             ],
             "name": "SOT23",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": -3000,
-                "downY": -655,
-                "height": 250,
-                "leftX": 1905,
-                "leftY": -2000,
-                "rightX": -1905,
-                "rightY": 4000,
-                "upX": 3000,
-                "upY": 3155
-            },
             "padTypesParams": [
                 {
                     "diameter": 0,
@@ -78,19 +65,6 @@
                     "y": -2000
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": -1200,
-                "downY": -1000,
-                "height": 250,
-                "leftX": 1905,
-                "leftY": -2000,
-                "rightX": -1905,
-                "rightY": 0,
-                "upX": 800,
-                "upY": -2900
-            },
             "type": "SMD"
         }
     ]

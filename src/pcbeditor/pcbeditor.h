@@ -22,14 +22,14 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
     Q_OBJECT
 
     constexpr static int checkBoxes = 13;
-    constexpr static int pushButtons = 6;
+    constexpr static int pushButtons = 8;
     constexpr static int radioButtons = 4;
     constexpr static int toolButtons = 44;
 
     enum PushButton
     {
-        DEC_GRID, DEC_SPACE, DEC_WIDTH,
-        INC_GRID, INC_SPACE, INC_WIDTH
+        DEC_FONT_SIZE, DEC_GRID, DEC_SPACE, DEC_WIDTH,
+        INC_FONT_SIZE, INC_GRID, INC_SPACE, INC_WIDTH
     };
 
     enum ToolButton
@@ -77,27 +77,32 @@ private slots:
     void selectToolButton(int number);
 
 private:
-    const static int grids = 11;
-    const int grid[grids] = {   // um in grid step
+    constexpr static int defaultFontSize = 10;
+    constexpr static int defaultGridNumber = 6;
+    constexpr static int grids = 11;
+    constexpr static int gridStep = 10;    // pixels
+    constexpr static int gridX = 100;
+    constexpr static int gridY = 30;
+    constexpr static int spaceStep = 100;  // um
+    constexpr static int widthStep = 100;
+    constexpr static int maxX = 10000;
+    constexpr static int maxY = 10000;
+    constexpr static int minFontSize = 1;
+    constexpr static int maxFontSize = 100;
+    constexpr static int minSpace = 100;
+    constexpr static int maxSpace = 100000;
+    constexpr static int minWidth = 100;
+    constexpr static int maxWidth = 100000;
+    const int grid[grids] = {  // um in grid step
         50, 100, 125, 200, 250, 500, 1000, 1250, 2500, 5000, 10000
     };
-    const int gridStep = 10;    // pixels
-    const int gridX = 100;
-    const int gridY = 30;
-    const int spaceStep = 100;  // um
-    const int widthStep = 100;
-    const int maxX = 10000;
-    const int maxY = 10000;
-    const int minSpace = 100;
-    const int maxSpace = 100000;
-    const int minWidth = 100;
-    const int maxWidth = 100000;
     double scale;
     int centerX;
     int centerY;
     int command;
     int dx;
     int dy;
+    int fontSize;
     int gridNumber;
     int orientation;
     int previousCommand;

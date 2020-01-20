@@ -49,19 +49,6 @@
                 }
             ],
             "name": "SMD0402",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -275,
-                "height": 250,
-                "leftX": 525,
-                "leftY": 125,
-                "rightX": -525,
-                "rightY": 125,
-                "upX": 0,
-                "upY": 775
-            },
             "padTypesParams": [
                 {
                     "diameter": 0,
@@ -84,19 +71,6 @@
                     "y": 1050
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -775,
-                "height": 250,
-                "leftX": 525,
-                "leftY": -125,
-                "rightX": -525,
-                "rightY": -125,
-                "upX": 0,
-                "upY": 275
-            },
             "type": "SMD"
         },
         {
@@ -147,19 +121,6 @@
                 }
             ],
             "name": "SMD0603",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -325,
-                "height": 250,
-                "leftX": 725,
-                "leftY": 200,
-                "rightX": -725,
-                "rightY": 200,
-                "upX": 0,
-                "upY": 1125
-            },
             "padTypesParams": [
                 {
                     "diameter": 0,
@@ -182,19 +143,6 @@
                     "y": 1450
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -1125,
-                "height": 250,
-                "leftX": 725,
-                "leftY": -200,
-                "rightX": -725,
-                "rightY": -200,
-                "upX": 0,
-                "upY": 325
-            },
             "type": "SMD"
         },
         {
@@ -245,19 +193,6 @@
                 }
             ],
             "name": "SMD0805",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -675,
-                "height": 250,
-                "leftX": 1175,
-                "leftY": 312,
-                "rightX": -1175,
-                "rightY": 312,
-                "upX": 0,
-                "upY": 1675
-            },
             "padTypesParams": [
                 {
                     "diameter": 0,
@@ -280,19 +215,6 @@
                     "y": 2350
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -1675,
-                "height": 250,
-                "leftX": 1175,
-                "leftY": -312,
-                "rightX": -1175,
-                "rightY": -312,
-                "upX": 0,
-                "upY": 675
-            },
             "type": "SMD"
         },
         {
@@ -343,19 +265,6 @@
                 }
             ],
             "name": "SMD1206",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -900,
-                "height": 250,
-                "leftX": 1700,
-                "leftY": 400,
-                "rightX": -1700,
-                "rightY": 400,
-                "upX": 0,
-                "upY": 2500
-            },
             "padTypesParams": [
                 {
                     "diameter": 0,
@@ -378,19 +287,6 @@
                     "y": 3400
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -2500,
-                "height": 250,
-                "leftX": 1700,
-                "leftY": -400,
-                "rightX": -1700,
-                "rightY": -400,
-                "upX": 0,
-                "upY": 900
-            },
             "type": "SMD"
         },
         {
@@ -441,19 +337,6 @@
                 }
             ],
             "name": "SMD1210",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -900,
-                "height": 250,
-                "leftX": 1700,
-                "leftY": 625,
-                "rightX": -1700,
-                "rightY": 625,
-                "upX": 0,
-                "upY": 2500
-            },
             "padTypesParams": [
                 {
                     "diameter": 0,
@@ -476,19 +359,6 @@
                     "y": 3400
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -2500,
-                "height": 250,
-                "leftX": 1700,
-                "leftY": -625,
-                "rightX": -1700,
-                "rightY": -625,
-                "upX": 0,
-                "upY": 900
-            },
             "type": "SMD"
         },
         {
@@ -539,19 +409,6 @@
                 }
             ],
             "name": "SMD1812",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -1225,
-                "height": 250,
-                "leftX": 2350,
-                "leftY": 750,
-                "rightX": -2350,
-                "rightY": 750,
-                "upX": 0,
-                "upY": 3475
-            },
             "padTypesParams": [
                 {
                     "diameter": 0,
@@ -574,19 +431,6 @@
                     "y": 4700
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -3475,
-                "height": 250,
-                "leftX": 2350,
-                "leftY": -750,
-                "rightX": -2350,
-                "rightY": -750,
-                "upX": 0,
-                "upY": 1225
-            },
             "type": "SMD"
         },
         {
@@ -637,19 +481,6 @@
                 }
             ],
             "name": "SMD2512",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -1425,
-                "height": 250,
-                "leftX": 3000,
-                "leftY": 800,
-                "rightX": -3000,
-                "rightY": 800,
-                "upX": 0,
-                "upY": 4575
-            },
             "padTypesParams": [
                 {
                     "diameter": 0,
@@ -672,19 +503,6 @@
                     "y": 6000
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -4575,
-                "height": 250,
-                "leftX": 3000,
-                "leftY": -800,
-                "rightX": -3000,
-                "rightY": -800,
-                "upX": 0,
-                "upY": 1425
-            },
             "type": "SMD"
         }
     ]

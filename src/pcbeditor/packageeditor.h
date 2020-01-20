@@ -22,24 +22,23 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 {
     Q_OBJECT
 
-    constexpr static int checkBoxes = 4;
-    constexpr static int comboBoxes = 14;
-    constexpr static int lineEdits = 68;
+    constexpr static int checkBoxes = 3;
+    constexpr static int comboBoxes = 10;
+    constexpr static int lineEdits = 48;
     constexpr static int pushButtons = 2;
-    constexpr static int radioButtons = 14;
+    constexpr static int radioButtons = 12;
 
     enum CheckBox
     {
-        SHOW_BORDER, SHOW_PACKAGE, SHOW_PADS, SHOW_TEXT
+        SHOW_BORDER, SHOW_PACKAGE, SHOW_PADS
     };
 
     enum ComboBox
     {
         ADD_PAD_ORIENTATION, ADD_PAD_TYPE, ADD_PADS_ORIENTATION,
-        ADD_PADS_TYPE, NAME_TEXT_ALIGN_H, NAME_TEXT_ALIGN_V,
-        PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE, PAD_TYPE_2_SHAPE,
-        REFERENCE_TEXT_ALIGN_H, REFERENCE_TEXT_ALIGN_V,
-        SELECTED_PAD_ORIENTATION, SELECTED_PAD_TYPE, PACKAGE_TYPE
+        ADD_PADS_TYPE, PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE,
+        PAD_TYPE_2_SHAPE, SELECTED_PAD_ORIENTATION,
+        SELECTED_PAD_TYPE, PACKAGE_TYPE
     };
 
     enum PushButton
@@ -51,7 +50,7 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
     {
         ADD_ELLIPSE, ADD_LINE, ADD_PAD, ADD_PADS, BORDER, NAME,
         PAD_TYPES, READ_ONLY_MODE, SELECTED_ELLIPSE, SELECTED_LINE,
-        SELECTED_PAD, TEXT_PARAMS, TEXT_PLACE, TYPE
+        SELECTED_PAD, TYPE
     };
 
 public:
@@ -144,8 +143,6 @@ private:
     QSignalMapper *pushButtonMapper;
     QSignalMapper *radioButtonMapper;
     QSignalMapper *toolButtonMapper;
-    QString elementName;
-    QString elementReference;
     QString padTypeShape[maxPadTypes];
     QCheckBox *checkBox[checkBoxes];
     QComboBox *comboBox[comboBoxes];

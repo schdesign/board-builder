@@ -44,34 +44,7 @@ Package::Package(const QJsonValue &value)
 
     border.fromJson(object["border"]);
 
-    nameTextHeight = nameTextObject["height"].toInt();
-    nameTextX[0] = nameTextObject["upX"].toInt();
-    nameTextY[0] = nameTextObject["upY"].toInt();
-    nameTextX[1] = nameTextObject["rightX"].toInt();
-    nameTextY[1] = nameTextObject["rightY"].toInt();
-    nameTextX[2] = nameTextObject["downX"].toInt();
-    nameTextY[2] = nameTextObject["downY"].toInt();
-    nameTextX[3] = nameTextObject["leftX"].toInt();
-    nameTextY[3] = nameTextObject["leftY"].toInt();
-
-    referenceTextHeight = referenceTextObject["height"].toInt();
-    referenceTextX[0] = referenceTextObject["upX"].toInt();
-    referenceTextY[0] = referenceTextObject["upY"].toInt();
-    referenceTextX[1] = referenceTextObject["rightX"].toInt();
-    referenceTextY[1] = referenceTextObject["rightY"].toInt();
-    referenceTextX[2] = referenceTextObject["downX"].toInt();
-    referenceTextY[2] = referenceTextObject["downY"].toInt();
-    referenceTextX[3] = referenceTextObject["leftX"].toInt();
-    referenceTextY[3] = referenceTextObject["leftY"].toInt();
-
-    refX = 0;
-    refY = 0;
-
     name = object["name"].toString();
-    nameTextAlignH = object["nameTextAlignH"].toString();
-    nameTextAlignV = object["nameTextAlignV"].toString();
-    referenceTextAlignH = object["referenceTextAlignH"].toString();
-    referenceTextAlignV = object["referenceTextAlignV"].toString();
     type = object["type"].toString();
 
     for (auto e : ellipsesArray) {
@@ -114,19 +87,7 @@ Package::Package(const QJsonValue &value)
 void Package::clear()
 {
     border.clear();
-    nameTextHeight = 0;
-    std::fill(nameTextX, nameTextX + 4, 0);
-    std::fill(nameTextY, nameTextY + 4, 0);
-    referenceTextHeight = 0;
-    std::fill(referenceTextX, referenceTextX + 4, 0);
-    std::fill(referenceTextY, referenceTextY + 4, 0);
-    refX = 0;
-    refY = 0;
     name.clear();
-    nameTextAlignH.clear();
-    nameTextAlignV.clear();
-    referenceTextAlignH.clear();
-    referenceTextAlignV.clear();
     type.clear();
     ellipses.clear();
     lines.clear();
@@ -136,36 +97,6 @@ void Package::clear()
 
 QJsonObject Package::toJson()
 {
-    QJsonObject nameText
-    {
-        {"height", nameTextHeight},
-        {"upX", nameTextX[0]},
-        {"upY", nameTextY[0]},
-        {"rightX", nameTextX[1]},
-        {"rightY", nameTextY[1]},
-        {"downX", nameTextX[2]},
-        {"downY", nameTextY[2]},
-        {"leftX", nameTextX[3]},
-        {"leftY", nameTextY[3]},
-        {"nameTextAlignH", nameTextAlignH},
-        {"nameTextAlignV", nameTextAlignV}
-    };
-
-    QJsonObject referenceText
-    {
-        {"height", referenceTextHeight},
-        {"upX", referenceTextX[0]},
-        {"upY", referenceTextY[0]},
-        {"rightX", referenceTextX[1]},
-        {"rightY", referenceTextY[1]},
-        {"downX", referenceTextX[2]},
-        {"downY", referenceTextY[2]},
-        {"leftX", referenceTextX[3]},
-        {"leftY", referenceTextY[3]},
-        {"referenceTextAlignH", referenceTextAlignH},
-        {"referenceTextAlignV", referenceTextAlignV}
-    };
-
     QJsonArray ellipsesArray;
     for (auto e : ellipses)
         ellipsesArray.append(e.toJson());
@@ -186,8 +117,6 @@ QJsonObject Package::toJson()
     {
         {"border", border.toJson()},
         {"name", name},
-        {"nameText", nameText},
-        {"referenceText", referenceText},
         {"type", type},
         {"ellipses", ellipsesArray},
         {"lines", linesArray},

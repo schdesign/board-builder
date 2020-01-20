@@ -450,7 +450,7 @@ void Board::draw(QPainter &painter, double scale)
 }
 */
 
-void Board::draw(QPainter &painter, double scale)
+void Board::draw(QPainter &painter, int fontSize, double scale)
 {
     const QColor colors[8] = {
         QColor(255, 0, 0), QColor(0, 255, 0), QColor(0, 0, 255),
@@ -462,7 +462,7 @@ void Board::draw(QPainter &painter, double scale)
     int space = polygonSpace;
     int x1, y1, x2, y2;
     int width = defaultLineWidth;
-    QFont serifFont("Times", 10, QFont::Normal);
+    QFont serifFont("Times", scale * fontScale * fontSize, QFont::Normal);
     painter.setFont(serifFont);
     QBrush frontBrush(layers.color[FRONT_LAYER]);
     QBrush backBrush(layers.color[BACK_LAYER]);
@@ -601,7 +601,7 @@ void Board::draw(QPainter &painter, double scale)
 
     // Draw elements
     for (auto e : elements)
-        e.draw(painter, layers, scale);
+        e.draw(painter, layers, scale * fontScale * fontSize, scale);
 
     // Draw group
     //if (groupBorder.isValid()) {

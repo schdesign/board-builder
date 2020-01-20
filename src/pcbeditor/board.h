@@ -22,6 +22,7 @@ typedef std::list<Segment> Track;
 class Board
 {
 public:
+    static const int fontScale = 100;
     static const int rows = 24;
     static const int columns = 24;
     static const int maxLine = 256;
@@ -56,7 +57,7 @@ public:
     void deleteSegment(int x, int y);
     int deleteSegment(int x, int y, std::list<Segment> &segments);
     void deleteVia(int x, int y);
-    void draw(QPainter &painter, double scale);
+    void draw(QPainter &painter, int fontSize, double scale);
     void errorCheck(QString &text);
     void extendSpace(int netNumber);
     void fillPolygon(int x, int y);

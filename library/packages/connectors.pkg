@@ -43,19 +43,6 @@
                 }
             ],
             "name": "CON2",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": 1125,
-                "height": 250,
-                "leftX": 3000,
-                "leftY": -1125,
-                "rightX": 0,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": 4125
-            },
             "padTypesParams": [
                 {
                     "diameter": 750,
@@ -78,19 +65,6 @@
                     "y": 3000
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -4125,
-                "height": 250,
-                "leftX": 0,
-                "leftY": -1125,
-                "rightX": -3000,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": -1125
-            },
             "type": "SMD"
         },
         {
@@ -135,19 +109,6 @@
                 }
             ],
             "name": "CON2B",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": 2250,
-                "height": 500,
-                "leftX": 6000,
-                "leftY": -2250,
-                "rightX": 0,
-                "rightY": -2250,
-                "upX": 0,
-                "upY": 8250
-            },
             "padTypesParams": [
                 {
                     "diameter": 1500,
@@ -170,19 +131,6 @@
                     "y": 6000
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -8250,
-                "height": 500,
-                "leftX": 0,
-                "leftY": -2250,
-                "rightX": -6000,
-                "rightY": -2250,
-                "upX": 0,
-                "upY": -2250
-            },
             "type": "SMD"
         },
         {
@@ -233,19 +181,6 @@
                 }
             ],
             "name": "CON3",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": 1125,
-                "height": 250,
-                "leftX": 3000,
-                "leftY": -1125,
-                "rightX": -3000,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": 5625
-            },
             "padTypesParams": [
                 {
                     "diameter": 750,
@@ -274,19 +209,6 @@
                     "y": 6000
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -5625,
-                "height": 250,
-                "leftX": 0,
-                "leftY": -1125,
-                "rightX": -6000,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": -1125
-            },
             "type": "SMD"
         },
         {
@@ -325,19 +247,6 @@
                 }
             ],
             "name": "CON4",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": 1125,
-                "height": 250,
-                "leftX": 3000,
-                "leftY": -1125,
-                "rightX": -3000,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": 5625
-            },
             "padTypesParams": [
                 {
                     "diameter": 750,
@@ -372,19 +281,6 @@
                     "y": 9000
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -5625,
-                "height": 250,
-                "leftX": 0,
-                "leftY": -1125,
-                "rightX": -6000,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": -1125
-            },
             "type": "SMD"
         },
         {
@@ -429,19 +325,6 @@
                 }
             ],
             "name": "CON16",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": 1125,
-                "height": 250,
-                "leftX": 3000,
-                "leftY": -1125,
-                "rightX": 0,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": 4125
-            },
             "padTypesParams": [
                 {
                     "diameter": 1000,
@@ -548,19 +431,6 @@
                     "y": 17780
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -4125,
-                "height": 250,
-                "leftX": 0,
-                "leftY": -1125,
-                "rightX": -3000,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": -1125
-            },
             "type": "SMD"
         }
     ]

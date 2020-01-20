@@ -11,19 +11,6 @@
             "ellipses": [
             ],
             "name": "LED3mm",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": 1125,
-                "height": 250,
-                "leftX": 3000,
-                "leftY": -1125,
-                "rightX": 0,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": 4125
-            },
             "padTypesParams": [
                 {
                     "diameter": 1600,
@@ -46,19 +33,6 @@
                     "y": 2540
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -4125,
-                "height": 250,
-                "leftX": 0,
-                "leftY": -1125,
-                "rightX": -3000,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": -1125
-            },
             "type": "DIP"
         },
         {
@@ -97,19 +71,6 @@
                 }
            ],
             "name": "Switch8",
-            "nameText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": 1125,
-                "height": 250,
-                "leftX": 3000,
-                "leftY": -1125,
-                "rightX": 0,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": 4125
-            },
             "padTypesParams": [
                 {
                     "diameter": 1600,
@@ -216,19 +177,6 @@
                     "y": 17780
                 }
             ],
-            "referenceText": {
-                "alignmentX": 0,
-                "alignmentY": 0,
-                "downX": 0,
-                "downY": -4125,
-                "height": 250,
-                "leftX": 0,
-                "leftY": -1125,
-                "rightX": -3000,
-                "rightY": -1125,
-                "upX": 0,
-                "upY": -1125
-            },
             "type": "DIP"
         }
     ]
