@@ -64,7 +64,9 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
         addPadNumberLineEdit, addPadXLineEdit, addPadYLineEdit, addPadsDxLineEdit,
         addPadsDyLineEdit, addPadsFirstLineEdit, addPadsFirstXLineEdit, addPadsFirstYLineEdit,
         addPadsLastLineEdit, borderBottomLineEdit, borderLeftXLineEdit, borderRightXLineEdit,
-        borderTopYLineEdit, ellipsesLineEdit, linesLineEdit, nameLineEdit,
+        borderTopYLineEdit, deleteEllipsesFirstLineEdit, deleteEllipsesLastLineEdit,
+        deleteLinesFirstLineEdit, deleteLinesLastLineEdit, deletePadsFirstLineEdit,
+        deletePadsLastLineEdit, ellipsesLineEdit, linesLineEdit, nameLineEdit,
         padType0LineEdit1, padType0LineEdit2, padType0LineEdit3, padType0LineEdit4,
         padType1LineEdit1, padType1LineEdit2, padType1LineEdit3, padType1LineEdit4,
         padType2LineEdit1, padType2LineEdit2, padType2LineEdit3, padType2LineEdit4,
@@ -79,7 +81,8 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     QRadioButton *tmpRadioButton[radioButtons] =
     {
         addEllipseRadioButton, addLineRadioButton, addPadRadioButton, addPadsRadioButton,
-        borderRadioButton, nameRadioButton, padTypesRadioButton, readOnlyModeRadioButton,
+        borderRadioButton, deleteEllipsesRadioButton, deleteLinesRadioButton,
+        deletePadsRadioButton, nameRadioButton, padTypesRadioButton, readOnlyModeRadioButton,
         selectedEllipseRadioButton, selectedLineRadioButton, selectedPadRadioButton,
         typeRadioButton
     };
@@ -464,6 +467,8 @@ void PackageEditor::selectCheckBox(int number)
     case SHOW_PACKAGE:
         setRadioButton(addEllipseRadioButton, state);
         setRadioButton(addLineRadioButton, state);
+        setRadioButton(deleteEllipsesRadioButton, state);
+        setRadioButton(deleteLinesRadioButton, state);
         setRadioButton(selectedEllipseRadioButton, state);
         setRadioButton(selectedLineRadioButton, state);
         showLayer(PACKAGE_LAYER, state);
@@ -471,6 +476,7 @@ void PackageEditor::selectCheckBox(int number)
     case SHOW_PADS:
         setRadioButton(addPadRadioButton, state);
         setRadioButton(addPadsRadioButton, state);
+        setRadioButton(deletePadsRadioButton, state);
         setRadioButton(padTypesRadioButton, state);
         setRadioButton(selectedPadRadioButton, state);
         showLayer(PAD_LAYER, state);
@@ -615,6 +621,8 @@ void PackageEditor::selectRadioButton(int number)
 
 void PackageEditor::selectRadioButton(int number, bool state)
 {
+    QString str;
+
     switch (number) {
     case ADD_ELLIPSE:
         addEllipseHLineEdit->setReadOnly(!state);
@@ -648,6 +656,18 @@ void PackageEditor::selectRadioButton(int number, bool state)
         borderLeftXLineEdit->setReadOnly(!state);
         borderRightXLineEdit->setReadOnly(!state);
         borderTopYLineEdit->setReadOnly(!state);
+        break;
+    case DELETE_ELLIPSES:
+        deleteEllipsesFirstLineEdit->setReadOnly(!state);
+        deleteEllipsesLastLineEdit->setText(str.setNum(package.ellipses.size()));
+        break;
+    case DELETE_LINES:
+        deleteLinesFirstLineEdit->setReadOnly(!state);
+        deleteLinesLastLineEdit->setText(str.setNum(package.lines.size()));
+        break;
+    case DELETE_PADS:
+        deletePadsFirstLineEdit->setReadOnly(!state);
+        deletePadsLastLineEdit->setText(str.setNum(package.pads.size()));
         break;
     case NAME:
         nameLineEdit->setReadOnly(!state);
@@ -856,6 +876,9 @@ void PackageEditor::showPackageData()
     addEllipseXLineEdit->clear();
     addEllipseYLineEdit->clear();
 
+    deleteEllipsesFirstLineEdit->clear();
+    deleteEllipsesLastLineEdit->clear();
+
     selectedLineX1LineEdit->clear();
     selectedLineX2LineEdit->clear();
     selectedLineY1LineEdit->clear();
@@ -865,6 +888,9 @@ void PackageEditor::showPackageData()
     addLineX2LineEdit->clear();
     addLineY1LineEdit->clear();
     addLineY2LineEdit->clear();
+
+    deleteLinesFirstLineEdit->clear();
+    deleteLinesLastLineEdit->clear();
 
     for (int i = 0; i < maxPadTypes; i++) {
         if (i < package.padTypesParams.size()) {
@@ -912,6 +938,9 @@ void PackageEditor::showPackageData()
     addPadsLastLineEdit->clear();
     addPadsOrientationComboBox->setCurrentIndex(0);
     addPadsTypeComboBox->setCurrentIndex(0);
+
+    deletePadsFirstLineEdit->clear();
+    deletePadsLastLineEdit->clear();
 
     ellipsesLineEdit->setText(str.setNum(package.ellipses.size()));
     linesLineEdit->setText(str.setNum(package.lines.size()));
@@ -1021,6 +1050,39 @@ void PackageEditor::updatePackage()
         tmpPackage.border.topY = borderTopYLineEdit->text().toInt(&ok[3]);
         if (ok[0] && ok [1] && ok[2] && ok[3])
             package.border = tmpPackage.border;
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
+        break;
+    case DELETE_ELLIPSES:
+        first = deleteEllipsesFirstLineEdit->text().toInt(&ok[0]);
+        last = package.ellipses.size();
+        if (ok[0] && first > 0 && first <= last) {
+            package.ellipses.resize(first - 1);
+            deleteEllipsesFirstLineEdit->clear();
+            deleteEllipsesLastLineEdit->setText(str.setNum(package.ellipses.size()));
+        }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
+        break;
+    case DELETE_LINES:
+        first = deleteLinesFirstLineEdit->text().toInt(&ok[0]);
+        last = package.lines.size();
+        if (ok[0] && first > 0 && first <= last) {
+            package.lines.resize(first - 1);
+            deleteLinesFirstLineEdit->clear();
+            deleteLinesLastLineEdit->setText(str.setNum(package.lines.size()));
+        }
+        else
+            QMessageBox::warning(this, tr("Error"), warningMessage);
+        break;
+    case DELETE_PADS:
+        first = deletePadsFirstLineEdit->text().toInt(&ok[0]);
+        last = package.pads.size();
+        if (ok[0] && first > 0 && first <= last) {
+            deletePadsFirstLineEdit->clear();
+            deletePadsLastLineEdit->setText(str.setNum(package.pads.size()));
+            package.pads.resize(first - 1);
+        }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;

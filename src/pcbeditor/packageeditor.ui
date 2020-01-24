@@ -453,7 +453,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>210</y>
+      <y>260</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -469,7 +469,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>210</y>
+      <y>260</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -485,7 +485,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>235</y>
+      <y>285</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -501,7 +501,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>235</y>
+      <y>285</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -517,7 +517,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>235</y>
+      <y>285</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -533,7 +533,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>235</y>
+      <y>285</y>
       <width>110</width>
       <height>25</height>
      </rect>
@@ -549,7 +549,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>210</y>
+      <y>260</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -565,7 +565,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>210</y>
+      <y>260</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -581,7 +581,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>235</y>
+      <y>285</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -869,7 +869,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>265</y>
+      <y>315</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -885,7 +885,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>265</y>
+      <y>315</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -901,7 +901,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>265</y>
+      <y>315</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -917,7 +917,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>265</y>
+      <y>315</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -933,7 +933,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>265</y>
+      <y>315</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -978,7 +978,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>300</y>
+      <y>400</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -994,7 +994,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>325</y>
+      <y>425</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1010,7 +1010,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>300</y>
+      <y>400</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1029,7 +1029,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>325</y>
+      <y>425</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1045,7 +1045,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>300</y>
+      <y>400</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1061,7 +1061,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>325</y>
+      <y>425</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1077,7 +1077,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>325</y>
+      <y>425</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -1093,7 +1093,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>375</y>
+      <y>475</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -1112,7 +1112,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>375</y>
+      <y>475</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1128,7 +1128,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>375</y>
+      <y>475</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1144,7 +1144,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>375</y>
+      <y>475</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1160,7 +1160,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>425</y>
+      <y>525</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1176,7 +1176,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>425</y>
+      <y>525</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1192,7 +1192,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>425</y>
+      <y>525</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1208,7 +1208,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>425</y>
+      <y>525</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -1227,7 +1227,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>325</y>
+      <y>425</y>
       <width>160</width>
       <height>25</height>
      </rect>
@@ -1267,7 +1267,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>375</y>
+      <y>475</y>
       <width>160</width>
       <height>25</height>
      </rect>
@@ -1307,7 +1307,7 @@
     <property name="geometry">
      <rect>
       <x>100</x>
-      <y>425</y>
+      <y>525</y>
       <width>160</width>
       <height>25</height>
      </rect>
@@ -1344,7 +1344,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>515</y>
+      <y>615</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1360,7 +1360,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>485</y>
+      <y>585</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1376,7 +1376,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>460</y>
+      <y>560</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1392,7 +1392,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>485</y>
+      <y>585</y>
       <width>90</width>
       <height>25</height>
      </rect>
@@ -1424,7 +1424,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>485</y>
+      <y>585</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1440,7 +1440,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>515</y>
+      <y>615</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1456,7 +1456,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>515</y>
+      <y>615</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1472,7 +1472,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>460</y>
+      <y>560</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1520,7 +1520,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>235</y>
+      <y>285</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1536,7 +1536,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>210</y>
+      <y>260</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1552,7 +1552,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>485</y>
+      <y>585</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1568,7 +1568,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>460</y>
+      <y>560</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1584,7 +1584,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>460</y>
+      <y>560</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1600,7 +1600,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>485</y>
+      <y>585</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1616,7 +1616,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>515</y>
+      <y>615</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1632,7 +1632,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>460</y>
+      <y>560</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1648,7 +1648,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>625</y>
+      <y>725</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1664,7 +1664,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>625</y>
+      <y>725</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1680,7 +1680,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>625</y>
+      <y>725</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1696,7 +1696,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>625</y>
+      <y>725</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1712,7 +1712,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>575</y>
+      <y>675</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1728,7 +1728,7 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>575</y>
+      <y>675</y>
       <width>70</width>
       <height>25</height>
      </rect>
@@ -1744,7 +1744,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>575</y>
+      <y>675</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1760,7 +1760,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>600</y>
+      <y>700</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1776,7 +1776,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>600</y>
+      <y>700</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1792,7 +1792,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>550</y>
+      <y>650</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1808,7 +1808,7 @@
     <property name="geometry">
      <rect>
       <x>130</x>
-      <y>600</y>
+      <y>700</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1824,7 +1824,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>600</y>
+      <y>700</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1840,7 +1840,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>550</y>
+      <y>650</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1856,7 +1856,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>550</y>
+      <y>650</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1872,7 +1872,7 @@
     <property name="geometry">
      <rect>
       <x>260</x>
-      <y>460</y>
+      <y>560</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -1891,7 +1891,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>485</y>
+      <y>585</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1931,7 +1931,7 @@
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>515</y>
+      <y>615</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -1971,7 +1971,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>575</y>
+      <y>675</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2011,7 +2011,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>485</y>
+      <y>585</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2040,7 +2040,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>515</y>
+      <y>615</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2069,7 +2069,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>575</y>
+      <y>675</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2095,7 +2095,7 @@
     <property name="geometry">
      <rect>
       <x>330</x>
-      <y>550</y>
+      <y>650</y>
       <width>80</width>
       <height>25</height>
      </rect>
@@ -2298,7 +2298,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>325</y>
+      <y>425</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2314,7 +2314,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>425</y>
+      <y>525</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2330,7 +2330,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>300</y>
+      <y>400</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2349,7 +2349,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>375</y>
+      <y>475</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2365,7 +2365,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>350</y>
+      <y>450</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2381,7 +2381,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>350</y>
+      <y>450</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2397,7 +2397,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>350</y>
+      <y>450</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2413,7 +2413,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>350</y>
+      <y>450</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2429,7 +2429,7 @@
     <property name="geometry">
      <rect>
       <x>480</x>
-      <y>400</y>
+      <y>500</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2445,7 +2445,7 @@
     <property name="geometry">
      <rect>
       <x>270</x>
-      <y>400</y>
+      <y>500</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2461,7 +2461,7 @@
     <property name="geometry">
      <rect>
       <x>340</x>
-      <y>400</y>
+      <y>500</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2477,7 +2477,7 @@
     <property name="geometry">
      <rect>
       <x>410</x>
-      <y>400</y>
+      <y>500</y>
       <width>60</width>
       <height>25</height>
      </rect>
@@ -2589,8 +2589,8 @@
    <widget class="QRadioButton" name="selectedEllipseRadioButton">
     <property name="geometry">
      <rect>
-      <x>870</x>
-      <y>640</y>
+      <x>720</x>
+      <y>815</y>
       <width>140</width>
       <height>25</height>
      </rect>
@@ -2603,7 +2603,7 @@
     <property name="geometry">
      <rect>
       <x>870</x>
-      <y>665</y>
+      <y>640</y>
       <width>120</width>
       <height>25</height>
      </rect>
@@ -2742,6 +2742,285 @@
     </property>
     <property name="checked">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="deleteLinesFirstLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>225</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deleteLinesLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>225</y>
+      <width>90</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete lines</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="deleteLinesLastLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>225</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="deleteEllipsesLastLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>365</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deleteEllipsesLabel">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>365</y>
+      <width>110</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete ellipses</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="deleteEllipsesFirstLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>365</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deletePadsLastLabel">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>750</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>last</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="deletePadsFirstLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>775</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="deletePadsLastLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>775</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deletePadsLabel">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>775</y>
+      <width>90</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete pads</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deletePadsFirstLabel">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>750</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>first</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deleteLinesFirstLabel">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>200</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>first</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deleteLinesLastLabel">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>200</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>last</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deleteEllipsesFirstLabel">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>340</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>first</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="deleteEllipsesLastLabel">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>340</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>last</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="deleteLinesRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>790</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete lines</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="deleteEllipsesRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>665</y>
+      <width>140</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete ellipses</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="deletePadsRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>870</x>
+      <y>790</y>
+      <width>120</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Delete pads</string>
     </property>
    </widget>
   </widget>

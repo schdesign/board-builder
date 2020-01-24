@@ -24,9 +24,9 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 
     constexpr static int checkBoxes = 3;
     constexpr static int comboBoxes = 10;
-    constexpr static int lineEdits = 48;
+    constexpr static int lineEdits = 54;
     constexpr static int pushButtons = 2;
-    constexpr static int radioButtons = 12;
+    constexpr static int radioButtons = 15;
 
     enum CheckBox
     {
@@ -48,9 +48,9 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 
     enum RadioButton
     {
-        ADD_ELLIPSE, ADD_LINE, ADD_PAD, ADD_PADS, BORDER, NAME,
-        PAD_TYPES, READ_ONLY_MODE, SELECTED_ELLIPSE, SELECTED_LINE,
-        SELECTED_PAD, TYPE
+        ADD_ELLIPSE, ADD_LINE, ADD_PAD, ADD_PADS, BORDER, DELETE_ELLIPSES,
+        DELETE_LINES, DELETE_PADS, NAME, PAD_TYPES, READ_ONLY_MODE,
+        SELECTED_ELLIPSE, SELECTED_LINE, SELECTED_PAD, TYPE
     };
 
 public:
