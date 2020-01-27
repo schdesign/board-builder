@@ -24,8 +24,8 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 
     constexpr static int checkBoxes = 3;
     constexpr static int comboBoxes = 10;
-    constexpr static int lineEdits = 54;
-    constexpr static int pushButtons = 2;
+    constexpr static int lineEdits = 55;
+    constexpr static int pushButtons = 4;
     constexpr static int radioButtons = 15;
 
     enum CheckBox
@@ -43,7 +43,7 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 
     enum PushButton
     {
-        CANCEL, UPDATE
+        CANCEL, DEC_GRID, INC_GRID, UPDATE
     };
 
     enum RadioButton
@@ -94,10 +94,7 @@ private slots:
     //void selectToolButton(int number);
 
 private:
-    constexpr static int grids = 11;
-    constexpr static int grid[grids] = {   // um in grid step
-        50, 100, 125, 200, 250, 500, 1000, 1250, 2500, 5000, 10000
-    };
+    constexpr static int grids = 12;
     constexpr static int gridStep = 10;    // pixels
     constexpr static int gridWidth = 680;
     constexpr static int gridHeight = 600;
@@ -114,6 +111,11 @@ private:
     constexpr static int maxPads = 10000;
     constexpr static int maxPadTypes = 3;
     constexpr static int maxPadParams = 4;
+    const int grid[grids] =  // um in grid step
+    {
+        10, 20, 25, 50, 100, 125, 200,
+        250, 500, 1000, 1250, 2000
+    };
     bool isEllipseSelected;
     bool isLineSelected;
     bool isPadSelected;

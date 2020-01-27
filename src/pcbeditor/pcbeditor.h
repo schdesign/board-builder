@@ -79,7 +79,7 @@ private slots:
 private:
     constexpr static int defaultFontSize = 10;
     constexpr static int defaultGridNumber = 6;
-    constexpr static int grids = 11;
+    constexpr static int grids = 12;
     constexpr static int gridStep = 10;    // pixels
     constexpr static int gridX = 100;
     constexpr static int gridY = 30;
@@ -93,8 +93,10 @@ private:
     constexpr static int maxSpace = 100000;
     constexpr static int minWidth = 100;
     constexpr static int maxWidth = 100000;
-    const int grid[grids] = {  // um in grid step
-        50, 100, 125, 200, 250, 500, 1000, 1250, 2500, 5000, 10000
+    const int grid[grids] =  // um in grid step
+    {
+        50, 100, 125, 200, 250, 500, 1000,
+        1250, 2000, 2500, 5000, 10000
     };
     double scale;
     int centerX;

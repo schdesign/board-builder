@@ -66,7 +66,7 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
         addPadsLastLineEdit, borderBottomLineEdit, borderLeftXLineEdit, borderRightXLineEdit,
         borderTopYLineEdit, deleteEllipsesFirstLineEdit, deleteEllipsesLastLineEdit,
         deleteLinesFirstLineEdit, deleteLinesLastLineEdit, deletePadsFirstLineEdit,
-        deletePadsLastLineEdit, ellipsesLineEdit, linesLineEdit, nameLineEdit,
+        deletePadsLastLineEdit, ellipsesLineEdit, gridLineEdit, linesLineEdit, nameLineEdit,
         padType0LineEdit1, padType0LineEdit2, padType0LineEdit3, padType0LineEdit4,
         padType1LineEdit1, padType1LineEdit2, padType1LineEdit3, padType1LineEdit4,
         padType2LineEdit1, padType2LineEdit2, padType2LineEdit3, padType2LineEdit4,
@@ -94,7 +94,7 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
 
     QPushButton *tmpPushButton[pushButtons] =
     {
-        cancelPushButton, updatePushButton
+        cancelPushButton, decGridPushButton, incGridPushButton, updatePushButton
     };
 
     std::copy(tmpPushButton, tmpPushButton + pushButtons, pushButton);
@@ -162,17 +162,17 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
 
     package.type = "SMD";
 
-    //QString str;
+    QString str;
+
     //command = SELECT;
     //previousCommand = command;
     //mousePoint = QPoint(0, 0);
     //step = gridStep;
-    //gridNumber = 6; // 1000 um in grid step
-    //scale = double(gridStep) / grid[gridNumber];
 
-    scale = double(gridStep) / 10;
+    gridNumber = 6;  // 250 um in grid step
+    scale = double(gridStep) / grid[gridNumber];
+    gridLineEdit->setText(str.setNum(grid[gridNumber]));
 
-    //gridLineEdit->setText(str.setNum(grid[gridNumber]));
     //space = package.defaultPolygonSpace;
     //spaceLineEdit->setText(str.setNum(space));
     //width = package.defaultLineWidth;
@@ -189,8 +189,8 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     //dyLineEdit->setText(str.setNum(dy));
     //stepLineEdit->setText(str.setNum(step));
 
-    refX = gridStep * (gridWidth / (2 * gridStep));
-    refY = gridStep * (gridHeight / (2 * gridStep));
+    refX = grid[gridNumber] * ((gridWidth / gridStep - 1) / 2);
+    refY = grid[gridNumber] * ((gridHeight / gridStep - 1) / 2);
     orientation = 0;  // "Up"
 
     updateElement();
@@ -584,9 +584,24 @@ void PackageEditor::selectPadTypeComboBox(int number, const QString &text)
 
 void PackageEditor::selectPushButton(int number)
 {
+    int newGrid;
+    QString str;
+
     switch (number) {
     case CANCEL:
         showPackageData();
+        break;
+    case DEC_GRID:
+        gridNumber -= 2;
+    case INC_GRID:
+        gridNumber++;
+        limit(gridNumber, 0, grids - 1);
+        newGrid = grid[gridNumber];
+        scale = double(gridStep) / newGrid;
+        refX = newGrid * ((gridWidth / gridStep - 1) / 2);
+        refY = newGrid * ((gridHeight / gridStep - 1) / 2);
+        gridLineEdit->setText(str.setNum(newGrid));
+        updateElement();
         break;
     case UPDATE:
         updatePackage();
@@ -639,14 +654,30 @@ void PackageEditor::selectRadioButton(int number, bool state)
     case ADD_PAD:
         addPadOrientationComboBox->setEnabled(state);
         addPadTypeComboBox->setEnabled(state);
-        addPadXLineEdit->setReadOnly(!state);
-        addPadYLineEdit->setReadOnly(!state);
+        if (state && package.pads.empty()) {
+            addPadXLineEdit->setReadOnly(true);
+            addPadYLineEdit->setReadOnly(true);
+            addPadXLineEdit->setText("0");
+            addPadYLineEdit->setText("0");
+        }
+        else {
+            addPadXLineEdit->setReadOnly(!state);
+            addPadYLineEdit->setReadOnly(!state);
+        }
         break;
     case ADD_PADS:
         addPadsDxLineEdit->setReadOnly(!state);
         addPadsDyLineEdit->setReadOnly(!state);
-        addPadsFirstXLineEdit->setReadOnly(!state);
-        addPadsFirstYLineEdit->setReadOnly(!state);
+        if (state && package.pads.empty()) {
+            addPadsFirstXLineEdit->setReadOnly(true);
+            addPadsFirstYLineEdit->setReadOnly(true);
+            addPadsFirstXLineEdit->setText("0");
+            addPadsFirstYLineEdit->setText("0");
+        }
+        else {
+            addPadsFirstXLineEdit->setReadOnly(!state);
+            addPadsFirstYLineEdit->setReadOnly(!state);
+        }
         addPadsLastLineEdit->setReadOnly(!state);
         addPadsOrientationComboBox->setEnabled(state);
         addPadsTypeComboBox->setEnabled(state);
@@ -927,14 +958,26 @@ void PackageEditor::showPackageData()
     addPadNumberLineEdit->setText(str.setNum(package.pads.size() + 1));
     addPadOrientationComboBox->setCurrentIndex(0);
     addPadTypeComboBox->setCurrentIndex(0);
-    addPadXLineEdit->clear();
-    addPadYLineEdit->clear();
+    if (package.pads.empty()) {
+        addPadXLineEdit->setText("0");
+        addPadYLineEdit->setText("0");
+    }
+    else {
+        addPadXLineEdit->clear();
+        addPadYLineEdit->clear();
+    }
 
     addPadsDxLineEdit->clear();
     addPadsDyLineEdit->clear();
     addPadsFirstLineEdit->setText(str.setNum(package.pads.size() + 1));
-    addPadsFirstXLineEdit->clear();
-    addPadsFirstYLineEdit->clear();
+    if (package.pads.empty()) {
+        addPadsFirstXLineEdit->setText("0");
+        addPadsFirstYLineEdit->setText("0");
+    }
+    else {
+        addPadsFirstXLineEdit->clear();
+        addPadsFirstYLineEdit->clear();
+    }
     addPadsLastLineEdit->clear();
     addPadsOrientationComboBox->setCurrentIndex(0);
     addPadsTypeComboBox->setCurrentIndex(0);
@@ -997,9 +1040,25 @@ void PackageEditor::updatePackage()
         if (addPadOrientationComboBox->currentText() == "Right")
             pad.orientation = 1;
         pad.typeNumber = addPadTypeComboBox->currentText().toInt(&ok[0]);
-        pad.x = addPadXLineEdit->text().toInt(&ok[1]);
-        pad.y = addPadYLineEdit->text().toInt(&ok[2]);
+        if (package.pads.empty()) {
+            pad.x = 0;
+            pad.y = 0;
+            ok[1] = true;
+            ok[2] = true;
+        }
+        else {
+            pad.x = addPadXLineEdit->text().toInt(&ok[1]);
+            pad.y = addPadYLineEdit->text().toInt(&ok[2]);
+        }
         if (ok[0] && ok [1] && ok[2] && pad.typeNumber < package.padTypesParams.size()) {
+            ok[3] = true;
+            for (auto p : package.pads)
+                if (pad.x == p.x && pad.y == p.y)
+                    ok[3] = false;
+            if (!ok[3]) {
+                QMessageBox::warning(this, tr("Error"), "Pad already exists in this place");
+                break;
+            }
             pad.diameter = package.padTypesParams[pad.typeNumber].diameter;
             pad.height = package.padTypesParams[pad.typeNumber].height;
             pad.innerDiameter = package.padTypesParams[pad.typeNumber].innerDiameter;
@@ -1008,6 +1067,8 @@ void PackageEditor::updatePackage()
             package.pads.push_back(pad);
             addPadNumberLineEdit->setText(str.setNum(package.pads.size() + 1));
             addPadsFirstLineEdit->setText(str.setNum(package.pads.size() + 1));
+            addPadXLineEdit->setReadOnly(false);
+            addPadYLineEdit->setReadOnly(false);
         }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
@@ -1016,8 +1077,16 @@ void PackageEditor::updatePackage()
         dx = addPadsDxLineEdit->text().toInt(&ok[0]);
         dy = addPadsDyLineEdit->text().toInt(&ok[1]);
         first = package.pads.size() + 1;
-        firstX = addPadsFirstXLineEdit->text().toInt(&ok[2]);
-        firstY = addPadsFirstYLineEdit->text().toInt(&ok[3]);
+        if (package.pads.empty()) {
+            firstX = 0;
+            firstY = 0;
+            ok[2] = true;
+            ok[3] = true;
+        }
+        else {
+            firstX = addPadsFirstXLineEdit->text().toInt(&ok[2]);
+            firstY = addPadsFirstYLineEdit->text().toInt(&ok[3]);
+        }
         last = addPadsLastLineEdit->text().toInt(&ok[4]);
         pad.orientation = 0;  // "Up"
         if (addPadsOrientationComboBox->currentText() == "Right")
@@ -1026,6 +1095,18 @@ void PackageEditor::updatePackage()
         if (ok[0] && ok[1] && ok[2] && ok[3] && ok[4] && ok[5] &&
             (abs(dx) > 0 || abs(dy) > 0) && first < last && last <= maxPads &&
             pad.typeNumber < package.padTypesParams.size()) {
+            ok[6] = true;
+            for (int i = first; i <= last; i++) {
+                pad.x = firstX + i * dx;
+                pad.y = firstY + i * dy;
+                for (auto p : package.pads)
+                    if (pad.x == p.x && pad.y == p.y)
+                        ok[6] = false;
+            }
+            if (!ok[6]) {
+                QMessageBox::warning(this, tr("Error"), "Pad already exists in this place");
+                break;
+            }
             for (int i = first; i <= last; i++) {
                 pad.diameter = package.padTypesParams[pad.typeNumber].diameter;
                 pad.height = package.padTypesParams[pad.typeNumber].height;
@@ -1039,6 +1120,8 @@ void PackageEditor::updatePackage()
             }
             addPadNumberLineEdit->setText(str.setNum(package.pads.size() + 1));
             addPadsFirstLineEdit->setText(str.setNum(package.pads.size() + 1));
+            addPadsFirstXLineEdit->setReadOnly(false);
+            addPadsFirstYLineEdit->setReadOnly(false);
         }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
@@ -1079,9 +1162,17 @@ void PackageEditor::updatePackage()
         first = deletePadsFirstLineEdit->text().toInt(&ok[0]);
         last = package.pads.size();
         if (ok[0] && first > 0 && first <= last) {
+            package.pads.resize(first - 1);
             deletePadsFirstLineEdit->clear();
             deletePadsLastLineEdit->setText(str.setNum(package.pads.size()));
-            package.pads.resize(first - 1);
+            addPadNumberLineEdit->setText(str.setNum(package.pads.size() + 1));
+            addPadsFirstLineEdit->setText(str.setNum(package.pads.size() + 1));
+            if (package.pads.empty()) {
+                addPadXLineEdit->setText("0");
+                addPadYLineEdit->setText("0");
+                addPadsFirstXLineEdit->setText("0");
+                addPadsFirstYLineEdit->setText("0");
+            }
         }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
