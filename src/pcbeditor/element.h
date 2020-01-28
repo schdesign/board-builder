@@ -34,6 +34,7 @@ public:
     static QJsonObject writePackages(const QString &packageType);
     void draw(QPainter &painter, const Layers &layers, int fontSize, double scale);
     bool exist(int x, int y);
+    void findOuterBorder();
     void init(const Package &package);
     bool inside(int leftX, int topY, int rightX, int bottomY);
     QJsonObject toJson();
@@ -42,8 +43,7 @@ public:
     bool enabled;
     bool fixed;             // fixed on board
     bool group;
-    Border border;
-    int centerX;
+    int centerX;            // border center
     int centerY;
     int nameID;
     int nameTextHeight;
@@ -56,6 +56,8 @@ public:
     int referenceTextY;
     int refX;               // point of pad 1
     int refY;
+    Border border;
+    Border outerBorder;
     QString name;           // name or value
     QString nameTextAlignH;
     QString nameTextAlignV;

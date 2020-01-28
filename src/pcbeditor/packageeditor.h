@@ -25,7 +25,7 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
     constexpr static int checkBoxes = 3;
     constexpr static int comboBoxes = 10;
     constexpr static int lineEdits = 55;
-    constexpr static int pushButtons = 4;
+    constexpr static int pushButtons = 5;
     constexpr static int radioButtons = 15;
 
     enum CheckBox
@@ -43,7 +43,7 @@ class PackageEditor : public QMainWindow, private Ui::PackageEditor
 
     enum PushButton
     {
-        CANCEL, DEC_GRID, INC_GRID, UPDATE
+        CANCEL, CENTER, DEC_GRID, INC_GRID, UPDATE
     };
 
     enum RadioButton
@@ -62,6 +62,7 @@ protected:
 
 private:
     void cancelPackageChange();
+    void centerElement();
     QString padShape(const PadTypeParams &padTypeParams);
     void paintEvent(QPaintEvent *);
     void readPackages(const QByteArray &byteArray);

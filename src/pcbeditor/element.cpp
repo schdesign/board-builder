@@ -201,6 +201,50 @@ bool Element::exist(int x, int y)
     return false;
 }
 
+void Element::findOuterBorder()
+{
+    int minX = border.leftX;
+    int maxX = border.rightX;
+    int minY = border.topY;
+    int maxY = border.bottomY;
+
+    for (auto e : ellipses) {
+        if (minX > e.x - e.w / 2) minX = e.x - e.w / 2;
+        if (maxX < e.x + e.w / 2) maxX = e.x + e.w / 2;
+        if (minY > e.y - e.h / 2) minY = e.y - e.h / 2;
+        if (maxY < e.y + e.h / 2) maxY = e.y + e.h / 2;
+    }
+
+    for (auto l : lines) {
+        if (minX > l.x1) minX = l.x1;
+        if (minX > l.x2) minX = l.x2;
+        if (maxX < l.x1) maxX = l.x1;
+        if (maxX < l.x2) maxX = l.x2;
+        if (minY > l.y1) minY = l.y1;
+        if (minY > l.y2) minY = l.y2;
+        if (maxY < l.y1) maxY = l.y1;
+        if (maxY < l.y2) maxY = l.y2;
+    }
+
+    for (auto p : pads) {
+        int w = p.width;
+        int h = p.height;
+        if (w == 0 || h == 0) {
+            w = p.diameter;
+            h = p.diameter;
+        }
+        if (minX > p.x - w / 2) minX = p.x - w / 2;
+        if (maxX < p.x + w / 2) maxX = p.x + w / 2;
+        if (minY > p.y - h / 2) minY = p.y - h / 2;
+        if (maxY < p.y + h / 2) maxY = p.y + h / 2;
+    }
+
+    outerBorder.leftX = minX;
+    outerBorder.rightX = maxX;
+    outerBorder.topY = minY;
+    outerBorder.bottomY = maxY;
+}
+
 void Element::init(const Package &package)
 {
     if (orientation < 0 || orientation > 3)
@@ -244,11 +288,11 @@ void Element::init(const Package &package)
     }
 
     Line line;
-    for (auto p : package.lines) {
-        line.x1 = refX + c[t][0] * p.x1 + c[t][1] * p.y1;
-        line.y1 = refY + c[t][2] * p.x1 + c[t][3] * p.y1;
-        line.x2 = refX + c[t][0] * p.x2 + c[t][1] * p.y2;
-        line.y2 = refY + c[t][2] * p.x2 + c[t][3] * p.y2;
+    for (auto l : package.lines) {
+        line.x1 = refX + c[t][0] * l.x1 + c[t][1] * l.y1;
+        line.y1 = refY + c[t][2] * l.x1 + c[t][3] * l.y1;
+        line.x2 = refX + c[t][0] * l.x2 + c[t][1] * l.y2;
+        line.y2 = refY + c[t][2] * l.x2 + c[t][3] * l.y2;
         lines.push_back(line);
     }
 
@@ -271,6 +315,8 @@ void Element::init(const Package &package)
         pad.y = refY + c[t][2] * p.x + c[t][3] * p.y;
         pads.push_back(pad);
     }
+
+    findOuterBorder();
 }
 
 bool Element::inside(int leftX, int topY, int rightX, int bottomY)

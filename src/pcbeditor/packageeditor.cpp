@@ -94,7 +94,8 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
 
     QPushButton *tmpPushButton[pushButtons] =
     {
-        cancelPushButton, decGridPushButton, incGridPushButton, updatePushButton
+        cancelPushButton, centerPushButton, decGridPushButton,
+        incGridPushButton, updatePushButton
     };
 
     std::copy(tmpPushButton, tmpPushButton + pushButtons, pushButton);
@@ -181,16 +182,17 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     dx = gridX;
     dy = gridY;
 
-    //centerX = 57 * grid[gridNumber];
-    //centerY = 40 * grid[gridNumber];
+    centerX = grid[gridNumber] * ((gridWidth / gridStep - 1) / 2);
+    centerY = grid[gridNumber] * ((gridHeight / gridStep - 1) / 2);
+
     //maxXLineEdit->setText(str.setNum(maxX));
     //maxYLineEdit->setText(str.setNum(maxY));
     //dxLineEdit->setText(str.setNum(dx));
     //dyLineEdit->setText(str.setNum(dy));
     //stepLineEdit->setText(str.setNum(step));
 
-    refX = grid[gridNumber] * ((gridWidth / gridStep - 1) / 2);
-    refY = grid[gridNumber] * ((gridHeight / gridStep - 1) / 2);
+    refX = centerX;
+    refY = centerY;
     orientation = 0;  // "Up"
 
     updateElement();
@@ -213,6 +215,25 @@ void PackageEditor::buttonsSetEnabled(const char *params)
     }
 }
 */
+
+void PackageEditor::centerElement()
+{
+    Border border = element.outerBorder;
+
+    if (border.leftX >= border.rightX ||
+        border.topY >= border.bottomY)
+        return;
+
+    int x = (border.leftX + border.rightX) / 2;
+    int y = (border.topY + border.bottomY) / 2;
+
+    refX += centerX - x;
+    refY += centerY - y;
+
+    int step = grid[gridNumber];
+    refX = step * (refX / step);
+    refY = step * (refY / step);
+}
 
 void PackageEditor::closeFile()
 {/*
@@ -344,6 +365,8 @@ void PackageEditor::openFile()
         readPackages(array);
         if (!packages.empty()) {
             package = packages[0];
+            updateElement();
+            centerElement();
             updateElement();
         }
     }
@@ -591,6 +614,10 @@ void PackageEditor::selectPushButton(int number)
     case CANCEL:
         showPackageData();
         break;
+    case CENTER:
+        centerElement();
+        updateElement();
+        break;
     case DEC_GRID:
         gridNumber -= 2;
     case INC_GRID:
@@ -598,9 +625,10 @@ void PackageEditor::selectPushButton(int number)
         limit(gridNumber, 0, grids - 1);
         newGrid = grid[gridNumber];
         scale = double(gridStep) / newGrid;
-        refX = newGrid * ((gridWidth / gridStep - 1) / 2);
-        refY = newGrid * ((gridHeight / gridStep - 1) / 2);
+        centerX = newGrid * ((gridWidth / gridStep - 1) / 2);
+        centerY = newGrid * ((gridHeight / gridStep - 1) / 2);
         gridLineEdit->setText(str.setNum(newGrid));
+        centerElement();
         updateElement();
         break;
     case UPDATE:
@@ -1131,8 +1159,16 @@ void PackageEditor::updatePackage()
         tmpPackage.border.leftX = borderLeftXLineEdit->text().toInt(&ok[1]);
         tmpPackage.border.rightX = borderRightXLineEdit->text().toInt(&ok[2]);
         tmpPackage.border.topY = borderTopYLineEdit->text().toInt(&ok[3]);
-        if (ok[0] && ok [1] && ok[2] && ok[3])
-            package.border = tmpPackage.border;
+        if (ok[0] && ok [1] && ok[2] && ok[3] &&
+            tmpPackage.border.leftX < tmpPackage.border.rightX) {
+            if (tmpPackage.border.bottomY > tmpPackage.border.topY)
+                package.border = tmpPackage.border;
+            else {
+                QMessageBox::warning(this, tr("Error"), "topY should be less than bottomY "
+                                     "in this coordinate system");
+                break;
+            }
+        }
         else
             QMessageBox::warning(this, tr("Error"), warningMessage);
         break;
