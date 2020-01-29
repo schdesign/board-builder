@@ -600,8 +600,13 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     }
 
     // Draw elements
-    for (auto e : elements)
-        e.draw(painter, layers, scale * fontScale * fontSize, scale);
+    for (auto e : elements) {
+        ElementDrawingOptions options;
+        options.fillPads = fillPads;
+        options.scale = scale;
+        options.fontSize = scale * fontScale * fontSize;
+        e.draw(painter, layers, options);
+    }
 
     // Draw group
     //if (groupBorder.isValid()) {
@@ -745,10 +750,13 @@ void Board::init()
     }
 
     std::fill_n(table[0], rows * columns, 0);
+
+    fillPads = true;
     selectedElement = false;
     showGroundNets = false;
     showMessage = false;
     showNets = true;
+
     polygonSpace = defaultPolygonSpace;
 }
 

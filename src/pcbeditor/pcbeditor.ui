@@ -2423,8 +2423,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>675</y>
-      <width>60</width>
+      <y>700</y>
+      <width>70</width>
       <height>25</height>
      </rect>
     </property>
@@ -2446,8 +2446,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>700</y>
-      <width>60</width>
+      <y>725</y>
+      <width>70</width>
       <height>25</height>
      </rect>
     </property>
@@ -2764,6 +2764,29 @@
      <string>-</string>
     </property>
    </widget>
+   <widget class="QCheckBox" name="fillPadsCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>825</y>
+      <width>100</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Fill pads</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -2871,6 +2894,11 @@
    </property>
   </action>
   <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAbout_2">
    <property name="text">
     <string>About</string>
    </property>

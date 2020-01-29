@@ -224,11 +224,11 @@ void PackageEditor::centerElement()
         border.topY >= border.bottomY)
         return;
 
-    int x = (border.leftX + border.rightX) / 2;
-    int y = (border.topY + border.bottomY) / 2;
+    int cx = (border.leftX + border.rightX) / 2;
+    int cy = (border.topY + border.bottomY) / 2;
 
-    refX += centerX - x;
-    refY += centerY - y;
+    refX += centerX - cx;
+    refY += centerY - cy;
 
     int step = grid[gridNumber];
     refX = step * (refX / step);
@@ -381,28 +381,6 @@ void PackageEditor::openFile()
     update();
 }
 
-void PackageEditor::readPackages(const QByteArray &byteArray)
-{
-    QJsonParseError error;
-    QString str;
-
-    QJsonDocument document(QJsonDocument::fromJson(byteArray, &error));
-    if (document.isNull())
-        throw ExceptionData("Packages file read error: " + error.errorString() +
-                            ", offset: " + str.setNum(error.offset));
-
-    QJsonObject object = document.object();
-
-    if (object["object"].toString() != "packages")
-        throw ExceptionData("File is not a packages file");
-
-    QJsonArray packageArray(object["packages"].toArray());
-    for (auto p : packageArray) {
-        Package package(p);
-        packages.push_back(package);
-    }
-}
-
 QString PackageEditor::padShape(const PadTypeParams &padTypeParams)
 {
     bool isDiameter = padTypeParams.diameter > 0;
@@ -449,7 +427,33 @@ void PackageEditor::paintEvent(QPaintEvent *)
         painter.drawRect(x, y, w, h);
     }
 
-    element.draw(painter, layers, 0, scale);
+    ElementDrawingOptions options;
+    options.fillPads = true;
+    options.scale = scale;
+    options.fontSize = 0;
+    element.draw(painter, layers, options);
+}
+
+void PackageEditor::readPackages(const QByteArray &byteArray)
+{
+    QJsonParseError error;
+    QString str;
+
+    QJsonDocument document(QJsonDocument::fromJson(byteArray, &error));
+    if (document.isNull())
+        throw ExceptionData("Packages file read error: " + error.errorString() +
+                            ", offset: " + str.setNum(error.offset));
+
+    QJsonObject object = document.object();
+
+    if (object["object"].toString() != "packages")
+        throw ExceptionData("File is not a packages file");
+
+    QJsonArray packageArray(object["packages"].toArray());
+    for (auto p : packageArray) {
+        Package package(p);
+        packages.push_back(package);
+    }
 }
 
 void PackageEditor::saveFile()

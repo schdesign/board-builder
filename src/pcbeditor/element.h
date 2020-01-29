@@ -10,18 +10,26 @@
 #include <QPainter>
 #include <QStringRef>
 
-const QString elementOrientationString[4] =
+class ElementDrawingOptions
 {
-    "Up", "Right", "Down", "Left"
-};
-
-const QString textAlignmentString[1] =
-{
-    "Center"
+public:
+    bool fillPads;
+    double scale;
+    int fontSize;
 };
 
 class Element
 {
+    const char *elementOrientationString[4] =
+    {
+        "Up", "Right", "Down", "Left"
+    };
+
+    const char *textAlignmentString[1] =
+    {
+        "Center"
+    };
+
 public:
     Element() {}
     Element(int refX, int refY, int orientation, QString name,
@@ -32,7 +40,8 @@ public:
     Element(const QJsonObject &object, int refX, int refY);
     static void addPackage(const QJsonValue &value);
     static QJsonObject writePackages(const QString &packageType);
-    void draw(QPainter &painter, const Layers &layers, int fontSize, double scale);
+    void draw(QPainter &painter, const Layers &layers,
+              const ElementDrawingOptions &options);
     bool exist(int x, int y);
     void findOuterBorder();
     void init(const Package &package);
@@ -50,6 +59,8 @@ public:
     int nameTextX;
     int nameTextY;
     int orientation;        // up, right, down, left
+    int outerBorderCenterX;
+    int outerBorderCenterY;
     int packageID;
     int referenceTextHeight;
     int referenceTextX;
@@ -65,6 +76,7 @@ public:
     QString reference;      // R1
     QString referenceTextAlignH;
     QString referenceTextAlignV;
+    QString type;           // SMD, DIP
     std::vector<Ellipse> ellipses;
     std::vector<Line> lines;
     std::vector<Pad> pads;

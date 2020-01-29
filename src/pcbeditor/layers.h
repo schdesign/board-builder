@@ -7,7 +7,7 @@
 #include <QColor>
 #include <QString>
 
-const int layersNumber = 11;
+constexpr int layersNumber = 11;
 
 enum LayerNames
 {

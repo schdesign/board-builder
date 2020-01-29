@@ -129,6 +129,7 @@ public:
     void turnElement(int x, int y, int direction);
     int waveRoute();
 
+    bool fillPads;
     bool selectedElement;
     bool showGroundNets;
     bool showMessage;

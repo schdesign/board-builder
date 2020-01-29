@@ -120,32 +120,48 @@ void Element::addPackage(const QJsonValue &value)
     Element::packages.push_back(package);
 }
 
-void Element::draw(QPainter &painter, const Layers &layers, int fontSize, double scale)
+void Element::draw(QPainter &painter, const Layers &layers,
+                   const ElementDrawingOptions &options)
 {
     int align;
-    int x, y, w, h, rx, ry;
+    int d, h, inD, w;
+    int rx, ry;
+    int x, y;
     QString str;
+    const bool &fillPads = options.fillPads;
+    const double &scale = options.scale;
+    const int &fontSize = options.fontSize;
 
     if (layers.draw & (1 << PAD_LAYER)) {
         painter.setPen(layers.color[PAD_LAYER]);
         for (auto p : pads) {
-            w = scale * p.width;
+            d = scale * p.diameter;
             h = scale * p.height;
+            inD = scale * p.innerDiameter;
+            w = scale * p.width;
             if (p.orientation == RIGHT) {
                 h = scale * p.width;
                 w = scale * p.height;
             }
+            if (h == 0 || w == 0) {
+                h = d;
+                w = d;
+            }
             x = scale * p.x - w / 2;
             y = scale * p.y - h / 2;
-            rx = 0.5 * scale * p.diameter;
+            rx = d / 2;
             ry = rx;
             QPainterPath path;
             path.addRoundedRect(x, y, w, h, rx, ry);
-            painter.setBrush(layers.color[PAD_LAYER]);
+            if (fillPads)
+                painter.setBrush(layers.color[PAD_LAYER]);
+            else
+                painter.setBrush(QColor(255, 255, 255));
             painter.drawPath(path);
-            if (2 * rx == w && 2 * ry == h) {
+            if (type == "DIP") {
                 QPainterPath path2;
-                path2.addRoundedRect(x + w / 4, y + h / 4, w / 2, h / 2, rx / 2, ry / 2);
+                path2.addRoundedRect(x + (w - inD) / 2, y + (h - inD) / 2,
+                                     inD, inD, inD / 2, inD / 2);
                 painter.setBrush(QColor(255, 255, 255));
                 painter.drawPath(path2);
             }
@@ -243,6 +259,9 @@ void Element::findOuterBorder()
     outerBorder.rightX = maxX;
     outerBorder.topY = minY;
     outerBorder.bottomY = maxY;
+
+    outerBorderCenterX = (minX + maxX) / 2;
+    outerBorderCenterY = (minY + maxY) / 2;
 }
 
 void Element::init(const Package &package)
@@ -277,6 +296,8 @@ void Element::init(const Package &package)
     referenceTextHeight = 0;
     referenceTextX = 0;
     referenceTextY = 0;
+
+    type = package.type;
 
     Ellipse ellipse;
     for (auto e : package.ellipses) {

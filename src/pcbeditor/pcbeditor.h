@@ -21,10 +21,15 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
 {
     Q_OBJECT
 
-    constexpr static int checkBoxes = 13;
+    constexpr static int checkBoxes = 3;
     constexpr static int pushButtons = 8;
     constexpr static int radioButtons = 4;
     constexpr static int toolButtons = 44;
+
+    enum CheckBox
+    {
+        FILL_PADS, SHOW_GRID, SHOW_NETS
+    };
 
     enum PushButton
     {
@@ -71,7 +76,8 @@ private slots:
     void saveFile();
     void saveSVG();
     void saveJSON();
-    void selectCheckBox();
+    void selectCheckBox(int number);
+    void selectLayerCheckBox();
     void selectPushButton(int number);
     void selectRadioButton();
     void selectToolButton(int number);
@@ -98,6 +104,7 @@ private:
         50, 100, 125, 200, 250, 500, 1000,
         1250, 2000, 2500, 5000, 10000
     };
+    bool showGrid;
     double scale;
     int centerX;
     int centerY;
@@ -115,10 +122,12 @@ private:
     PackageEditor packageEditor;
     QPoint mousePoint;
     QSignalMapper *checkBoxMapper;
+    QSignalMapper *layerCheckBoxMapper;
     QSignalMapper *radioButtonMapper;
     QSignalMapper *pushButtonMapper;
     QSignalMapper *toolButtonMapper;
     QCheckBox *checkBox[checkBoxes];
+    QCheckBox *layerCheckBox[layersNumber];
     QRadioButton *radioButton[radioButtons];
     QPushButton *pushButton[pushButtons];
     QToolButton *toolButton[toolButtons];

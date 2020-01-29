@@ -35,16 +35,25 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     QCheckBox *tmpCheckBox[checkBoxes] =
     {
-        frontCheckBox, backCheckBox, borderCheckBox, padCheckBox,
-        frontPolygonCheckBox, backPolygonCheckBox, frontViaCheckBox, backViaCheckBox,
-        packageCheckBox, referenceCheckBox, nameCheckBox, showGridCheckBox,
-        showNetsCheckBox
+        fillPadsCheckBox, showGridCheckBox, showNetsCheckBox
     };
 
     std::copy(tmpCheckBox, tmpCheckBox + checkBoxes, checkBox);
 
     for (int i = 0; i < checkBoxes; i++)
-        connect(checkBox[i], &QCheckBox::clicked, [=] () { selectCheckBox(); });
+        connect(checkBox[i], &QCheckBox::clicked, [=] () { selectCheckBox(i); });
+
+    QCheckBox *tmpLayerCheckBox[layersNumber] =
+    {
+        frontCheckBox, backCheckBox, borderCheckBox, padCheckBox, frontPolygonCheckBox,
+        backPolygonCheckBox, frontViaCheckBox, backViaCheckBox, packageCheckBox,
+        referenceCheckBox, nameCheckBox
+    };
+
+    std::copy(tmpLayerCheckBox, tmpLayerCheckBox + layersNumber, layerCheckBox);
+
+    for (int i = 0; i < layersNumber; i++)
+        connect(layerCheckBox[i], &QCheckBox::clicked, [=] () { selectLayerCheckBox(); });
 
     QPushButton *tmpPushButton[pushButtons] =
     {
@@ -110,6 +119,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     dxLineEdit->setText(str.setNum(dx));
     dyLineEdit->setText(str.setNum(dy));
     stepLineEdit->setText(str.setNum(step));
+
+    showGrid = true;
 }
 
 void PcbEditor::about()
@@ -359,7 +370,7 @@ void PcbEditor::paintEvent(QPaintEvent *)
     painter.setPen(Qt::black);
     painter.setFont(serifFont);
 
-    if (showGridCheckBox->isChecked()) {
+    if (showGrid) {
         for (int i = 0; i < 1150 / gridStep; i++)
             for (int j = 0; j < 790 / gridStep; j++)
                 painter.drawPoint(gridX + gridStep * i, gridY + gridStep * j);
@@ -455,18 +466,32 @@ void PcbEditor::writeLibraryFile(QString filename, QJsonObject object)
     file.close();
 }
 
-void PcbEditor::selectCheckBox()
+void PcbEditor::selectCheckBox(int number)
 {
-    for (int i = 0; i < checkBoxes; i++)
-        if (checkBox[i]->isChecked())
+    bool state = checkBox[number]->isChecked();
+
+    switch (number) {
+    case FILL_PADS:
+        board.fillPads = state;
+        break;
+    case SHOW_GRID:
+        showGrid = state;
+        break;
+    case SHOW_NETS:
+        board.showNets = state;
+        break;
+    }
+
+    update();
+}
+
+void PcbEditor::selectLayerCheckBox()
+{
+    for (int i = 0; i < layersNumber; i++)
+        if (layerCheckBox[i]->isChecked())
             board.layers.draw |= (1 << i);
         else
             board.layers.draw &= ~(1 << i);
-
-    if (showNetsCheckBox->isChecked())
-        board.showNets = true;
-    else
-        board.showNets = false;
 
     update();
 }
