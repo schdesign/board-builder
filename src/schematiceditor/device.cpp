@@ -162,11 +162,13 @@ void Device::draw(QPainter &painter)
             dx = -5;
         painter.drawText(x + dx, y, str.setNum(i+1));
         if (showPinName) {
+            int h = 10;
+            int w = h * pins[i].name.size();
             if (pins[i].side)
-                painter.drawText(x + pinNameXRight - 50, y + pinNameY - 5, 50, 10,
+                painter.drawText(x + pinNameXRight - w, y + pinNameY - 5, w, h,
                                  Qt::AlignRight | Qt::AlignVCenter, pins[i].name);
             else
-                painter.drawText(x + pinNameXLeft, y + pinNameY - 5, 50, 10,
+                painter.drawText(x + pinNameXLeft, y + pinNameY - 5, w, h,
                                  Qt::AlignLeft | Qt::AlignVCenter, pins[i].name);
         }
     }
