@@ -46,12 +46,12 @@ public:
     int centerX;
     int centerY;
     int deviceID;           // device nameID
-    int nameID;             // unit nameID
     int number;             // unit number in device
     int referenceTextX;     // left bottom point of text
     int referenceTextY;
     int refX;               // point of top left pin
     int refY;
+    int symbolNameID;       // unit symbol nameID
     QString reference;      // D1.1
     std::vector<Ellipse> ellipses;
     std::vector<Line> lines;

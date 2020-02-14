@@ -49,7 +49,8 @@ class Device
 {
 public:
     Device() {}
-    Device(int nameID, int refX, int refY);
+    Device(int symbolNameID, int refX, int refY);
+    Device(const QString &name, int symbolNameID, int refX, int refY);
     Device(const QJsonObject &object);
     static void addSymbol(const QJsonValue &value);
     static QJsonObject writeSymbols();
@@ -64,7 +65,7 @@ public:
     static std::map <int, DeviceSymbol> symbols;  // device nameID, deviceSymbol
     bool showPinName;
     int center;         // device center is center of 1st unit
-    int nameID;
+    int symbolNameID;
     int nameTextX;      // left bottom point of text
     int nameTextY;
     int pinNameXLeft;
@@ -78,6 +79,7 @@ public:
     QString name;
     QString package;
     QString reference;  // D1
+    QString symbolName;
     Unit unit;
     std::vector<DevicePin> pins;
     std::vector<Unit> units;

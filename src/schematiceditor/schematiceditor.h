@@ -56,7 +56,7 @@ private:
     // void buttonsSetEnabled(const char *params);
     void paintEvent(QPaintEvent *);
     void selectArray(int type, int &pins, int &orientation);
-    void selectDevice(int &deviceNameID);
+    void selectDevice(int &deviceSymbolNameID);
     void selectDiode(QString title, int &diodeTypeID);
     void selectPackages();
     // void writeLibraryFile(QString filename, QJsonObject object);

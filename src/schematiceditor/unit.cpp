@@ -93,8 +93,8 @@ void Unit::draw(QPainter &painter)
 
 bool Unit::exist(int x, int y)
 {
-    int dx = (symbols[nameID].border.rightX - symbols[nameID].border.leftX) / 2;
-    int dy = (symbols[nameID].border.bottomY - symbols[nameID].border.topY) / 2;
+    int dx = (symbols[symbolNameID].border.rightX - symbols[symbolNameID].border.leftX) / 2;
+    int dy = (symbols[symbolNameID].border.bottomY - symbols[symbolNameID].border.topY) / 2;
 
     if (x >= (centerX - dx) && x <= (centerX + dx) &&
         y >= (centerY - dy) && y <= (centerY + dy))
@@ -105,9 +105,9 @@ bool Unit::exist(int x, int y)
 
 void Unit::init()
 {
-    nameID = (deviceID << 8) + number;
+    symbolNameID = (deviceID << 8) + number;
 
-    const UnitSymbol &symbol = symbols[nameID];
+    const UnitSymbol &symbol = symbols[symbolNameID];
 
     centerX = refX + (symbol.border.leftX + symbol.border.rightX) / 2;
     centerY = refY + (symbol.border.topY + symbol.border.bottomY) / 2;

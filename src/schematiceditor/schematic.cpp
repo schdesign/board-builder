@@ -48,9 +48,9 @@ void Schematic::addCircuitSymbol(int circuitSymbolType, int x, int y)
     circuitSymbols[circuitSymbol.center] = circuitSymbol;
 }
 
-void Schematic::addDevice(int nameID, int x, int y)
+void Schematic::addDevice(int symbolNameID, int x, int y)
 {
-    Device device(nameID, x, y);
+    Device device(symbolNameID, x, y);
     devices[device.center] = device;
 }
 
@@ -459,11 +459,12 @@ bool Schematic::joinWires(Wire &wire1, Wire &wire2)
 void Schematic::move(int x, int y)
 {
     static int center;
-    static int nameID;
+    static int symbolNameID;
     static int number;
     static int orientation;
     static int type;
     static int unitNumber;
+    static QString name;
     static QString value;
     static std::vector<QString> pinNames;
     QString str;
@@ -492,7 +493,8 @@ void Schematic::move(int x, int y)
             if (unitNumber > 0) {
                 unitNumber--;
                 center = d.second.center;
-                nameID = d.second.nameID;
+                symbolNameID = d.second.symbolNameID;
+                name = d.second.name;
                 selectedDevice = true;
                 return;
             }
@@ -526,7 +528,7 @@ void Schematic::move(int x, int y)
 
     if (selectedDevice) {
         if (!unitNumber) {
-            Device device(nameID, x, y);
+            Device device(name, symbolNameID, x, y);
             device.units.resize(1);
             for (uint i = 1; i < devices[center].units.size(); i++)
                 device.units.push_back(devices[center].units[i]);
@@ -535,8 +537,8 @@ void Schematic::move(int x, int y)
             devices[center] = device;
         }
         else {
-            Unit unit(nameID, unitNumber, x, y);
-            unit.reference = Device::symbols[nameID].reference +
+            Unit unit(symbolNameID, unitNumber, x, y);
+            unit.reference = Device::symbols[symbolNameID].reference +
                              "." + str.setNum(unitNumber+1);
             devices[center].units[unitNumber] = unit;
         }
@@ -544,9 +546,9 @@ void Schematic::move(int x, int y)
         for (uint i = 0; i < devices[center].pins.size(); i++) {
             n = devices[center].pins[i].unit - 1;
             devices[center].pins[i].x = devices[center].units[n].refX +
-                                        Device::symbols[nameID].pins[i].x;
+                                        Device::symbols[symbolNameID].pins[i].x;
             devices[center].pins[i].y = devices[center].units[n].refY +
-                                        Device::symbols[nameID].pins[i].y;
+                                        Device::symbols[symbolNameID].pins[i].y;
         }
         selectedDevice = false;
         return;
@@ -565,12 +567,13 @@ void Schematic::moveGroup()
 {
     int dx = points[2].x - points[0].x;
     int dy = points[2].y - points[0].y;
-    int nameID;
+    int symbolNameID;
     int orientation;
     int number;
     int type;    
     int x, y;
     int unitNumber;
+    QString name;
     QString str;
     QString value;
     std::map<int, Array> arrays2;
@@ -628,14 +631,15 @@ void Schematic::moveGroup()
         if (d.second.inside(points[0].x, points[0].y,
                             points[1].x, points[1].y, unitNumbers)) {
             centers.push_back(d.second.center);
-            nameID = d.second.nameID;
+            symbolNameID = d.second.symbolNameID;
+            name = d.second.name;
             x = d.second.refX;
             y = d.second.refY;
             if (!unitNumbers[0]) {
                 x += dx;
                 y += dy;
             }
-            Device device(nameID, x, y);
+            Device device(name, symbolNameID, x, y);
             for (uint j = 0; j < unitNumbers.size(); j++) {
                 unitNumber = unitNumbers[j];
                 if (!unitNumber) {
@@ -646,8 +650,8 @@ void Schematic::moveGroup()
                 if (unitNumber) {
                     x = d.second.units[unitNumber].refX + dx;
                     y = d.second.units[unitNumber].refY + dy;
-                    Unit unit(nameID, unitNumber, x, y);
-                    unit.reference = Device::symbols[nameID].reference +
+                    Unit unit(symbolNameID, unitNumber, x, y);
+                    unit.reference = Device::symbols[symbolNameID].reference +
                                      "." + str.setNum(unitNumber+1);
                     device.units[unitNumber] = unit;
                 }
@@ -656,9 +660,9 @@ void Schematic::moveGroup()
             for (uint i = 0; i < device.pins.size(); i++) {
                 n = device.pins[i].unit - 1;
                 device.pins[i].x = device.units[n].refX +
-                                   Device::symbols[nameID].pins[i].x;
+                                   Device::symbols[symbolNameID].pins[i].x;
                 device.pins[i].y = device.units[n].refY +
-                                   Device::symbols[nameID].pins[i].y;
+                                   Device::symbols[symbolNameID].pins[i].y;
             }
             devices2[device.center] = device;
         }
@@ -886,6 +890,21 @@ void Schematic::setValue(int x, int y)
         else
             arrays[center].pinNames[number] = value;
         selectedArray = false;
+        return;
+    }
+
+    if (!selectedDevice) {
+        for (auto d : devices)
+            if (d.second.exist(x, y)) {
+                center = d.second.center;
+                value.clear();
+                selectedDevice = true;
+                return;
+            }
+    }
+    if (selectedDevice) {
+        devices[center].name = value;
+        selectedDevice = false;
         return;
     }
 

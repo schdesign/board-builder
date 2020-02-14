@@ -66,24 +66,31 @@ QJsonObject DeviceSymbol::toJson()
     return object;
 }
 
-Device::Device(int nameID, int refX, int refY):
-    nameID(nameID), refX(refX), refY(refY)
+Device::Device(int symbolNameID, int refX, int refY):
+    symbolNameID(symbolNameID), refX(refX), refY(refY)
+{
+    init();
+}
+
+Device::Device(const QString &name, int symbolNameID, int refX, int refY):
+    symbolNameID(symbolNameID), refX(refX), refY(refY), name(name)
 {
     init();
 }
 
 Device::Device(const QJsonObject &object)
 {
-    reference = object["reference"].toString();
     name = object["name"].toString();
     package = object["package"].toString();
+    reference = object["reference"].toString();
+    symbolName = object["symbolName"].toString();
     QJsonArray deviceUnits(object["units"].toArray());
     refX = deviceUnits[0].toObject()["refX"].toInt();
     refY = deviceUnits[0].toObject()["refY"].toInt();
 
     for (int i = 0; i < Device::symbolID; i++) {
-        if (!name.compare(Device::symbols[i].name)) {
-            nameID = Device::symbols[i].nameID;
+        if (!symbolName.compare(Device::symbols[i].name)) {
+            symbolNameID = Device::symbols[i].nameID;
             break;
         }
         if (i == Device::symbolID - 1)
@@ -94,14 +101,14 @@ Device::Device(const QJsonObject &object)
     units.clear();
 
     for (int i = 0; i < unitsNumber; i++) {
-        Unit unit(nameID, deviceUnits[i].toObject());
+        Unit unit(symbolNameID, deviceUnits[i].toObject());
         units.push_back(unit);
     }
 
     for (uint i = 0; i < pins.size(); i++) {
         int n = pins[i].unit - 1;
-        pins[i].x = units[n].refX + symbols[nameID].pins[i].x;
-        pins[i].y = units[n].refY + symbols[nameID].pins[i].y;
+        pins[i].x = units[n].refX + symbols[symbolNameID].pins[i].x;
+        pins[i].y = units[n].refY + symbols[symbolNameID].pins[i].y;
     }
 }
 
@@ -187,7 +194,7 @@ int Device::exist(int x, int y)
 
 void Device::init()
 {
-    const DeviceSymbol &symbol = symbols[nameID];
+    const DeviceSymbol &symbol = symbols[symbolNameID];
     int id;
     int x, y;
     QString str;
@@ -203,28 +210,32 @@ void Device::init()
     type = symbol.type;
     referenceType = deviceReferenceTypes[type];
     unitsNumber = symbol.unitsNumber;
-    name = symbol.name;
-    if (reference.isEmpty())
-        reference = symbol.reference;
+
+    if (name.isEmpty())
+        name = symbol.name;
     if (package.isEmpty())
         package = symbol.package;
+    if (reference.isEmpty())
+        reference = symbol.reference;
+
+    symbolName = symbol.name;
 
     DevicePin pin;
     for (auto sp : symbol.pins) {
         pin.name = sp.name;
         pin.unit = sp.unit;
         pin.side = sp.side;
-        id = (nameID << 8) + pin.unit - 1;
+        id = (symbolNameID << 8) + pin.unit - 1;
         pin.x = refX + Unit::symbols[id].refX + sp.x;
         pin.y = refY + Unit::symbols[id].refY + sp.y;
         pins.push_back(pin);
     }
 
     for (int i = 0; i < symbol.unitsNumber; i++) {
-        id = (nameID << 8) + i;
+        id = (symbolNameID << 8) + i;
         x = refX + Unit::symbols[id].refX;
         y = refY + Unit::symbols[id].refY;
-        Unit unit(nameID, i, x, y);
+        Unit unit(symbolNameID, i, x, y);
         unit.reference = reference;
         if (symbol.unitsNumber > 1)
             unit.reference += "." + str.setNum(i+1);
@@ -257,6 +268,7 @@ QJsonObject Device::toJson()
         {"reference", reference},
         {"name", name},
         {"package", package},
+        {"symbolName", symbolName},
         {"units", deviceUnits}
     };
 

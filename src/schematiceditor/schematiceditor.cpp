@@ -120,7 +120,8 @@ void SchematicEditor::keyPressEvent(QKeyEvent *event)
         }
         break;
     case SET_VALUE:
-        if (schematic.selectedArray || schematic.selectedElement) {
+        if (schematic.selectedArray || schematic.selectedDevice ||
+            schematic.selectedElement) {
             if (event->text() != QString("q"))
                 schematic.value += event->text();
             else
@@ -176,7 +177,7 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             schematic.moveGroup(x, y);
             break;
         case PLACE_DEVICE:
-            schematic.addDevice(schematic.deviceNameID, x, y);
+            schematic.addDevice(schematic.deviceSymbolNameID, x, y);
             break;
         case PLACE_DOUBLE_DIODE:
         case PLACE_DOUBLE_SCHOTTKY:
@@ -220,6 +221,7 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             command = SELECT;
             schematic.selectedArray = false;
             schematic.selectedCircuitSymbol = false;
+            schematic.selectedDevice = false;
             schematic.selectedElement = false;
         }
 
@@ -446,8 +448,8 @@ void SchematicEditor::selectCommand(int number)
         dyLineEdit->setText(str.setNum(-dy/grid));
         break;
     case PLACE_DEVICE:
-        selectDevice(schematic.deviceNameID);
-        if (schematic.deviceNameID == -1)
+        selectDevice(schematic.deviceSymbolNameID);
+        if (schematic.deviceSymbolNameID == -1)
             command = SELECT;
         break;
     case PLACE_DOUBLE_DIODE:
@@ -487,6 +489,7 @@ void SchematicEditor::selectCommand(int number)
         break;
     case SET_VALUE:
         schematic.selectedArray = false;
+        schematic.selectedDevice = false;
         schematic.selectedElement = false;
         break;
     case SHOW_NET_NUMBERS:
@@ -518,13 +521,13 @@ void SchematicEditor::selectCommand(int number)
     update();
 }
 
-void SchematicEditor::selectDevice(int &deviceNameID)
+void SchematicEditor::selectDevice(int &deviceSymbolNameID)
 {
-    QStringList deviceNames;
+    QStringList deviceSymbolNames;
     for (auto ds : Device::symbols)
-        deviceNames += ds.second.name;
-    DeviceSelector deviceSelector(deviceNames);
-    deviceNameID = deviceSelector.exec() - 1;
+        deviceSymbolNames += ds.second.name;
+    DeviceSelector deviceSelector(deviceSymbolNames);
+    deviceSymbolNameID = deviceSelector.exec() - 1;
 }
 
 void SchematicEditor::selectDiode(QString title, int &diodeTypeID)

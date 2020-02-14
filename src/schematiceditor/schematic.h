@@ -71,7 +71,7 @@ public:
     Schematic();
     void addArray(int type, int pins, int x, int y, int orientation);
     void addCircuitSymbol(int circuitSymbolType, int x, int y);
-    void addDevice(int nameID, int x, int y);
+    void addDevice(int symbolNameID, int x, int y);
     void addElement(int elementType, int x, int y, int orientation);
     void addJunction(int x, int y);
     void addNet();
@@ -148,7 +148,7 @@ public:
     QString value;
     int arrayNumber;
     int arrayOrientation;
-    int deviceNameID;
+    int deviceSymbolNameID;
     int diodeTypeID;
 };
 
