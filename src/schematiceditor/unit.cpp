@@ -22,8 +22,6 @@ QJsonObject UnitSymbol::toJson()
     {
         {"border", border.toJson()},
         {"number", number + 1},
-        {"referenceTextX", referenceTextX},
-        {"referenceTextY", referenceTextY},
         {"refX", refX},
         {"refY", refY},
         {"ellipses", unitEllipses},
@@ -58,8 +56,6 @@ void Unit::addSymbol(const QJsonValue &value, int deviceID)
 
     symbol.border.fromJson(object["border"]);
     symbol.number = object["number"].toInt() - 1;
-    symbol.referenceTextX = object["referenceTextX"].toInt();
-    symbol.referenceTextY = object["referenceTextY"].toInt();
     symbol.refX = object["refX"].toInt();
     symbol.refY = object["refY"].toInt();
 
@@ -80,15 +76,22 @@ void Unit::addSymbol(const QJsonValue &value, int deviceID)
     Unit::symbols[symbol.nameID] = symbol;
 }
 
-void Unit::draw(QPainter &painter)
+void Unit::draw(QPainter &painter, int fontSize)
 {
+    int h, w;
+    int x, y;
+
     for (auto l : lines)
         painter.drawLine(l.x1, l.y1, l.x2, l.y2);
 
     for (auto e : ellipses)
         painter.drawEllipse(e.x, e.y, e.w, e.h);
 
-    painter.drawText(referenceTextX, referenceTextY, reference);
+    w = fontSize * reference.size();
+    h = fontSize;
+    x = centerX - w / 2;
+    y = border.topY - fontSize - 2;
+    painter.drawText(x, y, w, h, Qt::AlignCenter, reference);
 }
 
 bool Unit::exist(int x, int y)
@@ -109,12 +112,14 @@ void Unit::init()
 
     const UnitSymbol &symbol = symbols[symbolNameID];
 
-    centerX = refX + (symbol.border.leftX + symbol.border.rightX) / 2;
-    centerY = refY + (symbol.border.topY + symbol.border.bottomY) / 2;
-    center = (centerX << 16) + centerY;
+    border.leftX = refX + symbol.border.leftX;
+    border.rightX = refX + symbol.border.rightX;
+    border.topY = refY + symbol.border.topY;
+    border.bottomY = refY + symbol.border.bottomY;
 
-    referenceTextX = refX + symbol.referenceTextX;
-    referenceTextY = refY + symbol.referenceTextY;
+    centerX = (border.leftX + border.rightX) / 2;
+    centerY = (border.topY + border.bottomY) / 2;
+    center = (centerX << 16) + centerY;
 
     Ellipse ellipse;
     for (auto se : symbol.ellipses) {

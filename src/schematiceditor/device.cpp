@@ -50,8 +50,6 @@ QJsonObject DeviceSymbol::toJson()
     QJsonObject object
     {
         {"showPinName", showPinName},
-        {"nameTextX", nameTextX},
-        {"nameTextY", nameTextY},
         {"pinNameXLeft", pinNameXLeft},
         {"pinNameXRight", pinNameXRight},
         {"pinNameY", pinNameY},
@@ -120,8 +118,6 @@ void Device::addSymbol(const QJsonValue &value)
     symbol.nameID = Device::symbolID;
 
     symbol.showPinName = object["showPinName"].toBool();
-    symbol.nameTextX = object["nameTextX"].toInt();
-    symbol.nameTextY = object["nameTextY"].toInt();
 
     symbol.pinNameXLeft = object["pinNameXLeft"].toInt();
     symbol.pinNameXRight = object["pinNameXRight"].toInt();
@@ -152,14 +148,15 @@ void Device::addSymbol(const QJsonValue &value)
     Device::symbolID++;
 }
 
-void Device::draw(QPainter &painter)
+void Device::draw(QPainter &painter, int fontSize)
 {
     int dx;
+    int h, w;
     int x, y;
     QString str;
 
     for (auto u : units)
-        u.draw(painter);
+        u.draw(painter, fontSize);
 
     for (uint i = 0; i < pins.size(); i++) {
         x = pins[i].x;
@@ -180,7 +177,11 @@ void Device::draw(QPainter &painter)
         }
     }
 
-    painter.drawText(nameTextX, nameTextY, name);
+    w = fontSize * name.size();
+    h = fontSize;
+    x = units[0].centerX - w / 2;
+    y = units[0].border.bottomY + 1;
+    painter.drawText(x, y, w, h, Qt::AlignCenter, name);
 }
 
 int Device::exist(int x, int y)
@@ -198,9 +199,6 @@ void Device::init()
     int id;
     int x, y;
     QString str;
-
-    nameTextX = refX + symbol.nameTextX;
-    nameTextY = refY + symbol.nameTextY;
 
     showPinName = symbol.showPinName;
     pinNameXLeft = symbol.pinNameXLeft;

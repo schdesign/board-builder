@@ -31,8 +31,6 @@ public:
 
     bool showPinName;
     int nameID;
-    int nameTextX;
-    int nameTextY;
     int pinNameXLeft;
     int pinNameXRight;
     int pinNameY;
@@ -54,7 +52,7 @@ public:
     Device(const QJsonObject &object);
     static void addSymbol(const QJsonValue &value);
     static QJsonObject writeSymbols();
-    void draw(QPainter &painter);
+    void draw(QPainter &painter, int fontSize);
     int exist(int x, int y);
     void init();
     bool inside(int leftX, int topY, int rightX, int bottomY,
@@ -66,8 +64,6 @@ public:
     bool showPinName;
     int center;         // device center is center of 1st unit
     int symbolNameID;
-    int nameTextX;      // left bottom point of text
-    int nameTextY;
     int pinNameXLeft;
     int pinNameXRight;
     int pinNameY;

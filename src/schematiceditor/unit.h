@@ -20,8 +20,6 @@ public:
     Border border;
     int nameID;
     int number;
-    int referenceTextX;
-    int referenceTextY;
     int refX;
     int refY;
     std::vector<Ellipse> ellipses;
@@ -35,20 +33,19 @@ public:
     Unit(int deviceID, int number, int refX, int refY);
     Unit(int deviceID, const QJsonObject &object);
     static void addSymbol(const QJsonValue &value, int deviceID);
-    void draw(QPainter &painter);
+    void draw(QPainter &painter, int fontSize);
     bool exist(int x, int y);
     void init();
     bool inside(int leftX, int topY, int rightX, int bottomY);
     QJsonObject toJson();
 
     static std::map<int, UnitSymbol> symbols;  // unit nameID, unitSymbol
+    Border border;
     int center;
     int centerX;
     int centerY;
     int deviceID;           // device nameID
     int number;             // unit number in device
-    int referenceTextX;     // left bottom point of text
-    int referenceTextY;
     int refX;               // point of top left pin
     int refY;
     int symbolNameID;       // unit symbol nameID

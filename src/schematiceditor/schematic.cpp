@@ -259,7 +259,7 @@ void Schematic::deleteWire(int x, int y)
 
 void Schematic::draw(QPainter &painter)
 {
-    int fontSize = 10;
+    constexpr int fontSize = 10;
     painter.setPen(QColor(200, 100, 100));
     QFont serifFont("Times", fontSize, QFont::Normal);
     painter.setFont(serifFont);
@@ -275,7 +275,7 @@ void Schematic::draw(QPainter &painter)
 
     // Draw devices
     for (auto d : devices)
-        d.second.draw(painter);
+        d.second.draw(painter, fontSize);
 
     // Draw elements
     for (auto e : elements)

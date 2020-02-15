@@ -2,8 +2,6 @@
     "devices": [
         {
             "name": "74HC14D",
-            "nameTextX": -6,
-            "nameTextY": 80,
             "package": "SO14",
             "pinNameXLeft": 0,
             "pinNameXRight": 0,
@@ -304,17 +302,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 8,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "74HC74D",
-            "nameTextX": 23,
-            "nameTextY": 80,
             "package": "SO14",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -615,17 +609,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 38,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "AD8542AR",
-            "nameTextX": -9,
-            "nameTextY": 50,
             "package": "SO8",
             "pinNameXLeft": 0,
             "pinNameXRight": 0,
@@ -788,9 +778,7 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 4,
-                    "referenceTextY": -10
+                    "refY": 0
                 },
                 {
                     "border": {
@@ -877,17 +865,13 @@
                     ],
                     "number": 2,
                     "refX": 50,
-                    "refY": 0,
-                    "referenceTextX": 4,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 2
         },
         {
             "name": "AD8544AR",
-            "nameTextX": -9,
-            "nameTextY": 50,
             "package": "SO8",
             "pinNameXLeft": 0,
             "pinNameXRight": 0,
@@ -1092,9 +1076,7 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 4,
-                    "referenceTextY": -10
+                    "refY": 0
                 },
                 {
                     "border": {
@@ -1181,9 +1163,7 @@
                     ],
                     "number": 2,
                     "refX": 50,
-                    "refY": 0,
-                    "referenceTextX": 4,
-                    "referenceTextY": -10
+                    "refY": 0
                 },
                 {
                     "border": {
@@ -1270,9 +1250,7 @@
                     ],
                     "number": 3,
                     "refX": 100,
-                    "refY": 0,
-                    "referenceTextX": 4,
-                    "referenceTextY": -10
+                    "refY": 0
                 },
                 {
                     "border": {
@@ -1359,17 +1337,13 @@
                     ],
                     "number": 4,
                     "refX": 150,
-                    "refY": 0,
-                    "referenceTextX": 4,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 4
         },
         {
             "name": "AD8605ART",
-            "nameTextX": -15,
-            "nameTextY": 50,
             "package": "SOT23-5",
             "pinNameXLeft": 0,
             "pinNameXRight": 0,
@@ -1511,17 +1485,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 8,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "IRU1206-33CY",
-            "nameTextX": 8,
-            "nameTextY": 30,
             "package": "SOT223",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -1620,17 +1590,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 38,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "LM4818MX",
-            "nameTextX": 37,
-            "nameTextY": 50,
             "package": "SO8",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -1781,18 +1747,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 58,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
-
         {
             "name": "LP2985AIM5-3.0",
-            "nameTextX": 18,
-            "nameTextY": 40,
             "package": "SOT23-5",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -1904,17 +1865,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 54,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "STM32F030F4",
-            "nameTextX": 15,
-            "nameTextY": 110,
             "package": "TSSOP20",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -2221,17 +2178,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 43,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "STM32F100C4T6",
-            "nameTextX": 17,
-            "nameTextY": 250,
             "package": "LQFP48",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -2903,17 +2856,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 53,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "TL431CD",
-            "nameTextX": 6,
-            "nameTextY": 50,
             "package": "SO8",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -3064,17 +3013,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 19,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "TLC555ID",
-            "nameTextX": 31,
-            "nameTextY": 50,
             "package": "SO8",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -3225,17 +3170,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 48,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "TM020GDH43",
-            "nameTextX": 20,
-            "nameTextY": 190,
             "package": "TM020GDH43",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -3750,17 +3691,13 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 49,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
         },
         {
             "name": "TS5A3157DBVR",
-            "nameTextX": 4,
-            "nameTextY": 40,
             "package": "SOT23-6",
             "pinNameXLeft": 14,
             "pinNameXRight": -12,
@@ -3885,9 +3822,7 @@
                     ],
                     "number": 1,
                     "refX": 0,
-                    "refY": 0,
-                    "referenceTextX": 38,
-                    "referenceTextY": -10
+                    "refY": 0
                 }
             ],
             "unitsNumber": 1
