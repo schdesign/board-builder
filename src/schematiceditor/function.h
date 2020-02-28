@@ -17,7 +17,7 @@ void jsonToIntArray(const QJsonValue &value, int n[], int size);
 
 struct LessReference
 {
-    bool operator() (const QString &str, const QString &str2);
+    bool operator() (const QString &str, const QString &str2) const;
 };
 
 void limit(int &value, int min, int max);

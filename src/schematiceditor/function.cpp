@@ -33,7 +33,7 @@ void jsonToIntArray(const QJsonValue &value, int n[], int size)
         n[i] = array[i].toInt();
 }
 
-bool LessReference::operator() (const QString &str, const QString &str2)
+bool LessReference::operator() (const QString &str, const QString &str2) const
 {
     bool digits = false;
     int i;

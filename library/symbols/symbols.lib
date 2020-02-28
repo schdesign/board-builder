@@ -2,7 +2,8 @@
     "filenames": [
         "arrays.sym",
         "devices.sym",
-        "elements.sym"
+        "elements.sym",
+        "logic.sym"
     ],
     "object": "symbolLibrary"
 }

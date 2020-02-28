@@ -89,7 +89,7 @@ public:
     void draw(QPainter &painter);
     void enumerate();
     void errorCheck(QString &text);
-    template <class Type>
+    template <typename Type>
     void errorCheck(std::map<QString, QString> &components, Type t);
     void fromJson(const QByteArray &array);
     void horizontalMirror(int x, int y);
@@ -97,6 +97,9 @@ public:
     bool insideConnected(const Pin &pin, const Wire &wire);
     bool joinLines(int &x11, int &x12, int &x21, int &x22);
     bool joinWires(Wire &wire1, Wire &wire2);
+    template<typename Type>
+    void makeComponentList(Type &t, const QString &key, const QString &value1,
+                           const QString &value2);
     void move(int x, int y);
     void moveGroup();
     void moveGroup(int x, int y);
@@ -105,7 +108,7 @@ public:
     void moveRight();    
     void moveUp();
     QJsonObject netlist();
-    template <class Type>
+    template <typename Type>
     void netlist(QJsonArray &netlistElements, Type t, QString str);
     void readFile(const QString &filename, QString &text);
     void readJsonFile(const QString &filename, QByteArray &byteArray);
@@ -118,6 +121,8 @@ public:
     void setValue(int x, int y);
     QJsonObject toJson();
     void updateNets();
+    template <typename Type>
+    void writeComponentList(const Type &t, QString &text);
     QJsonObject writePackageLibrary();
     QJsonObject writeSymbolLibrary();
 

@@ -33,44 +33,45 @@ void Schematic::addPackage(const QJsonValue &value)
 
 void Schematic::componentList(QString &text)
 {
-    std::map <QString, QString, LessReference> components;  // reference, value
-    std::multimap <QString, QString> components2;           // value, reference
+    // Reference; value, package
+    std::map<QString, std::vector<QString>, LessReference> components;
+    // Value; package, reference
+    std::multimap<QString, std::vector<QString>> components2;
 
     for (auto a : arrays) {
-        if (a.second.name.isEmpty())
+        auto &c = a.second;
+        if (c.name.isEmpty())
             continue;
-        components.insert(std::make_pair(a.second.reference, a.second.name));
-        components2.insert(std::make_pair(a.second.name, a.second.reference));
+        makeComponentList(components, c.reference, c.name, c.package);
+        makeComponentList(components2, c.name, c.package, c.reference);
     }
 
     for (auto d : devices) {
-        components.insert(std::make_pair(d.second.reference, d.second.name));
-        components2.insert(std::make_pair(d.second.name, d.second.reference));
+        auto &c = d.second;
+        makeComponentList(components, c.reference, c.name, c.package);
+        makeComponentList(components2, c.name, c.package, c.reference);
     }
 
     for (auto e : elements) {
-        components.insert(std::make_pair(e.second.reference, e.second.value));
-        components2.insert(std::make_pair(e.second.value, e.second.reference));
+        auto &c = e.second;
+        makeComponentList(components, c.reference, c.value, c.package);
+        makeComponentList(components2, c.value, c.package, c.reference);
     }
 
     int maxSize = 0;
-    for (auto c : components)
+    int maxSize2 = 0;
+    for (auto c : components) {
         if (c.first.size() > maxSize)
             maxSize = c.first.size();
+        if (c.second[0].size() > maxSize2)
+            maxSize2 = c.second[0].size();
+    }
 
     text = "Component list by reference.\n";
-    for (auto c : components)
-        text += c.first.leftJustified(maxSize + 2, ' ') + c.second + "\n";
+    writeComponentList(components, text);
     text += "\n";
-
-    maxSize = 0;
-    for (auto c : components2)
-        if (c.first.size() > maxSize)
-            maxSize = c.first.size();
-
     text += "Component list by value.\n";
-    for (auto c : components2)
-        text += c.first.leftJustified(maxSize + 2, ' ') + c.second + "\n";
+    writeComponentList(components2, text);
 }
 
 void Schematic::errorCheck(QString &text)
@@ -94,7 +95,7 @@ void Schematic::errorCheck(QString &text)
             text += c.first + "\t" + c.second + "\n";
 }
 
-template <class Type>
+template <typename Type>
 void Schematic::errorCheck(std::map<QString, QString> &components, Type t)
 {
     int netNumber;
@@ -180,6 +181,16 @@ void Schematic::fromJson(const QByteArray &array)
     updateNets();
 }
 
+template<typename Type>
+void Schematic::makeComponentList(Type &t, const QString &key, const QString &value1,
+                                  const QString &value2)
+{
+    static std::vector<QString> str(2);
+    str[0] = value1;
+    str[1] = value2;
+    t.insert(std::make_pair(key, str));
+}
+
 QJsonObject Schematic::netlist()
 {
     QJsonArray netlistElements;
@@ -202,7 +213,7 @@ QJsonObject Schematic::netlist()
     return object;
 }
 
-template <class Type>
+template <typename Type>
 void Schematic::netlist(QJsonArray &netlistElements, Type t, QString str)
 {
     QJsonArray elementPads;
@@ -345,4 +356,22 @@ QJsonObject Schematic::toJson()
     };
 
     return object;
+}
+
+template<typename Type>
+void Schematic::writeComponentList(const Type &t, QString &text)
+{
+    int maxSize = 0;
+    int maxSize2 = 0;
+
+    for (auto c : t) {
+        if (c.first.size() > maxSize)
+            maxSize = c.first.size();
+        if (c.second[0].size() > maxSize2)
+            maxSize2 = c.second[0].size();
+    }
+
+    for (auto c : t)
+        text += c.first.leftJustified(maxSize + 2, ' ') +
+                c.second[0].leftJustified(maxSize2 + 2, ' ') + c.second[1] + "\n";
 }

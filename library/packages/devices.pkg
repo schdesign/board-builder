@@ -228,6 +228,108 @@
                 }
             ],
             "type": "SMD"
+        },
+        {
+            "border": {
+                "bottomY": 3227,
+                "leftX": -534,
+                "rightX": 2466,
+                "topY": -533
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": -534,
+                    "x2": -534,
+                    "y1": -533,
+                    "y2": 3227
+                },
+                {
+                    "x1": 2466,
+                    "x2": 2466,
+                    "y1": -533,
+                    "y2": 3227
+                },
+                {
+                    "x1": -534,
+                    "x2": 2466,
+                    "y1": -533,
+                    "y2": -533
+                },
+                {
+                    "x1": -534,
+                    "x2": 2466,
+                    "y1": 3227,
+                    "y2": 3227
+                }
+            ],
+            "name": "SPU0410LR5H-QB",
+            "padTypesParams": [
+                {
+                    "diameter": 723,
+                    "height": 0,
+                    "innerDiameter": 0,
+                    "width": 0
+                },
+                {
+                    "diameter": 562,
+                    "height": 0,
+                    "innerDiameter": 0,
+                    "width": 0
+                },
+                {
+                    "diameter": 612,
+                    "height": 0,
+                    "innerDiameter": 0,
+                    "width": 0
+                },
+                {
+                    "diameter": 1224,
+                    "height": 0,
+                    "innerDiameter": 610,
+                    "width": 0
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 1,
+                    "x": -49,
+                    "y": 2737
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 1,
+                    "x": 1981,
+                    "y": 2737
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 1932,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 2,
+                    "x": 966,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 3,
+                    "x": 966,
+                    "y": 2103
+                }
+            ],
+            "type": "SMD"
         }
     ]
 }
