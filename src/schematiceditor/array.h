@@ -75,7 +75,7 @@ public:
     int refY;
     int type;               // CONNECTOR
     QString name;
-    QString package;
+    QString packageName;
     QString reference;      // X1
     std::vector<QString> pinNames;
     std::vector<Line> lines;

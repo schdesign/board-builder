@@ -4,6 +4,55 @@
 #include "types.h"
 #include <cmath>
 
+Arc::Arc(const QJsonValue &value)
+{
+    QJsonObject object = value.toObject();
+
+    x = object["x"].toInt();
+    y = object["y"].toInt();
+    w = object["w"].toInt();
+    h = object["h"].toInt();
+    startAngle = object["startAngle"].toInt();
+    spanAngle = object["spanAngle"].toInt();
+}
+
+void Arc::clear()
+{
+    x = 0;
+    y = 0;
+    w = 0;
+    h = 0;
+    startAngle = 0;
+    spanAngle = 0;
+}
+
+void Arc::fromJson(const QJsonValue &value)
+{
+    QJsonObject object = value.toObject();
+
+    x = object["x"].toInt();
+    y = object["y"].toInt();
+    w = object["w"].toInt();
+    h = object["h"].toInt();
+    startAngle = object["startAngle"].toInt();
+    spanAngle = object["spanAngle"].toInt();
+}
+
+QJsonObject Arc::toJson()
+{
+    QJsonObject object
+    {
+        {"x", x},
+        {"y", y},
+        {"w", w},
+        {"h", h},
+        {"startAngle", startAngle},
+        {"spanAngle", spanAngle}
+    };
+
+    return object;
+}
+
 Border::Border(const QJsonValue &value)
 {
     QJsonObject object = value.toObject();
@@ -96,6 +145,14 @@ Line::Line(const QJsonValue &value)
     y2 = object["y2"].toInt();
 }
 
+void Line::clear()
+{
+    x1 = 0;
+    y1 = 0;
+    x2 = 0;
+    y2 = 0;
+}
+
 bool Line::crossPoint(int x, int y)
 {
     if (x1 == x2) {
@@ -115,6 +172,16 @@ bool Line::crossPoint(int x, int y)
         return true;
 
     return false;
+}
+
+void Line::fromJson(const QJsonValue &value)
+{
+    QJsonObject object = value.toObject();
+
+    x1 = object["x1"].toInt();
+    y1 = object["y1"].toInt();
+    x2 = object["x2"].toInt();
+    y2 = object["y2"].toInt();
 }
 
 // Horizontal or vertical lines
@@ -187,6 +254,20 @@ QJsonObject Line::toJson()
 }
 
 Point::Point(const QJsonValue &value)
+{
+    QJsonObject object = value.toObject();
+
+    x = object["x"].toInt();
+    y = object["y"].toInt();
+}
+
+void Point::clear()
+{
+    x = 0;
+    y = 0;
+}
+
+void Point::fromJson(const QJsonValue &value)
 {
     QJsonObject object = value.toObject();
 

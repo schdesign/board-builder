@@ -44,6 +44,9 @@ Package::Package(const QJsonValue &value)
 
     border.fromJson(object["border"]);
 
+    centerX = (border.leftX + border.rightX) / 2;
+    centerY = (border.topY + border.bottomY) / 2;
+
     name = object["name"].toString();
     type = object["type"].toString();
 
@@ -82,17 +85,71 @@ Package::Package(const QJsonValue &value)
         pad.y = packagePad["y"].toInt();
         pads.push_back(pad);
     }
+
+    findOuterBorder();
 }
 
 void Package::clear()
 {
+    centerX = 0;
+    centerY = 0;
+    outerBorderCenterX = 0;
+    outerBorderCenterY = 0;
     border.clear();
+    outerBorder.clear();
     name.clear();
     type.clear();
     ellipses.clear();
     lines.clear();
     pads.clear();
     padTypesParams.clear();
+}
+
+void Package::findOuterBorder()
+{
+    int minX = 0;
+    int maxX = 0;
+    int minY = 0;
+    int maxY = 0;
+
+    for (auto e : ellipses) {
+        if (minX > e.x - e.w / 2) minX = e.x - e.w / 2;
+        if (maxX < e.x + e.w / 2) maxX = e.x + e.w / 2;
+        if (minY > e.y - e.h / 2) minY = e.y - e.h / 2;
+        if (maxY < e.y + e.h / 2) maxY = e.y + e.h / 2;
+    }
+
+    for (auto l : lines) {
+        if (minX > l.x1) minX = l.x1;
+        if (minX > l.x2) minX = l.x2;
+        if (maxX < l.x1) maxX = l.x1;
+        if (maxX < l.x2) maxX = l.x2;
+        if (minY > l.y1) minY = l.y1;
+        if (minY > l.y2) minY = l.y2;
+        if (maxY < l.y1) maxY = l.y1;
+        if (maxY < l.y2) maxY = l.y2;
+    }
+
+    for (auto p : pads) {
+        int w = p.width;
+        int h = p.height;
+        if (w == 0 || h == 0) {
+            w = p.diameter;
+            h = p.diameter;
+        }
+        if (minX > p.x - w / 2) minX = p.x - w / 2;
+        if (maxX < p.x + w / 2) maxX = p.x + w / 2;
+        if (minY > p.y - h / 2) minY = p.y - h / 2;
+        if (maxY < p.y + h / 2) maxY = p.y + h / 2;
+    }
+
+    outerBorder.leftX = minX;
+    outerBorder.rightX = maxX;
+    outerBorder.topY = minY;
+    outerBorder.bottomY = maxY;
+
+    outerBorderCenterX = (minX + maxX) / 2;
+    outerBorderCenterY = (minY + maxY) / 2;
 }
 
 QJsonObject Package::toJson()

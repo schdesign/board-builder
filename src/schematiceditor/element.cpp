@@ -62,14 +62,15 @@ Element::Element(int type, int refX, int refY, int orientation, QString value):
 
 Element::Element(const QJsonObject &object)
 {
-    QString typeString(object["type"].toString());
-    QString orientationString(object["orientation"].toString());
     mirror = object["mirror"].toBool();
+    QString orientationString(object["orientation"].toString());
+    packageName = object["package"].toString();
+    padsMap = object["padsMap"].toInt();
     refX = object["refX"].toInt();
     refY = object["refY"].toInt();
     QString referenceString(object["reference"].toString());
+    QString typeString(object["type"].toString());
     value = object["value"].toString();
-    package = object["package"].toString();
 
     if (!findIndex(type, typeString, elementTypeString, elementTypes))
         throw ExceptionData("Element type error");
@@ -130,7 +131,19 @@ void Element::addSymbol(const QJsonValue &value)
     Element::symbols[symbol.type] = symbol;
 }
 
-void Element::draw(QPainter &painter)
+void Element::defaultPadsMap()
+{
+    padsMap = 0;
+
+    for (auto e : equalPinsTypes)
+        if (type == e) {
+            if (pins.size() == 2)
+                padsMap = 12;
+            break;
+        }
+}
+
+void Element::draw(QPainter &painter, bool showText, bool showPinNumbers)
 {
     for (auto a : arcs)  // angle unit: 1/16th of degree
         painter.drawArc(a.x, a.y, a.w, a.h, a.startAngle << 4, a.spanAngle << 4);
@@ -138,8 +151,29 @@ void Element::draw(QPainter &painter)
     for (auto l : lines)
         painter.drawLine(l.x1, l.y1, l.x2, l.y2);
 
-    painter.drawText(referenceTextX, referenceTextY, reference);
-    painter.drawText(valueTextX, valueTextY, value);
+    if (showText) {
+        painter.drawText(referenceTextX, referenceTextY, reference);
+        painter.drawText(valueTextX, valueTextY, value);
+    }
+
+    if (showPinNumbers)
+        for (int i = 0; i < pins.size(); i++) {
+            int dx = pins[i].x - centerX;
+            int dy = pins[i].y - centerY;
+            int x = pins[i].x;
+            int y = pins[i].y;
+            if (abs(dx) > abs(dy)) {
+                if (dx > 0) x += 20;
+                else x -= 10;
+                y -= 3 * (dy / abs(dy));
+            }
+            else {
+                if (dy > 0) y += 20;
+                else y -= 10;
+                x -= 3 * (dx / abs(dx));
+            }
+            painter.drawText(x, y, QString::number(i+1));
+        }
 }
 
 bool Element::exist(int x, int y)
@@ -244,14 +278,15 @@ QJsonObject Element::toJson()
 
     QJsonObject object
     {
-        {"type", typeString},
         {"mirror", mirror},
         {"orientation", orientationString},
+        {"package", packageName},
+        {"padsMap", padsMap},
         {"refX", refX},
         {"refY", refY},
         {"reference", reference},
-        {"value", value},
-        {"package", package}
+        {"type", typeString},
+        {"value", value}
     };
 
     return object;

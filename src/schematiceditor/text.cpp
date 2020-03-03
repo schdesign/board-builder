@@ -17,20 +17,6 @@ void compareString(const QString &str, const QString &str2)
         throw ExceptionData(str2 + " error");
 }
 
-void Schematic::addPackage(const QJsonValue &value)
-{
-    Package package;
-
-    QJsonObject object = value.toObject();
-
-    package.name = object["name"].toString();
-
-    QJsonArray padsArray = object["pads"].toArray();
-    package.pins = padsArray.size();
-
-    packages.push_back(package);
-}
-
 void Schematic::componentList(QString &text)
 {
     // Reference; value, package
@@ -42,20 +28,20 @@ void Schematic::componentList(QString &text)
         auto &c = a.second;
         if (c.name.isEmpty())
             continue;
-        makeComponentList(components, c.reference, c.name, c.package);
-        makeComponentList(components2, c.name, c.package, c.reference);
+        makeComponentList(components, c.reference, c.name, c.packageName);
+        makeComponentList(components2, c.name, c.packageName, c.reference);
     }
 
     for (auto d : devices) {
         auto &c = d.second;
-        makeComponentList(components, c.reference, c.name, c.package);
-        makeComponentList(components2, c.name, c.package, c.reference);
+        makeComponentList(components, c.reference, c.name, c.packageName);
+        makeComponentList(components2, c.name, c.packageName, c.reference);
     }
 
     for (auto e : elements) {
         auto &c = e.second;
-        makeComponentList(components, c.reference, c.value, c.package);
-        makeComponentList(components2, c.value, c.package, c.reference);
+        makeComponentList(components, c.reference, c.value, c.packageName);
+        makeComponentList(components2, c.value, c.packageName, c.reference);
     }
 
     int maxSize = 0;
@@ -241,7 +227,7 @@ void Schematic::netlist(QJsonArray &netlistElements, Type t, QString str)
     {
         {"reference", t.reference},
         {"name", str},
-        {"package", t.package},
+        {"package", t.packageName},
         {"pads", elementPads}
     };
 
@@ -264,8 +250,10 @@ void Schematic::readPackages(const QByteArray &byteArray)
         throw ExceptionData("File is not a packages file");
 
     QJsonArray packageArray(object["packages"].toArray());
-    for (auto p : packageArray)
-        addPackage(p);
+    for (auto p : packageArray) {
+        Package package(p);
+        packages.push_back(package);
+    }
 }
 
 void Schematic::readSymbols(const QByteArray &byteArray)

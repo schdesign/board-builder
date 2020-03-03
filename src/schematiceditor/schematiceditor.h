@@ -51,7 +51,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
-private:
+private:private:
     // Set buttons: left, right, up, down, zoom in, zoom out
     // void buttonsSetEnabled(const char *params);
     void paintEvent(QPaintEvent *);

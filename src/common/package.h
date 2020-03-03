@@ -42,9 +42,15 @@ public:
     Package() {}
     Package(const QJsonValue &value);
     void clear();
+    void findOuterBorder();
     QJsonObject toJson();
 
+    int centerX;        // border center
+    int centerY;
+    int outerBorderCenterX;
+    int outerBorderCenterY;
     Border border;
+    Border outerBorder;
     QString name;
     QString type;       // SMD, DIP
     std::vector<Ellipse> ellipses;

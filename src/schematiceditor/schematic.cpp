@@ -60,6 +60,7 @@ void Schematic::addElement(int elementType, int x, int y, int orientation)
         return;
 
     Element element(elementType, x, y, orientation);
+    element.defaultPadsMap();
     elements[element.center] = element;
 }
 
@@ -459,12 +460,14 @@ bool Schematic::joinWires(Wire &wire1, Wire &wire2)
 void Schematic::move(int x, int y)
 {
     static int center;
-    static int symbolNameID;
     static int number;
     static int orientation;
+    static int padsMap;
+    static int symbolNameID;
     static int type;
     static int unitNumber;
     static QString name;
+    static QString packageName;
     static QString value;
     static std::vector<QString> pinNames;
     QString str;
@@ -502,8 +505,10 @@ void Schematic::move(int x, int y)
         for (auto e : elements)
             if (e.second.exist(x, y)) {
                 center = e.second.center;
-                type = e.second.type;
                 orientation = e.second.orientation;
+                packageName = e.second.packageName;
+                padsMap = e.second.padsMap;
+                type = e.second.type;
                 value = e.second.value;
                 selectedElement = true;
                 return;
@@ -557,6 +562,8 @@ void Schematic::move(int x, int y)
     if (selectedElement) {
         elements.erase(center);
         Element element(type, x, y, orientation, value);
+        element.packageName = packageName;
+        element.padsMap = padsMap;
         elements[element.center] = element;
         selectedElement = false;
         return;
@@ -567,19 +574,21 @@ void Schematic::moveGroup()
 {
     int dx = points[2].x - points[0].x;
     int dy = points[2].y - points[0].y;
-    int symbolNameID;
-    int orientation;
     int number;
-    int type;    
-    int x, y;
+    int orientation;
+    int padsMap;
+    int symbolNameID;
+    int type;
     int unitNumber;
+    int x, y;
     QString name;
+    QString packageName;
     QString str;
     QString value;
     std::map<int, Array> arrays2;
+    std::map<int, CircuitSymbol> circuitSymbols2;
     std::map<int, Device> devices2;
     std::map<int, Element> elements2;
-    std::map<int, CircuitSymbol> circuitSymbols2;
     std::vector<int> centers;
     std::vector<int> junctions2;
     std::vector<int> unitNumbers;
@@ -678,12 +687,16 @@ void Schematic::moveGroup()
         if (e.second.inside(points[0].x, points[0].y,
                             points[1].x, points[1].y)) {
             centers.push_back(e.second.center);
+            orientation = e.second.orientation;
+            packageName = e.second.packageName;
+            padsMap = e.second.padsMap;
             type = e.second.type;
+            value = e.second.value;
             x = e.second.refX + dx;
             y = e.second.refY + dy;
-            orientation = e.second.orientation;
-            value = e.second.value;
             Element element(type, x, y, orientation, value);
+            element.packageName = packageName;
+            element.padsMap = padsMap;
             elements2[element.center] = element;
         }
     for (uint i = 0; i < centers.size(); i++)

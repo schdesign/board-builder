@@ -11,6 +11,8 @@ CONFIG += c++14
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+include(../common/common.pri)
+
 SOURCES += array.cpp \
     arrayselector.cpp \
     circuitsymbol.cpp \
@@ -25,7 +27,6 @@ SOURCES += array.cpp \
     schematiceditor.cpp \
     symboleditor.cpp \
     text.cpp \
-    types.cpp \
     unit.cpp
 
 HEADERS += array.h \
@@ -45,7 +46,6 @@ HEADERS += array.h \
     schematiceditor.h \
     symboleditor.h \
     text.h \
-    types.h \
     unit.h \
     unitimage.h
 

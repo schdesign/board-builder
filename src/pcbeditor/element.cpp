@@ -219,10 +219,10 @@ bool Element::exist(int x, int y)
 
 void Element::findOuterBorder()
 {
-    int minX = border.leftX;
-    int maxX = border.rightX;
-    int minY = border.topY;
-    int maxY = border.bottomY;
+    int minX = refX;
+    int maxX = refX;
+    int minY = refY;
+    int maxY = refY;
 
     for (auto e : ellipses) {
         if (minX > e.x - e.w / 2) minX = e.x - e.w / 2;

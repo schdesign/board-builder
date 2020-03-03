@@ -10,6 +10,9 @@
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 typedef unsigned int uint;
+typedef unsigned long ulong;
+
+constexpr double minValue = 1E-9;
 
 class Arc
 {
@@ -19,6 +22,8 @@ public:
         x(x), y(y), w(w), h(h),
         startAngle(startAngle), spanAngle(spanAngle) { }
     Arc(const QJsonValue &value);
+    void clear();
+    void fromJson(const QJsonValue &value);
     QJsonObject toJson();
 
     int x;
@@ -34,7 +39,9 @@ class Border
 public:
     Border() {}
     Border(int leftX, int topY, int rightX, int bottomY):
-         leftX(leftX), topY(topY), rightX(rightX), bottomY(bottomY) {}
+        leftX(leftX), topY(topY), rightX(rightX), bottomY(bottomY) {}
+    Border(const QJsonValue &value);
+    void clear();
     void fromJson(const QJsonValue &value);
     QJsonObject toJson();
 
@@ -51,6 +58,8 @@ public:
     Ellipse(int x, int y, int w, int h):
         x(x), y(y), w(w), h(h) {}
     Ellipse(const QJsonValue &value);
+    void clear();
+    void fromJson(const QJsonValue &value);
     QJsonObject toJson();
 
     int x;
@@ -64,9 +73,11 @@ class Line
 public:
     Line() {}
     Line(int x1, int y1, int x2, int y2):
-         x1(x1), y1(y1), x2(x2), y2(y2) {}
+        x1(x1), y1(y1), x2(x2), y2(y2) {}
     Line(const QJsonValue &value);
+    void clear();
     bool crossPoint(int x, int y);
+    void fromJson(const QJsonValue &value);
     bool join(const Line &line);
     QJsonObject toJson();
 
@@ -82,6 +93,8 @@ public:
     Point() {}
     Point(int x, int y): x(x), y(y) {}
     Point(const QJsonValue &value);
+    void clear();
+    void fromJson(const QJsonValue &value);
     QJsonObject toJson();
     bool operator ==(const Point &point) const;
     bool operator <(const Point &point) const;

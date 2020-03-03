@@ -37,7 +37,7 @@ public:
     int type;
     int unitsNumber;
     QString name;
-    QString package;
+    QString packageName;
     QString reference;
     Unit unit;
     std::vector<DevicePin> pins;
@@ -73,7 +73,7 @@ public:
     int type;
     int unitsNumber;
     QString name;
-    QString package;
+    QString packageName;
     QString reference;  // D1
     QString symbolName;
     Unit unit;

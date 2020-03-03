@@ -42,13 +42,14 @@ public:
     Element(const QJsonObject &object);
     static void addSymbol(const QJsonValue &value);
     static QJsonObject writeSymbols();
-    void draw(QPainter &painter);
+    void draw(QPainter &painter, bool showText = true, bool showPinNumbers = false);
     bool exist(int x, int y);
     void init();
     bool inside(int leftX, int topY, int rightX, int bottomY);
+    void defaultPadsMap();
     QJsonObject toJson();
 
-    static std::map <int, ElementSymbol> symbols;  // element nameID, elementSymbol
+    static std::map <int, ElementSymbol> symbols;  // element type, elementSymbol
     static constexpr int orientations = 8;
     bool mirror;
     Border border;
@@ -56,6 +57,7 @@ public:
     int centerX;
     int centerY;
     int orientation;        // UP
+    int padsMap;            // 132, pins:pads = 123:132
     int referenceTextX;     // left bottom point of text
     int referenceTextY;
     int referenceType;      // R
@@ -64,7 +66,7 @@ public:
     int type;               // RESISTOR
     int valueTextX;         // left bottom point of text
     int valueTextY;
-    QString package;
+    QString packageName;
     QString reference;      // R1    
     QString value;          // 1K
     std::vector<Arc> arcs;

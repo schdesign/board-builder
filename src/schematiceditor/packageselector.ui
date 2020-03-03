@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>780</width>
     <height>500</height>
    </rect>
   </property>
@@ -68,10 +68,10 @@
   <widget class="QPushButton" name="connectButton">
    <property name="geometry">
     <rect>
-     <x>60</x>
+     <x>200</x>
      <y>450</y>
-     <width>81</width>
-     <height>31</height>
+     <width>80</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -81,10 +81,10 @@
   <widget class="QPushButton" name="clearButton">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>60</x>
      <y>450</y>
-     <width>81</width>
-     <height>31</height>
+     <width>80</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -96,8 +96,8 @@
     <rect>
      <x>360</x>
      <y>450</y>
-     <width>81</width>
-     <height>31</height>
+     <width>80</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
@@ -109,13 +109,149 @@
     <rect>
      <x>500</x>
      <y>450</y>
-     <width>81</width>
-     <height>31</height>
+     <width>80</width>
+     <height>30</height>
     </rect>
    </property>
    <property name="text">
     <string>OK</string>
    </property>
+  </widget>
+  <widget class="QPushButton" name="mapButton">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>450</y>
+     <width>80</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Map</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="pad2NumbersComboBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>400</y>
+     <width>80</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="maxVisibleItems">
+    <number>2</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>1   2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2   1</string>
+    </property>
+   </item>
+  </widget>
+  <widget class="QLabel" name="elementPinsLabel">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>330</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Element pins</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="packagePadsLabel">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>380</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Package pads</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="pinNumbersLabel">
+   <property name="geometry">
+    <rect>
+     <x>620</x>
+     <y>350</y>
+     <width>120</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="pad3NumbersComboBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>400</y>
+     <width>80</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="maxVisibleItems">
+    <number>6</number>
+   </property>
+   <item>
+    <property name="text">
+     <string>1   2   3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>1   3   2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2   1   3</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>2   3   1</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3   1   2</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>3   2   1</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

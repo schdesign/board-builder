@@ -65,7 +65,7 @@ Array::Array(const QJsonObject &object)
     reference = object["reference"].toString();
     name = object["name"].toString();
     number = object["number"].toInt();
-    package = object["package"].toString();
+    packageName = object["package"].toString();
     QJsonArray arrayPinNames = object["pinNames"].toArray();
 
     for (auto a : arrayPinNames)
@@ -263,7 +263,7 @@ QJsonObject Array::toJson()
         {"reference", reference},
         {"name", name},
         {"number", number},
-        {"package", package},
+        {"package", packageName},
         {"pinNames", arrayPinNames}
     };
 

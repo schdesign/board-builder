@@ -16,15 +16,36 @@ class PackageSelector : public QDialog, private Ui::PackageSelector
 public:
     explicit PackageSelector(Schematic &schematic, QDialog *parent = nullptr);
 
+private:
+    void drawElement(QPainter &painter, int row);
+    void drawPackage(QPainter &painter, int row);
+    int padsMapFromString(const QString str, int size);
+    void paintEvent(QPaintEvent *);
+
 private slots:
     void accept();
     void clearPackage();
     void connectPackage();
+    void itemSelectionChanged();
+    void mapPads();
+    void scalePackage(const Package &package, double length, double &scale);
 
 private:
+    constexpr static int packageWindowWidth = 120;
+    constexpr static int packageWindowHeight = 120;
+    constexpr static int packageWindowX = 620;
+    constexpr static int packageWindowY = 190;
+    constexpr static int symbolWindowWidth = 120;
+    constexpr static int symbolWindowHeight = 120;
+    constexpr static int symbolWindowX = 620;
+    constexpr static int symbolWindowY = 30;
+    int firstElementRow;
+    int pastLastElementRow;
     Schematic &schematic;
-    std::vector<int> elementPins;
-    std::vector<QString> elementNames;
+    std::vector<int> centers;
+    std::vector<int> padsMaps;
+    std::vector<int> pins;
+    std::vector<QString> names;
     std::vector<QString> packageNames;
 };
 

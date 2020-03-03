@@ -56,7 +56,7 @@ QJsonObject DeviceSymbol::toJson()
         {"type", typeString},
         {"unitsNumber", unitsNumber},
         {"name", name},
-        {"package", package},
+        {"package", packageName},
         {"pins", devicePins},
         {"units", deviceUnits}
     };
@@ -79,7 +79,7 @@ Device::Device(const QString &name, int symbolNameID, int refX, int refY):
 Device::Device(const QJsonObject &object)
 {
     name = object["name"].toString();
-    package = object["package"].toString();
+    packageName = object["package"].toString();
     reference = object["reference"].toString();
     symbolName = object["symbolName"].toString();
     QJsonArray deviceUnits(object["units"].toArray());
@@ -129,7 +129,7 @@ void Device::addSymbol(const QJsonValue &value)
     symbol.reference = deviceReference[symbol.type];
 
     symbol.name = object["name"].toString();
-    symbol.package = object["package"].toString();
+    symbol.packageName = object["package"].toString();
 
     QJsonArray devicePins = object["pins"].toArray();
 
@@ -211,8 +211,8 @@ void Device::init()
 
     if (name.isEmpty())
         name = symbol.name;
-    if (package.isEmpty())
-        package = symbol.package;
+    if (packageName.isEmpty())
+        packageName = symbol.packageName;
     if (reference.isEmpty())
         reference = symbol.reference;
 
@@ -265,7 +265,7 @@ QJsonObject Device::toJson()
     {
         {"reference", reference},
         {"name", name},
-        {"package", package},
+        {"package", packageName},
         {"symbolName", symbolName},
         {"units", deviceUnits}
     };

@@ -4,6 +4,7 @@
 #ifndef ELEMENT_IMAGE_H
 #define ELEMENT_IMAGE_H
 
+constexpr int elementEqualPinsTypes = 5;
 constexpr int elementTypes = 28;
 constexpr int elementReferences = 10;
 
@@ -27,6 +28,12 @@ const char elementTypeString[elementTypes][32] =
     "P channel MOSFET", "PNP Transistor", "Polar Capacitor", "Quarts",
     "Resistor ANSI", "Resistor IEC", "Schottky", "Series Diodes",
     "Series Schottky", "Single Diode", "Single Schottky", "Zener"
+};
+
+const int equalPinsTypes[elementEqualPinsTypes] =
+{
+    CAPACITOR, CORE_INDUCTOR, INDUCTOR,
+    RESISTOR_ANSI, RESISTOR_IEC
 };
 
 const char elementReference[elementTypes][8] =

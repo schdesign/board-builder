@@ -5,9 +5,10 @@
 #define SCHEMATIC_H
 
 #include "array.h"
+#include "circuitsymbol.h"
 #include "device.h"
 #include "element.h"
-#include "circuitsymbol.h"
+#include "package.h"
 #include "types.h"
 #include <iterator>
 #include <list>
@@ -23,13 +24,6 @@ const QString packagesDirectory = "../../../library/packages";
 const QString packagesFile = "packages.lib";
 const QString symbolsDirectory = "../../../library/symbols";
 const QString symbolsFile = "symbols.lib";
-
-class Package
-{
-public:
-    int pins;
-    QString name;
-};
 
 class Pin
 {
@@ -61,12 +55,11 @@ public:
     int nameSide;   // 0: left, 1: right
 };
 
-typedef std::list<Wire> Net;
-typedef std::list<Wire>::iterator WireIt;
-typedef std::vector<Package> Packages;
-
 class Schematic
 {
+    typedef std::list<Wire> Net;
+    typedef std::list<Wire>::iterator WireIt;
+
 public:
     Schematic();
     void addArray(int type, int pins, int x, int y, int orientation);
@@ -76,7 +69,6 @@ public:
     void addJunction(int x, int y);
     void addNet();
     void addNetName(int x, int y);
-    void addPackage(const QJsonValue &value);
     void addPoint(int x, int y);
     void clear();
     void componentList(QString &text);
@@ -126,35 +118,35 @@ public:
     QJsonObject writePackageLibrary();
     QJsonObject writeSymbolLibrary();
 
-    std::map<int, Array> arrays;                  // array.center, array
-    std::map<int, CircuitSymbol> circuitSymbols;  // circuitSymbol.center, circuitSymbol
-    std::map<int, Device> devices;                // device.center, device
-    std::map<int, Element> elements;              // element.center, element
-    std::list<Pin> pins;
-    std::list<Wire> wires;
-    std::set<int> junctions;    // x > 0 (16 high bits), y > 0 (16 low bits)
-    Array array;
-    Device device;
-    Element element;
-    Packages packages;
-    Wire wire;
-    Net net;
-    Point point;
-    std::vector<Point> points;
-    int pointNumber;
     bool selectedArray;
     bool selectedCircuitSymbol;
     bool selectedDevice;
     bool selectedElement;
     bool selectedWire;
     bool showNetNumbers;
-    QRect groupBorder;
-    QString key;
-    QString value;
     int arrayNumber;
     int arrayOrientation;
     int deviceSymbolNameID;
     int diodeTypeID;
+    int pointNumber;
+    Array array;
+    Device device;
+    Element element;
+    Net net;
+    Point point;
+    QRect groupBorder;
+    QString key;
+    QString value;
+    Wire wire;
+    std::list<Pin> pins;
+    std::list<Wire> wires;
+    std::map<int, Array> arrays;                  // array.center, array
+    std::map<int, CircuitSymbol> circuitSymbols;  // circuitSymbol.center, circuitSymbol
+    std::map<int, Device> devices;                // device.center, device
+    std::map<int, Element> elements;              // element.center, element
+    std::set<int> junctions;    // x > 0 (16 high bits), y > 0 (16 low bits)
+    std::vector<Package> packages;
+    std::vector<Point> points;
 };
 
 #endif  // SCHEMATIC_H
