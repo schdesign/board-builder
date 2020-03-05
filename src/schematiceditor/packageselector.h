@@ -17,10 +17,14 @@ public:
     explicit PackageSelector(Schematic &schematic, QDialog *parent = nullptr);
 
 private:
+    template<typename Type>
+    void addData(const Type &type);
     void drawElement(QPainter &painter, int row);
     void drawPackage(QPainter &painter, int row);
-    int padsMapFromString(const QString str, int size);
+    int padsMapFromString(QString &str, int size);
     void paintEvent(QPaintEvent *);
+    void scalePackage(const Package &package, double length, double &scale);
+    void updateItem(int row);
 
 private slots:
     void accept();
@@ -28,7 +32,6 @@ private slots:
     void connectPackage();
     void itemSelectionChanged();
     void mapPads();
-    void scalePackage(const Package &package, double length, double &scale);
 
 private:
     constexpr static int packageWindowWidth = 120;

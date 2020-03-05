@@ -22,30 +22,26 @@ PackageSelector::PackageSelector(Schematic &schematic, QDialog *parent):
     pad2NumbersComboBox->hide();
     pad3NumbersComboBox->hide();
 
-    for (auto s : schematic.arrays) {
-        centers.push_back(s.first);
-        names.push_back(s.second.reference + "  " + s.second.name + "  ");
-        packageNames.push_back(s.second.packageName);
-        pins.push_back(s.second.pins.size());
-    }
-    for (auto s : schematic.devices) {
-        centers.push_back(s.first);
-        names.push_back(s.second.reference + "  " + s.second.name + "  ");
-        packageNames.push_back(s.second.packageName);
-        pins.push_back(s.second.pins.size());
-    }
+    addData(schematic.arrays);
+    addData(schematic.devices);
+
     firstElementRow = centers.size();
     for (auto s : schematic.elements) {
         centers.push_back(s.first);
-        names.push_back(s.second.reference + "  " + s.second.value + "  ");
+        names.push_back(s.second.reference + "  " + s.second.value);
         packageNames.push_back(s.second.packageName);
         padsMaps.push_back(s.second.padsMap);
         pins.push_back(s.second.pins.size());
     }
     pastLastElementRow = centers.size();
 
-    for (uint row = 0; row < names.size(); row++)
-        elementListWidget->insertItem(row, names[row] + packageNames[row]);
+    for (uint row = 0; row < names.size(); row++) {
+        QString str = names[row] + "  " + packageNames[row];
+        if (row >= firstElementRow && row < pastLastElementRow &&
+            !packageNames[row].isEmpty())
+            str += "  " + QString::number(padsMaps[row]);
+        elementListWidget->insertItem(row, str);
+    }
     elementListWidget->setCurrentRow(0);
 
     for (uint row = 0; row < schematic.packages.size(); row++)
@@ -67,6 +63,18 @@ void PackageSelector::accept()
     }
 
     done(1);
+}
+
+template<typename Type>
+void PackageSelector::addData(const Type &type)
+{
+    for (auto t : type) {
+        centers.push_back(t.first);
+        names.push_back(t.second.reference + "  " + t.second.name);
+        packageNames.push_back(t.second.packageName);
+        padsMaps.push_back(0);
+        pins.push_back(t.second.pins.size());
+    }
 }
 
 void PackageSelector::clearPackage()
@@ -96,12 +104,7 @@ void PackageSelector::connectPackage()
     if (pins[row] != schematic.packages[row2].pads.size())
         return;
     packageNames[row] = schematic.packages[row2].name;
-    elementListWidget->takeItem(row);
-    QString str = names[row] + packageNames[row];
-    if (row >= firstElementRow && row < pastLastElementRow)
-        str += "  " + QString::number(schematic.elements[centers[row]].padsMap);
-    elementListWidget->insertItem(row, str);
-    elementListWidget->setCurrentRow(row);
+    updateItem(row);
 }
 
 void PackageSelector::drawElement(QPainter &painter, int row)
@@ -291,19 +294,26 @@ void PackageSelector::mapPads()
         text = pad3NumbersComboBox->currentText();
         padsMaps[row] = padsMapFromString(text, 3);
     }
+
+    if (package.pads.size() == 2 || package.pads.size() == 3)
+        updateItem(row);
 }
 
-int PackageSelector::padsMapFromString(const QString str, int size)
+int PackageSelector::padsMapFromString(QString &str, int size)
 {
     int padsMap = 0;
 
-    if (size == 2) {
+    str.remove(QChar(' '));
+    int n = str.toInt();
 
-    }
+    if (size == 2)
+        if (n == 12 || n == 21)
+            padsMap = n;
 
-    if (size == 3) {
-
-    }
+    if (size == 3)
+        if (n == 123 || n == 132 || n == 213 ||
+            n == 231 || n == 312 || n == 321)
+            padsMap = n;
 
     return padsMap;
 }
@@ -341,4 +351,14 @@ void PackageSelector::scalePackage(const Package &package, double length, double
     int maxLength = std::max(width, height);
 
     scale = length / maxLength;
+}
+
+void PackageSelector::updateItem(int row)
+{
+    elementListWidget->takeItem(row);
+    QString str = names[row] + "  " + packageNames[row];
+    if (row >= firstElementRow && row < pastLastElementRow)
+        str += "  " + QString::number(padsMaps[row]);
+    elementListWidget->insertItem(row, str);
+    elementListWidget->setCurrentRow(row);
 }
