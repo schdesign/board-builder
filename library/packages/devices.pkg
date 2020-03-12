@@ -231,6 +231,180 @@
         },
         {
             "border": {
+                "bottomY": 2400,
+                "leftX": 500,
+                "rightX": 2100,
+                "topY": -500
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": 500,
+                    "x2": 500,
+                    "y1": -500,
+                    "y2": 2400
+                },
+                {
+                    "x1": 2100,
+                    "x2": 2100,
+                    "y1": -500,
+                    "y2": 2400
+                },
+                {
+                    "x1": 500,
+                    "x2": 2100,
+                    "y1": -500,
+                    "y2": -500
+                },
+                {
+                    "x1": 500,
+                    "x2": 2100,
+                    "y1": 2400,
+                    "y2": 2400
+                }
+            ],
+            "name": "SOT23-5",
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 600,
+                    "innerDiameter": 0,
+                    "width": 1100
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 950
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 1900
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 2600,
+                    "y": 1900
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 2600,
+                    "y": 0
+                }
+            ],
+            "type": "SMD"
+        },
+        {
+            "border": {
+                "bottomY": 2400,
+                "leftX": 550,
+                "rightX": 2150,
+                "topY": -500
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": 550,
+                    "x2": 550,
+                    "y1": -500,
+                    "y2": 2400
+                },
+                {
+                    "x1": 2150,
+                    "x2": 2150,
+                    "y1": -500,
+                    "y2": 2400
+                },
+                {
+                    "x1": 550,
+                    "x2": 2150,
+                    "y1": -500,
+                    "y2": -500
+                },
+                {
+                    "x1": 550,
+                    "x2": 2150,
+                    "y1": 2400,
+                    "y2": 2400
+                },
+                {
+                    "x1": 1350,
+                    "x2": 1350,
+                    "y1": -500,
+                    "y2": 950
+                },
+                {
+                    "x1": 550,
+                    "x2": 1350,
+                    "y1": 950,
+                    "y2": 950
+                }
+            ],
+            "name": "SOT23-6",
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 600,
+                    "innerDiameter": 0,
+                    "width": 1050
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 950
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 1900
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 2700,
+                    "y": 1900
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 2700,
+                    "y": 950
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 2700,
+                    "y": 0
+                }
+            ],
+            "type": "SMD"
+        },
+        {
+            "border": {
                 "bottomY": 3227,
                 "leftX": -534,
                 "rightX": 2466,

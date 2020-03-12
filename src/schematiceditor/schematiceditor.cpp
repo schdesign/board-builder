@@ -335,6 +335,7 @@ void SchematicEditor::saveFile()
     file.write(array);
     file.close();
 }
+
 /*
 void SchematicEditor::saveJSON()
 {
@@ -345,6 +346,7 @@ void SchematicEditor::saveJSON()
     writeLibraryFile("elements.sym", schematic.element.writeSymbols());
 }
 */
+
 void SchematicEditor::saveNetlist()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save net file"),
@@ -354,10 +356,16 @@ void SchematicEditor::saveNetlist()
     if (!file.open(QIODevice::WriteOnly))
         return;
 
-    QJsonDocument document(schematic.netlist());
-    QByteArray array(document.toJson());
+    try {
+        QJsonDocument document(schematic.netlist());
+        QByteArray array(document.toJson());
+        file.write(array);
+    }
+    catch (ExceptionData &e) {
+        QMessageBox::warning(this, tr("Error"), e.show());
+        return;
+    }
 
-    file.write(array);
     file.close();
 }
 

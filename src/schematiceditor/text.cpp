@@ -81,7 +81,7 @@ void Schematic::errorCheck(QString &text)
             text += c.first + "\t" + c.second + "\n";
 }
 
-template <typename Type>
+template<typename Type>
 void Schematic::errorCheck(std::map<QString, QString> &components, Type t)
 {
     int netNumber;
@@ -199,7 +199,7 @@ QJsonObject Schematic::netlist()
     return object;
 }
 
-template <typename Type>
+template<typename Type>
 void Schematic::netlist(QJsonArray &netlistElements, Type t, QString str)
 {
     QJsonArray elementPads;
@@ -214,9 +214,11 @@ void Schematic::netlist(QJsonArray &netlistElements, Type t, QString str)
                 break;
             }
 
+        int pad = padNumber(t, i + 1);
+
         QJsonObject elementPad
         {
-            {"number", int(i + 1)},
+            {"number", pad},
             {"net", netNumber}
         };
 
@@ -232,6 +234,51 @@ void Schematic::netlist(QJsonArray &netlistElements, Type t, QString str)
     };
 
     netlistElements.append(object);
+}
+
+template<typename Type>
+int Schematic::padNumber(const Type &t, int pinNumber)
+{
+    if (pinNumber < 1 || pinNumber > t.pins.size()) {
+        throw ExceptionData("Pin number error: pins.size() = " +
+            QString::number(t.pins.size()) + "  pinNumber = " + QString::number(pinNumber));
+    }
+
+    return pinNumber;
+}
+
+int Schematic::padNumber(const Element &e, int pinNumber)
+{
+    int n = pinNumber;
+    int p = e.padsMap;
+    int size = e.pins.size();
+
+    bool is2Pins = (size == 2) && (p == 0 || p == 12 || p == 21);
+    bool is3Pins = (size == 3) && (p == 0 || p == 123 || p == 132 ||
+                    p == 213 || p == 231 || p == 312 || p == 321);
+
+    if (!is2Pins && !is3Pins)
+        throw ExceptionData("Element params error: pins.size() = " +
+            QString::number(e.pins.size()) + "  padsMap = " + QString::number(e.padsMap));
+
+    if (pinNumber < 1 || pinNumber > size)
+        throw ExceptionData("Pin number error: pins.size() = " +
+            QString::number(e.pins.size()) + "  pinNumber = " + QString::number(pinNumber));
+
+    if (p == 0)
+        return n;
+
+    if (size == 2)
+        p *= 10;
+
+    if (pinNumber == 1)
+        n = p / 100;
+    if (pinNumber == 2)
+        n = (p % 100) / 10;
+    if (pinNumber == 3)
+        n = p % 10;
+
+    return n;
 }
 
 void Schematic::readPackages(const QByteArray &byteArray)

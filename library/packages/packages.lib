@@ -4,6 +4,7 @@
         "devices.pkg",
         "dip.pkg",
         "rcpackages.pkg",
+        "tantalumcapacitors.pkg",
         "transistors.pkg"
     ],
     "object": "packageLibrary"
