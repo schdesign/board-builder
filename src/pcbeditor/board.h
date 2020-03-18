@@ -111,17 +111,21 @@ public:
     void reduceTrack(double track[][4], int &trackLength);
     void removeUnconnectedLines(double track[][4], int &trackLength,
                                 int *netPadsRow, int *netPadsCol, int netPadsLength);
+    void round45DegreesTurn(int x, int y, int turningRadius);
+    void round90DegreesTurn(int x, int y, int turningRadius);
+    void roundCrossing(int x, int y);
+    void roundJoin(int x, int y);
     void route();
     void routeTracks();
     // double searchCoordinate(int coordinate, int number);
     bool segmentNets();
     void setPadSteps(int padSteps[][maxPad], int netPad, int netPadsLength,
                      int *netPadsRow, int *netPadsCol);
+    void setRouteBorder();
     void setTrack(double track[][4], int &trackLength,
                   int netPadsLength, int *netPadsRow, int *netPadsCol);
     void setTurnSteps(int padSteps[][maxPad], int padTurns[][maxPad], int netPad,
                       int netPadsLength, int *netPadsRow, int *netPadsCol);
-    void setRouteBorder();
     void sortLineIndex();
     bool step(int row, int col, int direction);
     int tableRoute();

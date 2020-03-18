@@ -22,7 +22,7 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
     Q_OBJECT
 
     constexpr static int checkBoxes = 3;
-    constexpr static int pushButtons = 8;
+    constexpr static int pushButtons = 9;
     constexpr static int radioButtons = 4;
     constexpr static int toolButtons = 44;
 
@@ -34,22 +34,22 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
     enum PushButton
     {
         DEC_FONT_SIZE, DEC_GRID, DEC_SPACE, DEC_WIDTH,
-        INC_FONT_SIZE, INC_GRID, INC_SPACE, INC_WIDTH
+        INC_FONT_SIZE, INC_GRID, INC_SPACE, INC_WIDTH,
+        TURNING_RADIUS
     };
 
     enum ToolButton
     {
-        CREATE_GROUPS, DECREASE_STEP, DELETE, DELETE_JUNCTION,
-        DELETE_POLYGON, DELETE_NET_SEGMENTS, DELETE_SEGMENT, ENUMERATE,
-        FILL_POLYGON, INCREASE_STEP, METER, MOVE,
-        MOVE_GROUP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT,
-        MOVE_UP, PLACE_ELEMENTS, PLACE_INDUCTOR, PLACE_INDUCTOR2,
-        PLACE_JUNCTION, PLACE_LINE, PLACE_NO_CONNECTION, PLACE_NPN_TRANSISTOR,
-        PLACE_PNP_TRANSISTOR, PLACE_POLYGON, PLACE_POWER, PLACE_QUARTZ,
-        PLACE_SEGMENT, PLACE_SHOTTKY, PLACE_SWITCH, PLACE_ZENER,
-        ROUTE_TRACKS, SEGMENT_NETS, SELECT, SET_VALUE,
-        SHOW_GROUND_NETS, TABLE_ROUTE, TURN_TO_LEFT, TURN_TO_RIGHT,
-        UPDATE_NETS, WAVE_ROUTE, ZOOM_IN, ZOOM_OUT
+        CREATE_GROUPS, DECREASE_STEP, DELETE, DELETE_JUNCTION, DELETE_POLYGON,
+        DELETE_NET_SEGMENTS, DELETE_SEGMENT, ENUMERATE, FILL_POLYGON,
+        INCREASE_STEP, METER, MOVE, MOVE_GROUP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT,
+        MOVE_UP, PLACE_ELEMENTS, PLACE_INDUCTOR2, PLACE_JUNCTION, PLACE_LINE,
+        PLACE_NO_CONNECTION, PLACE_NPN_TRANSISTOR, PLACE_PNP_TRANSISTOR,
+        PLACE_POLYGON, PLACE_QUARTZ, PLACE_SEGMENT, PLACE_SHOTTKY,
+        ROUND_45_DEGREES_TURN, ROUND_90_DEGREES_TURN, ROUND_CROSSING, ROUND_JOIN,
+        ROUTE_TRACKS, SEGMENT_NETS, SELECT, SET_VALUE, SHOW_GROUND_NETS,
+        TABLE_ROUTE, TURN_TO_LEFT, TURN_TO_RIGHT, UPDATE_NETS, WAVE_ROUTE,
+        ZOOM_IN, ZOOM_OUT
     };
 
 public:
@@ -85,6 +85,7 @@ private slots:
 private:
     constexpr static int defaultFontSize = 10;
     constexpr static int defaultGridNumber = 6;
+    constexpr static int defaultTurningRadius = 2000;
     constexpr static int grids = 12;
     constexpr static int gridStep = 10;    // pixels
     constexpr static int gridX = 100;
@@ -97,6 +98,8 @@ private:
     constexpr static int maxFontSize = 100;
     constexpr static int minSpace = 100;
     constexpr static int maxSpace = 100000;
+    constexpr static int minTurningRadius = 1;
+    constexpr static int maxTurningRadius = 1000000;
     constexpr static int minWidth = 100;
     constexpr static int maxWidth = 100000;
     const int grid[grids] =  // um in grid step
@@ -117,6 +120,7 @@ private:
     int previousCommand;
     int space;
     int step;
+    int turningRadius;
     int width;
     Board board;
     PackageEditor packageEditor;

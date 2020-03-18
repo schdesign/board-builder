@@ -57,8 +57,9 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     QPushButton *tmpPushButton[pushButtons] =
     {
-        decFontSizeButton, decGridButton, decSpaceButton, decWidthButton,
-        incFontSizeButton, incGridButton, incSpaceButton, incWidthButton
+        decFontSizePushButton, decGridPushButton, decSpacePushButton, decWidthPushButton,
+        incFontSizePushButton, incGridPushButton, incSpacePushButton, incWidthPushButton,
+        turningRadiusPushButton
     };
 
     std::copy(tmpPushButton, tmpPushButton + pushButtons, pushButton);
@@ -80,15 +81,15 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     {
         createGroupsButton, decreaseStepButton, deleteButton, deleteJunctionButton,
         deletePolygonButton, deleteNetSegmentsButton, deleteSegmentButton, enumerateButton,
-        fillPolygonButton, increaseStepButton, meterButton, moveButton,
-        moveGroupButton, moveDownButton, moveLeftButton, moveRightButton,
-        moveUpButton, placeElementsButton, placeInductorButton, placeInductor2Button,
-        placeJunctionButton, placeLineButton, placeNoConnectionButton, placeNpnTransistorButton,
-        placePnpTransistorButton, placePolygonButton, placePowerButton, placeQuartzButton,
-        placeSegmentButton, placeShottkyButton, placeSwitchButton, placeZenerButton,
-        routeTracksButton, segmentNetsButton, selectButton, setValueButton,
-        showGroundNetsButton, tableRouteButton, turnToLeftButton, turnToRightButton,
-        updateNetsButton, waveRouteButton, zoomInButton, zoomOutButton
+        fillPolygonButton, increaseStepButton, meterButton, moveButton, moveGroupButton,
+        moveDownButton, moveLeftButton, moveRightButton, moveUpButton, placeElementsButton,
+        placeInductor2Button, placeJunctionButton, placeLineButton, placeNoConnectionButton,
+        placeNpnTransistorButton, placePnpTransistorButton, placePolygonButton,
+        placeQuartzButton, placeSegmentButton, placeShottkyButton, round45DegreesTurnButton,
+        round90DegreesTurnButton, roundCrossingButton, roundJoinButton, routeTracksButton,
+        segmentNetsButton, selectButton, setValueButton, showGroundNetsButton,
+        tableRouteButton, turnToLeftButton, turnToRightButton, updateNetsButton,
+        waveRouteButton, zoomInButton, zoomOutButton
     };
 
     std::copy(tmpToolButton, tmpToolButton + toolButtons, toolButton);
@@ -108,6 +109,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     gridLineEdit->setText(str.setNum(grid[gridNumber]));
     space = board.defaultPolygonSpace;
     spaceLineEdit->setText(str.setNum(space));
+    turningRadius = defaultTurningRadius;
+    turningRadiusLineEdit->setText(str.setNum(turningRadius));
     width = board.defaultLineWidth;
     widthLineEdit->setText(str.setNum(width));
     dx = gridX;
@@ -243,6 +246,18 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
             if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
                 board.layers.edit == BORDER_LAYER)
                 board.points.push_back(Point(x, y));
+            break;
+        case ROUND_45_DEGREES_TURN:
+            board.round45DegreesTurn(x, y, turningRadius);
+            break;
+        case ROUND_90_DEGREES_TURN:
+            board.round90DegreesTurn(x, y, turningRadius);
+            break;
+        case ROUND_CROSSING:
+            board.roundCrossing(x, y);
+            break;
+        case ROUND_JOIN:
+            board.roundJoin(x, y);
             break;
         case PLACE_SEGMENT:
             if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
@@ -508,7 +523,9 @@ void PcbEditor::selectDevice(int &deviceNameID)
 
 void PcbEditor::selectPushButton(int number)
 {
+    bool ok;
     int newGrid;
+    int tmp;
     QString str;
 
     switch (number) {
@@ -547,6 +564,13 @@ void PcbEditor::selectPushButton(int number)
         width += widthStep;
         limit(width, minWidth, maxWidth);
         widthLineEdit->setText(str.setNum(width));
+        break;
+    case TURNING_RADIUS:
+        tmp = turningRadiusLineEdit->text().toInt(&ok);
+        if (ok)
+            turningRadius = tmp;
+        limit(turningRadius, minTurningRadius, maxTurningRadius);
+        turningRadiusLineEdit->setText(str.setNum(turningRadius));
         break;
     }
 

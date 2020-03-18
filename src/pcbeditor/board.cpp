@@ -1002,6 +1002,26 @@ void Board::reduceSegments(std::list<Segment> &segments)
     }
 }
 
+void Board::round45DegreesTurn(int x, int y, int turningRadius)
+{
+
+}
+
+void Board::round90DegreesTurn(int x, int y, int turningRadius)
+{
+
+}
+
+void Board::roundCrossing(int x, int y)
+{
+
+}
+
+void Board::roundJoin(int x, int y)
+{
+
+}
+
 bool Board::segmentNets()
 {
     double a, b;

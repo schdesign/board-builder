@@ -1,0 +1,137 @@
+{
+    "object": "packages",
+    "packages": [
+        {
+            "border": {
+                "bottomY": 2990,
+                "leftX": -800,
+                "rightX": 800,
+                "topY": 290
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": -800,
+                    "x2": -800,
+                    "y1": 290,
+                    "y2": 2990
+                },
+                {
+                    "x1": 800,
+                    "x2": 800,
+                    "y1": 290,
+                    "y2": 2990
+                },
+                {
+                    "x1": -800,
+                    "x2": 800,
+                    "y1": 290,
+                    "y2": 290
+                },
+                {
+                    "x1": -800,
+                    "x2": 800,
+                    "y1": 2990,
+                    "y2": 2990
+                },
+                {
+                    "x1": -800,
+                    "x2": 800,
+                    "y1": 965,
+                    "y2": 965
+                }
+            ],
+            "name": "SOD123",
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 910,
+                    "innerDiameter": 0,
+                    "width": 1220
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 3280
+                }
+            ],
+            "type": "SMD"
+        },
+        {
+            "border": {
+                "bottomY": 2100,
+                "leftX": -625,
+                "rightX": 625,
+                "topY": 400
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": -625,
+                    "x2": -625,
+                    "y1": 400,
+                    "y2": 2100
+                },
+                {
+                    "x1": 625,
+                    "x2": 625,
+                    "y1": 400,
+                    "y2": 2100
+                },
+                {
+                    "x1": -625,
+                    "x2": 625,
+                    "y1": 400,
+                    "y2": 400
+                },
+                {
+                    "x1": -625,
+                    "x2": 625,
+                    "y1": 2100,
+                    "y2": 2100
+                },
+                {
+                    "x1": -625,
+                    "x2": 625,
+                    "y1": 825,
+                    "y2": 825
+                }
+            ],
+            "name": "SOD323",
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 800,
+                    "innerDiameter": 0,
+                    "width": 600
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 2500
+                }
+            ],
+            "type": "SMD"
+        }
+    ]
+}

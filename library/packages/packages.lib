@@ -2,7 +2,9 @@
     "filenames": [
         "connectors.pkg",
         "devices.pkg",
+        "diodes.pkg",
         "dip.pkg",
+        "ferritebeads.pkg",
         "rcpackages.pkg",
         "tantalumcapacitors.pkg",
         "transistors.pkg"

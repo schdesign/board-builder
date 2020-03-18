@@ -284,13 +284,13 @@
      <enum>Qt::NoArrow</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="placePowerButton">
+   <widget class="QToolButton" name="roundJoinButton">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>0</x>
+      <x>30</x>
       <y>300</y>
       <width>32</width>
       <height>32</height>
@@ -300,8 +300,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../../debug/pcbeditor/icons/empty.png</normaloff>../../debug/pcbeditor/icons/empty.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/pcbeditor/round_join.png</normaloff>:/icons/pcbeditor/round_join.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1134,13 +1134,13 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QToolButton" name="placeInductorButton">
+   <widget class="QToolButton" name="roundCrossingButton">
     <property name="enabled">
      <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>0</x>
       <y>300</y>
       <width>32</width>
       <height>32</height>
@@ -1150,8 +1150,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../../debug/pcbeditor/icons/empty.png</normaloff>../../debug/pcbeditor/icons/empty.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/pcbeditor/round_crossing.png</normaloff>:/icons/pcbeditor/round_crossing.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1210,7 +1210,7 @@
      <enum>Qt::NoArrow</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="placeZenerButton">
+   <widget class="QToolButton" name="round45DegreesTurnButton">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -1226,8 +1226,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../../debug/pcbeditor/icons/empty.png</normaloff>../../debug/pcbeditor/icons/empty.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/pcbeditor/round_45_degrees_turn.png</normaloff>:/icons/pcbeditor/round_45_degrees_turn.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -1426,7 +1426,7 @@
      <enum>Qt::NoArrow</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="placeSwitchButton">
+   <widget class="QToolButton" name="round90DegreesTurnButton">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -1442,8 +1442,8 @@
      <string/>
     </property>
     <property name="icon">
-     <iconset>
-      <normaloff>../../debug/pcbeditor/icons/empty.png</normaloff>../../debug/pcbeditor/icons/empty.png</iconset>
+     <iconset resource="pcbeditor.qrc">
+      <normaloff>:/icons/pcbeditor/round_90_degrees_turn.png</normaloff>:/icons/pcbeditor/round_90_degrees_turn.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2529,7 +2529,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="decWidthButton">
+   <widget class="QPushButton" name="decWidthPushButton">
     <property name="geometry">
      <rect>
       <x>760</x>
@@ -2542,7 +2542,7 @@
      <string>-</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="incWidthButton">
+   <widget class="QPushButton" name="incWidthPushButton">
     <property name="geometry">
      <rect>
       <x>790</x>
@@ -2555,7 +2555,7 @@
      <string>+</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="decGridButton">
+   <widget class="QPushButton" name="decGridPushButton">
     <property name="geometry">
      <rect>
       <x>840</x>
@@ -2568,7 +2568,7 @@
      <string>-</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="incGridButton">
+   <widget class="QPushButton" name="incGridPushButton">
     <property name="geometry">
      <rect>
       <x>870</x>
@@ -2619,7 +2619,7 @@
    <widget class="QLabel" name="meterLabel">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>410</x>
       <y>800</y>
       <width>70</width>
       <height>25</height>
@@ -2635,7 +2635,7 @@
    <widget class="QLineEdit" name="meterLineEdit">
     <property name="geometry">
      <rect>
-      <x>510</x>
+      <x>410</x>
       <y>825</y>
       <width>70</width>
       <height>25</height>
@@ -2648,7 +2648,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="decSpaceButton">
+   <widget class="QPushButton" name="decSpacePushButton">
     <property name="geometry">
      <rect>
       <x>680</x>
@@ -2693,7 +2693,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="incSpaceButton">
+   <widget class="QPushButton" name="incSpacePushButton">
     <property name="geometry">
      <rect>
       <x>710</x>
@@ -2722,7 +2722,7 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="incFontSizeButton">
+   <widget class="QPushButton" name="incFontSizePushButton">
     <property name="geometry">
      <rect>
       <x>630</x>
@@ -2751,7 +2751,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="decFontSizeButton">
+   <widget class="QPushButton" name="decFontSizePushButton">
     <property name="geometry">
      <rect>
       <x>600</x>
@@ -2785,6 +2785,51 @@
     </property>
     <property name="checked">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="turningRadiusPushButton">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>850</y>
+      <width>60</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OK</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="turningRadiusLineEdit">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>825</y>
+      <width>60</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="readOnly">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="turningRadiusLabel">
+    <property name="geometry">
+     <rect>
+      <x>485</x>
+      <y>800</y>
+      <width>110</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Turning radius</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
