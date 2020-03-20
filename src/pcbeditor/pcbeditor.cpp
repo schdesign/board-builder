@@ -80,16 +80,14 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     QToolButton *tmpToolButton[toolButtons] =
     {
         createGroupsButton, decreaseStepButton, deleteButton, deleteJunctionButton,
-        deletePolygonButton, deleteNetSegmentsButton, deleteSegmentButton, enumerateButton,
-        fillPolygonButton, increaseStepButton, meterButton, moveButton, moveGroupButton,
-        moveDownButton, moveLeftButton, moveRightButton, moveUpButton, placeElementsButton,
-        placeInductor2Button, placeJunctionButton, placeLineButton, placeNoConnectionButton,
-        placeNpnTransistorButton, placePnpTransistorButton, placePolygonButton,
-        placeQuartzButton, placeSegmentButton, placeShottkyButton, round45DegreesTurnButton,
-        round90DegreesTurnButton, roundCrossingButton, roundJoinButton, routeTracksButton,
-        segmentNetsButton, selectButton, setValueButton, showGroundNetsButton,
-        tableRouteButton, turnToLeftButton, turnToRightButton, updateNetsButton,
-        waveRouteButton, zoomInButton, zoomOutButton
+        deleteNetSegmentsButton, deletePolygonButton, deleteSegmentButton,
+        fillPolygonButton, increaseStepButton, meterButton, moveButton, moveDownButton,
+        moveGroupButton, moveLeftButton, moveRightButton, moveUpButton, noRoundTurnButton,
+        placeElementsButton, placeJunctionButton, placeLineButton, placePolygonButton,
+        placeSegmentButton, roundTurnButton, routeTracksButton, segmentNetsButton,
+        selectButton, setValueButton, showGroundNetsButton, tableRouteButton,
+        turnToLeftButton, turnToRightButton, updateNetsButton, waveRouteButton,
+        zoomInButton, zoomOutButton
     };
 
     std::copy(tmpToolButton, tmpToolButton + toolButtons, toolButton);
@@ -228,6 +226,9 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         case MOVE_GROUP:
             board.moveGroup(x, y, scale);
             break;
+        case NO_ROUND_TURN:
+            board.noRoundTurn(x, y);
+            break;
         /*case PLACE_DEVICE:
             board.addDevice(board.deviceNameID, x, y);
             break;
@@ -247,21 +248,12 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
                 board.layers.edit == BORDER_LAYER)
                 board.points.push_back(Point(x, y));
             break;
-        case ROUND_45_DEGREES_TURN:
-            board.round45DegreesTurn(x, y, turningRadius);
-            break;
-        case ROUND_90_DEGREES_TURN:
-            board.round90DegreesTurn(x, y, turningRadius);
-            break;
-        case ROUND_CROSSING:
-            board.roundCrossing(x, y);
-            break;
-        case ROUND_JOIN:
-            board.roundJoin(x, y);
-            break;
         case PLACE_SEGMENT:
             if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
                 board.addSegmentPoint(x, y, width);
+            break;
+        case ROUND_TURN:
+            board.roundTurn(x, y, turningRadius);
             break;
        // case SET_VALUE:
        //     board.setValue(x, y);

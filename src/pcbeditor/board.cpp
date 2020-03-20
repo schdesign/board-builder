@@ -943,6 +943,11 @@ void Board::moveGroup(int x, int y, double scale)
     points.clear();
 }
 
+void Board::noRoundTurn(int x, int y)
+{
+
+}
+
 void Board::readFile(const QString &filename, QString &text)
 {
     QFile file(filename);
@@ -1018,6 +1023,11 @@ void Board::roundCrossing(int x, int y)
 }
 
 void Board::roundJoin(int x, int y)
+{
+
+}
+
+void Board::roundTurn(int x, int y, int turningRadius)
 {
 
 }

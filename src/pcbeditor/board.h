@@ -95,6 +95,7 @@ public:
                              double &y1, double &y2, double y);
     int netLength(const Element &element1, const Element &element2);
     bool nextCellPoint(int row, int col, int direction);
+    void noRoundTurn(int x, int y);
     void orderTrackLines(double track[][4], int &trackLength);
     int packageSpace(const Element &element1, const Element &element2);
     int padSpace(const Element &element1, const Element &element2);
@@ -111,10 +112,7 @@ public:
     void reduceTrack(double track[][4], int &trackLength);
     void removeUnconnectedLines(double track[][4], int &trackLength,
                                 int *netPadsRow, int *netPadsCol, int netPadsLength);
-    void round45DegreesTurn(int x, int y, int turningRadius);
-    void round90DegreesTurn(int x, int y, int turningRadius);
-    void roundCrossing(int x, int y);
-    void roundJoin(int x, int y);
+    void roundTurn(int x, int y, int turningRadius);
     void route();
     void routeTracks();
     // double searchCoordinate(int coordinate, int number);
@@ -189,6 +187,12 @@ public:
     // Test data
     std::vector<int> pointX;
     std::vector<int> pointY;
+
+private:
+    void round45DegreesTurn(int x, int y, int turningRadius);
+    void round90DegreesTurn(int x, int y, int turningRadius);
+    void roundCrossing(int x, int y);
+    void roundJoin(int x, int y);
 };
 
 #endif  // BOARD_H

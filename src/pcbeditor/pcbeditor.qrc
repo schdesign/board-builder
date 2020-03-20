@@ -46,9 +46,7 @@
         <file>icons/pcbeditor/zoom_in_grid.png</file>
         <file>icons/pcbeditor/zoom_out.png</file>
         <file>icons/pcbeditor/zoom_out_grid.png</file>
-        <file>icons/pcbeditor/round_45_degrees_turn.png</file>
-        <file>icons/pcbeditor/round_90_degrees_turn.png</file>
-        <file>icons/pcbeditor/round_crossing.png</file>
-        <file>icons/pcbeditor/round_join.png</file>
+        <file>icons/pcbeditor/no_round_turn.png</file>
+        <file>icons/pcbeditor/round_turn.png</file>
     </qresource>
 </RCC>
