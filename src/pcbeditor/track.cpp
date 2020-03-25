@@ -2,6 +2,7 @@
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "track.h"
+#include <cmath>
 
 Segment::Segment()
 {
@@ -14,14 +15,14 @@ Segment::Segment(int x1, int y1, int x2, int y2, int net, int width):
     radius = 0;
     spanAngle = 0;
     startAngle = 0;
-    x = 0;
-    y = 0;
+    x0 = 0;
+    y0 = 0;
 }
 
-Segment::Segment(int x, int y, int radius, int startAngle,
+Segment::Segment(int x0, int y0, int radius, int startAngle,
                  int spanAngle, int net, int width):
     net(net), radius(radius), spanAngle(spanAngle),
-    startAngle(startAngle), type(ARC), width(width), x(x), y(y)
+    startAngle(startAngle), type(ARC), width(width), x0(x0), y0(y0)
 {
     x1 = 0;
     y1 = 0;
@@ -42,12 +43,66 @@ void Segment::clear()
     startAngle = 0;
     type = 0;
     width = 0;
-    x = 0;
-    y = 0;
+    x0 = 0;
+    y0 = 0;
     x1 = 0;
     y1 = 0;
     x2 = 0;
     y2 = 0;
+}
+
+bool Segment::crossPoint(int x, int y)
+{
+    const double pi = acos(-1);
+    double w2 = 0.5 * width;
+
+    if (type == LINE) {
+        double d1 = hypot((x - x1), (y - y1));
+        double d2 = hypot((x - x2), (y - y2));
+        if (d1 < w2 || d2 < w2)
+            return true;
+        double length = hypot((x1 - x2), (y1 - y2));
+        double dmax = hypot(length, w2);
+        if (d1 > dmax || d2 > dmax)
+            return false;
+        if (x1 == x2) {
+            if (abs(x - x1) < w2)
+                return true;
+            return false;
+        }
+        double a = (y1 - y2) / (x2 - x1);
+        double c = -a * x1 - y1;
+        double d = fabs(a * x + y + c) / hypot(a, 1);
+        if (d < w2)
+            return true;
+    }
+
+    if (type == ARC) {
+        double d = hypot((x - x0), (y - y0));
+        double angle = 0;
+        double sa = fmod(startAngle, 360);
+        if (sa < 0)
+            sa = 360 + sa;
+        double sp = fmod(spanAngle, 360);
+        double ea = fmod(sa + sp, 360);
+        if (d > 0) {  // angle: 0...360 degrees
+            angle = (180 / pi) * asin(-(y - y0) / d);
+            if (x < x0)
+                angle = 180 - angle;
+            if (x > x0 && y > y0)
+                angle = 360 + angle;
+        }
+        bool cross0 = sa + sp < 0;
+        bool cross360 = sa + sp > 360;
+        bool isAngleInRange = ((!cross0 && !cross360 && angle > sa && angle < ea) ||
+                               (cross0 && (angle < sa || angle > 360 + ea)) ||
+                               (cross360 && (angle > sa || angle < ea)));
+        bool isDistanceInRange = d > radius - w2 && d < radius + w2;
+        if (isAngleInRange && isDistanceInRange)
+            return true;
+    }
+
+    return false;
 }
 
 void Segment::fromJson(const QJsonValue &value)
@@ -69,8 +124,8 @@ void Segment::fromJson(const QJsonValue &value)
         radius = object["radius"].toInt();
         spanAngle = object["spanAngle"].toInt();
         startAngle = object["startAngle"].toInt();
-        x = object["x"].toInt();
-        y = object["y"].toInt();
+        x0 = object["x0"].toInt();
+        y0 = object["y0"].toInt();
     }
 
     net = object["net"].toInt();
@@ -102,8 +157,8 @@ QJsonObject Segment::toJson()
             {"startAngle", startAngle},
             {"type", type},
             {"width", width},
-            {"x", x},
-            {"y", y}
+            {"x0", x0},
+            {"y0", y0}
         };
         return object;
     }

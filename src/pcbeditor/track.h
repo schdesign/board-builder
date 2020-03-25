@@ -15,26 +15,27 @@
 
 class Segment
 {
+public:
     enum TYPE {LINE, ARC};
 
-public:
     Segment();
     Segment(int x1, int y1, int x2, int y2, int net, int width);
-    Segment(int x, int y, int radius, int startAngle,
+    Segment(int x0, int y0, int radius, int startAngle,
             int spanAngle, int net, int width);
     Segment(const QJsonValue &value);
     void clear();
+    bool crossPoint(int x, int y);
     void fromJson(const QJsonValue &value);
     QJsonObject toJson();
 
-    int net;    // net number
+    int net;         // net number
     int radius;
-    int spanAngle;
-    int startAngle;
+    int spanAngle;   // angle = 0 degree: 3 o'clock position
+    int startAngle;  // angle > 0 degree: counter-clockwise direction
     int type;
-    int width;  // um
-    int x;      // circle center
-    int y;
+    int width;       // um
+    int x0;          // circle center
+    int y0;
     int x1;
     int y1;
     int x2;

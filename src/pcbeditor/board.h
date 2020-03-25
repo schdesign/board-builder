@@ -189,10 +189,10 @@ public:
     std::vector<int> pointY;
 
 private:
-    void round45DegreesTurn(int x, int y, int turningRadius);
-    void round90DegreesTurn(int x, int y, int turningRadius);
-    void roundCrossing(int x, int y);
-    void roundJoin(int x, int y);
+    bool round45DegreesTurn(Segment lineSegments[], int turningRadius);
+    bool round90DegreesTurn(Segment lineSegments[], int turningRadius);
+    bool roundCrossing(Segment lineSegments[], int size);
+    bool roundJoin(Segment lineSegments[], int size);
 };
 
 #endif  // BOARD_H

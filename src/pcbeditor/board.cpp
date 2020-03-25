@@ -758,6 +758,8 @@ void Board::init()
     showNets = true;
 
     polygonSpace = defaultPolygonSpace;
+
+    layers.edit = -1;
 }
 
 bool Board::joinLines(int &x11, int &x12, int &x21, int &x22)
@@ -1007,29 +1009,66 @@ void Board::reduceSegments(std::list<Segment> &segments)
     }
 }
 
-void Board::round45DegreesTurn(int x, int y, int turningRadius)
+bool Board::round45DegreesTurn(Segment lineSegments[], int turningRadius)
 {
-
+    return false;
 }
 
-void Board::round90DegreesTurn(int x, int y, int turningRadius)
+bool Board::round90DegreesTurn(Segment lineSegments[], int turningRadius)
 {
-
+    return false;
 }
 
-void Board::roundCrossing(int x, int y)
+bool Board::roundCrossing(Segment lineSegments[], int size)
 {
-
+    return false;
 }
 
-void Board::roundJoin(int x, int y)
+bool Board::roundJoin(Segment lineSegments[], int size)
 {
-
+    return false;
 }
 
 void Board::roundTurn(int x, int y, int turningRadius)
 {
+    if (layers.edit != FRONT_LAYER && layers.edit != BACK_LAYER)
+        return;
 
+    int lineSize = 0;
+    Segment lineSegments[4];
+    std::list<Segment> *ps = nullptr;
+
+    if (layers.edit == FRONT_LAYER)
+        ps = &frontSegments;
+    else
+        ps = &backSegments;
+
+    for (auto s : (*ps)) {
+        if (s.type != Segment::LINE)
+            continue;
+        if (s.crossPoint(x,y)) {
+            if (lineSize < 4)
+                lineSegments[lineSize++] = s;
+            else
+                return;
+        }
+    }
+
+    if (lineSize < 2 || lineSize > 4)
+        return;
+
+    if (lineSize == 2)
+        if (round45DegreesTurn(lineSegments, turningRadius))
+            return;
+    if (lineSize == 2)
+        if (round90DegreesTurn(lineSegments, turningRadius))
+            return;
+    if (lineSize == 2 && lineSize <= 3)
+        if (roundJoin(lineSegments, lineSize))
+            return;
+    if (lineSize >= 2 && lineSize <= 4)
+        if (roundCrossing(lineSegments, lineSize))
+            return;
 }
 
 bool Board::segmentNets()
