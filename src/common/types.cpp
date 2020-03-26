@@ -164,9 +164,8 @@ bool Line::crossPoint(int x, int y)
 
     double k = (y2 - y1) / (x2 - x1);
     double a = y1 - k * x1;
-    double delta = 1E-6;
 
-    if ((fabs(y - k * x - a) < delta) &&
+    if ((fabs(y - k * x - a) < minValue) &&
         ((x >= x1 && x <= x2) || (x >= x2 && x <= x1)) &&
         ((y >= y1 && y <= y2) || (y >= y2 && y <= y1)))
         return true;

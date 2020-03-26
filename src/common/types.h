@@ -30,8 +30,8 @@ public:
     int y;
     int w;
     int h;
-    int startAngle;
-    int spanAngle;
+    int startAngle;  // angle = 0 degree: 3 o'clock position
+    int spanAngle;   // angle > 0 degree: counter-clockwise direction
 };
 
 class Border

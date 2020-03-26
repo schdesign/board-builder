@@ -3,6 +3,7 @@
 
 #include "board.h"
 #include "exceptiondata.h"
+#include "function.h"
 #include "pcbtypes.h"
 #include <cmath>
 #include <QCoreApplication>
@@ -1009,13 +1010,37 @@ void Board::reduceSegments(std::list<Segment> &segments)
     }
 }
 
-bool Board::round45DegreesTurn(Segment lineSegments[], int turningRadius)
+bool Board::round45DegreesTurn(Segment lineSegments[], int tx, int ty,
+                               int minTurn, int maxTurn, int turningRadius)
 {
+    if (maxTurn - minTurn != 3 && minTurn + 8 - maxTurn != 3)
+        return false;
+
+    const double pi = acos(-1);
+    auto &ls1 = lineSegments[0];
+    auto &ls2 = lineSegments[1];
+    double minLength = turningRadius * tan(pi / 8);
+
+    if (ls1.length() < minLength || ls2.length() < minLength)
+        return false;
+
     return false;
 }
 
-bool Board::round90DegreesTurn(Segment lineSegments[], int turningRadius)
+bool Board::round90DegreesTurn(Segment lineSegments[], int tx, int ty,
+                               int minTurn, int maxTurn, int turningRadius)
 {
+    if (maxTurn - minTurn != 2 && minTurn + 8 - maxTurn != 2)
+        return false;
+
+    const double pi = acos(-1);
+    auto &ls1 = lineSegments[0];
+    auto &ls2 = lineSegments[1];
+    double minLength = turningRadius;
+
+    if (ls1.length() < minLength || ls2.length() < minLength)
+        return false;
+
     return false;
 }
 
@@ -1058,17 +1083,71 @@ void Board::roundTurn(int x, int y, int turningRadius)
         return;
 
     if (lineSize == 2)
-        if (round45DegreesTurn(lineSegments, turningRadius))
+        if (roundTurn2(lineSegments, turningRadius))
             return;
-    if (lineSize == 2)
-        if (round90DegreesTurn(lineSegments, turningRadius))
-            return;
+
     if (lineSize == 2 && lineSize <= 3)
         if (roundJoin(lineSegments, lineSize))
             return;
+
     if (lineSize >= 2 && lineSize <= 4)
         if (roundCrossing(lineSegments, lineSize))
             return;
+}
+
+bool Board::roundTurn2(Segment lineSegments[], int turningRadius)
+{
+    const double pi = acos(-1);
+    auto &ls1 = lineSegments[0];
+    auto &ls2 = lineSegments[1];
+    double minLength = turningRadius * tan(pi / 8);
+    int tx, ty;
+
+    if (ls1.length() < minLength || ls2.length() < minLength)
+        return false;
+
+    if (!ls1.hasCommonEndPoint(ls2, tx, ty))
+        return false;
+
+    int tx1 = ls1.x1 != tx ? ls1.x1 : ls1.x2;
+    int ty1 = ls1.y1 != ty ? ls1.y1 : ls1.y2;
+    int tx2 = ls2.x1 != tx ? ls2.x1 : ls2.x2;
+    int ty2 = ls2.y1 != ty ? ls2.y1 : ls2.y2;
+
+    int dx1 = tx1 - tx;
+    int dy1 = ty1 - ty;
+    int dx2 = tx2 - tx;
+    int dy2 = ty2 - ty;
+
+    if ((abs(dx1) > 0 && abs(dy1) > 0 && abs(dx1) != abs(dy1)) ||
+        (abs(dx2) > 0 && abs(dy2) > 0 && abs(dx2) != abs(dy2)))
+        return false;
+
+    int n[4] = {dx1, dy1, dx2, dy2};
+    for (int i = 0; i < 4; i++)
+        limit(n[i], -1, 1);
+
+    int turn45Degrees[3][3] =  // x, y: (-1, 0, 1) + 1
+    {
+        {3, 4, 5}, {2, -1, 6}, {1, 0, 7}
+    };
+
+    int turn1 = turn45Degrees[n[0]+1][n[1]+1];
+    int turn2 = turn45Degrees[n[2]+1][n[3]+1];
+
+    if (turn1 < 0 || turn2 < 0 || turn1 == turn2)
+        return false;
+
+    int minTurn = turn1 < turn2 ? turn1 : turn2;
+    int maxTurn = turn1 > turn2 ? turn1 : turn2;
+
+    if (round45DegreesTurn(lineSegments, tx, ty, minTurn, maxTurn, turningRadius))
+        return true;
+
+    if (round90DegreesTurn(lineSegments, tx, ty, minTurn, maxTurn, turningRadius))
+        return true;
+
+    return false;
 }
 
 bool Board::segmentNets()

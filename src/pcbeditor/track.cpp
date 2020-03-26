@@ -2,6 +2,7 @@
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "track.h"
+#include "types.h"
 #include <cmath>
 
 Segment::Segment()
@@ -130,6 +131,51 @@ void Segment::fromJson(const QJsonValue &value)
 
     net = object["net"].toInt();
     width = object["width"].toInt();
+}
+
+bool Segment::hasCommonEndPoint(const Segment &s, int &x, int &y)
+{
+    if (type != LINE || s.type != LINE)
+        return false;
+
+    // Zero length
+    if ((x1 == x2 && y1 == y2) || (s.x1 == s.x2 && s.y1 == s.y2))
+        return false;
+
+    Line line(x1, y1, x2, y2);
+
+    // Common point is not single
+    if ((x1 == s.x1 && y1 == s.y1 && line.crossPoint(s.x2, s.y2)) ||
+        (x1 == s.x2 && y1 == s.y2 && line.crossPoint(s.x1, s.y1)))
+        return false;
+
+    if ((x1 == s.x1 && y1 == s.y1) || (x1 == s.x2 && y1 == s.y2)) {
+        x = x1;
+        y = y1;
+        return true;
+    }
+
+    if ((x2 == s.x1 && y2 == s.y1) || (x2 == s.x2 && y2 == s.y2)) {
+        x = x2;
+        y = y2;
+        return true;
+    }
+
+    return false;
+}
+
+double Segment::length()
+{
+    const double pi = acos(-1);
+    double l = 0;
+
+    if (type == LINE)
+        l = hypot(x1 - x2, y1 - y2);
+
+    if (type == ARC)
+        l = fabs(2 * pi * radius * spanAngle / 360);
+
+    return l;
 }
 
 QJsonObject Segment::toJson()
