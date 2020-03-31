@@ -25,10 +25,7 @@ Segment::Segment(int x0, int y0, int radius, int startAngle,
     net(net), radius(radius), spanAngle(spanAngle),
     startAngle(startAngle), type(ARC), width(width), x0(x0), y0(y0)
 {
-    x1 = 0;
-    y1 = 0;
-    x2 = 0;
-    y2 = 0;
+    init();
 }
 
 Segment::Segment(const QJsonValue &value)
@@ -131,6 +128,8 @@ void Segment::fromJson(const QJsonValue &value)
 
     net = object["net"].toInt();
     width = object["width"].toInt();
+
+    init();
 }
 
 bool Segment::hasCommonEndPoint(const Segment &s, int &x, int &y)
@@ -164,7 +163,21 @@ bool Segment::hasCommonEndPoint(const Segment &s, int &x, int &y)
     return false;
 }
 
-double Segment::length()
+void Segment::init()
+{
+    const double pi = acos(-1);
+
+    if (type == ARC) {
+        double angle1 = (pi / 180) * startAngle;
+        double angle2 = (pi / 180) * (startAngle + spanAngle);
+        x1 = x0 + lround(radius * cos(angle1));
+        y1 = y0 - lround(radius * sin(angle1));
+        x2 = x0 + lround(radius * cos(angle2));
+        y2 = y0 - lround(radius * sin(angle2));
+    }
+}
+
+int Segment::length()
 {
     const double pi = acos(-1);
     double l = 0;
@@ -173,9 +186,54 @@ double Segment::length()
         l = hypot(x1 - x2, y1 - y2);
 
     if (type == ARC)
-        l = fabs(2 * pi * radius * spanAngle / 360);
+        l = fabs((pi / 180) * spanAngle * radius);
 
-    return l;
+    return lround(l);
+}
+
+bool Segment::reduceLength(int x, int y, int delta)
+{
+    if (type != LINE)
+        return false;
+
+    bool isFirstEndPoint = x == x1 && y == y1;
+    bool isSecondEndPoint = x == x2 && y == y2;
+
+    if (!isFirstEndPoint && !isSecondEndPoint)
+        return false;
+
+    if (delta < 1 || delta > length())
+        return false;
+
+    int *px1 = isFirstEndPoint ? &x1 : &x2;
+    int *py1 = isFirstEndPoint ? &y1 : &y2;
+    int *px2 = isFirstEndPoint ? &x2 : &x1;
+    int *py2 = isFirstEndPoint ? &y2 : &y1;
+
+    if (x1 == x2) {
+        if (*py1 < *py2)
+            *py1 += delta;
+        else
+            *py1 -= delta;
+        return true;
+    }
+
+    if (y1 == y2) {
+        if (*px1 < *px2)
+            *px1 += delta;
+        else
+            *px1 -= delta;
+        return true;
+    }
+
+    if (abs(x1 - x2) == abs(y1 - y2)) {
+        int delta2 = lround(delta / sqrt(2));
+        *px1 += lround(copysign(1, *px2 - *px1)) * delta2;
+        *py1 += lround(copysign(1, *py2 - *py1)) * delta2;
+        return true;
+    }
+
+    return false;
 }
 
 QJsonObject Segment::toJson()

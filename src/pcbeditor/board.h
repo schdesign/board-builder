@@ -58,6 +58,8 @@ public:
     int deleteSegment(int x, int y, std::list<Segment> &segments);
     void deleteVia(int x, int y);
     void draw(QPainter &painter, int fontSize, double scale);
+    void drawSegments(const std::list<Segment> &segments, QPainter &painter,
+                      QPen &pen, int width, int space, double scale);
     void errorCheck(QString &text);
     void extendSpace(int netNumber);
     void fillPolygon(int x, int y);

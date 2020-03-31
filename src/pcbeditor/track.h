@@ -27,7 +27,9 @@ public:
     bool crossPoint(int x, int y);
     void fromJson(const QJsonValue &value);
     bool hasCommonEndPoint(const Segment &s, int &x, int &y);
-    double length();
+    void init();
+    int length();
+    bool reduceLength(int x, int y, int delta);
     QJsonObject toJson();
 
     int net;         // net number

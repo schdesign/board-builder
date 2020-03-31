@@ -5,6 +5,7 @@
 #include "exceptiondata.h"
 #include "function.h"
 #include "pcbtypes.h"
+#include <algorithm>
 #include <cmath>
 #include <QCoreApplication>
 #include <QDir>
@@ -487,57 +488,20 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
             b.draw(painter, scale, backBrush);
     }
 
-    // Draw segments
+    // Draw back segments
     if (layers.draw & (1 << BACK_LAYER)) {
         fill = false;
         for (auto i = backPolygons.begin(); i != backPolygons.end(); ++i)
             if ((*i).fill)
                 fill = true;
         if (fill) {
-            painter.setPen(whitePen);
-            for (auto b : backSegments) {
-                if (b.width + 2 * space != width) {
-                    whitePen.setWidth((b.width + 2 * space) * scale);
-                    painter.setPen(whitePen);
-                    width = b.width + 2 * space;
-                }
-                painter.drawLine(scale * b.x1, scale * b.y1,
-                                 scale * b.x2, scale * b.y2);
-            }
-            if (layers.edit == BACK_LAYER) {
-                for (auto t : track) {
-                    if (t.width + 2 * space != width) {
-                        whitePen.setWidth((t.width + 2 * space) * scale);
-                        painter.setPen(whitePen);
-                        width = t.width + 2 * space;
-                    }
-                    painter.drawLine(scale * t.x1, scale * t.y1,
-                                     scale * t.x2, scale * t.y2);
-                }
-            }
+            drawSegments(backSegments, painter, whitePen, width, space, scale);
+            if (layers.edit == FRONT_LAYER)
+                drawSegments(track, painter, whitePen, width, space, scale);
         }
-
-        painter.setPen(backPen);
-        for (auto b : backSegments) {
-            if (b.width != width) {
-                backPen.setWidth(b.width * scale);
-                painter.setPen(backPen);
-                width = b.width;
-            }
-            painter.drawLine(scale * b.x1, scale * b.y1,
-                             scale * b.x2, scale * b.y2);
-        }
-        if (layers.edit == BACK_LAYER) {
-            for (auto t : track) {
-                if (t.width != width) {
-                    backPen.setWidth(t.width * scale);
-                    painter.setPen(backPen);
-                    width = t.width;
-                }
-                painter.drawLine(scale * t.x1, scale * t.y1,
-                                 scale * t.x2, scale * t.y2);
-            }
-        }
+        drawSegments(backSegments, painter, backPen, width, 0, scale);
+        if (layers.edit == FRONT_LAYER)
+            drawSegments(track, painter, backPen, width, 0, scale);
     }
 
     // Draw front polygons
@@ -547,57 +511,20 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
             f.draw(painter, scale, frontBrush);
     }
 
-    // Draw segments
+    // Draw front segments
     if (layers.draw & (1 << FRONT_LAYER)) {
         fill = false;
         for (auto i = frontPolygons.begin(); i != frontPolygons.end(); ++i)
             if ((*i).fill)
                 fill = true;
         if (fill) {
-            painter.setPen(whitePen);
-            for (auto f : frontSegments) {
-                if (f.width + 2 * space != width) {
-                    whitePen.setWidth((f.width + 2 * space) * scale);
-                    painter.setPen(whitePen);
-                    width = f.width + 2 * space;
-                }
-                painter.drawLine(scale * f.x1, scale * f.y1,
-                                 scale * f.x2, scale * f.y2);
-            }
-            if (layers.edit == FRONT_LAYER) {
-                for (auto t : track) {
-                    if (t.width + 2 * space != width) {
-                        whitePen.setWidth((t.width + 2 * space) * scale);
-                        painter.setPen(whitePen);
-                        width = t.width + 2 * space;
-                    }
-                    painter.drawLine(scale * t.x1, scale * t.y1,
-                                     scale * t.x2, scale * t.y2);
-                }
-            }
+            drawSegments(frontSegments, painter, whitePen, width, space, scale);
+            if (layers.edit == FRONT_LAYER)
+                drawSegments(track, painter, whitePen, width, space, scale);
         }
-
-        painter.setPen(frontPen);
-        for (auto f : frontSegments) {
-            if (f.width != width) {
-                frontPen.setWidth(f.width * scale);
-                painter.setPen(frontPen);
-                width = f.width;
-            }
-            painter.drawLine(scale * f.x1, scale * f.y1,
-                             scale * f.x2, scale * f.y2);
-        }
-        if (layers.edit == FRONT_LAYER) {
-            for (auto t : track) {
-                if (t.width != width) {
-                    frontPen.setWidth(t.width * scale);
-                    painter.setPen(frontPen);
-                    width = t.width;
-                }
-                painter.drawLine(scale * t.x1, scale * t.y1,
-                                 scale * t.x2, scale * t.y2);
-            }
-        }
+        drawSegments(frontSegments, painter, frontPen, width, 0, scale);
+        if (layers.edit == FRONT_LAYER)
+            drawSegments(track, painter, frontPen, width, 0, scale);
     }
 
     // Draw elements
@@ -677,6 +604,29 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     //    for (ViaIt i = vias.begin(); i != vias.end(); ++i)
     //        (*i).draw(painter);
     //}
+}
+
+void Board::drawSegments(const std::list<Segment> &segments, QPainter &painter,
+                         QPen &pen, int width, int space, double scale)
+{
+    pen.setWidth(width * scale);
+    painter.setPen(pen);
+
+    for (auto s : segments) {
+        if (s.width + 2 * space != width) {
+            pen.setWidth((s.width + 2 * space) * scale);
+            painter.setPen(pen);
+            width = s.width + 2 * space;
+        }
+        if (s.type == Segment::LINE)
+            painter.drawLine(scale * s.x1, scale * s.y1,
+                             scale * s.x2, scale * s.y2);
+        if (s.type == Segment::ARC) {
+            int r = scale * s.radius;
+            painter.drawArc(scale * s.x0 - r, scale * s.y0 - r, 2 * r, 2 * r,
+                            16 * s.startAngle, 16 * s.spanAngle);
+        }
+    }
 }
 
 void Board::errorCheck(QString &text)
@@ -794,6 +744,9 @@ bool Board::joinLines(int &x11, int &x12, int &x21, int &x22)
 
 bool Board::joinSegments(Segment &segment1, Segment &segment2)
 {
+    if (segment1.type != Segment::LINE || segment2.type != Segment::LINE)
+        return false;
+
     int dx1 = segment1.x2 - segment1.x1;
     int dx2 = segment2.x2 - segment2.x1;
     int dy1 = segment1.y2 - segment1.y1;
@@ -1019,12 +972,51 @@ bool Board::round45DegreesTurn(Segment lineSegments[], int tx, int ty,
     const double pi = acos(-1);
     auto &ls1 = lineSegments[0];
     auto &ls2 = lineSegments[1];
-    double minLength = turningRadius * tan(pi / 8);
+    int minLength = lround(turningRadius * tan(pi / 8));
 
     if (ls1.length() < minLength || ls2.length() < minLength)
         return false;
 
-    return false;
+    double r = turningRadius / cos(pi / 8);
+
+    double arcCenterTurnAngle = fmod(45 * minTurn + 67.5, 360);
+    if (minTurn + 8 - maxTurn == 3)
+        arcCenterTurnAngle = fmod(45 * maxTurn + 67.5, 360);
+    double a = (pi / 180) * arcCenterTurnAngle;
+
+    int x0 = lround(tx + r * cos(a));
+    int y0 = lround(ty - r * sin(a));
+
+    int startAngle = (45 * minTurn + 225) % 360;
+    if (minTurn + 8 - maxTurn == 3)
+        startAngle = (45 * maxTurn + 225) % 360;
+    int spanAngle = 45;
+    int net = lineSegments[0].net;
+    int width = std::max(lineSegments[0].width, lineSegments[1].width);
+    Segment arcSegment(x0, y0, turningRadius, startAngle, spanAngle, net, width);
+
+    std::list<Segment> *ps = nullptr;
+
+    if (layers.edit == FRONT_LAYER)
+        ps = &frontSegments;
+    else
+        ps = &backSegments;
+
+    for (auto i = (*ps).begin(); i != (*ps).end();) {
+        if ((*i).type == Segment::LINE)
+            if ((*i).crossPoint(tx,ty)) {
+                (*i).reduceLength(tx, ty, minLength);
+                if ((*i).length() == 0) {
+                    i = (*ps).erase(i);
+                    continue;
+                }
+            }
+        ++i;
+    }
+
+    (*ps).push_back(arcSegment);
+
+    return true;
 }
 
 bool Board::round90DegreesTurn(Segment lineSegments[], int tx, int ty,
@@ -1041,7 +1033,46 @@ bool Board::round90DegreesTurn(Segment lineSegments[], int tx, int ty,
     if (ls1.length() < minLength || ls2.length() < minLength)
         return false;
 
-    return false;
+    double r = sqrt(2) * turningRadius;
+
+    double arcCenterTurnAngle = fmod(45 * minTurn + 45, 360);
+    if (minTurn + 8 - maxTurn == 2)
+        arcCenterTurnAngle = fmod(45 * maxTurn + 45, 360);
+    double a = (pi / 180) * arcCenterTurnAngle;
+
+    int x0 = lround(tx + r * cos(a));
+    int y0 = lround(ty - r * sin(a));
+
+    int startAngle = (45 * minTurn + 180) % 360;
+    if (minTurn + 8 - maxTurn == 2)
+        startAngle = (45 * maxTurn + 180) % 360;
+    int spanAngle = 90;
+    int net = lineSegments[0].net;
+    int width = std::max(lineSegments[0].width, lineSegments[1].width);
+    Segment arcSegment(x0, y0, turningRadius, startAngle, spanAngle, net, width);
+
+    std::list<Segment> *ps = nullptr;
+
+    if (layers.edit == FRONT_LAYER)
+        ps = &frontSegments;
+    else
+        ps = &backSegments;
+
+    for (auto i = (*ps).begin(); i != (*ps).end();) {
+        if ((*i).type == Segment::LINE)
+            if ((*i).crossPoint(tx,ty)) {
+                (*i).reduceLength(tx, ty, minLength);
+                if ((*i).length() == 0) {
+                    i = (*ps).erase(i);
+                    continue;
+                }
+            }
+        ++i;
+    }
+
+    (*ps).push_back(arcSegment);
+
+    return true;
 }
 
 bool Board::roundCrossing(Segment lineSegments[], int size)
@@ -1100,7 +1131,7 @@ bool Board::roundTurn2(Segment lineSegments[], int turningRadius)
     const double pi = acos(-1);
     auto &ls1 = lineSegments[0];
     auto &ls2 = lineSegments[1];
-    double minLength = turningRadius * tan(pi / 8);
+    int minLength = lround(turningRadius * tan(pi / 8));
     int tx, ty;
 
     if (ls1.length() < minLength || ls2.length() < minLength)
