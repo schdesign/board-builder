@@ -191,13 +191,14 @@ public:
     std::vector<int> pointY;
 
 private:
-    bool round45DegreesTurn(Segment lineSegments[], int tx, int ty,
+    bool round45DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty,
                             int minTurn, int maxTurn, int turningRadius);
-    bool round90DegreesTurn(Segment lineSegments[], int tx, int ty,
+    bool round90DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty,
                             int minTurn, int maxTurn, int turningRadius);
-    bool roundCrossing(Segment lineSegments[], int size);
-    bool roundJoin(Segment lineSegments[], int size);
-    bool roundTurn2(Segment lineSegments[], int turningRadius);
+    bool roundCrossing(std::list<Segment>::iterator it[]);
+    bool roundJoin(std::list<Segment>::iterator it[]);
+    bool roundTurn2(std::list<Segment>::iterator it[], int turningRadius);
+    int turnNumber(int x0, int y0, int x, int y);
 };
 
 #endif  // BOARD_H

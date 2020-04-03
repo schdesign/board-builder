@@ -76,9 +76,11 @@ public:
         x1(x1), y1(y1), x2(x2), y2(y2) {}
     Line(const QJsonValue &value);
     void clear();
-    bool crossPoint(int x, int y);
+    bool crossLine(const Line &line, int &x, int &y);
+    bool crossPoint(int x, int y) const;
     void fromJson(const QJsonValue &value);
     bool join(const Line &line);
+    int length() const;
     QJsonObject toJson();
 
     int x1;

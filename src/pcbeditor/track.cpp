@@ -137,8 +137,7 @@ bool Segment::hasCommonEndPoint(const Segment &s, int &x, int &y)
     if (type != LINE || s.type != LINE)
         return false;
 
-    // Zero length
-    if ((x1 == x2 && y1 == y2) || (s.x1 == s.x2 && s.y1 == s.y2))
+    if (length() == 0 || s.length() == 0)
         return false;
 
     Line line(x1, y1, x2, y2);
@@ -177,7 +176,61 @@ void Segment::init()
     }
 }
 
-int Segment::length()
+bool Segment::insideCrossSegment(const Segment &s, int &x, int &y)
+{
+    if (type != LINE || s.type != LINE)
+        return false;
+
+    if (length() == 0 || s.length() == 0)
+        return false;
+
+    if ((x1 == s.x1 && y1 == s.y1) || (x1 == s.x2 && y1 == s.y2) ||
+        (x2 == s.x1 && y2 == s.y1) || (x2 == s.x2 && y2 == s.y2))
+        return false;
+
+    Line line(x1, y1, x2, y2);
+    Line line2(s.x1, s.y1, s.x2, s.y2);
+
+    if (line.crossLine(line2, x, y)) {
+        if ((x == x1 && y == y1) || (x == x2 && y == y2) ||
+            (x == s.x1 && y == s.y1) || (x == s.x2 && y == s.y2))
+            return false;
+        return true;
+    }
+
+    return false;
+}
+
+bool Segment::isEndPointInsideSegment(const Segment &s, int &x, int &y)
+{
+    if (type != LINE || s.type != LINE)
+        return false;
+
+    if (length() == 0 || s.length() == 0)
+        return false;
+
+    if ((x1 == s.x1 && y1 == s.y1) || (x1 == s.x2 && y1 == s.y2) ||
+        (x2 == s.x1 && y2 == s.y1) || (x2 == s.x2 && y2 == s.y2))
+        return false;
+
+    Line line(s.x1, s.y1, s.x2, s.y2);
+
+    if (line.crossPoint(x1, y1)) {
+        x = x1;
+        y = y1;
+        return true;
+    }
+
+    if (line.crossPoint(x2, y2)) {
+        x = x2;
+        y = y2;
+        return true;
+    }
+
+    return false;
+}
+
+int Segment::length() const
 {
     const double pi = acos(-1);
     double l = 0;

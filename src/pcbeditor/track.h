@@ -28,7 +28,9 @@ public:
     void fromJson(const QJsonValue &value);
     bool hasCommonEndPoint(const Segment &s, int &x, int &y);
     void init();
-    int length();
+    bool insideCrossSegment(const Segment &s, int &x, int &y);
+    bool isEndPointInsideSegment(const Segment &s, int &x, int &y);
+    int length() const;
     bool reduceLength(int x, int y, int delta);
     QJsonObject toJson();
 

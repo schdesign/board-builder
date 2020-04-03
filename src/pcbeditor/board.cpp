@@ -768,8 +768,8 @@ bool Board::joinSegments(Segment &segment1, Segment &segment2)
 
     if (fabs(a1 - a2) < 0.1 && fabs(b1 - b2) < 0.1)
         if (joinLines(segment1.x1, segment1.x2, segment2.x1, segment2.x2)) {
-             segment1.y1 = a1 * segment1.x1 + b1 + 0.1;
-             segment1.y2 = a1 * segment1.x2 + b1 + 0.1;
+             segment1.y1 = lround(a1 * segment1.x1 + b1);
+             segment1.y2 = lround(a1 * segment1.x2 + b1);
              return true;
         }
 
@@ -963,15 +963,15 @@ void Board::reduceSegments(std::list<Segment> &segments)
     }
 }
 
-bool Board::round45DegreesTurn(Segment lineSegments[], int tx, int ty,
+bool Board::round45DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty,
                                int minTurn, int maxTurn, int turningRadius)
 {
     if (maxTurn - minTurn != 3 && minTurn + 8 - maxTurn != 3)
         return false;
 
     const double pi = acos(-1);
-    auto &ls1 = lineSegments[0];
-    auto &ls2 = lineSegments[1];
+    auto &ls1 = *it[0];
+    auto &ls2 = *it[1];
     int minLength = lround(turningRadius * tan(pi / 8));
 
     if (ls1.length() < minLength || ls2.length() < minLength)
@@ -991,8 +991,8 @@ bool Board::round45DegreesTurn(Segment lineSegments[], int tx, int ty,
     if (minTurn + 8 - maxTurn == 3)
         startAngle = (45 * maxTurn + 225) % 360;
     int spanAngle = 45;
-    int net = lineSegments[0].net;
-    int width = std::max(lineSegments[0].width, lineSegments[1].width);
+    int net = ls1.net;
+    int width = std::max(ls1.width, ls2.width);
     Segment arcSegment(x0, y0, turningRadius, startAngle, spanAngle, net, width);
 
     std::list<Segment> *ps = nullptr;
@@ -1002,16 +1002,10 @@ bool Board::round45DegreesTurn(Segment lineSegments[], int tx, int ty,
     else
         ps = &backSegments;
 
-    for (auto i = (*ps).begin(); i != (*ps).end();) {
-        if ((*i).type == Segment::LINE)
-            if ((*i).crossPoint(tx,ty)) {
-                (*i).reduceLength(tx, ty, minLength);
-                if ((*i).length() == 0) {
-                    i = (*ps).erase(i);
-                    continue;
-                }
-            }
-        ++i;
+    for (int i = 0; i < 2; i++) {
+        (*it[i]).reduceLength(tx, ty, minLength);
+        if ((*it[i]).length() == 0)
+            (*ps).erase(it[i]);
     }
 
     (*ps).push_back(arcSegment);
@@ -1019,15 +1013,15 @@ bool Board::round45DegreesTurn(Segment lineSegments[], int tx, int ty,
     return true;
 }
 
-bool Board::round90DegreesTurn(Segment lineSegments[], int tx, int ty,
+bool Board::round90DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty,
                                int minTurn, int maxTurn, int turningRadius)
 {
     if (maxTurn - minTurn != 2 && minTurn + 8 - maxTurn != 2)
         return false;
 
     const double pi = acos(-1);
-    auto &ls1 = lineSegments[0];
-    auto &ls2 = lineSegments[1];
+    auto &ls1 = *it[0];
+    auto &ls2 = *it[1];
     double minLength = turningRadius;
 
     if (ls1.length() < minLength || ls2.length() < minLength)
@@ -1047,8 +1041,8 @@ bool Board::round90DegreesTurn(Segment lineSegments[], int tx, int ty,
     if (minTurn + 8 - maxTurn == 2)
         startAngle = (45 * maxTurn + 180) % 360;
     int spanAngle = 90;
-    int net = lineSegments[0].net;
-    int width = std::max(lineSegments[0].width, lineSegments[1].width);
+    int net = ls1.net;
+    int width = std::max(ls1.width, ls2.width);
     Segment arcSegment(x0, y0, turningRadius, startAngle, spanAngle, net, width);
 
     std::list<Segment> *ps = nullptr;
@@ -1058,16 +1052,10 @@ bool Board::round90DegreesTurn(Segment lineSegments[], int tx, int ty,
     else
         ps = &backSegments;
 
-    for (auto i = (*ps).begin(); i != (*ps).end();) {
-        if ((*i).type == Segment::LINE)
-            if ((*i).crossPoint(tx,ty)) {
-                (*i).reduceLength(tx, ty, minLength);
-                if ((*i).length() == 0) {
-                    i = (*ps).erase(i);
-                    continue;
-                }
-            }
-        ++i;
+    for (int i = 0; i < 2; i++) {
+        (*it[i]).reduceLength(tx, ty, minLength);
+        if ((*it[i]).length() == 0)
+            (*ps).erase(it[i]);
     }
 
     (*ps).push_back(arcSegment);
@@ -1075,13 +1063,54 @@ bool Board::round90DegreesTurn(Segment lineSegments[], int tx, int ty,
     return true;
 }
 
-bool Board::roundCrossing(Segment lineSegments[], int size)
+bool Board::roundCrossing(std::list<Segment>::iterator it[])
 {
+    const double pi = acos(-1);
+    auto &ls1 = *it[0];
+    auto &ls2 = *it[1];
+    int tx, ty;
+
+    if (ls1.width < 1 || ls2.width < 1)
+        return false;
+
+    int turningRadius = 2 * std::max(ls1.width, ls2.width);
+
+    if (ls1.length() < turningRadius || ls2.length() < turningRadius)
+        return false;
+
+    if (!ls1.insideCrossSegment(ls2, tx, ty))
+        return false;
+
+
     return false;
 }
 
-bool Board::roundJoin(Segment lineSegments[], int size)
+bool Board::roundJoin(std::list<Segment>::iterator it[])
 {
+    const double pi = acos(-1);
+    auto &ls1 = *it[0];
+    auto &ls2 = *it[1];
+    int index = -1;
+    int tx, ty;
+
+    if (ls1.width < 1 || ls2.width < 1)
+        return false;
+
+    int turningRadius = 2 * std::max(ls1.width, ls2.width);
+
+    if (ls1.length() < turningRadius || ls2.length() < turningRadius)
+        return false;
+
+    if (ls1.isEndPointInsideSegment(ls2, tx, ty))
+        index = 0;
+
+    if (ls2.isEndPointInsideSegment(ls1, tx, ty))
+        index = 1;
+
+    if (index < 0)
+        return false;
+
+
     return false;
 }
 
@@ -1091,20 +1120,21 @@ void Board::roundTurn(int x, int y, int turningRadius)
         return;
 
     int lineSize = 0;
-    Segment lineSegments[4];
+    bool isEmpty[4] = {false};
     std::list<Segment> *ps = nullptr;
+    std::list<Segment>::iterator it[4];
 
     if (layers.edit == FRONT_LAYER)
         ps = &frontSegments;
     else
         ps = &backSegments;
 
-    for (auto s : (*ps)) {
-        if (s.type != Segment::LINE)
+     for (auto i = (*ps).begin(); i != (*ps).end(); ++i) {
+        if ((*i).type != Segment::LINE)
             continue;
-        if (s.crossPoint(x,y)) {
+        if ((*i).crossPoint(x,y)) {
             if (lineSize < 4)
-                lineSegments[lineSize++] = s;
+                it[lineSize++] = i;
             else
                 return;
         }
@@ -1113,24 +1143,51 @@ void Board::roundTurn(int x, int y, int turningRadius)
     if (lineSize < 2 || lineSize > 4)
         return;
 
-    if (lineSize == 2)
-        if (roundTurn2(lineSegments, turningRadius))
+    // Reduce lineSize to 2
+    if (lineSize > 2) {
+        int lineSize2 = lineSize;
+
+        for (int i = 0; i < lineSize; i++)
+            for (int j = 0; j < lineSize; j++) {
+                if (i == j || isEmpty[i] || isEmpty[j])
+                    continue;
+                if (joinSegments(*it[i], *it[j])) {
+                    (*ps).erase(it[j]);
+                    isEmpty[j] = true;
+                    lineSize2--;
+                }
+            }
+
+        if (lineSize2 != 2)
             return;
 
-    if (lineSize == 2 && lineSize <= 3)
-        if (roundJoin(lineSegments, lineSize))
-            return;
+        for (int i = 0; i < lineSize2; i++) {
+            if (!isEmpty[i])
+                continue;
+            for (int j = i + 1; j < lineSize; j++) {
+                if (isEmpty[j])
+                    continue;
+                it[i] = it[j];
+                isEmpty[j] = true;
+                break;
+            }
+        }
+    }
 
-    if (lineSize >= 2 && lineSize <= 4)
-        if (roundCrossing(lineSegments, lineSize))
-            return;
+    if (roundTurn2(it, turningRadius))
+        return;
+
+    if (roundJoin(it))
+        return;
+
+    roundCrossing(it);
 }
 
-bool Board::roundTurn2(Segment lineSegments[], int turningRadius)
+bool Board::roundTurn2(std::list<Segment>::iterator it[], int turningRadius)
 {
     const double pi = acos(-1);
-    auto &ls1 = lineSegments[0];
-    auto &ls2 = lineSegments[1];
+    auto &ls1 = *it[0];
+    auto &ls2 = *it[1];
     int minLength = lround(turningRadius * tan(pi / 8));
     int tx, ty;
 
@@ -1145,26 +1202,8 @@ bool Board::roundTurn2(Segment lineSegments[], int turningRadius)
     int tx2 = ls2.x1 != tx ? ls2.x1 : ls2.x2;
     int ty2 = ls2.y1 != ty ? ls2.y1 : ls2.y2;
 
-    int dx1 = tx1 - tx;
-    int dy1 = ty1 - ty;
-    int dx2 = tx2 - tx;
-    int dy2 = ty2 - ty;
-
-    if ((abs(dx1) > 0 && abs(dy1) > 0 && abs(dx1) != abs(dy1)) ||
-        (abs(dx2) > 0 && abs(dy2) > 0 && abs(dx2) != abs(dy2)))
-        return false;
-
-    int n[4] = {dx1, dy1, dx2, dy2};
-    for (int i = 0; i < 4; i++)
-        limit(n[i], -1, 1);
-
-    int turn45Degrees[3][3] =  // x, y: (-1, 0, 1) + 1
-    {
-        {3, 4, 5}, {2, -1, 6}, {1, 0, 7}
-    };
-
-    int turn1 = turn45Degrees[n[0]+1][n[1]+1];
-    int turn2 = turn45Degrees[n[2]+1][n[3]+1];
+    int turn1 = turnNumber(tx, ty, tx1, ty1);
+    int turn2 = turnNumber(tx, ty, tx2, ty2);
 
     if (turn1 < 0 || turn2 < 0 || turn1 == turn2)
         return false;
@@ -1172,10 +1211,10 @@ bool Board::roundTurn2(Segment lineSegments[], int turningRadius)
     int minTurn = turn1 < turn2 ? turn1 : turn2;
     int maxTurn = turn1 > turn2 ? turn1 : turn2;
 
-    if (round45DegreesTurn(lineSegments, tx, ty, minTurn, maxTurn, turningRadius))
+    if (round45DegreesTurn(it, tx, ty, minTurn, maxTurn, turningRadius))
         return true;
 
-    if (round90DegreesTurn(lineSegments, tx, ty, minTurn, maxTurn, turningRadius))
+    if (round90DegreesTurn(it, tx, ty, minTurn, maxTurn, turningRadius))
         return true;
 
     return false;
@@ -1327,6 +1366,28 @@ void Board::turnElement(int x, int y, int direction)
                 element.pads[i].net = e.pads[i].net;
             e = element;
         }
+}
+
+int Board::turnNumber(int x0, int y0, int x, int y)
+{
+    if (x0 == x && y0 == y)
+        return -1;
+
+    int dx = x - x0;
+    int dy = y - y0;
+
+    if (dx != 0 && dy != 0 && abs(dx) != abs(dy))
+        return -1;
+
+    limit(dx, -1, 1);
+    limit(dy, -1, 1);
+
+    int turn45Degrees[3][3] =  // dx, dy: (-1, 0, 1) + 1
+    {
+        {3, 4, 5}, {2, -1, 6}, {1, 0, 7}
+    };
+
+    return turn45Degrees[dx+1][dy+1];
 }
 
 /*
