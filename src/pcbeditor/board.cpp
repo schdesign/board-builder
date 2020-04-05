@@ -1019,7 +1019,6 @@ bool Board::round90DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty
     if (maxTurn - minTurn != 2 && minTurn + 8 - maxTurn != 2)
         return false;
 
-    const double pi = acos(-1);
     auto &ls1 = *it[0];
     auto &ls2 = *it[1];
     double minLength = turningRadius;
@@ -1027,23 +1026,14 @@ bool Board::round90DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty
     if (ls1.length() < minLength || ls2.length() < minLength)
         return false;
 
-    double r = sqrt(2) * turningRadius;
-
-    double arcCenterTurnAngle = fmod(45 * minTurn + 45, 360);
+    Segment arcSegment;
+    int turn = (minTurn + 1) % 8;
     if (minTurn + 8 - maxTurn == 2)
-        arcCenterTurnAngle = fmod(45 * maxTurn + 45, 360);
-    double a = (pi / 180) * arcCenterTurnAngle;
-
-    int x0 = lround(tx + r * cos(a));
-    int y0 = lround(ty - r * sin(a));
-
-    int startAngle = (45 * minTurn + 180) % 360;
-    if (minTurn + 8 - maxTurn == 2)
-        startAngle = (45 * maxTurn + 180) % 360;
-    int spanAngle = 90;
-    int net = ls1.net;
+        turn = (maxTurn + 1) % 8;
     int width = std::max(ls1.width, ls2.width);
-    Segment arcSegment(x0, y0, turningRadius, startAngle, spanAngle, net, width);
+
+    if (!arcSegment.set90DegreesTurnArc(turn, tx, ty, turningRadius, ls1.net, width))
+        return false;
 
     std::list<Segment> *ps = nullptr;
 
@@ -1065,7 +1055,6 @@ bool Board::round90DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty
 
 bool Board::roundCrossing(std::list<Segment>::iterator it[])
 {
-    const double pi = acos(-1);
     auto &ls1 = *it[0];
     auto &ls2 = *it[1];
     int tx, ty;
@@ -1073,21 +1062,86 @@ bool Board::roundCrossing(std::list<Segment>::iterator it[])
     if (ls1.width < 1 || ls2.width < 1)
         return false;
 
-    int turningRadius = 2 * std::max(ls1.width, ls2.width);
+    int turningRadius = 2 * std::min(ls1.width, ls2.width);
 
     if (ls1.length() < turningRadius || ls2.length() < turningRadius)
         return false;
 
-    if (!ls1.insideCrossSegment(ls2, tx, ty))
+    if (!ls1.insideCrossSegment(ls2, tx, ty) || !ls2.insideCrossSegment(ls1, tx, ty))
         return false;
 
+    Line lines[4] =
+    {
+        {tx, ty, ls1.x1, ls1.y1}, {tx, ty, ls1.x2, ls1.y2},
+        {tx, ty, ls2.x1, ls2.y1}, {tx, ty, ls2.x2, ls2.y2}
+    };
 
-    return false;
+    for (int i = 0; i < 4; i++)
+        if (lines[i].length() < turningRadius)
+            return false;
+
+    int turns[4];
+
+    for (int i = 0; i < 4; i++) {
+        turns[i] = turnNumber(lines[i].x1, lines[i].y1, lines[i].x2, lines[i].y2);
+        if (turns[i] < 0)
+            return false;
+    }
+
+    std::sort(turns, turns + 4);
+
+    int n = 0;
+    int n2 = 0;
+
+    for (int i = 0; i < 4; i++) {
+        if (turns[i] == 2 * i)
+            n++;
+        if (turns[i] == 2 * i + 1)
+            n2++;
+    }
+
+    if (n < 4 && n2 < 4)
+        return false;
+
+    int turn = 1;
+    if (n2 == 4)
+        turn = 0;
+
+    Segment arcs[4];
+
+    for (int i = 0; i < 4; i++)
+        if (!arcs[i].set90DegreesTurnArc(turn + 2 * i, tx, ty,
+            turningRadius, ls1.net, turningRadius / 2))
+            return false;
+
+    std::list<Segment> *ps = nullptr;
+
+    if (layers.edit == FRONT_LAYER)
+        ps = &frontSegments;
+    else
+        ps = &backSegments;
+
+    bool exists[4] = {false};
+
+    for (auto i = (*ps).begin(); i != (*ps).end(); ++i) {
+        if ((*i).type != Segment::ARC)
+            continue;
+        for (int j = 0; j < 4; j++)
+            if (arcs[j].x0 == (*i).x0 && arcs[j].y0 == (*i).y0 &&
+                arcs[j].radius == (*i).radius && arcs[j].startAngle == (*i).startAngle &&
+                arcs[j].spanAngle == (*i).spanAngle)
+                exists[j] = true;
+    }
+
+    for (int i = 0; i < 4; i++)
+        if (!exists[i])
+            (*ps).push_back(arcs[i]);
+
+    return true;
 }
 
 bool Board::roundJoin(std::list<Segment>::iterator it[])
 {
-    const double pi = acos(-1);
     auto &ls1 = *it[0];
     auto &ls2 = *it[1];
     int index = -1;
@@ -1096,7 +1150,7 @@ bool Board::roundJoin(std::list<Segment>::iterator it[])
     if (ls1.width < 1 || ls2.width < 1)
         return false;
 
-    int turningRadius = 2 * std::max(ls1.width, ls2.width);
+    int turningRadius = 2 * std::min(ls1.width, ls2.width);
 
     if (ls1.length() < turningRadius || ls2.length() < turningRadius)
         return false;
@@ -1110,8 +1164,63 @@ bool Board::roundJoin(std::list<Segment>::iterator it[])
     if (index < 0)
         return false;
 
+    int index2 = (index + 1) % 2;
 
-    return false;
+    auto &ls3 = *it[index];
+    auto &ls4 = *it[index2];
+
+    Line line(tx, ty, ls4.x1, ls4.y1);
+    Line line2(tx, ty, ls4.x2, ls4.y2);
+
+    if (line.length() < turningRadius || line2.length() < turningRadius)
+        return false;
+
+    int tx2 = ls3.x1 != tx ? ls3.x1 : ls3.x2;
+    int ty2 = ls3.y1 != ty ? ls3.y1 : ls3.y2;
+
+    int turn = turnNumber(tx, ty, tx2, ty2);
+    int turn1 = turnNumber(line.x1, line.y1, line.x2, line.y2);
+    int turn2 = turnNumber(line2.x1, line2.y1, line2.x2, line2.y2);
+
+    if (turn < 0 || turn1 < 0 || turn2 < 0)
+        return false;
+
+    if ((abs(turn1 - turn) != 2 && abs(turn1 - turn) != 6) ||
+        (abs(turn2 - turn) != 2 && abs(turn2 - turn) != 6))
+        return false;
+
+    Segment arcs[2];
+    int turns[2] = {(turn + 1) % 8, (turn + 7) % 8};
+
+    for (int i = 0; i < 2; i++)
+        if (!arcs[i].set90DegreesTurnArc(turns[i], tx, ty,
+            turningRadius, ls1.net, turningRadius / 2))
+            return false;
+
+    std::list<Segment> *ps = nullptr;
+
+    if (layers.edit == FRONT_LAYER)
+        ps = &frontSegments;
+    else
+        ps = &backSegments;
+
+    bool exists[2] = {false};
+
+    for (auto i = (*ps).begin(); i != (*ps).end(); ++i) {
+        if ((*i).type != Segment::ARC)
+            continue;
+        for (int j = 0; j < 2; j++)
+            if (arcs[j].x0 == (*i).x0 && arcs[j].y0 == (*i).y0 &&
+                arcs[j].radius == (*i).radius && arcs[j].startAngle == (*i).startAngle &&
+                arcs[j].spanAngle == (*i).spanAngle)
+                exists[j] = true;
+    }
+
+    for (int i = 0; i < 2; i++)
+        if (!exists[i])
+            (*ps).push_back(arcs[i]);
+
+    return true;
 }
 
 void Board::roundTurn(int x, int y, int turningRadius)
@@ -1140,7 +1249,7 @@ void Board::roundTurn(int x, int y, int turningRadius)
         }
     }
 
-    if (lineSize < 2 || lineSize > 4)
+    if (lineSize < 2)
         return;
 
     // Reduce lineSize to 2

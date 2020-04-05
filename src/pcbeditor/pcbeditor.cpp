@@ -181,14 +181,16 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
 {
     enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
 
-    int x;
-    int y;
+    int mpx, mpy;
+    int x, y;
     QString str;
 
     if (event->button() == Qt::LeftButton) {
         mousePoint = event->pos();
-        x = (1. / scale) * (gridStep * ((mousePoint.x() + gridStep / 2) / gridStep) - dx);
-        y = (1. / scale) * (gridStep * ((mousePoint.y() + gridStep / 2) / gridStep) - dy);
+        mpx = (1. / scale) * (mousePoint.x() - dx);
+        mpy = (1. / scale) * (mousePoint.y() - dy);
+        x = (1. / scale) * (gridStep * ((mousePoint.x() + gridStep / 2 ) / gridStep) - dx);
+        y = (1. / scale) * (gridStep * ((mousePoint.y() + gridStep / 2 ) / gridStep) - dy);
 
         switch (command) {
        /* case DELETE:
@@ -253,7 +255,7 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
                 board.addSegmentPoint(x, y, width);
             break;
         case ROUND_TURN:
-            board.roundTurn(x, y, turningRadius);
+            board.roundTurn(mpx, mpy, turningRadius);
             break;
        // case SET_VALUE:
        //     board.setValue(x, y);
@@ -270,10 +272,6 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
     }
 
     if (event->button() == Qt::RightButton) {
-        mousePoint = event->pos();
-        x = (1. / scale) * (gridStep * ((mousePoint.x() + gridStep / 2) / gridStep) - dx);
-        y = (1. / scale) * (gridStep * ((mousePoint.y() + gridStep / 2) / gridStep) - dy);
-
         switch (command) {
         case PLACE_LINE:
             break;

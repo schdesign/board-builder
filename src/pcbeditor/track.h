@@ -32,6 +32,8 @@ public:
     bool isEndPointInsideSegment(const Segment &s, int &x, int &y);
     int length() const;
     bool reduceLength(int x, int y, int delta);
+    bool set90DegreesTurnArc(int turn, int x, int y, int radius_,
+                             int net_, int width_);
     QJsonObject toJson();
 
     int net;         // net number

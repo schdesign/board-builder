@@ -289,6 +289,34 @@ bool Segment::reduceLength(int x, int y, int delta)
     return false;
 }
 
+bool Segment::set90DegreesTurnArc(int turn, int x, int y, int radius_,
+                                  int net_, int width_)
+{
+    if (turn < 0 || turn > 7 || radius_ <= 0 || width_ <= 0)
+        return false;
+
+    clear();
+
+    net = net_;
+    radius = radius_;
+    type = ARC;
+    width = width_;
+
+    const double pi = acos(-1);
+    int arcCenterTurnAngle = 45 * turn;
+    double a = (pi / 180) * arcCenterTurnAngle;
+
+    x0 = lround(x + sqrt(2) * radius * cos(a));
+    y0 = lround(y - sqrt(2) * radius * sin(a));
+
+    startAngle = (arcCenterTurnAngle + 135) % 360;
+    spanAngle = 90;
+
+    init();
+
+    return true;
+}
+
 QJsonObject Segment::toJson()
 {
     if (type == LINE) {
