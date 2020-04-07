@@ -1,6 +1,7 @@
 // pcbeditor.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
+#include "elementoptions.h"
 #include "exceptiondata.h"
 #include "function.h"
 #include "pcbeditor.h"
@@ -30,6 +31,7 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     connect(actionSaveErrorCheck, SIGNAL(triggered()), this, SLOT(saveErrorCheck()));
     connect(actionSaveSVG, SIGNAL(triggered()), this, SLOT(saveSVG()));
     connect(actionSaveJSON, SIGNAL(triggered()), this, SLOT(saveJSON()));
+    connect(actionElementOptions, SIGNAL(triggered()), this, SLOT(elementOptions()));
     connect(actionPackageEditor, SIGNAL(triggered()), this, SLOT(openPackageEditor()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
@@ -155,9 +157,25 @@ void PcbEditor::closeFile()
     // buttonsSetEnabled("000000");
 }
 
+void PcbEditor::elementOptions()
+{
+    ElementOptionsData options;
+    options.padCornerRadius = Element::padCornerRadius;
+
+    ElementOptions elementOptions(options);
+    int n = elementOptions.exec();
+
+    if (n == QDialog::Accepted) {
+        Element::padCornerRadius = options.padCornerRadius;
+        for (auto &e : board.elements)
+            e.roundPadCorners();
+        update();
+    }
+}
+
 void PcbEditor::keyPressEvent(QKeyEvent *event)
-{/*
-    switch (command) {
+{
+/*  switch (command) {
     case PLACE_NET_NAME:
         if (board.selectedWire)
             if (event->text() != QString("q"))
@@ -173,14 +191,15 @@ void PcbEditor::keyPressEvent(QKeyEvent *event)
                 board.setValue(0, 0);
         break;
     }
-*/
-    update();
+
+    update(); */
 }
 
 void PcbEditor::mousePressEvent(QMouseEvent *event)
 {
     enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
 
+    bool isChanged = true;
     int mpx, mpy;
     int x, y;
     QString str;
@@ -266,9 +285,12 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         case TURN_TO_RIGHT:
             board.turnElement(x, y, RIGHT);
             break;
+        default:
+            isChanged = false;
         }
 
-        update();
+        if (isChanged)
+            update();
     }
 
     if (event->button() == Qt::RightButton) {
@@ -289,9 +311,11 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
             board.selectedElement = false;
             board.showMessage = false;
             board.pointNumber = 0;
+            isChanged = false;
         }
 
-        update();
+        if (isChanged)
+            update();
     }
 }
 

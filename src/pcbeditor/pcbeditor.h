@@ -66,6 +66,7 @@ private:
 private slots:
     void about();
     void closeFile();
+    void elementOptions();
     void newFile();
     void openFile();
     void openPackageEditor();

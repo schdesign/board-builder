@@ -1358,6 +1358,6 @@ void PackageEditor::updatePackage()
 
 void PackageEditor::updateElement()
 {
-    Element tmpElement(refX, refY, orientation, "", package, "");
+    Element tmpElement(refX, refY, orientation, "", package, "", false);
     element = tmpElement;
 }

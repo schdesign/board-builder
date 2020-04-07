@@ -9,47 +9,52 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 
-enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
-
+double Element::padCornerRadius = 0;
 std::vector<Package> Element::packages;
 
-Element::Element(int refX, int refY, int orientation, QString name,
-                 QString packageName, QString reference):
+Element::Element(int refX, int refY, int orientation, const QString &name,
+                 const QString &packageName, const QString &reference, bool hasOptions):
     orientation(orientation), refX(refX), refY(refY),
     name(name), packageName(packageName), reference(reference)
 {
-    for (uint i = 0; i < Element::packages.size(); i++) {
-        if (!packageName.compare(Element::packages[i].name)) {
+    for (uint i = 0; i < packages.size(); i++) {
+        if (!packageName.compare(packages[i].name)) {
                 packageID = i;
                 break;
         }
-        if (i == Element::packages.size() - 1)
+        if (i == packages.size() - 1)
             throw ExceptionData("Package name error: " + packageName);
     }
 
     init(packages[packageID]);
+
+    if (hasOptions)
+        roundPadCorners();
 }
 
-Element::Element(int refX, int refY, int orientation, QString name,
-                 const Package &package, QString reference):
+Element::Element(int refX, int refY, int orientation, const QString &name,
+                 const Package &package, const QString &reference, bool hasOptions):
     orientation(orientation), refX(refX), refY(refY),
     name(name), packageName(package.name), reference(reference)
 {
     init(package);
+
+    if (hasOptions)
+        roundPadCorners();
 }
 
-Element::Element(const QJsonObject &object)
+Element::Element(const QJsonObject &object, bool hasOptions)
 {
     reference = object["reference"].toString();
     name = object["name"].toString();
     packageName = object["package"].toString();
 
-    for (uint i = 0; i < Element::packages.size(); i++) {
-        if (!packageName.compare(Element::packages[i].name)) {
+    for (uint i = 0; i < packages.size(); i++) {
+        if (!packageName.compare(packages[i].name)) {
                 packageID = i;
                 break;
         }
-        if (i == Element::packages.size() - 1)
+        if (i == packages.size() - 1)
             throw ExceptionData("Package name error: " + packageName);
     }
 
@@ -79,21 +84,24 @@ Element::Element(const QJsonObject &object)
             throw ExceptionData("Pad number error");
         pads[number-1].net = elementPad["net"].toInt();
     }
+
+    if (hasOptions)
+        roundPadCorners();
 }
 
-Element::Element(const QJsonObject &object, int refX, int refY):
+Element::Element(const QJsonObject &object, int refX, int refY, bool hasOptions):
     refX(refX), refY(refY)
 {
     reference = object["reference"].toString();
     name = object["name"].toString();
     packageName = object["package"].toString();
 
-    for (uint i = 0; i < Element::packages.size(); i++) {
-        if (!packageName.compare(Element::packages[i].name)) {
+    for (uint i = 0; i < packages.size(); i++) {
+        if (!packageName.compare(packages[i].name)) {
                 packageID = i;
                 break;
         }
-        if (i == Element::packages.size() - 1)
+        if (i == packages.size() - 1)
             throw ExceptionData("Package name error: " + packageName);
     }
 
@@ -112,6 +120,9 @@ Element::Element(const QJsonObject &object, int refX, int refY):
             throw ExceptionData("Pad number error");
         pads[number-1].net = elementPad["net"].toInt();
     }
+
+    if (hasOptions)
+        roundPadCorners();
 }
 
 void Element::addPackage(const QJsonValue &value)
@@ -349,6 +360,23 @@ bool Element::inside(int leftX, int topY, int rightX, int bottomY)
     return false;
 }
 
+void Element::roundPadCorners()
+{
+    if (padCornerRadius > 0 && padCornerRadius < 0.5 + minValue)
+        for (uint i = 0; i < pads.size(); i++)
+            if (packages[packageID].pads[i].diameter == 0)
+                pads[i].diameter = lround(2 * padCornerRadius *
+                                          std::min(pads[i].height, pads[i].width));
+
+    if (padCornerRadius > 1 - minValue)
+        for (uint i = 0; i < pads.size(); i++)
+            if (packages[packageID].pads[i].diameter == 0) {
+                pads[i].diameter = lround(2 * padCornerRadius);
+                if (pads[i].diameter > std::min(pads[i].height, pads[i].width))
+                    pads[i].diameter = std::min(pads[i].height, pads[i].width);
+            }
+}
+
 QJsonObject Element::toJson()
 {
     QString orientationString(elementOrientationString[orientation]);
@@ -381,7 +409,7 @@ QJsonObject Element::toJson()
 QJsonObject Element::writePackages(const QString &packageType)
 {
     QJsonArray packageArray;
-    for (auto e : Element::packages)
+    for (auto e : packages)
         if (!e.type.compare(packageType))
             packageArray.append(e.toJson());
 

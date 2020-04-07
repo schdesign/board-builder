@@ -66,7 +66,8 @@ void Board::fromJson(const QByteArray &array)
         throw ExceptionData("File is not a board file");
 
     border.fromJson(object["borderPolygon"]);
-    polygonSpace = (object["polygonSpace"].toInt());
+    Element::padCornerRadius = object["padCornerRadius"].toDouble();
+    polygonSpace = object["polygonSpace"].toInt();
 
     QJsonArray elementArray(object["elements"].toArray());
     QJsonArray frontPolygonArray(object["frontPolygons"].toArray());
@@ -156,14 +157,15 @@ QJsonObject Board::toJson()
 
     QJsonObject object
     {
-        {"object", "board"},
+        {"backPolygons", backPolygonArray},
+        {"backSegments", backSegmentArray},
+        {"borderPolygon", border.toJson()},
         {"elements", elementArray},
         {"frontPolygons", frontPolygonArray},
-        {"backPolygons", backPolygonArray},
-        {"borderPolygon", border.toJson()},
-        {"polygonSpace", polygonSpace},
         {"frontSegments", frontSegmentArray},
-        {"backSegments", backSegmentArray},
+        {"object", "board"},
+        {"padCornerRadius", Element::padCornerRadius},
+        {"polygonSpace", polygonSpace},
         {"vias", viaArray}
     };
 

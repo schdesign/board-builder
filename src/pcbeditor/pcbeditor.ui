@@ -2844,11 +2844,11 @@
     <addaction name="actionCloseFile"/>
     <addaction name="actionQuit"/>
    </widget>
-   <widget class="QMenu" name="menuTools">
+   <widget class="QMenu" name="menuOptions">
     <property name="title">
-     <string>Tools</string>
+     <string>Options</string>
     </property>
-    <addaction name="actionPackageEditor"/>
+    <addaction name="actionElementOptions"/>
    </widget>
    <widget class="QMenu" name="menuBuild">
     <property name="title">
@@ -2858,6 +2858,12 @@
     <addaction name="actionSaveSVG"/>
     <addaction name="actionSaveJSON"/>
    </widget>
+   <widget class="QMenu" name="menuTools">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionPackageEditor"/>
+   </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
@@ -2866,6 +2872,7 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuBuild"/>
+   <addaction name="menuOptions"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -2890,9 +2897,9 @@
     <string>Save</string>
    </property>
   </action>
-  <action name="actionPackageEditor">
+  <action name="actionElementOptions">
    <property name="text">
-    <string>Package Editor</string>
+    <string>Element</string>
    </property>
   </action>
   <action name="actionCloseFile">
@@ -2930,12 +2937,17 @@
     <string>Save JSON</string>
    </property>
   </action>
-  <action name="actionAbout">
+  <action name="actionPackageEditor">
+   <property name="text">
+    <string>Package Editor</string>
+   </property>
+  </action>
+  <action name="actionAbout_2">
    <property name="text">
     <string>About</string>
    </property>
   </action>
-  <action name="actionAbout_2">
+  <action name="actionAbout">
    <property name="text">
     <string>About</string>
    </property>

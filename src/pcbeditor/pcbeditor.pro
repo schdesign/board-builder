@@ -15,6 +15,7 @@ include(../common/common.pri)
 
 SOURCES += board.cpp \
     element.cpp \
+    elementoptions.cpp \
     function.cpp \
     layers.cpp \
     main.cpp \
@@ -27,6 +28,7 @@ SOURCES += board.cpp \
 
 HEADERS += board.h \
     element.h \
+    elementoptions.h \
     exceptiondata.h \
     function.h \
     layers.h \
@@ -38,6 +40,7 @@ HEADERS += board.h \
     track.h
 
 FORMS += packageeditor.ui \
+    elementoptions.ui \
     pcbeditor.ui
 
 RESOURCES += packageeditor.qrc \

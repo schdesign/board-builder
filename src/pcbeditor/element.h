@@ -20,6 +20,11 @@ public:
 
 class Element
 {
+public:
+    constexpr static double minPadCornerRadius = 0.001;
+    constexpr static double maxPadCornerRadius = 1000000;
+
+private:
     const char *elementOrientationString[4] =
     {
         "Up", "Right", "Down", "Left"
@@ -30,14 +35,16 @@ class Element
         "Center"
     };
 
+    enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
+
 public:
     Element() {}
-    Element(int refX, int refY, int orientation, QString name,
-            QString packageName, QString reference);
-    Element(int refX, int refY, int orientation, QString name,
-            const Package &package, QString reference);
-    Element(const QJsonObject &object);
-    Element(const QJsonObject &object, int refX, int refY);
+    Element(int refX, int refY, int orientation, const QString &name,
+            const QString &packageName, const QString &reference, bool hasOptions = true);
+    Element(int refX, int refY, int orientation, const QString &name,
+            const Package &package, const QString &reference, bool hasOptions = true);
+    Element(const QJsonObject &object, bool hasOptions = true);
+    Element(const QJsonObject &object, int refX, int refY, bool hasOptions = true);
     static void addPackage(const QJsonValue &value);
     static QJsonObject writePackages(const QString &packageType);
     void draw(QPainter &painter, const Layers &layers,
@@ -46,8 +53,10 @@ public:
     void findOuterBorder();
     void init(const Package &package);
     bool inside(int leftX, int topY, int rightX, int bottomY);
+    void roundPadCorners();
     QJsonObject toJson();
 
+    static double padCornerRadius;
     static std::vector<Package> packages;
     bool enabled;
     bool fixed;             // fixed on board
