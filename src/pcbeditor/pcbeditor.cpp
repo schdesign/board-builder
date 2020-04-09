@@ -81,15 +81,15 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     QToolButton *tmpToolButton[toolButtons] =
     {
-        createGroupsButton, decreaseStepButton, deleteButton, deleteJunctionButton,
-        deleteNetSegmentsButton, deletePolygonButton, deleteSegmentButton,
-        fillPolygonButton, increaseStepButton, meterButton, moveButton, moveDownButton,
-        moveGroupButton, moveLeftButton, moveRightButton, moveUpButton, noRoundTurnButton,
-        placeElementsButton, placeJunctionButton, placeLineButton, placePolygonButton,
-        placeSegmentButton, roundTurnButton, routeTracksButton, segmentNetsButton,
-        selectButton, setValueButton, showGroundNetsButton, tableRouteButton,
-        turnToLeftButton, turnToRightButton, updateNetsButton, waveRouteButton,
-        zoomInButton, zoomOutButton
+        connectJumperButton, createGroupsButton, decreaseStepButton, deleteButton,
+        deleteJumperButton, deleteJunctionButton, deleteNetSegmentsButton,
+        deletePolygonButton, deleteSegmentButton, disconnectJumperButton, fillPolygonButton,
+        increaseStepButton, meterButton, moveButton, moveDownButton, moveGroupButton,
+        moveLeftButton, moveRightButton, moveUpButton, noRoundTurnButton, placeElementsButton,
+        placeJumperButton, placeJunctionButton, placeLineButton, placePolygonButton,
+        placeSegmentButton, roundTurnButton, routeTracksButton, segmentNetsButton, selectButton,
+        setValueButton, showGroundNetsButton, tableRouteButton, turnToLeftButton,
+        turnToRightButton, updateNetsButton, waveRouteButton, zoomInButton, zoomOutButton
     };
 
     std::copy(tmpToolButton, tmpToolButton + toolButtons, toolButton);
@@ -204,6 +204,10 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
     int x, y;
     QString str;
 
+    bool isElementLayer = board.layers.edit == FRONT_LAYER ||
+                          board.layers.edit == BACK_LAYER;
+    bool isDrawingLayer = isElementLayer || board.layers.edit == BORDER_LAYER;
+
     if (event->button() == Qt::LeftButton) {
         mousePoint = event->pos();
         mpx = (1. / scale) * (mousePoint.x() - dx);
@@ -212,34 +216,56 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         y = (1. / scale) * (gridStep * ((mousePoint.y() + gridStep / 2 ) / gridStep) - dy);
 
         switch (command) {
-       /* case DELETE:
-            board.deleteElement(x, y);
-            break;
-        case DELETE_JUNCTION:
-            board.deleteJunction(x, y);
-            break;        
-        case DELETE_WIRE:
-            board.deleteWire(x, y);
-            break;*/
-        case DELETE_POLYGON:
-            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
-                board.layers.edit == BORDER_LAYER)
-                board.deletePolygon(x, y);
-            break;
-        case DELETE_NET_SEGMENTS:
-            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
-                board.deleteNetSegments(x, y);
-            break;
-        case DELETE_SEGMENT:
-            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
-                board.deleteSegment(x, y);
-            break;
-        case FILL_POLYGON:
-            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
-                board.fillPolygon(x, y);
-            break;
         case METER:
             meterLineEdit->setText(str.setNum(board.meter(x, y), 'f', 2));
+            break;
+        }
+
+        if (!isDrawingLayer)
+            return;
+
+        switch (command) {
+        case DELETE_POLYGON:
+            board.deletePolygon(x, y);
+            break;
+        case PLACE_LINE:
+            break;
+        case PLACE_POLYGON:
+            if (isDrawingLayer)
+                board.points.push_back(Point(x, y));
+            break;
+        default:
+            isChanged = false;
+        }
+
+        if (isChanged) {
+            update();
+            return;
+        }
+
+        isChanged = true;
+
+        if (!isElementLayer)
+            return;
+
+        switch (command) {
+        case CONNECT_JUMPER:
+            board.connectJumper(x, y);
+            break;
+        case DELETE_JUMPER:
+            board.deleteJumper(x, y);
+            break;
+        case DELETE_NET_SEGMENTS:
+            board.deleteNetSegments(x, y);
+            break;
+        case DELETE_SEGMENT:
+            board.deleteSegment(x, y);
+            break;
+        case DISCONNECT_JUMPER:
+            board.disconnectJumper(x, y);
+            break;
+        case FILL_POLYGON:
+            board.fillPolygon(x, y);
             break;
         case MOVE:
             board.moveElement(x, y);
@@ -250,35 +276,15 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         case NO_ROUND_TURN:
             board.noRoundTurn(x, y);
             break;
-        /*case PLACE_DEVICE:
-            board.addDevice(board.deviceNameID, x, y);
-            break;
-        case PLACE_GROUND:
-            board.addSymbol(GROUND, x, y);
-            break;
-        case PLACE_JUNCTION:
-            board.addJunction(x, y);
-            break;
-        case PLACE_NET_NAME:
-            board.addNetName(x, y);
-            break; */
-        case PLACE_LINE:
-            break;
-        case PLACE_POLYGON:
-            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
-                board.layers.edit == BORDER_LAYER)
-                board.points.push_back(Point(x, y));
+        case PLACE_JUMPER:
+            board.placeJumper(x, y);
             break;
         case PLACE_SEGMENT:
-            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
-                board.addSegmentPoint(x, y, width);
+            board.addSegmentPoint(x, y, width);
             break;
         case ROUND_TURN:
             board.roundTurn(mpx, mpy, turningRadius);
             break;
-       // case SET_VALUE:
-       //     board.setValue(x, y);
-       //     break;
         case TURN_TO_LEFT:
             board.turnElement(x, y, LEFT);
             break;
@@ -298,12 +304,11 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         case PLACE_LINE:
             break;
         case PLACE_POLYGON:
-            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
-                board.layers.edit == BORDER_LAYER)
+            if (isDrawingLayer)
                 board.addPolygon();
             break;
         case PLACE_SEGMENT:
-            if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
+            if (isElementLayer)
                 board.addTrack();
             break;
         default:
@@ -603,6 +608,10 @@ void PcbEditor::selectToolButton(int number)
     int tmp;
     QString str;
 
+    bool isElementLayer = board.layers.edit == FRONT_LAYER ||
+                          board.layers.edit == BACK_LAYER;
+    bool isDrawingLayer = isElementLayer || board.layers.edit == BORDER_LAYER;
+
     previousCommand = command;
     command = number;
 
@@ -654,19 +663,18 @@ void PcbEditor::selectToolButton(int number)
     case PLACE_LINE:
         break;
     case PLACE_POLYGON:
-        if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER ||
-            board.layers.edit == BORDER_LAYER)
+        if (isDrawingLayer)
             board.points.clear();
         break;
     case PLACE_SEGMENT:
-        if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
+        if (isElementLayer)
             board.pointNumber = 0;
         break;
     case ROUTE_TRACKS:
         board.routeTracks();
         break;
     case SEGMENT_NETS:
-        if (board.layers.edit == FRONT_LAYER || board.layers.edit == BACK_LAYER)
+        if (isElementLayer)
             board.segmentNets();
         break;
     case SELECT:

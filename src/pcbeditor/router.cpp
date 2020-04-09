@@ -1203,11 +1203,6 @@ void Board::place()
 
 }
 
-void Board::placeElement()
-{
-
-}
-
 void Board::placeElements()
 {
     const int dx = 2000;

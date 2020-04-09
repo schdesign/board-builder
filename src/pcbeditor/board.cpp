@@ -90,11 +90,6 @@ void Board::addTrack()
     pointNumber = 0;
 }
 
-void Board::addJumper(int x, int y, int orientation)
-{
-
-}
-
 void Board::addSegmentPoint(int x, int y, int width)
 {
     int dx;
@@ -136,6 +131,11 @@ void Board::clear()
     elements.clear();
     nets.clear();
     points.clear();
+}
+
+void Board::connectJumper(int x, int y)
+{
+
 }
 
 void Board::deleteJumper(int x, int y)
@@ -287,6 +287,12 @@ void Board::deleteVia(int x, int y)
 {
 
 }
+
+void Board::disconnectJumper(int x, int y)
+{
+
+}
+
 /*
 void Board::draw(QPainter &painter, double scale)
 {
@@ -900,6 +906,11 @@ void Board::moveGroup(int x, int y, double scale)
 }
 
 void Board::noRoundTurn(int x, int y)
+{
+
+}
+
+void Board::placeJumper(int x, int y)
 {
 
 }

@@ -36,7 +36,6 @@ public:
     static const int defaultPolygonSpace = 1000;
 
     Board();
-    void addJumper(int x, int y, int orientation);
     void addLineToTrack(double track[][4], int &trackLength,
                         double x1, double y1, double x2, double y2);
     void addSegmentPoint(int x, int y, int width);
@@ -48,6 +47,7 @@ public:
     void clear();
     int compareLine(int greater, int *lineIndex, int lines,
                     int coordinate, double value);
+    void connectJumper(int x, int y);
     void connectPadCenter(double track[][4], int &trackLength);
     void createGroups();
     void deleteJumper(int x, int y);
@@ -57,6 +57,7 @@ public:
     void deleteSegment(int x, int y);
     int deleteSegment(int x, int y, std::list<Segment> &segments);
     void deleteVia(int x, int y);
+    void disconnectJumper(int x, int y);
     void draw(QPainter &painter, int fontSize, double scale);
     void drawSegments(const std::list<Segment> &segments, QPainter &painter,
                       QPen &pen, int width, int space, double scale);
@@ -102,9 +103,9 @@ public:
     int packageSpace(const Element &element1, const Element &element2);
     int padSpace(const Element &element1, const Element &element2);
     void place();
-    void placeElement();
     void placeElements();
     void placeGroup(const Group &group, int refX, int refY);
+    void placeJumper(int x, int y);
     void placePadsToTable();
     void readFile(const QString &filename, QString &text);
     void readJsonFile(const QString &filename, QByteArray &byteArray);
@@ -182,6 +183,7 @@ public:
     std::list<Segment> backSegments;
     std::list<Via> vias;
     std::vector<Element> elements;
+    std::vector<Element> jumpers;
     std::vector<Net> nets;
     std::vector<Point> points;
     std::vector<Point> points2;

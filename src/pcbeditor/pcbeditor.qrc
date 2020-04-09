@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>icons/pcbeditor/create_groups.png</file>
         <file>icons/pcbeditor/decrease_step.png</file>
-        <file>icons/pcbeditor/delete_element.png</file>
         <file>icons/pcbeditor/delete_junction.png</file>
         <file>icons/pcbeditor/delete_net.png</file>
         <file>icons/pcbeditor/delete_net_segments.png</file>
@@ -48,5 +47,10 @@
         <file>icons/pcbeditor/zoom_out_grid.png</file>
         <file>icons/pcbeditor/no_round_turn.png</file>
         <file>icons/pcbeditor/round_turn.png</file>
+        <file>icons/pcbeditor/delete.png</file>
+        <file>icons/pcbeditor/connect_jumper.png</file>
+        <file>icons/pcbeditor/delete_jumper.png</file>
+        <file>icons/pcbeditor/disconnect_jumper.png</file>
+        <file>icons/pcbeditor/place_jumper.png</file>
     </qresource>
 </RCC>
