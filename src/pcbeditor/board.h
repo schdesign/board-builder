@@ -36,6 +36,7 @@ public:
     static const int defaultPolygonSpace = 1000;
 
     Board();
+    void addJumper(const QString &packageName, int x, int y);
     void addLineToTrack(double track[][4], int &trackLength,
                         double x1, double y1, double x2, double y2);
     void addSegmentPoint(int x, int y, int width);
@@ -105,7 +106,6 @@ public:
     void place();
     void placeElements();
     void placeGroup(const Group &group, int refX, int refY);
-    void placeJumper(int x, int y);
     void placePadsToTable();
     void readFile(const QString &filename, QString &text);
     void readJsonFile(const QString &filename, QByteArray &byteArray);
@@ -160,6 +160,7 @@ public:
     Polygon polygon;
     QRect groupBorder;
     QString message;
+    QString packageName;
     Router router;
     Segment segment;
     Track track;

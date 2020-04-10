@@ -35,9 +35,9 @@ private:
         "Center"
     };
 
+public:
     enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
 
-public:
     Element() {}
     Element(int refX, int refY, int orientation, const QString &name,
             const QString &packageName, const QString &reference, bool hasOptions = true);

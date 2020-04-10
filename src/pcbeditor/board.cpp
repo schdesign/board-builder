@@ -33,6 +33,12 @@ Board::Board()
     init();
 }
 
+void Board::addJumper(const QString &packageName, int x, int y)
+{
+    Element jumper(x, y, Element::UP, "", packageName, "");
+    jumpers.push_back(jumper);
+}
+
 void Board::addPolygon()
 {
     // Delete equal points
@@ -129,6 +135,7 @@ void Board::clear()
     backSegments.clear();
     vias.clear();
     elements.clear();
+    jumpers.clear();
     nets.clear();
     points.clear();
 }
@@ -533,14 +540,18 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
             drawSegments(track, painter, frontPen, width, 0, scale);
     }
 
+    ElementDrawingOptions options;
+    options.fillPads = fillPads;
+    options.scale = scale;
+    options.fontSize = scale * fontScale * fontSize;
+
     // Draw elements
-    for (auto e : elements) {
-        ElementDrawingOptions options;
-        options.fillPads = fillPads;
-        options.scale = scale;
-        options.fontSize = scale * fontScale * fontSize;
+    for (auto e : elements)
         e.draw(painter, layers, options);
-    }
+
+    // Draw jumpers
+    for (auto j : jumpers)
+        j.draw(painter, layers, options);
 
     // Draw group
     //if (groupBorder.isValid()) {
@@ -906,11 +917,6 @@ void Board::moveGroup(int x, int y, double scale)
 }
 
 void Board::noRoundTurn(int x, int y)
-{
-
-}
-
-void Board::placeJumper(int x, int y)
 {
 
 }

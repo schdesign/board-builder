@@ -17,6 +17,7 @@ SOURCES += board.cpp \
     element.cpp \
     elementoptions.cpp \
     function.cpp \
+    jumperselector.cpp \
     layers.cpp \
     main.cpp \
     packageeditor.cpp \
@@ -31,6 +32,7 @@ HEADERS += board.h \
     elementoptions.h \
     exceptiondata.h \
     function.h \
+    jumperselector.h \
     layers.h \
     packageeditor.h \
     pcbeditor.h \
@@ -41,6 +43,7 @@ HEADERS += board.h \
 
 FORMS += packageeditor.ui \
     elementoptions.ui \
+    jumperselector.ui \
     pcbeditor.ui
 
 RESOURCES += packageeditor.qrc \

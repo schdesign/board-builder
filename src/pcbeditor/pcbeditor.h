@@ -59,7 +59,7 @@ protected:
 
 private:
     void paintEvent(QPaintEvent *);
-    void selectDevice(int &deviceNameID);
+    bool selectJumper(QString &packageName);
     void writeLibraryFile(QString filename, QJsonObject object);
     // Set buttons: left, right, up, down, zoom in, zoom out
     // void buttonsSetEnabled(const char *params);

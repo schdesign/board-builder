@@ -4,6 +4,7 @@
 #include "elementoptions.h"
 #include "exceptiondata.h"
 #include "function.h"
+#include "jumperselector.h"
 #include "pcbeditor.h"
 #include <QFile>
 #include <QFileDialog>
@@ -277,7 +278,7 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
             board.noRoundTurn(x, y);
             break;
         case PLACE_JUMPER:
-            board.placeJumper(x, y);
+            board.addJumper(board.packageName, x, y);
             break;
         case PLACE_SEGMENT:
             board.addSegmentPoint(x, y, width);
@@ -313,6 +314,7 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
             break;
         default:
             command = SELECT;
+            board.packageName.clear();
             board.selectedElement = false;
             board.showMessage = false;
             board.pointNumber = 0;
@@ -530,14 +532,20 @@ void PcbEditor::selectLayerCheckBox()
     update();
 }
 
-void PcbEditor::selectDevice(int &deviceNameID)
+bool PcbEditor::selectJumper(QString &packageName)
 {
-  /*QStringList deviceNames;
-    for (DeviceSymbolIt i = Device::symbols.begin(); i != Device::symbols.end(); ++i)
-        deviceNames += (*i).second.name;
-    DeviceSelector deviceSelector(deviceNames);
-    deviceNameID = deviceSelector.exec() - 1;
-  */
+    QStringList jumperSymbolNames;
+
+    for (auto p : Element::packages)
+        if (p.pads.size() == 2)
+            jumperSymbolNames += p.name;
+
+    JumperSelector jumperSelector(jumperSymbolNames, packageName);
+
+    if (jumperSelector.exec() == QDialog::Accepted)
+        return true;
+
+    return false;
 }
 
 void PcbEditor::selectPushButton(int number)
@@ -660,6 +668,10 @@ void PcbEditor::selectToolButton(int number)
     case PLACE_ELEMENTS:
         board.placeElements();
         break;
+    case PLACE_JUMPER:
+        if (!selectJumper(board.packageName))
+            command = SELECT;
+        break;
     case PLACE_LINE:
         break;
     case PLACE_POLYGON:
@@ -678,6 +690,7 @@ void PcbEditor::selectToolButton(int number)
             board.segmentNets();
         break;
     case SELECT:
+        board.packageName.clear();
         board.selectedElement = false;
         board.showMessage = false;
         board.pointNumber = 0;
