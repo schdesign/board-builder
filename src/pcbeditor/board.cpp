@@ -36,6 +36,9 @@ Board::Board()
 void Board::addJumper(const QString &packageName, int x, int y)
 {
     Element jumper(x, y, Element::UP, "", packageName, "");
+    jumper.isJumper = true;
+    for (auto p : jumper.pads)
+        p.net = -1;
     jumpers.push_back(jumper);
 }
 
@@ -147,7 +150,11 @@ void Board::connectJumper(int x, int y)
 
 void Board::deleteJumper(int x, int y)
 {
-
+    for (auto i = jumpers.begin(); i != jumpers.end(); ++i)
+        if ((*i).exist(x, y)) {
+            jumpers.erase(i);
+            break;
+        }
 }
 
 void Board::deleteNetSegments(int x, int y)
@@ -297,7 +304,12 @@ void Board::deleteVia(int x, int y)
 
 void Board::disconnectJumper(int x, int y)
 {
-
+    for (auto j : jumpers)
+        if (j.exist(x, y)) {
+            for (auto p : j.pads)
+                p.net = -1;
+            break;
+        }
 }
 
 /*

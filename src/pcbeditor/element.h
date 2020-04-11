@@ -61,6 +61,7 @@ public:
     bool enabled;
     bool fixed;             // fixed on board
     bool group;
+    bool isJumper;
     int centerX;            // border center
     int centerY;
     int nameID;

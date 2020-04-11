@@ -26,6 +26,8 @@ Element::Element(int refX, int refY, int orientation, const QString &name,
             throw ExceptionData("Package name error: " + packageName);
     }
 
+    isJumper = false;
+
     init(packages[packageID]);
 
     if (hasOptions)
@@ -37,6 +39,8 @@ Element::Element(int refX, int refY, int orientation, const QString &name,
     orientation(orientation), refX(refX), refY(refY),
     name(name), packageName(package.name), reference(reference)
 {
+    isJumper = false;
+
     init(package);
 
     if (hasOptions)
@@ -45,6 +49,8 @@ Element::Element(int refX, int refY, int orientation, const QString &name,
 
 Element::Element(const QJsonObject &object, bool hasOptions)
 {
+    isJumper = object["isJumper"].toBool();
+
     reference = object["reference"].toString();
     name = object["name"].toString();
     packageName = object["package"].toString();
@@ -92,6 +98,8 @@ Element::Element(const QJsonObject &object, bool hasOptions)
 Element::Element(const QJsonObject &object, int refX, int refY, bool hasOptions):
     refX(refX), refY(refY)
 {
+    isJumper = object["isJumper"].toBool();
+
     reference = object["reference"].toString();
     name = object["name"].toString();
     packageName = object["package"].toString();
@@ -394,6 +402,7 @@ QJsonObject Element::toJson()
 
     QJsonObject object
     {
+        {"isJumper", isJumper},
         {"reference", reference},
         {"name", name},
         {"package", packageName},
