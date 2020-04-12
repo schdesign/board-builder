@@ -145,7 +145,35 @@ void Board::clear()
 
 void Board::connectJumper(int x, int y)
 {
+    static int n;
+    static int n2;
 
+    if (!selectedPad) {
+        n = -1;
+        for (auto j : jumpers) {
+            n++;
+            n2 = -1;
+            for (auto p : j.pads) {
+                n2++;
+                if (p.exist(x, y)) {
+                    selectedPad = true;
+                    return;
+                }
+            }
+        }
+    }
+
+    if (selectedPad) {
+        for (auto e : elements)
+            for (auto p : e.pads)
+                if (p.exist(x, y))
+                    if (p.net >= 0) {
+                        jumpers[n].pads[n2].net = p.net;
+                        selectedPad = false;
+                        return;
+                    }
+        selectedPad = false;
+    }
 }
 
 void Board::deleteJumper(int x, int y)
@@ -733,6 +761,7 @@ void Board::init()
 
     fillPads = true;
     selectedElement = false;
+    selectedPad = false;
     showGroundNets = false;
     showMessage = false;
     showNets = true;

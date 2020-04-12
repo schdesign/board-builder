@@ -316,6 +316,7 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
             command = SELECT;
             board.packageName.clear();
             board.selectedElement = false;
+            board.selectedPad = false;
             board.showMessage = false;
             board.pointNumber = 0;
             isChanged = false;
@@ -692,6 +693,7 @@ void PcbEditor::selectToolButton(int number)
     case SELECT:
         board.packageName.clear();
         board.selectedElement = false;
+        board.selectedPad = false;
         board.showMessage = false;
         board.pointNumber = 0;
         break;

@@ -11,6 +11,7 @@
 class Pad
 {
 public:
+    bool exist(int x_, int y_);
     QJsonObject toJson();
 
     int diameter;

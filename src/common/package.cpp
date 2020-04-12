@@ -3,7 +3,27 @@
 
 #include "package.h"
 #include <algorithm>
+#include <cmath>
 #include <QJsonArray>
+
+bool Pad::exist(int x_, int y_)
+{
+    int dx = width / 2;
+    int dy = height / 2;
+
+    if (dx > 0 && dy > 0)
+        if (x_ >= (x - dx) && x_ <= (x + dx) &&
+            y_ >= (y - dy) && y_ <= (y + dy))
+            return true;
+
+    int r = diameter / 2;
+
+    if (r > 0)
+        if (lround(hypot((x_ - x), (y_ - y))) < r)
+            return true;
+
+    return false;
+}
 
 QJsonObject Pad::toJson()
 {

@@ -136,6 +136,7 @@ public:
 
     bool fillPads;
     bool selectedElement;
+    bool selectedPad;
     bool showGroundNets;
     bool showMessage;
     bool showNets;
