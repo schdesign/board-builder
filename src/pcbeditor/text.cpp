@@ -70,7 +70,6 @@ void Board::fromJson(const QByteArray &array)
     polygonSpace = object["polygonSpace"].toInt();
 
     QJsonArray elementArray(object["elements"].toArray());
-    QJsonArray jumperArray(object["jumpers"].toArray());
     QJsonArray frontPolygonArray(object["frontPolygons"].toArray());
     QJsonArray backPolygonArray(object["backPolygons"].toArray());
     QJsonArray frontSegmentArray(object["frontSegments"].toArray());
@@ -80,11 +79,6 @@ void Board::fromJson(const QByteArray &array)
     for (auto ea : elementArray) {
         Element e(ea.toObject());
         elements.push_back(e);
-    }
-
-    for (auto ja : jumperArray) {
-        Element j(ja.toObject());
-        jumpers.push_back(j);
     }
 
     for (auto f : frontPolygonArray) {
@@ -141,10 +135,6 @@ QJsonObject Board::toJson()
     for (auto e : elements)
         elementArray.append(e.toJson());
 
-    QJsonArray jumperArray;
-    for (auto j : jumpers)
-        jumperArray.append(j.toJson());
-
     QJsonArray frontPolygonArray;
     for (auto f : frontPolygons)
         frontPolygonArray.append(f.toJson());
@@ -171,7 +161,6 @@ QJsonObject Board::toJson()
         {"backSegments", backSegmentArray},
         {"borderPolygon", border.toJson()},
         {"elements", elementArray},
-        {"jumpers", jumperArray},
         {"frontPolygons", frontPolygonArray},
         {"frontSegments", frontSegmentArray},
         {"object", "board"},

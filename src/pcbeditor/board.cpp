@@ -35,11 +35,11 @@ Board::Board()
 
 void Board::addJumper(const QString &packageName, int x, int y)
 {
-    Element jumper(x, y, Element::UP, "", packageName, "");
-    jumper.isJumper = true;
-    for (auto p : jumper.pads)
+    Element element(x, y, Element::UP, "", packageName, "");
+    element.isJumper = true;
+    for (auto &p : element.pads)
         p.net = -1;
-    jumpers.push_back(jumper);
+    elements.push_back(element);
 }
 
 void Board::addPolygon()
@@ -138,7 +138,6 @@ void Board::clear()
     backSegments.clear();
     vias.clear();
     elements.clear();
-    jumpers.clear();
     nets.clear();
     points.clear();
 }
@@ -146,43 +145,52 @@ void Board::clear()
 void Board::connectJumper(int x, int y)
 {
     static int n;
-    static int n2;
 
     if (!selectedPad) {
         n = -1;
-        for (auto j : jumpers) {
+        for (auto e : elements) {
             n++;
-            n2 = -1;
-            for (auto p : j.pads) {
-                n2++;
+            if (!e.isJumper)
+                continue;
+            for (auto p : e.pads)
                 if (p.exist(x, y)) {
                     selectedPad = true;
                     return;
                 }
-            }
         }
     }
 
     if (selectedPad) {
-        for (auto e : elements)
+        int n2 = -1;
+        for (auto e : elements) {
+            n2++;
+            if (n == n2)
+                continue;
             for (auto p : e.pads)
                 if (p.exist(x, y))
                     if (p.net >= 0) {
-                        jumpers[n].pads[n2].net = p.net;
+                        for (auto &p2 : elements[n].pads)
+                            p2.net = p.net;
                         selectedPad = false;
+                        getNets();
                         return;
                     }
+        }
         selectedPad = false;
     }
 }
 
 void Board::deleteJumper(int x, int y)
 {
-    for (auto i = jumpers.begin(); i != jumpers.end(); ++i)
+    for (auto i = elements.begin(); i != elements.end(); ++i) {
+        if (!(*i).isJumper)
+            continue;
         if ((*i).exist(x, y)) {
-            jumpers.erase(i);
+            elements.erase(i);
+            getNets();
             break;
         }
+    }
 }
 
 void Board::deleteNetSegments(int x, int y)
@@ -332,12 +340,21 @@ void Board::deleteVia(int x, int y)
 
 void Board::disconnectJumper(int x, int y)
 {
-    for (auto j : jumpers)
-        if (j.exist(x, y)) {
-            for (auto p : j.pads)
-                p.net = -1;
-            break;
-        }
+    bool isPadExist = false;
+
+    for (auto &e : elements) {
+        if (!e.isJumper)
+            continue;
+        for (auto p : e.pads)
+            if (p.exist(x, y))
+                isPadExist = true;
+        if (!isPadExist)
+            continue;
+        for (auto &p : e.pads)
+            p.net = -1;
+        getNets();
+        break;
+    }
 }
 
 /*
@@ -589,10 +606,6 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     for (auto e : elements)
         e.draw(painter, layers, options);
 
-    // Draw jumpers
-    for (auto j : jumpers)
-        j.draw(painter, layers, options);
-
     // Draw group
     //if (groupBorder.isValid()) {
     //    painter.setPen(QColor(200, 0, 0));
@@ -729,8 +742,9 @@ void Board::getNets()
     std::set<int> netNumbers;
 
     for (auto e : elements)
-        for (auto ep : e.pads)
-            netNumbers.insert(ep.net);
+        for (auto p : e.pads)
+            if (p.net >= 0)
+                netNumbers.insert(p.net);
 
     int size = netNumbers.size();
     nets.resize(size);
@@ -739,11 +753,13 @@ void Board::getNets()
     for (auto n : netNumbers)
         nets[num++].number = n;
 
-    for (auto &n : nets)
+    for (auto &n : nets) {
+        n.pads.clear();
         for (uint i = 0; i < elements.size(); i++)
             for (uint j = 0; j < elements[i].pads.size(); j++)
                 if (n.number == elements[i].pads[j].net)
                     n.pads.push_back(Point(i, j));
+    }
 }
 
 void Board::init()
@@ -857,6 +873,7 @@ double Board::meter(double x, double y)
 
 void Board::moveElement(int x, int y)
 {
+    static bool isJumper;
     static int orientation;
     static int number;
     static QString name;
@@ -868,6 +885,7 @@ void Board::moveElement(int x, int y)
         for (auto &e : elements) {
             number++;
             if (e.exist(x, y)) {
+                isJumper = e.isJumper;
                 orientation = e.orientation;
                 name = e.name;
                 packageName = e.packageName;
@@ -880,6 +898,7 @@ void Board::moveElement(int x, int y)
 
     if (selectedElement) {
         Element element(x, y, orientation, name, packageName, reference);
+        element.isJumper = isJumper;
         for (uint i = 0; i < element.pads.size(); i++)
             element.pads[i].net = elements[number].pads[i].net;
         element.group = elements[number].group;
@@ -891,17 +910,20 @@ void Board::moveElement(int x, int y)
 
 void Board::moveElement(int number, int x, int y)
 {
+    static bool isJumper;
     static int orientation;
     static QString name;
     static QString packageName;
     static QString reference;
 
+    isJumper = elements[number].isJumper;
     orientation = elements[number].orientation;
     name = elements[number].name;
     packageName = elements[number].packageName;
     reference = elements[number].reference;
 
     Element element(x, y, orientation, name, packageName, reference);
+    element.isJumper = isJumper;
     for (uint i = 0; i < element.pads.size(); i++)
         element.pads[i].net = elements[number].pads[i].net;
     element.group = elements[number].group;
@@ -912,6 +934,8 @@ void Board::moveGroup()
 {
     int dx = points[2].x - points[0].x;
     int dy = points[2].y - points[0].y;
+
+    bool isJumper;
     int orientation;
     int x, y;
     QString name;
@@ -924,11 +948,13 @@ void Board::moveGroup()
                      points[1].x, points[1].y)) {
             x = e.refX + dx;
             y = e.refY + dy;
+            isJumper = e.isJumper;
             orientation = e.orientation;
             name = e.name;
             packageName = e.packageName;
             reference = e.reference;
             Element element(x, y, orientation, name, packageName, reference);
+            element.isJumper = isJumper;
             for (uint i = 0; i < element.pads.size(); i++)
                 element.pads[i].net = e.pads[i].net;
             e = element;
@@ -1502,6 +1528,7 @@ void Board::turnElement(int x, int y, int direction)
 {
     enum ElementOrientation {UP, RIGHT, DOWN, LEFT};
 
+    bool isJumper;
     int orientation;
     int refX;
     int refY;
@@ -1513,6 +1540,7 @@ void Board::turnElement(int x, int y, int direction)
         if (e.exist(x, y)) {
             refX = e.refX;
             refY = e.refY;
+            isJumper = e.isJumper;
             orientation = e.orientation;
             name = e.name;
             packageName = e.packageName;
@@ -1529,6 +1557,7 @@ void Board::turnElement(int x, int y, int direction)
             }
             Element element(refX, refY, orientation,
                             name, packageName, reference);
+            element.isJumper = isJumper;
             for (uint i = 0; i < element.pads.size(); i++)
                 element.pads[i].net = e.pads[i].net;
             e = element;

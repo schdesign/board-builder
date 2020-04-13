@@ -185,7 +185,6 @@ public:
     std::list<Segment> backSegments;
     std::list<Via> vias;
     std::vector<Element> elements;
-    std::vector<Element> jumpers;
     std::vector<Net> nets;
     std::vector<Point> points;
     std::vector<Point> points2;
