@@ -14,8 +14,8 @@
 class Net
 {
 public:
-    int number;                 // net number
-    std::vector<Point> pads;   // x: element, y: pad
+    int number;               // net number
+    std::vector<Point> pads;  // x: element, y: pad
 };
 
 class Polygon
@@ -42,9 +42,9 @@ public:
     QJsonObject toJson();
 
     int innerRadius;
-    int net;            // net number
+    int net;          // net number
     int outerRadius;
-    int x;              // center
+    int x;            // center
     int y;
 };
 

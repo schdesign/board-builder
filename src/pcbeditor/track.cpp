@@ -77,24 +77,28 @@ bool Segment::crossPoint(int x, int y)
 
     if (type == ARC) {
         double d = hypot((x - x0), (y - y0));
-        double angle = 0;
-        double sa = fmod(startAngle, 360);
+        int angle = 0;
+        int sa = startAngle % 360;
+        int sp = spanAngle % 360;
+        if (sp < 0) {
+            sa += sp;
+            sp = -sp;
+        }
         if (sa < 0)
             sa = 360 + sa;
-        double sp = fmod(spanAngle, 360);
-        double ea = fmod(sa + sp, 360);
+        int ea = (sa + sp) % 360;
         if (d > 0) {  // angle: 0...360 degrees
-            angle = (180 / pi) * asin(-(y - y0) / d);
+            angle = lround((180 / pi) * asin(-(y - y0) / d));
             if (x < x0)
                 angle = 180 - angle;
             if (x > x0 && y > y0)
                 angle = 360 + angle;
         }
         bool cross0 = sa + sp < 0;
-        bool cross360 = sa + sp > 360;
-        bool isAngleInRange = ((!cross0 && !cross360 && angle > sa && angle < ea) ||
-                               (cross0 && (angle < sa || angle > 360 + ea)) ||
-                               (cross360 && (angle > sa || angle < ea)));
+        bool cross360 = sa + sp >= 360;
+        bool isAngleInRange = ((!cross0 && !cross360 && angle >= sa && angle <= ea) ||
+                               (cross0 && (angle <= sa || angle >= 360 + ea)) ||
+                               (cross360 && (angle >= sa || angle <= ea)));
         bool isDistanceInRange = d > radius - w2 && d < radius + w2;
         if (isAngleInRange && isDistanceInRange)
             return true;

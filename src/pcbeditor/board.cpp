@@ -281,54 +281,12 @@ void Board::deleteSegment(int x, int y)
 
 int Board::deleteSegment(int x, int y, std::list<Segment> &segments)
 {
-    double a, b;
-    int dx, dy;
-    int netNumber = -1;
-    int w;
-    int x1, x2; // min: x1, max: x2
-    int y1, y2, y3;
-    int yMin, yMax;
-
-    for (auto i = segments.end(); i != segments.begin();) {
-        --i;
-        x1 = (*i).x1;
-        x2 = (*i).x2;
-        y1 = (*i).y1;
-        y2 = (*i).y2;
-        if (x1 > x2) {
-            x1 = (*i).x2;
-            x2 = (*i).x1;
-            y1 = (*i).y2;
-            y2 = (*i).y1;
-        }
-        yMin = y1;
-        yMax = y2;
-        if (y1 > y2) {
-            yMin = y2;
-            yMax = y1;
-        }
-        dx = x2 - x1;
-        dy = y2 - y1;
-        w = (*i).width / 2;
-        if (x < (x1 - w) || x > (x2 + w) || y < (yMin - w) || y > (yMax + w))
-            continue;
-        a = 0;
-        if (dx) {
-            a = double(y2 - y1) / (x2 - x1);
-            b = y1 - a * x1;
-        }
-        if (!dx || !dy) {
-            netNumber = (*i).net;
+    for (auto i = segments.begin(); i != segments.end(); ++i)
+        if ((*i).crossPoint(x, y)) {
+            int netNumber = (*i).net;
             segments.erase(i);
             return netNumber;
         }
-        y3 = a * x + b;
-        if (abs(y - y3) < 0.7 * w) {
-            netNumber = (*i).net;
-            segments.erase(i);
-            return netNumber;
-        }
-    }
 
     return -1;
 }
