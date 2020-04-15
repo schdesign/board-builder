@@ -23,6 +23,7 @@ class Polygon
 public:
     Polygon() {}
     Polygon(const QJsonValue &value);
+    bool center(int &x, int &y);
     void draw(QPainter &painter, double scale, QBrush brush);
     void fromJson(const QJsonValue &value);
     QJsonObject toJson();

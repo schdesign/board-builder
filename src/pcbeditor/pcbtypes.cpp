@@ -1,4 +1,4 @@
-﻿// pcbtypes.cpp
+// pcbtypes.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "pcbtypes.h"
@@ -18,6 +18,25 @@ Polygon::Polygon(const QJsonValue &value)
         Point point(p);
         points.push_back(point);
     }
+}
+
+bool Polygon::center(int &x, int &y)
+{
+    if (points.size() < 3)
+        return false;
+
+    double x2 = 0;
+    double y2 = 0;
+
+    for (auto p : points) {
+        x2 += p.x;
+        y2 += p.y;
+    }
+
+    x = lround(x2 / points.size());
+    y = lround(y2 / points.size());
+
+    return true;
 }
 
 void Polygon::draw(QPainter &painter, double scale, QBrush brush)

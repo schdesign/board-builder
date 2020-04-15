@@ -6,6 +6,7 @@
 #include "function.h"
 #include "jumperselector.h"
 #include "pcbeditor.h"
+#include <cmath>
 #include <QFile>
 #include <QFileDialog>
 #include <QIODevice>
@@ -60,9 +61,9 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     QPushButton *tmpPushButton[pushButtons] =
     {
-        decFontSizePushButton, decGridPushButton, decSpacePushButton, decWidthPushButton,
-        incFontSizePushButton, incGridPushButton, incSpacePushButton, incWidthPushButton,
-        turningRadiusPushButton
+        centerPushButton, decFontSizePushButton, decGridPushButton, decSpacePushButton,
+        decWidthPushButton, incFontSizePushButton, incGridPushButton, incSpacePushButton,
+        incWidthPushButton, turningRadiusPushButton
     };
 
     std::copy(tmpPushButton, tmpPushButton + pushButtons, pushButton);
@@ -116,8 +117,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     widthLineEdit->setText(str.setNum(width));
     dx = gridX;
     dy = gridY;
-    centerX = 57 * grid[gridNumber];
-    centerY = 39 * grid[gridNumber];
+    centerX = (gridCenterX / 10) * grid[gridNumber];
+    centerY = (gridCenterY / 10) * grid[gridNumber];
     maxXLineEdit->setText(str.setNum(maxX));
     maxYLineEdit->setText(str.setNum(maxY));
     dxLineEdit->setText(str.setNum(dx));
@@ -144,6 +145,18 @@ void PcbEditor::buttonsSetEnabled(const char *params)
     }
 }
 */
+
+void PcbEditor::centerBoardBorder()
+{
+    int x, y;
+
+    if (board.border.center(x, y)) {
+        centerX = x;
+        centerY = y;
+        dx = 10 * lround((gridX + gridCenterX - scale * centerX) / 10.);
+        dy = 10 * lround((gridY + gridCenterY - scale * centerY) / 10.);
+    }
+}
 
 void PcbEditor::closeFile()
 {
@@ -382,6 +395,8 @@ void PcbEditor::openFile()
         return;
     }
 
+    centerBoardBorder();
+
     actionOpenFile->setEnabled(false);
     actionCloseFile->setEnabled(true);
 
@@ -557,6 +572,9 @@ void PcbEditor::selectPushButton(int number)
     QString str;
 
     switch (number) {
+    case CENTER:
+        centerBoardBorder();
+        break;
     case DEC_FONT_SIZE:
         fontSize -= 2;
     case INC_FONT_SIZE:
@@ -571,10 +589,8 @@ void PcbEditor::selectPushButton(int number)
         limit(gridNumber, 0, grids - 1);
         newGrid = grid[gridNumber];
         scale = double(gridStep) / newGrid;
-        dx = gridX + 570 - scale * centerX;
-        dy = gridY + 400 - scale * centerY;
-        dx = 10 * int(dx / 10 + 0.5);
-        dy = 10 * int(dy / 10 + 0.5);
+        dx = 10 * lround((gridX + gridCenterX - scale * centerX) / 10.);
+        dy = 10 * lround((gridY + gridCenterY - scale * centerY) / 10.);
         gridLineEdit->setText(str.setNum(newGrid));
         dxLineEdit->setText(str.setNum(dx));
         dyLineEdit->setText(str.setNum(dy));
@@ -645,7 +661,7 @@ void PcbEditor::selectToolButton(int number)
         dy += 2 * step;
     case MOVE_UP:
         dy -= step;
-        centerY = (gridY + 400 - dy) / scale + 0.5;
+        centerY = lround((gridY + gridCenterY - dy) / scale);
         dyLineEdit->setText(str.setNum(dy));
         break;
     case MOVE_GROUP:
@@ -655,9 +671,9 @@ void PcbEditor::selectToolButton(int number)
         dx -= 2 * step;
     case MOVE_RIGHT:
         dx += step;
-        centerX = (gridX + 570 - dx) / scale + 0.5;
+        centerX = lround((gridX + gridCenterX - dx) / scale);
         dxLineEdit->setText(str.setNum(dx));
-        break;        
+        break;
     /*case PLACE_DEVICE:
         selectDevice(board.deviceNameID);
         if (board.deviceNameID == -1)

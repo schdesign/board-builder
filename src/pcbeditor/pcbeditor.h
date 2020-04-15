@@ -22,7 +22,7 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
     Q_OBJECT
 
     constexpr static int checkBoxes = 3;
-    constexpr static int pushButtons = 9;
+    constexpr static int pushButtons = 10;
     constexpr static int radioButtons = 4;
     constexpr static int toolButtons = 39;
 
@@ -33,9 +33,8 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
 
     enum PushButton
     {
-        DEC_FONT_SIZE, DEC_GRID, DEC_SPACE, DEC_WIDTH,
-        INC_FONT_SIZE, INC_GRID, INC_SPACE, INC_WIDTH,
-        TURNING_RADIUS
+        CENTER, DEC_FONT_SIZE, DEC_GRID, DEC_SPACE, DEC_WIDTH,
+        INC_FONT_SIZE, INC_GRID, INC_SPACE, INC_WIDTH, TURNING_RADIUS
     };
 
     enum ToolButton
@@ -58,6 +57,7 @@ protected:
     void mousePressEvent(QMouseEvent *event);
 
 private:
+    void centerBoardBorder();
     void paintEvent(QPaintEvent *);
     bool selectJumper(QString &packageName);
     void writeLibraryFile(QString filename, QJsonObject object);
@@ -89,6 +89,8 @@ private:
     constexpr static int gridStep = 10;    // pixels
     constexpr static int gridX = 100;
     constexpr static int gridY = 30;
+    constexpr static int gridCenterX = 570;
+    constexpr static int gridCenterY = 400;
     constexpr static int spaceStep = 100;  // um
     constexpr static int widthStep = 100;
     constexpr static int maxX = 10000;
