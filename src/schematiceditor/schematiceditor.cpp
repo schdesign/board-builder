@@ -135,29 +135,31 @@ void SchematicEditor::keyPressEvent(QKeyEvent *event)
 
 void SchematicEditor::mousePressEvent(QMouseEvent *event)
 {
-    int x;
-    int y;
+    bool isChanged = true;
+    bool isElement = false;
+    int mpx, mpy;
+    int x, y;
 
     if (event->button() == Qt::LeftButton) {
         mousePoint = event->pos();
-        x = mousePoint.x();
-        y = mousePoint.y();
-
-        if (command == DELETE)
-            schematic.deleteElement(x, y);
-        if (command == SET_VALUE)
-            schematic.setValue(x, y);
+        mpx = mousePoint.x();
+        mpy = mousePoint.y();
 
         // Set grid for x, y
-        x = grid * ((x + grid / 2) / grid);
-        y = grid * ((y + grid / 2) / grid);
+        x = grid * ((mpx + grid / 2) / grid);
+        y = grid * ((mpy + grid / 2) / grid);
         limit(x, 0, 10000);
         limit(y, 0, 10000);
 
-        if (command >= PLACE_BATTERY && command <= PLACE_ZENER)
+        if (command >= PLACE_BATTERY && command <= PLACE_ZENER) {
             schematic.addElement(elementType[command], x, y, orientation);
+            isElement = true;
+        }
 
         switch (command) {
+        case DELETE:
+            schematic.deleteElement(mpx, mpy);
+            break;
         case DELETE_JUNCTION:
             schematic.deleteJunction(x, y);
             break;
@@ -207,9 +209,15 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
         case PLACE_WIRE:
             schematic.addPoint(x, y);
             break;
+        case SET_VALUE:
+            schematic.setValue(mpx, mpy);
+            break;
+        default:
+            isChanged = false;
         }
 
-        update();
+        if (isChanged || isElement)
+            update();
     }
 
     if (event->button() == Qt::RightButton) {
@@ -223,9 +231,11 @@ void SchematicEditor::mousePressEvent(QMouseEvent *event)
             schematic.selectedCircuitSymbol = false;
             schematic.selectedDevice = false;
             schematic.selectedElement = false;
+            isChanged = false;
         }
 
-        update();
+        if (isChanged)
+            update();
     }
 }
 
