@@ -69,6 +69,26 @@ void Polygon::fromJson(const QJsonValue &value)
     }
 }
 
+bool Polygon::hasInnerPoint(int x, int y)
+{
+    int b = 0;
+
+    for (auto p : points) {
+        if (p.x < x && p.y < y)
+            b |= 1;
+        if (p.x < x && p.y > y)
+            b |= 2;
+        if (p.x > x && p.y < y)
+            b |= 4;
+        if (p.x > x && p.y > y)
+            b |= 8;
+    }
+    if (b == 15)
+        return true;
+
+    return false;
+}
+
 QJsonObject Polygon::toJson()
 {
     QJsonArray pointArray;

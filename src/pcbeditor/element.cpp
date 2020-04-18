@@ -150,9 +150,13 @@ void Element::draw(QPainter &painter, const Layers &layers,
     const bool &fillPads = options.fillPads;
     const double &scale = options.scale;
     const int &fontSize = options.fontSize;
+    const int &space = scale * options.space;
 
     if (layers.draw & (1 << PAD_LAYER)) {
-        painter.setPen(layers.color[PAD_LAYER]);
+        if (space != 0)
+            painter.setPen(QColor(255, 255, 255));
+        else
+            painter.setPen(layers.color[PAD_LAYER]);
         for (auto p : pads) {
             d = scale * p.diameter;
             h = scale * p.height;
@@ -166,13 +170,17 @@ void Element::draw(QPainter &painter, const Layers &layers,
                 h = d;
                 w = d;
             }
+            if (d > minValue)
+                d += 2 * space;
+            h += 2 * space;
+            w += 2 * space;
             x = scale * p.x - w / 2;
             y = scale * p.y - h / 2;
             rx = d / 2;
             ry = rx;
             QPainterPath path;
             path.addRoundedRect(x, y, w, h, rx, ry);
-            if (fillPads)
+            if (fillPads && space == 0)
                 painter.setBrush(layers.color[PAD_LAYER]);
             else
                 painter.setBrush(QColor(255, 255, 255));

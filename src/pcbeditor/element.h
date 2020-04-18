@@ -16,6 +16,7 @@ public:
     bool fillPads;
     double scale;
     int fontSize;
+    int space;
 };
 
 class Element

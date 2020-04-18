@@ -26,6 +26,7 @@ public:
     bool center(int &x, int &y);
     void draw(QPainter &painter, double scale, QBrush brush);
     void fromJson(const QJsonValue &value);
+    bool hasInnerPoint(int x, int y);
     QJsonObject toJson();
 
     bool fill;

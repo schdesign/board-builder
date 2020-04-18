@@ -196,26 +196,25 @@ void Board::deleteJumper(int x, int y)
 void Board::deleteNetSegments(int x, int y)
 {
     int netNumber = -1;
+    std::list<Segment> *s = nullptr;
 
-    if (layers.edit == FRONT_LAYER) {
-        netNumber = deleteSegment(x, y, frontSegments);
-        if (netNumber >= 0)
-            for (auto i = frontSegments.end(); i != frontSegments.begin();) {
-                --i;
-                if ((*i).net == netNumber)
-                    frontSegments.erase(i);
-            }
-    }
+    if (layers.edit == FRONT_LAYER)
+        s = &frontSegments;
 
-    if (layers.edit == BACK_LAYER) {
-        netNumber = deleteSegment(x, y, backSegments);
-        if (netNumber >= 0)
-            for (auto i = backSegments.end(); i != backSegments.begin();) {
-                --i;
-                if ((*i).net == netNumber)
-                    backSegments.erase(i);
-            }
-    }
+    if (layers.edit == BACK_LAYER)
+        s = &backSegments;
+
+    if (!s)
+        return;
+
+    netNumber = deleteSegment(x, y, (*s));
+    if (netNumber >= 0)
+        for (auto i = (*s).begin(); i != (*s).end();) {
+            if ((*i).net == netNumber)
+                i = (*s).erase(i);
+            else
+                ++i;
+        }
 }
 
 void Board::deletePolygon(int x, int y)
@@ -226,46 +225,21 @@ void Board::deletePolygon(int x, int y)
     if (layers.edit == BACK_LAYER)
         deletePolygon(x, y, backPolygons);
 
-    if (layers.edit == BORDER_LAYER) {
-        int b = 0;
-        for (auto p : border.points) {
-            if (p.x < x && p.y < y)
-                b |= 1;
-            if (p.x < x && p.y > y)
-                b |= 2;
-            if (p.x > x && p.y < y)
-                b |= 4;
-            if (p.x > x && p.y > y)
-                b |= 8;
-        }
-        if (b == 15)
+    if (layers.edit == BORDER_LAYER)
+        if (border.hasInnerPoint(x, y))
             border.points.clear();
-    }
 }
 
 int Board::deletePolygon(int x, int y, std::list<Polygon> &polygons)
 {
     int netNumber = -1;
 
-    for (auto i = polygons.end(); i != polygons.begin();) {
-        --i;
-        int b = 0;
-        for (auto j = (*i).points.begin(); j != (*i).points.end(); ++j) {
-            if ((*j).x < x && (*j).y < y)
-                b |= 1;
-            if ((*j).x < x && (*j).y > y)
-                b |= 2;
-            if ((*j).x > x && (*j).y < y)
-                b |= 4;
-            if ((*j).x > x && (*j).y > y)
-                b |= 8;
-        }
-        if (b == 15) {
+    for (auto i = polygons.begin(); i != polygons.end(); ++i)
+        if ((*i).hasInnerPoint(x, y)) {
             netNumber = (*i).net;
             polygons.erase(i);
             return netNumber;
         }
-    }
 
     return -1;
 }
@@ -510,18 +484,18 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     }
 
     // Draw back polygons
+    fill = false;
     if (layers.draw & (1 << BACK_POLYGON_LAYER)) {
         painter.setPen(layers.color[BACK_LAYER]);
-        for (auto b : backPolygons)
+        for (auto b : backPolygons) {
             b.draw(painter, scale, backBrush);
+            if (b.fill)
+                fill = true;
+        }
     }
 
     // Draw back segments
     if (layers.draw & (1 << BACK_LAYER)) {
-        fill = false;
-        for (auto i = backPolygons.begin(); i != backPolygons.end(); ++i)
-            if ((*i).fill)
-                fill = true;
         if (fill) {
             drawSegments(backSegments, painter, whitePen, width, space, scale);
             if (layers.edit == FRONT_LAYER)
@@ -533,18 +507,30 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     }
 
     // Draw front polygons
+    fill = false;
     if (layers.draw & (1 << FRONT_POLYGON_LAYER)) {
         painter.setPen(layers.color[FRONT_LAYER]);
-        for (auto f : frontPolygons)
+        for (auto f : frontPolygons) {
             f.draw(painter, scale, frontBrush);
+            if (f.fill)
+                fill = true;
+        }
+    }
+
+    ElementDrawingOptions options;
+    options.fillPads = fillPads;
+    options.scale = scale;
+    options.fontSize = scale * fontScale * fontSize;
+    options.space = 0;
+
+    if (fill) {
+        options.space = space;
+        for (auto e : elements)
+            e.draw(painter, layers, options);
     }
 
     // Draw front segments
     if (layers.draw & (1 << FRONT_LAYER)) {
-        fill = false;
-        for (auto i = frontPolygons.begin(); i != frontPolygons.end(); ++i)
-            if ((*i).fill)
-                fill = true;
         if (fill) {
             drawSegments(frontSegments, painter, whitePen, width, space, scale);
             if (layers.edit == FRONT_LAYER)
@@ -555,12 +541,8 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
             drawSegments(track, painter, frontPen, width, 0, scale);
     }
 
-    ElementDrawingOptions options;
-    options.fillPads = fillPads;
-    options.scale = scale;
-    options.fontSize = scale * fontScale * fontSize;
-
     // Draw elements
+    options.space = 0;
     for (auto e : elements)
         e.draw(painter, layers, options);
 
@@ -673,26 +655,14 @@ void Board::fillPolygon(int x, int y)
 
 void Board::fillPolygon(int x, int y, std::list<Polygon> &polygons)
 {
-    for (auto i = polygons.begin(); i != polygons.end(); ++i) {
-        int b = 0;
-        for (auto j = (*i).points.begin(); j != (*i).points.end(); ++j) {
-            if ((*j).x < x && (*j).y < y)
-                b |= 1;
-            if ((*j).x < x && (*j).y > y)
-                b |= 2;
-            if ((*j).x > x && (*j).y < y)
-                b |= 4;
-            if ((*j).x > x && (*j).y > y)
-                b |= 8;
-        }
-        if (b == 15) {
+    for (auto i = polygons.begin(); i != polygons.end(); ++i)
+        if ((*i).hasInnerPoint(x, y)) {
             (*i).fill ^= 1;
             if ((*i).fill)
                 (*i).net = 0;
             else
                 (*i).net = -1;
         }
-    }
 }
 
 void Board::getNets()
@@ -990,19 +960,13 @@ void Board::readPackageLibrary(const QString &libraryname)
 // Reduce number of wires
 void Board::reduceSegments(std::list<Segment> &segments)
 {
-    std::list<Segment>::iterator i, j;
-
-    i = segments.end();
-    while (i != segments.begin()) {
-        --i;
-        j = segments.end();
-        --j;
-        while (j != i) {
+    for (auto i = segments.begin(); i != segments.end(); ++i)
+        for (auto j = segments.begin(); j != i;) {
             if (joinSegments(*i, *j))
-                segments.erase(j);
-            --j;
+                j = segments.erase(j);
+            else
+                ++j;
         }
-    }
 }
 
 bool Board::round45DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty,

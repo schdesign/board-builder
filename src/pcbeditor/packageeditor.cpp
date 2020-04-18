@@ -431,6 +431,7 @@ void PackageEditor::paintEvent(QPaintEvent *)
     options.fillPads = true;
     options.scale = scale;
     options.fontSize = 0;
+    options.space = 0;
     element.draw(painter, layers, options);
 }
 
