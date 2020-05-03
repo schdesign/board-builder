@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ViaOptions</class>
+ <widget class="QDialog" name="ViaOptions">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>300</width>
+    <height>200</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Via Options</string>
+  </property>
+  <widget class="QPushButton" name="cancelButton">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>160</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="okButton">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>160</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="diameterLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>65</x>
+     <y>35</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="innerDiameterLineEdit">
+   <property name="geometry">
+    <rect>
+     <x>65</x>
+     <y>105</y>
+     <width>80</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="diameterLabel">
+   <property name="geometry">
+    <rect>
+     <x>45</x>
+     <y>10</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Diameter</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="diameterLabel2">
+   <property name="geometry">
+    <rect>
+     <x>155</x>
+     <y>35</y>
+     <width>100</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>micrometers</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="innerDiameterLabel">
+   <property name="geometry">
+    <rect>
+     <x>155</x>
+     <y>105</y>
+     <width>100</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>micrometers</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="innerDiameterLabel2">
+   <property name="geometry">
+    <rect>
+     <x>45</x>
+     <y>80</y>
+     <width>120</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Inner diameter</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

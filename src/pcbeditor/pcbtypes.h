@@ -39,13 +39,16 @@ class Via
 {
 public:
     Via() {}
+    Via(int x, int y);
     Via(const QJsonValue &value);
+    void draw(QPainter &painter, int layerNumber, double scale, int space = 0);
+    bool exist(int x_, int y_);
     void fromJson(const QJsonValue &value);
     QJsonObject toJson();
 
-    int innerRadius;
+    int diameter;
+    int innerDiameter;
     int net;          // net number
-    int outerRadius;
     int x;            // center
     int y;
 };

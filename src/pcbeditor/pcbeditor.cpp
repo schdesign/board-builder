@@ -6,6 +6,7 @@
 #include "function.h"
 #include "jumperselector.h"
 #include "pcbeditor.h"
+#include "viaoptions.h"
 #include <cmath>
 #include <QFile>
 #include <QFileDialog>
@@ -34,6 +35,7 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     connect(actionSaveSVG, SIGNAL(triggered()), this, SLOT(saveSVG()));
     connect(actionSaveJSON, SIGNAL(triggered()), this, SLOT(saveJSON()));
     connect(actionElementOptions, SIGNAL(triggered()), this, SLOT(elementOptions()));
+    connect(actionViaOptions, SIGNAL(triggered()), this, SLOT(viaOptions()));
     connect(actionPackageEditor, SIGNAL(triggered()), this, SLOT(openPackageEditor()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
@@ -84,14 +86,14 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     QToolButton *tmpToolButton[toolButtons] =
     {
         connectJumperButton, createGroupsButton, decreaseStepButton, deleteButton,
-        deleteJumperButton, deleteJunctionButton, deleteNetSegmentsButton,
-        deletePolygonButton, deleteSegmentButton, disconnectJumperButton, fillPolygonButton,
-        increaseStepButton, meterButton, moveButton, moveDownButton, moveGroupButton,
-        moveLeftButton, moveRightButton, moveUpButton, noRoundTurnButton, placeElementsButton,
-        placeJumperButton, placeJunctionButton, placeLineButton, placePolygonButton,
-        placeSegmentButton, roundTurnButton, routeTracksButton, segmentNetsButton, selectButton,
-        setValueButton, showGroundNetsButton, tableRouteButton, turnToLeftButton,
-        turnToRightButton, updateNetsButton, waveRouteButton, zoomInButton, zoomOutButton
+        deleteJumperButton, deleteNetSegmentsButton, deletePolygonButton, deleteSegmentButton,
+        deleteViaButton, disconnectJumperButton, fillPolygonButton, increaseStepButton,
+        meterButton, moveButton, moveDownButton, moveGroupButton, moveLeftButton,
+        moveRightButton, moveUpButton, noRoundTurnButton, placeElementsButton, placeJumperButton,
+        placeLineButton, placePolygonButton, placeSegmentButton, placeViaButton, roundTurnButton,
+        routeTracksButton, segmentNetsButton, selectButton, setValueButton, showGroundNetsButton,
+        tableRouteButton, turnToLeftButton, turnToRightButton, updateNetsButton, waveRouteButton,
+        zoomInButton, zoomOutButton
     };
 
     std::copy(tmpToolButton, tmpToolButton + toolButtons, toolButton);
@@ -113,6 +115,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     spaceLineEdit->setText(str.setNum(space));
     turningRadius = defaultTurningRadius;
     turningRadiusLineEdit->setText(str.setNum(turningRadius));
+    viaDiameter = defaultViaDiameter;
+    viaInnerDiameter = defaultViaInnerDiameter;
     width = board.defaultLineWidth;
     widthLineEdit->setText(str.setNum(width));
     dx = gridX;
@@ -275,6 +279,9 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         case DELETE_SEGMENT:
             board.deleteSegment(x, y);
             break;
+        case DELETE_VIA:
+            board.deleteVia(x, y);
+            break;
         case DISCONNECT_JUMPER:
             board.disconnectJumper(x, y);
             break;
@@ -295,6 +302,9 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
             break;
         case PLACE_SEGMENT:
             board.addSegmentPoint(x, y, width);
+            break;
+        case PLACE_VIA:
+            board.addVia(x, y, viaDiameter, viaInnerDiameter);
             break;
         case ROUND_TURN:
             board.roundTurn(mpx, mpy, turningRadius);
@@ -503,19 +513,6 @@ void PcbEditor::saveJSON()
     writeLibraryFile("connectors.pkg", board.element.writePackages("Connector"));
     writeLibraryFile("devices.pkg", board.element.writePackages("Device"));
     writeLibraryFile("rcpackages.pkg", board.element.writePackages("RC"));
-}
-
-void PcbEditor::writeLibraryFile(QString filename, QJsonObject object)
-{
-    QFile file("library/json/" + filename);
-    if (!file.open(QIODevice::WriteOnly))
-        return;
-
-    QJsonDocument document(object);
-    QByteArray array(document.toJson());
-
-    file.write(array);
-    file.close();
 }
 
 void PcbEditor::selectCheckBox(int number)
@@ -742,4 +739,32 @@ void PcbEditor::selectToolButton(int number)
     }
 
     update();
+}
+
+void PcbEditor::viaOptions()
+{
+    ViaOptionsData options;
+    options.diameter = viaDiameter;
+    options.innerDiameter = viaInnerDiameter;
+
+    ViaOptions viaOptions(options);
+    int n = viaOptions.exec();
+
+    if (n == QDialog::Accepted) {
+        viaDiameter = options.diameter;
+        viaInnerDiameter = options.innerDiameter;
+    }
+}
+
+void PcbEditor::writeLibraryFile(QString filename, QJsonObject object)
+{
+    QFile file("library/json/" + filename);
+    if (!file.open(QIODevice::WriteOnly))
+        return;
+
+    QJsonDocument document(object);
+    QByteArray array(document.toJson());
+
+    file.write(array);
+    file.close();
 }

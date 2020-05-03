@@ -25,7 +25,8 @@ SOURCES += board.cpp \
     pcbtypes.cpp \
     router.cpp \
     text.cpp \
-    track.cpp
+    track.cpp \
+    viaoptions.cpp
 
 HEADERS += board.h \
     element.h \
@@ -39,12 +40,14 @@ HEADERS += board.h \
     pcbtypes.h \
     router.h \
     text.h \
-    track.h
+    track.h \
+    viaoptions.h
 
 FORMS += packageeditor.ui \
     elementoptions.ui \
     jumperselector.ui \
-    pcbeditor.ui
+    pcbeditor.ui \
+    viaoptions.ui
 
 RESOURCES += packageeditor.qrc \
     pcbeditor.qrc

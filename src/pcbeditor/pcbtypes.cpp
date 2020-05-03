@@ -1,6 +1,7 @@
 // pcbtypes.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
+#include "layers.h"
 #include "pcbtypes.h"
 #include <cmath>
 #include <QJsonArray>
@@ -105,24 +106,78 @@ QJsonObject Polygon::toJson()
     return object;
 }
 
+Via::Via(int x, int y):
+    x(x), y(y)
+{
+    diameter = 0;
+    innerDiameter = 0;
+    net = -1;
+}
+
 Via::Via(const QJsonValue &value)
 {
     QJsonObject object = value.toObject();
 
-    innerRadius = object["innerRadius"].toInt();
+    diameter = object["diameter"].toInt();
+    innerDiameter = object["innerDiameter"].toInt();
     net = object["net"].toInt();
-    outerRadius = object["outerRadius"].toInt();
     x = object["x"].toInt();
     y = object["y"].toInt();
+}
+
+void Via::draw(QPainter &painter, int layerNumber, double scale, int space)
+{
+    if (layerNumber != FRONT_VIA_LAYER && layerNumber != BACK_VIA_LAYER)
+        return;
+
+    int r = lround(scale * (diameter / 2 + space));
+    int inR = lround(scale * innerDiameter / 2);
+    int x2 = lround(scale * x) - r;
+    int y2 = lround(scale * y) - r;
+
+    QColor color(layerColors[layerNumber][0], layerColors[layerNumber][1],
+                 layerColors[layerNumber][2], 255);
+
+    if (space == 0) {
+        painter.setPen(color);
+        painter.setBrush(color);
+    }
+    else {
+        painter.setPen(Qt::white);
+        painter.setBrush(Qt::white);
+    }
+
+    QPainterPath path;
+    path.addRoundedRect(x2, y2, 2 * r, 2 * r, r, r);
+    painter.drawPath(path);
+
+    if (space == 0) {
+        painter.setPen(Qt::white);
+        painter.setBrush(Qt::white);
+        QPainterPath path2;
+        path2.addRoundedRect(x2 + r - inR, y2 + r - inR, 2 * inR, 2 * inR, inR, inR);
+        painter.drawPath(path2);
+    }
+}
+
+bool Via::exist(int x_, int y_)
+{
+    int r = diameter / 2;
+
+    if (r > 0)
+        if (lround(hypot((x_ - x), (y_ - y))) < r)
+            return true;
+
+    return false;
 }
 
 void Via::fromJson(const QJsonValue &value)
 {
     QJsonObject object = value.toObject();
 
-    innerRadius = object["innerRadius"].toInt();
+    diameter = object["diameter"].toInt();
+    innerDiameter = object["innerDiameter"].toInt();
     net = object["net"].toInt();
-    outerRadius = object["outerRadius"].toInt();
     x = object["x"].toInt();
     y = object["y"].toInt();
 }
@@ -131,9 +186,9 @@ QJsonObject Via::toJson()
 {
     QJsonObject object
     {
-        {"innerRadius", innerRadius},
+        {"diameter", diameter},
+        {"innerDiameter", innerDiameter},
         {"net", net},
-        {"outerRadius", outerRadius},
         {"x", x},
         {"y", y}
     };

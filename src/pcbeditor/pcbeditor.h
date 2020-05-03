@@ -40,10 +40,10 @@ class PcbEditor : public QMainWindow, private Ui::PcbEditor
     enum ToolButton
     {
         CONNECT_JUMPER, CREATE_GROUPS, DECREASE_STEP, DELETE, DELETE_JUMPER,
-        DELETE_JUNCTION, DELETE_NET_SEGMENTS, DELETE_POLYGON, DELETE_SEGMENT,
+        DELETE_NET_SEGMENTS, DELETE_POLYGON, DELETE_SEGMENT, DELETE_VIA,
         DISCONNECT_JUMPER, FILL_POLYGON, INCREASE_STEP, METER, MOVE, MOVE_DOWN,
         MOVE_GROUP, MOVE_LEFT, MOVE_RIGHT, MOVE_UP, NO_ROUND_TURN, PLACE_ELEMENTS,
-        PLACE_JUMPER, PLACE_JUNCTION, PLACE_LINE, PLACE_POLYGON, PLACE_SEGMENT,
+        PLACE_JUMPER, PLACE_LINE, PLACE_POLYGON, PLACE_SEGMENT, PLACE_VIA,
         ROUND_TURN, ROUTE_TRACKS, SEGMENT_NETS, SELECT, SET_VALUE, SHOW_GROUND_NETS,
         TABLE_ROUTE, TURN_TO_LEFT, TURN_TO_RIGHT, UPDATE_NETS, WAVE_ROUTE, ZOOM_IN,
         ZOOM_OUT
@@ -80,11 +80,14 @@ private slots:
     void selectPushButton(int number);
     void selectRadioButton();
     void selectToolButton(int number);
+    void viaOptions();
 
 private:
     constexpr static int defaultFontSize = 10;
     constexpr static int defaultGridNumber = 6;
     constexpr static int defaultTurningRadius = 2000;
+    constexpr static int defaultViaDiameter = 1000;
+    constexpr static int defaultViaInnerDiameter = 500;
     constexpr static int grids = 12;
     constexpr static int gridStep = 10;    // pixels
     constexpr static int gridX = 100;
@@ -122,6 +125,8 @@ private:
     int space;
     int step;
     int turningRadius;
+    int viaDiameter;
+    int viaInnerDiameter;
     int width;
     Board board;
     PackageEditor packageEditor;

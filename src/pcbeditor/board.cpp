@@ -124,9 +124,16 @@ void Board::addSegmentPoint(int x, int y, int width)
     pointNumber++;
 }
 
-void Board::addVia(int x, int y)
+void Board::addVia(int x, int y, int diameter, int innerDiameter)
 {
+    for (auto i = vias.begin(); i != vias.end(); ++i)
+        if ((*i).exist(x, y))
+            return;
 
+    Via v(x, y);
+    v.diameter = diameter;
+    v.innerDiameter = innerDiameter;
+    vias.push_back(v);
 }
 
 void Board::clear()
@@ -267,7 +274,11 @@ int Board::deleteSegment(int x, int y, std::list<Segment> &segments)
 
 void Board::deleteVia(int x, int y)
 {
-
+    for (auto i = vias.begin(); i != vias.end(); ++i)
+        if ((*i).exist(x, y)) {
+            vias.erase(i);
+            return;
+        }
 }
 
 void Board::disconnectJumper(int x, int y)
@@ -494,17 +505,29 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
         }
     }
 
+    if (fill) {
+        if (layers.draw & (1 << BACK_LAYER)) {
+            drawSegments(backSegments, painter, whitePen, width, scale, space);
+            if (layers.edit == BACK_LAYER)
+                drawSegments(track, painter, whitePen, width, scale, space);
+        }
+        if (!(layers.draw & (1 << FRONT_VIA_LAYER)) &&
+             (layers.draw & (1 << BACK_VIA_LAYER)))
+                for (auto v : vias)
+                    v.draw(painter, BACK_VIA_LAYER, scale, space);
+    }
+
     // Draw back segments
     if (layers.draw & (1 << BACK_LAYER)) {
-        if (fill) {
-            drawSegments(backSegments, painter, whitePen, width, space, scale);
-            if (layers.edit == FRONT_LAYER)
-                drawSegments(track, painter, whitePen, width, space, scale);
-        }
-        drawSegments(backSegments, painter, backPen, width, 0, scale);
-        if (layers.edit == FRONT_LAYER)
-            drawSegments(track, painter, backPen, width, 0, scale);
+        drawSegments(backSegments, painter, backPen, width, scale);
+        if (layers.edit == BACK_LAYER)
+            drawSegments(track, painter, backPen, width, scale);
     }
+
+    // Draw vias
+    if (!(layers.draw & (1 << FRONT_VIA_LAYER)) && (layers.draw & (1 << BACK_VIA_LAYER)))
+        for (auto v : vias)
+            v.draw(painter, BACK_VIA_LAYER, scale);
 
     // Draw front polygons
     fill = false;
@@ -524,27 +547,35 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     options.space = 0;
 
     if (fill) {
+        if (layers.draw & (1 << FRONT_LAYER)) {
+            drawSegments(frontSegments, painter, whitePen, width, scale, space);
+            if (layers.edit == FRONT_LAYER)
+                drawSegments(track, painter, whitePen, width, scale, space);
+        }
         options.space = space;
         for (auto e : elements)
             e.draw(painter, layers, options);
+        if (layers.draw & (1 << FRONT_VIA_LAYER))
+            for (auto v : vias)
+                v.draw(painter, FRONT_VIA_LAYER, scale, space);
     }
 
     // Draw front segments
     if (layers.draw & (1 << FRONT_LAYER)) {
-        if (fill) {
-            drawSegments(frontSegments, painter, whitePen, width, space, scale);
-            if (layers.edit == FRONT_LAYER)
-                drawSegments(track, painter, whitePen, width, space, scale);
-        }
-        drawSegments(frontSegments, painter, frontPen, width, 0, scale);
+        drawSegments(frontSegments, painter, frontPen, width, scale);
         if (layers.edit == FRONT_LAYER)
-            drawSegments(track, painter, frontPen, width, 0, scale);
+            drawSegments(track, painter, frontPen, width, scale);
     }
 
     // Draw elements
     options.space = 0;
     for (auto e : elements)
         e.draw(painter, layers, options);
+
+    // Draw vias
+    if (layers.draw & (1 << FRONT_VIA_LAYER))
+        for (auto v : vias)
+            v.draw(painter, FRONT_VIA_LAYER, scale);
 
     // Draw group
     //if (groupBorder.isValid()) {
@@ -602,22 +633,10 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     //    for (TrackIt i = tracks.begin(); i != tracks.end(); ++i)
     //        (*i).draw(painter);
     //}
-
-    // Draw vias
-    //if (layers.number & (1 << FRONT_VIA)) {
-    //    painter.setPen(layers.color[FRONT_VIA]);
-    //    for (ViaIt i = vias.begin(); i != vias.end(); ++i)
-    //        (*i).draw(painter);
-    //}
-    //else if (layers.number & (1 << BACK_VIA)) {
-    //    painter.setPen(layers.color[BACK_VIA]);
-    //    for (ViaIt i = vias.begin(); i != vias.end(); ++i)
-    //        (*i).draw(painter);
-    //}
 }
 
 void Board::drawSegments(const std::list<Segment> &segments, QPainter &painter,
-                         QPen &pen, int width, int space, double scale)
+                         QPen &pen, int width, double scale, int space)
 {
     pen.setWidth(width * scale);
     painter.setPen(pen);

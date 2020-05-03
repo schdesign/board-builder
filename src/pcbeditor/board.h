@@ -44,7 +44,7 @@ public:
     void addPolygon();
     void addToGroup(Group &group, int n1, int n2, int &groupNumber);
     void addTrack();
-    void addVia(int x, int y);
+    void addVia(int x, int y, int diameter, int innerDiameter);
     void clear();
     int compareLine(int greater, int *lineIndex, int lines,
                     int coordinate, double value);
@@ -61,7 +61,7 @@ public:
     void disconnectJumper(int x, int y);
     void draw(QPainter &painter, int fontSize, double scale);
     void drawSegments(const std::list<Segment> &segments, QPainter &painter,
-                      QPen &pen, int width, int space, double scale);
+                      QPen &pen, int width, double scale, int space = 0);
     void errorCheck(QString &text);
     void extendSpace(int netNumber);
     void fillPolygon(int x, int y);
