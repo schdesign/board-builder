@@ -1,12 +1,12 @@
 // pcbeditor.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
-#include "elementoptions.h"
 #include "exceptiondata.h"
 #include "function.h"
+#include "globaloptions.h"
 #include "jumperselector.h"
+#include "localoptions.h"
 #include "pcbeditor.h"
-#include "viaoptions.h"
 #include <cmath>
 #include <QFile>
 #include <QFileDialog>
@@ -34,8 +34,8 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     connect(actionSaveErrorCheck, SIGNAL(triggered()), this, SLOT(saveErrorCheck()));
     connect(actionSaveSVG, SIGNAL(triggered()), this, SLOT(saveSVG()));
     connect(actionSaveJSON, SIGNAL(triggered()), this, SLOT(saveJSON()));
-    connect(actionElementOptions, SIGNAL(triggered()), this, SLOT(elementOptions()));
-    connect(actionViaOptions, SIGNAL(triggered()), this, SLOT(viaOptions()));
+    connect(actionGlobalOptions, SIGNAL(triggered()), this, SLOT(globalOptions()));
+    connect(actionLocalOptions, SIGNAL(triggered()), this, SLOT(localOptions()));
     connect(actionPackageEditor, SIGNAL(triggered()), this, SLOT(openPackageEditor()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
@@ -175,12 +175,12 @@ void PcbEditor::closeFile()
     // buttonsSetEnabled("000000");
 }
 
-void PcbEditor::elementOptions()
+void PcbEditor::globalOptions()
 {
-    ElementOptionsData options;
+    GlobalOptionsData options;
     options.padCornerRadius = Element::padCornerRadius;
 
-    ElementOptions elementOptions(options);
+    GlobalOptions elementOptions(options);
     int n = elementOptions.exec();
 
     if (n == QDialog::Accepted) {
@@ -211,6 +211,21 @@ void PcbEditor::keyPressEvent(QKeyEvent *event)
     }
 
     update(); */
+}
+
+void PcbEditor::localOptions()
+{
+    LocalOptionsData options;
+    options.viaDiameter = viaDiameter;
+    options.viaInnerDiameter = viaInnerDiameter;
+
+    LocalOptions viaOptions(options);
+    int n = viaOptions.exec();
+
+    if (n == QDialog::Accepted) {
+        viaDiameter = options.viaDiameter;
+        viaInnerDiameter = options.viaInnerDiameter;
+    }
 }
 
 void PcbEditor::mousePressEvent(QMouseEvent *event)
@@ -739,21 +754,6 @@ void PcbEditor::selectToolButton(int number)
     }
 
     update();
-}
-
-void PcbEditor::viaOptions()
-{
-    ViaOptionsData options;
-    options.diameter = viaDiameter;
-    options.innerDiameter = viaInnerDiameter;
-
-    ViaOptions viaOptions(options);
-    int n = viaOptions.exec();
-
-    if (n == QDialog::Accepted) {
-        viaDiameter = options.diameter;
-        viaInnerDiameter = options.innerDiameter;
-    }
 }
 
 void PcbEditor::writeLibraryFile(QString filename, QJsonObject object)

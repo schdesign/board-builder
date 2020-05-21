@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ElementOptions</class>
- <widget class="QDialog" name="ElementOptions">
+ <class>GlobalOptions</class>
+ <widget class="QDialog" name="GlobalOptions">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -39,7 +39,7 @@
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="absoluteRadiusLineEdit">
+  <widget class="QLineEdit" name="padAbsoluteRadiusLineEdit">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -52,7 +52,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="relativeRadiusLineEdit">
+  <widget class="QLineEdit" name="padRelativeRadiusLineEdit">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -65,7 +65,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="radiusLabel">
+  <widget class="QLabel" name="padCornerRadiusLabel">
    <property name="geometry">
     <rect>
      <x>70</x>
@@ -81,7 +81,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QRadioButton" name="absoluteRadiusRadioButton">
+  <widget class="QRadioButton" name="padAbsoluteRadiusRadioButton">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -97,7 +97,7 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QRadioButton" name="relativeRadiusRadioButton">
+  <widget class="QRadioButton" name="padRelativeRadiusRadioButton">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -110,7 +110,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QLabel" name="absoluteRadiusLabel">
+  <widget class="QLabel" name="padAbsoluteRadiusLabel">
    <property name="geometry">
     <rect>
      <x>160</x>
@@ -126,7 +126,7 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="relativeRadiusLabel">
+  <widget class="QLabel" name="padRelativeRadiusLabel">
    <property name="geometry">
     <rect>
      <x>160</x>

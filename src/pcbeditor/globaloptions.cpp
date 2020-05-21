@@ -1,13 +1,13 @@
-// elementoptions.cpp
+// globaloptions.cpp
 // Copyright (C) 2020 Alexander Karpeko
 
 #include "element.h"
-#include "elementoptions.h"
+#include "globaloptions.h"
 #include "function.h"
 #include "types.h"
 #include <cmath>
 
-ElementOptions::ElementOptions(ElementOptionsData &options, QWidget *parent):
+GlobalOptions::GlobalOptions(GlobalOptionsData &options, QWidget *parent):
     QDialog(parent), options(&options)
 {
     setupUi(this);
@@ -18,7 +18,7 @@ ElementOptions::ElementOptions(ElementOptionsData &options, QWidget *parent):
 
     QRadioButton *tmpRadioButton[radioButtons] =
     {
-        absoluteRadiusRadioButton, relativeRadiusRadioButton
+        padAbsoluteRadiusRadioButton, padRelativeRadiusRadioButton
     };
 
     std::copy(tmpRadioButton, tmpRadioButton + radioButtons, radioButton);
@@ -29,12 +29,12 @@ ElementOptions::ElementOptions(ElementOptionsData &options, QWidget *parent):
     init();
 }
 
-void ElementOptions::accept()
+void GlobalOptions::accept()
 {
     bool ok;
 
-    if (padCornerRadiusType == ABSOLUTE_RADIUS) {
-        int n = absoluteRadiusLineEdit->text().toInt(&ok);
+    if (padCornerRadiusType == PAD_ABSOLUTE_RADIUS) {
+        int n = padAbsoluteRadiusLineEdit->text().toInt(&ok);
         if (ok) {
             if (n >= 0 && n <= lround(Element::maxPadCornerRadius)) {
                 options->padCornerRadius = n;
@@ -45,11 +45,11 @@ void ElementOptions::accept()
                 padCornerRadius = n;
             }
         }
-        absoluteRadiusLineEdit->setText(QString::number(lround(padCornerRadius)));
+        padAbsoluteRadiusLineEdit->setText(QString::number(lround(padCornerRadius)));
         return;
     }
     else {
-        double d = relativeRadiusLineEdit->text().toDouble(&ok);
+        double d = padRelativeRadiusLineEdit->text().toDouble(&ok);
         if (ok) {
             if (d > Element::minPadCornerRadius - minValue && d < 0.5 + minValue) {
                 options->padCornerRadius = d;
@@ -63,17 +63,17 @@ void ElementOptions::accept()
                 padCornerRadius = d;
             }
         }
-        relativeRadiusLineEdit->setText(QString::number(padCornerRadius));
+        padRelativeRadiusLineEdit->setText(QString::number(padCornerRadius));
         return;
     }
 }
 
-void ElementOptions::init()
+void GlobalOptions::init()
 {
     double r = options->padCornerRadius;
 
     padCornerRadius = 0;
-    padCornerRadiusType = ABSOLUTE_RADIUS;
+    padCornerRadiusType = PAD_ABSOLUTE_RADIUS;
 
     if (r > 1 - minValue) {
         if (r > Element::maxPadCornerRadius)
@@ -83,30 +83,30 @@ void ElementOptions::init()
 
     if (r > Element::minPadCornerRadius - minValue && r < 0.5 + minValue) {
         padCornerRadius = r;
-        padCornerRadiusType = RELATIVE_RADIUS;
+        padCornerRadiusType = PAD_RELATIVE_RADIUS;
     }
 
-    if (padCornerRadiusType == ABSOLUTE_RADIUS) {
-        absoluteRadiusLineEdit->setText(QString::number(lround(padCornerRadius)));
-        absoluteRadiusRadioButton->click();
+    if (padCornerRadiusType == PAD_ABSOLUTE_RADIUS) {
+        padAbsoluteRadiusLineEdit->setText(QString::number(lround(padCornerRadius)));
+        padAbsoluteRadiusRadioButton->click();
     }
     else {
-        relativeRadiusLineEdit->setText(QString::number(padCornerRadius));
-        relativeRadiusRadioButton->click();
+        padRelativeRadiusLineEdit->setText(QString::number(padCornerRadius));
+        padRelativeRadiusRadioButton->click();
     }
 }
 
-void ElementOptions::selectRadioButton(int number)
+void GlobalOptions::selectRadioButton(int number)
 {
     switch (number) {
-    case ABSOLUTE_RADIUS:
-        absoluteRadiusLineEdit->setReadOnly(false);
-        relativeRadiusLineEdit->setReadOnly(true);
+    case PAD_ABSOLUTE_RADIUS:
+        padAbsoluteRadiusLineEdit->setReadOnly(false);
+        padRelativeRadiusLineEdit->setReadOnly(true);
         padCornerRadiusType = number;
         break;
-    case RELATIVE_RADIUS:
-        absoluteRadiusLineEdit->setReadOnly(true);
-        relativeRadiusLineEdit->setReadOnly(false);
+    case PAD_RELATIVE_RADIUS:
+        padAbsoluteRadiusLineEdit->setReadOnly(true);
+        padRelativeRadiusLineEdit->setReadOnly(false);
         padCornerRadiusType = number;
         break;
     }

@@ -2857,8 +2857,8 @@
     <property name="title">
      <string>Options</string>
     </property>
-    <addaction name="actionElementOptions"/>
-    <addaction name="actionViaOptions"/>
+    <addaction name="actionGlobalOptions"/>
+    <addaction name="actionLocalOptions"/>
    </widget>
    <widget class="QMenu" name="menuBuild">
     <property name="title">
@@ -2907,9 +2907,9 @@
     <string>Save</string>
    </property>
   </action>
-  <action name="actionElementOptions">
+  <action name="actionGlobalOptions">
    <property name="text">
-    <string>Element</string>
+    <string>Global</string>
    </property>
   </action>
   <action name="actionCloseFile">
@@ -2962,9 +2962,9 @@
     <string>About</string>
    </property>
   </action>
-  <action name="actionViaOptions">
+  <action name="actionLocalOptions">
    <property name="text">
-    <string>Via</string>
+    <string>Local</string>
    </property>
   </action>
  </widget>

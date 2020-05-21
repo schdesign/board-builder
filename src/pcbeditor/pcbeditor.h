@@ -67,7 +67,8 @@ private:
 private slots:
     void about();
     void closeFile();
-    void elementOptions();
+    void globalOptions();
+    void localOptions();
     void newFile();
     void openFile();
     void openPackageEditor();
@@ -80,7 +81,6 @@ private slots:
     void selectPushButton(int number);
     void selectRadioButton();
     void selectToolButton(int number);
-    void viaOptions();
 
 private:
     constexpr static int defaultFontSize = 10;

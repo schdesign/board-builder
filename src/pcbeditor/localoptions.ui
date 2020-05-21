@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ViaOptions</class>
- <widget class="QDialog" name="ViaOptions">
+ <class>LocalOptions</class>
+ <widget class="QDialog" name="LocalOptions">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -39,7 +39,7 @@
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="diameterLineEdit">
+  <widget class="QLineEdit" name="viaDiameterLineEdit">
    <property name="geometry">
     <rect>
      <x>65</x>
@@ -52,7 +52,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLineEdit" name="innerDiameterLineEdit">
+  <widget class="QLineEdit" name="viaInnerDiameterLineEdit">
    <property name="geometry">
     <rect>
      <x>65</x>
@@ -65,7 +65,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="diameterLabel">
+  <widget class="QLabel" name="viaDiameterLabel">
    <property name="geometry">
     <rect>
      <x>45</x>
@@ -75,13 +75,13 @@
     </rect>
    </property>
    <property name="text">
-    <string>Diameter</string>
+    <string>Via diameter</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="diameterLabel2">
+  <widget class="QLabel" name="viaDiameterLabel2">
    <property name="geometry">
     <rect>
      <x>155</x>
@@ -94,7 +94,7 @@
     <string>micrometers</string>
    </property>
   </widget>
-  <widget class="QLabel" name="innerDiameterLabel">
+  <widget class="QLabel" name="viaInnerDiameterLabel2">
    <property name="geometry">
     <rect>
      <x>155</x>
@@ -107,17 +107,17 @@
     <string>micrometers</string>
    </property>
   </widget>
-  <widget class="QLabel" name="innerDiameterLabel2">
+  <widget class="QLabel" name="viaInnerDiameterLabel">
    <property name="geometry">
     <rect>
-     <x>45</x>
+     <x>35</x>
      <y>80</y>
-     <width>120</width>
+     <width>140</width>
      <height>25</height>
     </rect>
    </property>
    <property name="text">
-    <string>Inner diameter</string>
+    <string>Via inner diameter</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

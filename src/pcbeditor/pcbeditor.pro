@@ -15,39 +15,39 @@ include(../common/common.pri)
 
 SOURCES += board.cpp \
     element.cpp \
-    elementoptions.cpp \
     function.cpp \
+    globaloptions.cpp \
     jumperselector.cpp \
     layers.cpp \
+    localoptions.cpp \
     main.cpp \
     packageeditor.cpp \
     pcbeditor.cpp \
     pcbtypes.cpp \
     router.cpp \
     text.cpp \
-    track.cpp \
-    viaoptions.cpp
+    track.cpp
 
 HEADERS += board.h \
     element.h \
-    elementoptions.h \
     exceptiondata.h \
     function.h \
+    globaloptions.h \
     jumperselector.h \
     layers.h \
+    localoptions.h \
     packageeditor.h \
     pcbeditor.h \
     pcbtypes.h \
     router.h \
     text.h \
-    track.h \
-    viaoptions.h
+    track.h
 
-FORMS += packageeditor.ui \
-    elementoptions.ui \
+FORMS += globaloptions.ui \
     jumperselector.ui \
-    pcbeditor.ui \
-    viaoptions.ui
+    localoptions.ui \
+    packageeditor.ui \
+    pcbeditor.ui
 
 RESOURCES += packageeditor.qrc \
     pcbeditor.qrc
