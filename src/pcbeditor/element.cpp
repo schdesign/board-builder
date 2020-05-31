@@ -13,8 +13,9 @@ double Element::padCornerRadius = 0;
 std::vector<Package> Element::packages;
 
 Element::Element(int refX, int refY, int orientation, const QString &name,
-                 const QString &packageName, const QString &reference, bool hasOptions):
-    orientation(orientation), refX(refX), refY(refY),
+                 const QString &packageName, const QString &reference,
+                 bool onTop, bool hasOptions):
+    onTop(onTop), orientation(orientation), refX(refX), refY(refY),
     name(name), packageName(packageName), reference(reference)
 {
     for (uint i = 0; i < packages.size(); i++) {
@@ -35,8 +36,9 @@ Element::Element(int refX, int refY, int orientation, const QString &name,
 }
 
 Element::Element(int refX, int refY, int orientation, const QString &name,
-                 const Package &package, const QString &reference, bool hasOptions):
-    orientation(orientation), refX(refX), refY(refY),
+                 const Package &package, const QString &reference,
+                 bool onTop, bool hasOptions):
+    onTop(onTop), orientation(orientation), refX(refX), refY(refY),
     name(name), packageName(package.name), reference(reference)
 {
     isJumper = false;
@@ -50,6 +52,10 @@ Element::Element(int refX, int refY, int orientation, const QString &name,
 Element::Element(const QJsonObject &object, bool hasOptions)
 {
     isJumper = object["isJumper"].toBool();
+
+    onTop = true;
+    if (!(object["onTop"].isUndefined()))
+        onTop = object["onTop"].toBool();
 
     reference = object["reference"].toString();
     name = object["name"].toString();
@@ -99,6 +105,10 @@ Element::Element(const QJsonObject &object, int refX, int refY, bool hasOptions)
     refX(refX), refY(refY)
 {
     isJumper = object["isJumper"].toBool();
+
+    onTop = true;
+    if (!(object["onTop"].isUndefined()))
+        onTop = object["onTop"].toBool();
 
     reference = object["reference"].toString();
     name = object["name"].toString();
@@ -152,11 +162,11 @@ void Element::draw(QPainter &painter, const Layers &layers,
     const int &fontSize = options.fontSize;
     const int &space = scale * options.space;
 
-    if (layers.draw & (1 << PAD_LAYER)) {
+    if (layers.draw & (1 << TOP_PAD_LAYER)) {
         if (space != 0)
             painter.setPen(QColor(255, 255, 255));
         else
-            painter.setPen(layers.color[PAD_LAYER]);
+            painter.setPen(layers.color[TOP_PAD_LAYER]);
         for (auto p : pads) {
             d = scale * p.diameter;
             h = scale * p.height;
@@ -181,7 +191,7 @@ void Element::draw(QPainter &painter, const Layers &layers,
             QPainterPath path;
             path.addRoundedRect(x, y, w, h, rx, ry);
             if (fillPads && space == 0)
-                painter.setBrush(layers.color[PAD_LAYER]);
+                painter.setBrush(layers.color[TOP_PAD_LAYER]);
             else
                 painter.setBrush(QColor(255, 255, 255));
             painter.drawPath(path);
@@ -196,8 +206,8 @@ void Element::draw(QPainter &painter, const Layers &layers,
         }
     }
 
-    if (layers.draw & (1 << PACKAGE_LAYER)) {
-        painter.setPen(layers.color[PACKAGE_LAYER]);
+    if (layers.draw & (1 << TOP_PACKAGE_LAYER)) {
+        painter.setPen(layers.color[TOP_PACKAGE_LAYER]);
         for (auto e : ellipses)
             painter.drawEllipse(scale * (e.x - e.w / 2),
                                 scale * (e.y - e.h / 2),
@@ -207,8 +217,8 @@ void Element::draw(QPainter &painter, const Layers &layers,
                              scale * l.x2, scale * l.y2);
     }
 
-    if (layers.draw & (1 << NAME_LAYER)) {
-        painter.setPen(layers.color[NAME_LAYER]);
+    if (layers.draw & (1 << TOP_NAME_LAYER)) {
+        painter.setPen(layers.color[TOP_NAME_LAYER]);
         w = fontSize * name.size();
         h = fontSize;
         x = scale * centerX - w / 2;
@@ -219,8 +229,8 @@ void Element::draw(QPainter &painter, const Layers &layers,
         painter.drawText(x, y, w, h, align, name);
     }
 
-    if (layers.draw & (1 << REFERENCE_LAYER)) {
-        painter.setPen(layers.color[REFERENCE_LAYER]);
+    if (layers.draw & (1 << TOP_REFERENCE_LAYER)) {
+        painter.setPen(layers.color[TOP_REFERENCE_LAYER]);
         w = fontSize * name.size();
         h = fontSize;
         x = scale * centerX - w / 2;
@@ -411,13 +421,14 @@ QJsonObject Element::toJson()
     QJsonObject object
     {
         {"isJumper", isJumper},
-        {"reference", reference},
         {"name", name},
-        {"package", packageName},
-        {"refX", refX},
-        {"refY", refY},
+        {"onTop", onTop},
         {"orientation", orientationString},
-        {"pads", elementPads}
+        {"package", packageName},
+        {"pads", elementPads},
+        {"reference", reference},
+        {"refX", refX},
+        {"refY", refY}
     };
 
     return object;

@@ -15,16 +15,16 @@
 #include <QSignalMapper>
 #include <QToolButton>
 
-const static char *boardDirectory = "";
+static const char *boardDirectory = "";
 
 class PcbEditor : public QMainWindow, private Ui::PcbEditor
 {
     Q_OBJECT
 
-    constexpr static int checkBoxes = 3;
-    constexpr static int pushButtons = 10;
-    constexpr static int radioButtons = 4;
-    constexpr static int toolButtons = 39;
+    static constexpr int checkBoxes = 3;
+    static constexpr int pushButtons = 10;
+    static constexpr int radioButtons = 4;
+    static constexpr int toolButtons = 39;
 
     enum CheckBox
     {
@@ -83,29 +83,29 @@ private slots:
     void selectToolButton(int number);
 
 private:
-    constexpr static int defaultFontSize = 10;
-    constexpr static int defaultGridNumber = 6;
-    constexpr static int defaultTurningRadius = 2000;
-    constexpr static int defaultViaDiameter = 1000;
-    constexpr static int defaultViaInnerDiameter = 500;
-    constexpr static int grids = 12;
-    constexpr static int gridStep = 10;    // pixels
-    constexpr static int gridX = 100;
-    constexpr static int gridY = 30;
-    constexpr static int gridCenterX = 570;
-    constexpr static int gridCenterY = 400;
-    constexpr static int spaceStep = 100;  // um
-    constexpr static int widthStep = 100;
-    constexpr static int maxX = 10000;
-    constexpr static int maxY = 10000;
-    constexpr static int minFontSize = 1;
-    constexpr static int maxFontSize = 100;
-    constexpr static int minSpace = 100;
-    constexpr static int maxSpace = 100000;
-    constexpr static int minTurningRadius = 1;
-    constexpr static int maxTurningRadius = 1000000;
-    constexpr static int minWidth = 100;
-    constexpr static int maxWidth = 100000;
+    static constexpr int defaultFontSize = 10;
+    static constexpr int defaultGridNumber = 6;
+    static constexpr int defaultTurningRadius = 2000;
+    static constexpr int defaultViaDiameter = 1000;
+    static constexpr int defaultViaInnerDiameter = 500;
+    static constexpr int grids = 12;
+    static constexpr int gridStep = 10;    // pixels
+    static constexpr int gridX = 100;
+    static constexpr int gridY = 30;
+    static constexpr int gridCenterX = 570;
+    static constexpr int gridCenterY = 400;
+    static constexpr int spaceStep = 100;  // um
+    static constexpr int widthStep = 100;
+    static constexpr int maxX = 10000;
+    static constexpr int maxY = 10000;
+    static constexpr int minFontSize = 1;
+    static constexpr int maxFontSize = 100;
+    static constexpr int minSpace = 100;
+    static constexpr int maxSpace = 100000;
+    static constexpr int minTurningRadius = 1;
+    static constexpr int maxTurningRadius = 1000000;
+    static constexpr int minWidth = 100;
+    static constexpr int maxWidth = 100000;
     const int grid[grids] =  // um in grid step
     {
         50, 100, 125, 200, 250, 500, 1000,

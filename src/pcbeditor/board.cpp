@@ -35,7 +35,8 @@ Board::Board()
 
 void Board::addJumper(const QString &packageName, int x, int y)
 {
-    Element element(x, y, Element::UP, "", packageName, "");
+    bool onTop = layers.edit == TOP_LAYER;
+    Element element(x, y, Element::UP, "", packageName, "", onTop);
     element.isJumper = true;
     for (auto &p : element.pads)
         p.net = -1;
@@ -61,19 +62,19 @@ void Board::addPolygon()
         return;
     }
 
-    if (layers.edit == FRONT_LAYER) {
+    if (layers.edit == TOP_LAYER) {
         polygon.fill = false;
         polygon.net = -1;
         polygon.points.resize(points2.size());
         std::copy(points2.begin(), points2.end(), polygon.points.begin());
-        frontPolygons.push_back(polygon);
+        topPolygons.push_back(polygon);
     }
-    if (layers.edit == BACK_LAYER) {
+    if (layers.edit == BOTTOM_LAYER) {
         polygon.fill = false;
         polygon.net = -1;
         polygon.points.resize(points2.size());
         std::copy(points2.begin(), points2.end(), polygon.points.begin());
-        backPolygons.push_back(polygon);
+        bottomPolygons.push_back(polygon);
     }
     if (layers.edit == BORDER_LAYER) {
         border.fill = false;
@@ -89,12 +90,12 @@ void Board::addPolygon()
 void Board::addTrack()
 {
     reduceSegments(track);
-    if (layers.edit == FRONT_LAYER)
+    if (layers.edit == TOP_LAYER)
         for (auto &t : track)
-            frontSegments.push_back(t);
-    if (layers.edit == BACK_LAYER)
+            topSegments.push_back(t);
+    if (layers.edit == BOTTOM_LAYER)
         for (auto &t : track)
-            backSegments.push_back(t);
+            bottomSegments.push_back(t);
     track.clear();
     pointNumber = 0;
 }
@@ -138,11 +139,11 @@ void Board::addVia(int x, int y, int diameter, int innerDiameter)
 
 void Board::clear()
 {
-    frontPolygons.clear();
-    backPolygons.clear();
+    topPolygons.clear();
+    bottomPolygons.clear();
     border.points.clear();
-    frontSegments.clear();
-    backSegments.clear();
+    topSegments.clear();
+    bottomSegments.clear();
     vias.clear();
     elements.clear();
     nets.clear();
@@ -205,11 +206,11 @@ void Board::deleteNetSegments(int x, int y)
     int netNumber = -1;
     std::list<Segment> *s = nullptr;
 
-    if (layers.edit == FRONT_LAYER)
-        s = &frontSegments;
+    if (layers.edit == TOP_LAYER)
+        s = &topSegments;
 
-    if (layers.edit == BACK_LAYER)
-        s = &backSegments;
+    if (layers.edit == BOTTOM_LAYER)
+        s = &bottomSegments;
 
     if (!s)
         return;
@@ -226,11 +227,11 @@ void Board::deleteNetSegments(int x, int y)
 
 void Board::deletePolygon(int x, int y)
 {
-    if (layers.edit == FRONT_LAYER)
-        deletePolygon(x, y, frontPolygons);
+    if (layers.edit == TOP_LAYER)
+        deletePolygon(x, y, topPolygons);
 
-    if (layers.edit == BACK_LAYER)
-        deletePolygon(x, y, backPolygons);
+    if (layers.edit == BOTTOM_LAYER)
+        deletePolygon(x, y, bottomPolygons);
 
     if (layers.edit == BORDER_LAYER)
         if (border.hasInnerPoint(x, y))
@@ -253,11 +254,11 @@ int Board::deletePolygon(int x, int y, std::list<Polygon> &polygons)
 
 void Board::deleteSegment(int x, int y)
 {
-    if (layers.edit == FRONT_LAYER)
-        deleteSegment(x, y, frontSegments);
+    if (layers.edit == TOP_LAYER)
+        deleteSegment(x, y, topSegments);
 
-    if (layers.edit == BACK_LAYER)
-        deleteSegment(x, y, backSegments);
+    if (layers.edit == BOTTOM_LAYER)
+        deleteSegment(x, y, bottomSegments);
 }
 
 int Board::deleteSegment(int x, int y, std::list<Segment> &segments)
@@ -314,8 +315,8 @@ void Board::draw(QPainter &painter, double scale)
     double x1, y1, x2, y2;
     QFont serifFont("Times", 10, QFont::Normal);
     painter.setFont(serifFont);
-    QBrush frontBrush(layers.color[FRONT]);
-    QPen frontPen(frontBrush, 600 * scale, Qt::SolidLine,
+    QBrush topBrush(layers.color[TOP_LAYER]);
+    QPen topPen(topBrush, 600 * scale, Qt::SolidLine,
                   Qt::RoundCap, Qt::RoundJoin);
     QString str;
 
@@ -404,8 +405,8 @@ void Board::draw(QPainter &painter, double scale)
     int x1, y1, x2, y2;
     QFont serifFont("Times", 10, QFont::Normal);
     painter.setFont(serifFont);
-    QBrush frontBrush(layers.color[FRONT]);
-    QPen frontPen(frontBrush, 600 * scale, Qt::SolidLine,
+    QBrush topBrush(layers.color[TOP_LAYER]);
+    QPen topPen(topBrush, 600 * scale, Qt::SolidLine,
                   Qt::RoundCap, Qt::RoundJoin);
     QString str;
 
@@ -479,12 +480,12 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     int width = defaultLineWidth;
     QFont serifFont("Times", scale * fontScale * fontSize, QFont::Normal);
     painter.setFont(serifFont);
-    QBrush frontBrush(layers.color[FRONT_LAYER]);
-    QBrush backBrush(layers.color[BACK_LAYER]);
+    QBrush topBrush(layers.color[TOP_LAYER]);
+    QBrush bottomBrush(layers.color[BOTTOM_LAYER]);
     QBrush borderBrush(layers.color[BORDER_LAYER]);
     QBrush whiteBrush(QColor(255, 255, 255, 255));
-    QPen frontPen(frontBrush, width * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-    QPen backPen(backBrush, width * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    QPen topPen(topBrush, width * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    QPen bottomPen(bottomBrush, width * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     QPen borderPen(borderBrush, 500 * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
     QPen whitePen(whiteBrush, width * scale, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 
@@ -494,48 +495,52 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
         border.draw(painter, scale, whiteBrush);
     }
 
-    // Draw back polygons
+    // Draw bottom polygons
     fill = false;
-    if (layers.draw & (1 << BACK_POLYGON_LAYER)) {
-        painter.setPen(layers.color[BACK_LAYER]);
-        for (auto b : backPolygons) {
-            b.draw(painter, scale, backBrush);
+    if (layers.draw & (1 << BOTTOM_POLYGON_LAYER)) {
+        painter.setPen(layers.color[BOTTOM_LAYER]);
+        for (auto b : bottomPolygons) {
+            b.draw(painter, scale, bottomBrush);
             if (b.fill)
                 fill = true;
         }
     }
 
     if (fill) {
-        if (layers.draw & (1 << BACK_LAYER)) {
-            drawSegments(backSegments, painter, whitePen, width, scale, space);
-            if (layers.edit == BACK_LAYER)
+        if (layers.draw & (1 << BOTTOM_LAYER)) {
+            drawSegments(bottomSegments, painter, whitePen, width, scale, space);
+            if (layers.edit == BOTTOM_LAYER)
                 drawSegments(track, painter, whitePen, width, scale, space);
         }
-        if (!(layers.draw & (1 << FRONT_VIA_LAYER)) &&
-             (layers.draw & (1 << BACK_VIA_LAYER)))
+        if (!(layers.draw & (1 << TOP_VIA_LAYER)) &&
+             (layers.draw & (1 << BOTTOM_VIA_LAYER)))
                 for (auto v : vias)
-                    v.draw(painter, BACK_VIA_LAYER, scale, space);
+                    v.draw(painter, BOTTOM_VIA_LAYER, scale, space);
     }
 
+    // Draw bottom solder mask
+    if (layers.draw & (1 << BOTTOM_MASK_LAYER))
+        drawSolderMask(painter, BOTTOM_MASK_LAYER, scale);
+
     // Draw back segments
-    if (layers.draw & (1 << BACK_LAYER)) {
-        drawSegments(backSegments, painter, backPen, width, scale);
-        if (layers.edit == BACK_LAYER)
-            drawSegments(track, painter, backPen, width, scale);
+    if (layers.draw & (1 << BOTTOM_LAYER)) {
+        drawSegments(bottomSegments, painter, bottomPen, width, scale);
+        if (layers.edit == BOTTOM_LAYER)
+            drawSegments(track, painter, bottomPen, width, scale);
     }
 
     // Draw vias
-    if (!(layers.draw & (1 << FRONT_VIA_LAYER)) && (layers.draw & (1 << BACK_VIA_LAYER)))
+    if (!(layers.draw & (1 << TOP_VIA_LAYER)) && (layers.draw & (1 << BOTTOM_VIA_LAYER)))
         for (auto v : vias)
-            v.draw(painter, BACK_VIA_LAYER, scale);
+            v.draw(painter, BOTTOM_VIA_LAYER, scale);
 
     // Draw front polygons
     fill = false;
-    if (layers.draw & (1 << FRONT_POLYGON_LAYER)) {
-        painter.setPen(layers.color[FRONT_LAYER]);
-        for (auto f : frontPolygons) {
-            f.draw(painter, scale, frontBrush);
-            if (f.fill)
+    if (layers.draw & (1 << TOP_POLYGON_LAYER)) {
+        painter.setPen(layers.color[TOP_LAYER]);
+        for (auto t : topPolygons) {
+            t.draw(painter, scale, topBrush);
+            if (t.fill)
                 fill = true;
         }
     }
@@ -547,24 +552,28 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     options.space = 0;
 
     if (fill) {
-        if (layers.draw & (1 << FRONT_LAYER)) {
-            drawSegments(frontSegments, painter, whitePen, width, scale, space);
-            if (layers.edit == FRONT_LAYER)
+        if (layers.draw & (1 << TOP_LAYER)) {
+            drawSegments(topSegments, painter, whitePen, width, scale, space);
+            if (layers.edit == TOP_LAYER)
                 drawSegments(track, painter, whitePen, width, scale, space);
         }
         options.space = space;
         for (auto e : elements)
             e.draw(painter, layers, options);
-        if (layers.draw & (1 << FRONT_VIA_LAYER))
+        if (layers.draw & (1 << TOP_VIA_LAYER))
             for (auto v : vias)
-                v.draw(painter, FRONT_VIA_LAYER, scale, space);
+                v.draw(painter, TOP_VIA_LAYER, scale, space);
     }
 
+    // Draw top solder mask
+    if (layers.draw & (1 << TOP_MASK_LAYER))
+        drawSolderMask(painter, TOP_MASK_LAYER, scale);
+
     // Draw front segments
-    if (layers.draw & (1 << FRONT_LAYER)) {
-        drawSegments(frontSegments, painter, frontPen, width, scale);
-        if (layers.edit == FRONT_LAYER)
-            drawSegments(track, painter, frontPen, width, scale);
+    if (layers.draw & (1 << TOP_LAYER)) {
+        drawSegments(topSegments, painter, topPen, width, scale);
+        if (layers.edit == TOP_LAYER)
+            drawSegments(track, painter, topPen, width, scale);
     }
 
     // Draw elements
@@ -573,9 +582,9 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
         e.draw(painter, layers, options);
 
     // Draw vias
-    if (layers.draw & (1 << FRONT_VIA_LAYER))
+    if (layers.draw & (1 << TOP_VIA_LAYER))
         for (auto v : vias)
-            v.draw(painter, FRONT_VIA_LAYER, scale);
+            v.draw(painter, TOP_VIA_LAYER, scale);
 
     // Draw group
     //if (groupBorder.isValid()) {
@@ -605,7 +614,7 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
     }
 
     // Draw points
-    if (layers.edit == FRONT_LAYER || layers.edit == BACK_LAYER ||
+    if (layers.edit == TOP_LAYER || layers.edit == BOTTOM_LAYER ||
         layers.edit == BORDER_LAYER) {
         painter.setPen(layers.color[layers.edit]);
         for (uint i = 1; i < points.size(); i++)
@@ -628,8 +637,8 @@ void Board::draw(QPainter &painter, int fontSize, double scale)
         painter.drawLine(t.x1, t.y1, t.x2, t.y2);
 
     // Draw tracks
-    //if (layers.number & (1 << FRONT)) {
-    //    painter.setPen(layers.color[FRONT]);
+    //if (layers.number & (1 << TOP_LAYER)) {
+    //    painter.setPen(layers.color[TOP_LAYER]);
     //    for (TrackIt i = tracks.begin(); i != tracks.end(); ++i)
     //        (*i).draw(painter);
     //}
@@ -658,6 +667,66 @@ void Board::drawSegments(const std::list<Segment> &segments, QPainter &painter,
     }
 }
 
+void Board::drawSolderMask(QPainter &painter, int layer, double scale)
+{
+    int d, h, s, w;
+    int rx, ry;
+    int x, y;
+    QString str;
+
+    bool isTopMask = layer == TOP_MASK_LAYER;
+    bool isBottomMask = layer == BOTTOM_MASK_LAYER;
+
+    if (isTopMask || isBottomMask) {
+        painter.setPen(layers.color[layer]);
+        painter.setBrush(layers.color[layer]);
+    }
+    else
+        return;
+
+    for (auto e : elements) {
+        if (e.onTop != isTopMask)
+            continue;
+        for (auto p : e.pads) {
+            d = scale * p.diameter;
+            h = scale * p.height;
+            s = scale * solderMaskSwell;
+            w = scale * p.width;
+            if (p.orientation == Element::RIGHT) {
+                h = scale * p.width;
+                w = scale * p.height;
+            }
+            if (h == 0 || w == 0) {
+                h = d;
+                w = d;
+            }
+            if (d > minValue)
+                d += 2 * s;
+            h += 2 * s;
+            w += 2 * s;
+            x = scale * p.x - w / 2;
+            y = scale * p.y - h / 2;
+            rx = d / 2;
+            ry = rx;
+            QPainterPath path;
+            path.addRoundedRect(x, y, w, h, rx, ry);
+            painter.drawPath(path);
+        }
+    }
+
+    if (openMaskOnVia)
+        for (auto v : vias) {
+            d = scale * v.diameter;
+            s = scale * solderMaskSwell;
+            d += 2 * s;
+            x = scale * v.x - d / 2;
+            y = scale * v.y - d / 2;
+            QPainterPath path;
+            path.addRoundedRect(x, y, d, d, d / 2, d / 2);
+            painter.drawPath(path);
+        }
+}
+
 void Board::errorCheck(QString &text)
 {
 
@@ -665,11 +734,11 @@ void Board::errorCheck(QString &text)
 
 void Board::fillPolygon(int x, int y)
 {
-    if (layers.edit == FRONT_LAYER)
-        fillPolygon(x, y, frontPolygons);
+    if (layers.edit == TOP_LAYER)
+        fillPolygon(x, y, topPolygons);
 
-    if (layers.edit == BACK_LAYER)
-        fillPolygon(x, y, backPolygons);
+    if (layers.edit == BOTTOM_LAYER)
+        fillPolygon(x, y, bottomPolygons);
 }
 
 void Board::fillPolygon(int x, int y, std::list<Polygon> &polygons)
@@ -723,6 +792,7 @@ void Board::init()
     std::fill_n(table[0], rows * columns, 0);
 
     fillPads = true;
+    openMaskOnVia = false;
     selectedElement = false;
     selectedPad = false;
     showGroundNets = false;
@@ -730,6 +800,7 @@ void Board::init()
     showNets = true;
 
     polygonSpace = defaultPolygonSpace;
+    solderMaskSwell = defaultSolderMaskSwell;
 
     layers.edit = -1;
 }
@@ -827,10 +898,18 @@ void Board::moveElement(int x, int y)
     static QString packageName;
     static QString reference;
 
+    bool isTop = layers.edit == TOP_LAYER;
+    bool isBottom = layers.edit == BOTTOM_LAYER;
+
+    if (!isTop && !isBottom)
+        return;
+
     if (!selectedElement) {
         number = -1;
         for (auto &e : elements) {
             number++;
+            if (e.onTop != isTop)
+                continue;
             if (e.exist(x, y)) {
                 isJumper = e.isJumper;
                 orientation = e.orientation;
@@ -844,7 +923,7 @@ void Board::moveElement(int x, int y)
     }
 
     if (selectedElement) {
-        Element element(x, y, orientation, name, packageName, reference);
+        Element element(x, y, orientation, name, packageName, reference, isTop);
         element.isJumper = isJumper;
         for (uint i = 0; i < element.pads.size(); i++)
             element.pads[i].net = elements[number].pads[i].net;
@@ -858,18 +937,26 @@ void Board::moveElement(int x, int y)
 void Board::moveElement(int number, int x, int y)
 {
     static bool isJumper;
+    static bool onTop;
     static int orientation;
     static QString name;
     static QString packageName;
     static QString reference;
 
+    bool isTop = layers.edit == TOP_LAYER;
+    bool isBottom = layers.edit == BOTTOM_LAYER;
+
+    if (!isTop && !isBottom)
+        return;
+
     isJumper = elements[number].isJumper;
+    onTop = elements[number].onTop;
     orientation = elements[number].orientation;
     name = elements[number].name;
     packageName = elements[number].packageName;
     reference = elements[number].reference;
 
-    Element element(x, y, orientation, name, packageName, reference);
+    Element element(x, y, orientation, name, packageName, reference, onTop);
     element.isJumper = isJumper;
     for (uint i = 0; i < element.pads.size(); i++)
         element.pads[i].net = elements[number].pads[i].net;
@@ -889,8 +976,16 @@ void Board::moveGroup()
     QString packageName;
     QString reference;
 
+    bool isTop = layers.edit == TOP_LAYER;
+    bool isBottom = layers.edit == BOTTOM_LAYER;
+
+    if (!isTop && !isBottom)
+        return;
+
     // Move elements
-    for (auto &e : elements)
+    for (auto &e : elements) {
+        if (e.onTop != isTop)
+            continue;
         if (e.inside(points[0].x, points[0].y,
                      points[1].x, points[1].y)) {
             x = e.refX + dx;
@@ -900,12 +995,13 @@ void Board::moveGroup()
             name = e.name;
             packageName = e.packageName;
             reference = e.reference;
-            Element element(x, y, orientation, name, packageName, reference);
+            Element element(x, y, orientation, name, packageName, reference, isTop);
             element.isJumper = isJumper;
             for (uint i = 0; i < element.pads.size(); i++)
                 element.pads[i].net = e.pads[i].net;
             e = element;
         }
+    }
 }
 
 void Board::moveGroup(int x, int y, double scale)
@@ -918,7 +1014,7 @@ void Board::moveGroup(int x, int y, double scale)
         return;
     case 2:
         groupBorder.setCoords(scale * points[0].x, scale * points[0].y,
-                              (scale * points[1].x)-1, (scale * points[1].y)-1);
+                              (scale * points[1].x) - 1, (scale * points[1].y) - 1);
         if (groupBorder.isValid())
             return;
         break;
@@ -1022,10 +1118,10 @@ bool Board::round45DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty
 
     std::list<Segment> *ps = nullptr;
 
-    if (layers.edit == FRONT_LAYER)
-        ps = &frontSegments;
+    if (layers.edit == TOP_LAYER)
+        ps = &topSegments;
     else
-        ps = &backSegments;
+        ps = &bottomSegments;
 
     for (int i = 0; i < 2; i++) {
         (*it[i]).reduceLength(tx, ty, minLength);
@@ -1062,10 +1158,10 @@ bool Board::round90DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty
 
     std::list<Segment> *ps = nullptr;
 
-    if (layers.edit == FRONT_LAYER)
-        ps = &frontSegments;
+    if (layers.edit == TOP_LAYER)
+        ps = &topSegments;
     else
-        ps = &backSegments;
+        ps = &bottomSegments;
 
     for (int i = 0; i < 2; i++) {
         (*it[i]).reduceLength(tx, ty, minLength);
@@ -1141,10 +1237,10 @@ bool Board::roundCrossing(std::list<Segment>::iterator it[])
 
     std::list<Segment> *ps = nullptr;
 
-    if (layers.edit == FRONT_LAYER)
-        ps = &frontSegments;
+    if (layers.edit == TOP_LAYER)
+        ps = &topSegments;
     else
-        ps = &backSegments;
+        ps = &bottomSegments;
 
     bool exists[4] = {false};
 
@@ -1224,10 +1320,10 @@ bool Board::roundJoin(std::list<Segment>::iterator it[])
 
     std::list<Segment> *ps = nullptr;
 
-    if (layers.edit == FRONT_LAYER)
-        ps = &frontSegments;
+    if (layers.edit == TOP_LAYER)
+        ps = &topSegments;
     else
-        ps = &backSegments;
+        ps = &bottomSegments;
 
     bool exists[2] = {false};
 
@@ -1250,7 +1346,7 @@ bool Board::roundJoin(std::list<Segment>::iterator it[])
 
 void Board::roundTurn(int x, int y, int turningRadius)
 {
-    if (layers.edit != FRONT_LAYER && layers.edit != BACK_LAYER)
+    if (layers.edit != TOP_LAYER && layers.edit != BOTTOM_LAYER)
         return;
 
     int lineSize = 0;
@@ -1258,10 +1354,10 @@ void Board::roundTurn(int x, int y, int turningRadius)
     std::list<Segment> *ps = nullptr;
     std::list<Segment>::iterator it[4];
 
-    if (layers.edit == FRONT_LAYER)
-        ps = &frontSegments;
+    if (layers.edit == TOP_LAYER)
+        ps = &topSegments;
     else
-        ps = &backSegments;
+        ps = &bottomSegments;
 
      for (auto i = (*ps).begin(); i != (*ps).end(); ++i) {
         if ((*i).type != Segment::LINE)
@@ -1367,8 +1463,8 @@ bool Board::segmentNets()
     int xMin, xMax, xMin2, xMax2;
     int yMin, yMax, yMin2, yMax2;
 
-    reduceSegments(frontSegments);
-    reduceSegments(backSegments);
+    reduceSegments(topSegments);
+    reduceSegments(bottomSegments);
 
     // Set net number for segment connected to pad
     for (auto n : nets)
@@ -1379,23 +1475,23 @@ bool Board::segmentNets()
             if (elements[np.x].pads[np.y].height < w)
                 w = elements[np.x].pads[np.y].height;
             w /= 4;
-            for (auto &f : frontSegments) {
-                dx = f.x2 - f.x1;
-                dy = f.y2 - f.y1;
+            for (auto &t : topSegments) {
+                dx = t.x2 - t.x1;
+                dy = t.y2 - t.y1;
                 if (!dx)
-                    if (abs(x - f.x1) < w &&
-                        ((y + w > f.y1 && y - w < f.y2) || (y + w > f.y2 && y - w < f.y1)))
-                        f.net = n.number;
+                    if (abs(x - t.x1) < w &&
+                        ((y + w > t.y1 && y - w < t.y2) || (y + w > t.y2 && y - w < t.y1)))
+                        t.net = n.number;
                 if (!dy)
-                    if (abs(y - f.y1) < w &&
-                        ((x + w > f.x1 && x - w < f.x2) || (x + w > f.x2 && x - w < f.x1)))
-                        f.net = n.number;
+                    if (abs(y - t.y1) < w &&
+                        ((x + w > t.x1 && x - w < t.x2) || (x + w > t.x2 && x - w < t.x1)))
+                        t.net = n.number;
                 if (dx && abs(dx) - abs(dy) < 0.1) {
                     a = double(dy) / (dx);
-                    b = f.y1 - a * f.x1;
-                    if (((x + w > f.x1 && x - w < f.x2) || (x + w > f.x2 && x - w < f.x1)) &&
+                    b = t.y1 - a * t.x1;
+                    if (((x + w > t.x1 && x - w < t.x2) || (x + w > t.x2 && x - w < t.x1)) &&
                         fabs(y - a * x + b) < w)
-                        f.net = n.number;
+                        t.net = n.number;
                 }
             }
         }
@@ -1403,7 +1499,7 @@ bool Board::segmentNets()
     // Set net number for segment connected to segment
     do {
         newSegments = 0;
-        for (auto i = frontSegments.begin(); i != frontSegments.end(); ++i) {
+        for (auto i = topSegments.begin(); i != topSegments.end(); ++i) {
             if ((*i).net == -1)
                 continue;
             xMin = (*i).x1;
@@ -1416,7 +1512,7 @@ bool Board::segmentNets()
                 a = double(dy) / (dx);
                 b = (*i).y1 - a * (*i).x1;
             }
-            for (auto j = frontSegments.begin(); j != frontSegments.end(); ++j) {
+            for (auto j = topSegments.begin(); j != topSegments.end(); ++j) {
                 if (i == j)
                     continue;
                 xMin2 = (*j).x1;
@@ -1455,12 +1551,12 @@ bool Board::segmentNets()
     } while (newSegments);
 
     unconnected = 0;
-    for (auto f : frontSegments)
-        if (f.net == -1)
+    for (auto t : topSegments)
+        if (t.net == -1)
             unconnected++;
 
-    message = QString("front segments = %1  unconnected = %2\n")
-              .arg(frontSegments.size()).arg(unconnected);
+    message = QString("top segments = %1  unconnected = %2\n")
+              .arg(topSegments.size()).arg(unconnected);
     showMessage = true;
     return true;
 }
@@ -1496,8 +1592,9 @@ void Board::turnElement(int x, int y, int direction)
                 if (orientation > 3)
                     orientation = 0;
             }
-            Element element(refX, refY, orientation,
-                            name, packageName, reference);
+            bool onTop = layers.edit == TOP_LAYER;
+            Element element(refX, refY, orientation, name,
+                            packageName, reference, onTop);
             element.isJumper = isJumper;
             for (uint i = 0; i < element.pads.size(); i++)
                 element.pads[i].net = e.pads[i].net;

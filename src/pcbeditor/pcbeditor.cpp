@@ -51,9 +51,12 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     QCheckBox *tmpLayerCheckBox[layersNumber] =
     {
-        frontCheckBox, backCheckBox, borderCheckBox, padCheckBox, frontPolygonCheckBox,
-        backPolygonCheckBox, frontViaCheckBox, backViaCheckBox, packageCheckBox,
-        referenceCheckBox, nameCheckBox
+        borderCheckBox, bottomCheckBox, bottomMaskCheckBox, bottomNameCheckBox,
+        bottomPackageCheckBox, bottomPadCheckBox, bottomPasteCheckBox,
+        bottomPolygonCheckBox, bottomReferenceCheckBox, bottomSilkCheckBox,
+        bottomViaCheckBox, topCheckBox, topMaskCheckBox, topNameCheckBox,
+        topPackageCheckBox, topPadCheckBox, topPasteCheckBox, topPolygonCheckBox,
+        topReferenceCheckBox, topSilkCheckBox, topViaCheckBox
     };
 
     std::copy(tmpLayerCheckBox, tmpLayerCheckBox + layersNumber, layerCheckBox);
@@ -75,7 +78,7 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     QRadioButton *tmpRadioButton[radioButtons] =
     {
-        readOnlyRadioButton, frontRadioButton, backRadioButton, boardRadioButton
+        borderRadioButton, bottomRadioButton, readOnlyRadioButton, topRadioButton
     };
 
     std::copy(tmpRadioButton, tmpRadioButton + radioButtons, radioButton);
@@ -178,15 +181,19 @@ void PcbEditor::closeFile()
 void PcbEditor::globalOptions()
 {
     GlobalOptionsData options;
+    options.openMaskOnVia = board.openMaskOnVia;
     options.padCornerRadius = Element::padCornerRadius;
+    options.solderMaskSwell = board.solderMaskSwell;
 
-    GlobalOptions elementOptions(options);
-    int n = elementOptions.exec();
+    GlobalOptions globalOptions(options);
+    int n = globalOptions.exec();
 
     if (n == QDialog::Accepted) {
+        board.openMaskOnVia = options.openMaskOnVia;
         Element::padCornerRadius = options.padCornerRadius;
         for (auto &e : board.elements)
             e.roundPadCorners();
+        board.solderMaskSwell = options.solderMaskSwell;
         update();
     }
 }
@@ -219,8 +226,8 @@ void PcbEditor::localOptions()
     options.viaDiameter = viaDiameter;
     options.viaInnerDiameter = viaInnerDiameter;
 
-    LocalOptions viaOptions(options);
-    int n = viaOptions.exec();
+    LocalOptions localOptions(options);
+    int n = localOptions.exec();
 
     if (n == QDialog::Accepted) {
         viaDiameter = options.viaDiameter;
@@ -237,8 +244,8 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
     int x, y;
     QString str;
 
-    bool isElementLayer = board.layers.edit == FRONT_LAYER ||
-                          board.layers.edit == BACK_LAYER;
+    bool isElementLayer = board.layers.edit == TOP_LAYER ||
+                          board.layers.edit == BOTTOM_LAYER;
     bool isDrawingLayer = isElementLayer || board.layers.edit == BORDER_LAYER;
 
     if (event->button() == Qt::LeftButton) {
@@ -635,9 +642,16 @@ void PcbEditor::selectPushButton(int number)
 
 void PcbEditor::selectRadioButton()
 {
+    constexpr int editableLayer[radioButtons]
+    {
+        BORDER_LAYER, BOTTOM_LAYER, 0, TOP_LAYER
+    };
+
     for (int i = 0; i < radioButtons; i++)
-        if (radioButton[i]->isChecked())
-            board.layers.edit = i - 1;
+        if (radioButton[i]->isChecked()) {
+            board.layers.edit = editableLayer[i];
+            return;
+        }
 }
 
 void PcbEditor::selectToolButton(int number)
@@ -645,8 +659,8 @@ void PcbEditor::selectToolButton(int number)
     int tmp;
     QString str;
 
-    bool isElementLayer = board.layers.edit == FRONT_LAYER ||
-                          board.layers.edit == BACK_LAYER;
+    bool isElementLayer = board.layers.edit == TOP_LAYER ||
+                          board.layers.edit == BOTTOM_LAYER;
     bool isDrawingLayer = isElementLayer || board.layers.edit == BORDER_LAYER;
 
     previousCommand = command;

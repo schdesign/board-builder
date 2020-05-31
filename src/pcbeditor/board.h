@@ -22,18 +22,19 @@ typedef std::list<Segment> Track;
 class Board
 {
 public:
-    static const int fontScale = 100;
-    static const int rows = 24;
-    static const int columns = 24;
-    static const int maxLine = 256;
-    static const int maxNet = 64;
-    static const int maxPad = 32;
-    static const int maxLines = maxLine * maxNet;
-    static const int maxData = 8 * maxLine * maxNet;
-    static const int maxStep = 2 * (rows + columns);
-    static const int maxTurn = maxStep;
-    static const int defaultLineWidth = 700;
-    static const int defaultPolygonSpace = 1000;
+    static constexpr int fontScale = 100;
+    static constexpr int rows = 24;
+    static constexpr int columns = 24;
+    static constexpr int maxLine = 256;
+    static constexpr int maxNet = 64;
+    static constexpr int maxPad = 32;
+    static constexpr int maxLines = maxLine * maxNet;
+    static constexpr int maxData = 8 * maxLine * maxNet;
+    static constexpr int maxStep = 2 * (rows + columns);
+    static constexpr int maxTurn = maxStep;
+    static constexpr int defaultLineWidth = 700;
+    static constexpr int defaultPolygonSpace = 1000;
+    static constexpr int defaultSolderMaskSwell = 50;
 
     Board();
     void addJumper(const QString &packageName, int x, int y);
@@ -60,8 +61,6 @@ public:
     void deleteVia(int x, int y);
     void disconnectJumper(int x, int y);
     void draw(QPainter &painter, int fontSize, double scale);
-    void drawSegments(const std::list<Segment> &segments, QPainter &painter,
-                      QPen &pen, int width, double scale, int space = 0);
     void errorCheck(QString &text);
     void extendSpace(int netNumber);
     void fillPolygon(int x, int y);
@@ -135,6 +134,7 @@ public:
     int waveRoute();
 
     bool fillPads;
+    bool openMaskOnVia;
     bool selectedElement;
     bool selectedPad;
     bool showGroundNets;
@@ -148,6 +148,7 @@ public:
     int netNumber;
     int pointNumber;
     int polygonSpace;
+    int solderMaskSwell;
     int tmpTrackLength;
     int trackLines;
     int vLines;         // number of vertical lines
@@ -179,10 +180,10 @@ public:
     int lineIndex[4][maxLines];     // index sorted by coordinate from 0 to max
     int trackLine[maxNet];          // number of lines
     QColor netColor[maxNet];
-    std::list<Polygon> frontPolygons;
-    std::list<Polygon> backPolygons;
-    std::list<Segment> frontSegments;
-    std::list<Segment> backSegments;
+    std::list<Polygon> topPolygons;
+    std::list<Polygon> bottomPolygons;
+    std::list<Segment> topSegments;
+    std::list<Segment> bottomSegments;
     std::list<Via> vias;
     std::vector<Element> elements;
     std::vector<Net> nets;
@@ -194,6 +195,9 @@ public:
     std::vector<int> pointY;
 
 private:
+    void drawSegments(const std::list<Segment> &segments, QPainter &painter,
+                      QPen &pen, int width, double scale, int space = 0);
+    void drawSolderMask(QPainter &painter, int layer, double scale);
     bool round45DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty,
                             int minTurn, int maxTurn, int turningRadius);
     bool round90DegreesTurn(std::list<Segment>::iterator it[], int tx, int ty,

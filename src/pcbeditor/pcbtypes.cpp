@@ -127,7 +127,7 @@ Via::Via(const QJsonValue &value)
 
 void Via::draw(QPainter &painter, int layerNumber, double scale, int space)
 {
-    if (layerNumber != FRONT_VIA_LAYER && layerNumber != BACK_VIA_LAYER)
+    if (layerNumber != TOP_VIA_LAYER && layerNumber != BOTTOM_VIA_LAYER)
         return;
 
     int r = lround(scale * (diameter / 2 + space));

@@ -22,8 +22,8 @@ public:
 class Element
 {
 public:
-    constexpr static double minPadCornerRadius = 0.001;
-    constexpr static double maxPadCornerRadius = 1000000;
+    static constexpr double minPadCornerRadius = 0.001;
+    static constexpr double maxPadCornerRadius = 1000000;
 
 private:
     const char *elementOrientationString[4] =
@@ -41,9 +41,11 @@ public:
 
     Element() {}
     Element(int refX, int refY, int orientation, const QString &name,
-            const QString &packageName, const QString &reference, bool hasOptions = true);
+            const QString &packageName, const QString &reference,
+            bool onTop, bool hasOptions = true);
     Element(int refX, int refY, int orientation, const QString &name,
-            const Package &package, const QString &reference, bool hasOptions = true);
+            const Package &package, const QString &reference,
+            bool onTop, bool hasOptions = true);
     Element(const QJsonObject &object, bool hasOptions = true);
     Element(const QJsonObject &object, int refX, int refY, bool hasOptions = true);
     static void addPackage(const QJsonValue &value);
@@ -63,6 +65,7 @@ public:
     bool fixed;             // fixed on board
     bool group;
     bool isJumper;
+    bool onTop;
     int centerX;            // border center
     int centerY;
     int nameID;

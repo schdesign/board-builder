@@ -11,7 +11,7 @@ GlobalOptions::GlobalOptions(GlobalOptionsData &options, QWidget *parent):
     QDialog(parent), options(&options)
 {
     setupUi(this);
-    setGeometry(QRect(97, 111, 300, 200));
+    setGeometry(QRect(97, 111, 550, 200));
 
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
     connect(okButton, SIGNAL(clicked()), this, SLOT(accept()));
@@ -31,6 +31,29 @@ GlobalOptions::GlobalOptions(GlobalOptionsData &options, QWidget *parent):
 
 void GlobalOptions::accept()
 {
+    constexpr int size = 3;
+    bool ok[size];
+    int n = 0;
+
+    ok[n++] = getOpenMaskOnVia();
+    ok[n++] = getPadCornerRadius();
+    ok[n++] = getSolderMaskSwell();
+
+    for (int i = 0; i < size; i++)
+        if (!ok[i])
+            return;
+
+    done(QDialog::Accepted);
+}
+
+bool GlobalOptions::getOpenMaskOnVia()
+{
+    options->openMaskOnVia = openMaskOnViaCheckBox->isChecked();
+    return true;
+}
+
+bool GlobalOptions::getPadCornerRadius()
+{
     bool ok;
 
     if (padCornerRadiusType == PAD_ABSOLUTE_RADIUS) {
@@ -38,7 +61,7 @@ void GlobalOptions::accept()
         if (ok) {
             if (n >= 0 && n <= lround(Element::maxPadCornerRadius)) {
                 options->padCornerRadius = n;
-                done(QDialog::Accepted);
+                return true;
             }
             else {
                 limit(n, 0, lround(Element::maxPadCornerRadius));
@@ -46,14 +69,13 @@ void GlobalOptions::accept()
             }
         }
         padAbsoluteRadiusLineEdit->setText(QString::number(lround(padCornerRadius)));
-        return;
     }
     else {
         double d = padRelativeRadiusLineEdit->text().toDouble(&ok);
         if (ok) {
             if (d > Element::minPadCornerRadius - minValue && d < 0.5 + minValue) {
                 options->padCornerRadius = d;
-                done(QDialog::Accepted);
+                return true;
             }
             else {
                 if (d < Element::minPadCornerRadius)
@@ -64,11 +86,42 @@ void GlobalOptions::accept()
             }
         }
         padRelativeRadiusLineEdit->setText(QString::number(padCornerRadius));
-        return;
     }
+
+    return false;
+}
+
+bool GlobalOptions::getSolderMaskSwell()
+{
+    bool ok;
+
+    int n = solderMaskSwellLineEdit->text().toInt(&ok);
+    if (ok) {
+        if (n >= 0) {
+            options->solderMaskSwell = n;
+            return true;
+        }
+        else
+            solderMaskSwell = 0;
+    }
+    solderMaskSwellLineEdit->setText(QString::number(solderMaskSwell));
+
+    return false;
 }
 
 void GlobalOptions::init()
+{
+    setOpenMaskOnVia();
+    setPadCornerRadius();
+    setSolderMaskSwell();
+}
+
+void GlobalOptions::setOpenMaskOnVia()
+{
+    openMaskOnViaCheckBox->setChecked(options->openMaskOnVia);
+}
+
+void GlobalOptions::setPadCornerRadius()
 {
     double r = options->padCornerRadius;
 
@@ -110,4 +163,12 @@ void GlobalOptions::selectRadioButton(int number)
         padCornerRadiusType = number;
         break;
     }
+}
+
+void GlobalOptions::setSolderMaskSwell()
+{
+    solderMaskSwell = 0;
+    if (options->solderMaskSwell > 0)
+        solderMaskSwell = options->solderMaskSwell;
+    solderMaskSwellLineEdit->setText(QString::number(solderMaskSwell));
 }

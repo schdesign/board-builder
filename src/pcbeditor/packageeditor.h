@@ -16,17 +16,17 @@
 #include <QSignalMapper>
 #include <QToolButton>
 
-const static char *packageDirectory = "";
+static const char *packageDirectory = "";
 
 class PackageEditor : public QMainWindow, private Ui::PackageEditor
 {
     Q_OBJECT
 
-    constexpr static int checkBoxes = 3;
-    constexpr static int comboBoxes = 10;
-    constexpr static int lineEdits = 55;
-    constexpr static int pushButtons = 5;
-    constexpr static int radioButtons = 15;
+    static constexpr int checkBoxes = 3;
+    static constexpr int comboBoxes = 10;
+    static constexpr int lineEdits = 55;
+    static constexpr int pushButtons = 5;
+    static constexpr int radioButtons = 15;
 
     enum CheckBox
     {
@@ -95,23 +95,23 @@ private slots:
     //void selectToolButton(int number);
 
 private:
-    constexpr static int grids = 12;
-    constexpr static int gridStep = 10;    // pixels
-    constexpr static int gridWidth = 680;
-    constexpr static int gridHeight = 600;
-    constexpr static int gridX = 570;
-    constexpr static int gridY = 30;
-    constexpr static int spaceStep = 100;  // um
-    constexpr static int widthStep = 100;
-    constexpr static int maxX = 10000;
-    constexpr static int maxY = 10000;
-    constexpr static int minSpace = 100;
-    constexpr static int maxSpace = 100000;
-    constexpr static int minWidth = 100;
-    constexpr static int maxWidth = 100000;
-    constexpr static int maxPads = 10000;
-    constexpr static int maxPadTypes = 3;
-    constexpr static int maxPadParams = 4;
+    static constexpr int grids = 12;
+    static constexpr int gridStep = 10;    // pixels
+    static constexpr int gridWidth = 680;
+    static constexpr int gridHeight = 600;
+    static constexpr int gridX = 570;
+    static constexpr int gridY = 30;
+    static constexpr int spaceStep = 100;  // um
+    static constexpr int widthStep = 100;
+    static constexpr int maxX = 10000;
+    static constexpr int maxY = 10000;
+    static constexpr int minSpace = 100;
+    static constexpr int maxSpace = 100000;
+    static constexpr int minWidth = 100;
+    static constexpr int maxWidth = 100000;
+    static constexpr int maxPads = 10000;
+    static constexpr int maxPadTypes = 3;
+    static constexpr int maxPadParams = 4;
     const int grid[grids] =  // um in grid step
     {
         10, 20, 25, 50, 100, 125, 200,

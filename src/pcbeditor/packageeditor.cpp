@@ -499,7 +499,7 @@ void PackageEditor::selectCheckBox(int number)
         setRadioButton(deleteLinesRadioButton, state);
         setRadioButton(selectedEllipseRadioButton, state);
         setRadioButton(selectedLineRadioButton, state);
-        showLayer(PACKAGE_LAYER, state);
+        showLayer(TOP_PACKAGE_LAYER, state);
         break;
     case SHOW_PADS:
         setRadioButton(addPadRadioButton, state);
@@ -507,7 +507,7 @@ void PackageEditor::selectCheckBox(int number)
         setRadioButton(deletePadsRadioButton, state);
         setRadioButton(padTypesRadioButton, state);
         setRadioButton(selectedPadRadioButton, state);
-        showLayer(PAD_LAYER, state);
+        showLayer(TOP_PAD_LAYER, state);
         break;
     }
 
@@ -1359,6 +1359,6 @@ void PackageEditor::updatePackage()
 
 void PackageEditor::updateElement()
 {
-    Element tmpElement(refX, refY, orientation, "", package, "", false);
+    Element tmpElement(refX, refY, orientation, "", package, "", true, false);
     element = tmpElement;
 }

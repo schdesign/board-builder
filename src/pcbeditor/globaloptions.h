@@ -10,14 +10,16 @@
 class GlobalOptionsData
 {
 public:
+    bool openMaskOnVia;
     double padCornerRadius;
+    int solderMaskSwell;
 };
 
 class GlobalOptions : public QDialog, private Ui::GlobalOptions
 {
     Q_OBJECT
 
-    constexpr static int radioButtons = 2;
+    static constexpr int radioButtons = 2;
 
     enum RadioButton
     {
@@ -28,7 +30,13 @@ public:
     explicit GlobalOptions(GlobalOptionsData &options, QWidget *parent = nullptr);
 
 private:
+    bool getOpenMaskOnVia();
+    bool getPadCornerRadius();
+    bool getSolderMaskSwell();
     void init();
+    void setOpenMaskOnVia();
+    void setPadCornerRadius();
+    void setSolderMaskSwell();
 
 private slots:
     void accept();
@@ -37,6 +45,7 @@ private slots:
 private:
     double padCornerRadius;
     int padCornerRadiusType;
+    int solderMaskSwell;
     GlobalOptionsData *options;
     QRadioButton *radioButton[radioButtons];
 };

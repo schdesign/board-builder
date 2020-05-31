@@ -66,14 +66,16 @@ void Board::fromJson(const QByteArray &array)
         throw ExceptionData("File is not a board file");
 
     border.fromJson(object["borderPolygon"]);
+    openMaskOnVia = object["openMaskOnVia"].toBool();
     Element::padCornerRadius = object["padCornerRadius"].toDouble();
     polygonSpace = object["polygonSpace"].toInt();
+    solderMaskSwell = object["solderMaskSwell"].toInt();
 
     QJsonArray elementArray(object["elements"].toArray());
-    QJsonArray frontPolygonArray(object["frontPolygons"].toArray());
-    QJsonArray backPolygonArray(object["backPolygons"].toArray());
-    QJsonArray frontSegmentArray(object["frontSegments"].toArray());
-    QJsonArray backSegmentArray(object["backSegments"].toArray());
+    QJsonArray topPolygonArray(object["topPolygons"].toArray());
+    QJsonArray bottomPolygonArray(object["bottomPolygons"].toArray());
+    QJsonArray topSegmentArray(object["topSegments"].toArray());
+    QJsonArray bottomSegmentArray(object["bottomSegments"].toArray());
     QJsonArray viaArray(object["vias"].toArray());
 
     for (auto ea : elementArray) {
@@ -81,24 +83,24 @@ void Board::fromJson(const QByteArray &array)
         elements.push_back(e);
     }
 
-    for (auto f : frontPolygonArray) {
-        Polygon p(f);
-        frontPolygons.push_back(p);
+    for (auto t : topPolygonArray) {
+        Polygon p(t);
+        topPolygons.push_back(p);
     }
 
-    for (auto b : backPolygonArray) {
+    for (auto b : bottomPolygonArray) {
         Polygon p(b);
-        backPolygons.push_back(p);
+        bottomPolygons.push_back(p);
     }
 
-    for (auto f : frontSegmentArray) {
-        Segment s(f);
-        frontSegments.push_back(s);
+    for (auto t : topSegmentArray) {
+        Segment s(t);
+        topSegments.push_back(s);
     }
 
-    for (auto b : backSegmentArray) {
+    for (auto b : bottomSegmentArray) {
         Segment s(b);
-        backSegments.push_back(s);
+        bottomSegments.push_back(s);
     }
 
     for (auto va : viaArray) {
@@ -135,21 +137,21 @@ QJsonObject Board::toJson()
     for (auto e : elements)
         elementArray.append(e.toJson());
 
-    QJsonArray frontPolygonArray;
-    for (auto f : frontPolygons)
-        frontPolygonArray.append(f.toJson());
+    QJsonArray topPolygonArray;
+    for (auto t : topPolygons)
+        topPolygonArray.append(t.toJson());
 
-    QJsonArray backPolygonArray;
-    for (auto b : backPolygons)
-        backPolygonArray.append(b.toJson());
+    QJsonArray bottomPolygonArray;
+    for (auto b : bottomPolygons)
+        bottomPolygonArray.append(b.toJson());
 
-    QJsonArray frontSegmentArray;
-    for (auto f : frontSegments)
-        frontSegmentArray.append(f.toJson());
+    QJsonArray topSegmentArray;
+    for (auto t : topSegments)
+        topSegmentArray.append(t.toJson());
 
-    QJsonArray backSegmentArray;
-    for (auto b : backSegments)
-        backSegmentArray.append(b.toJson());
+    QJsonArray bottomSegmentArray;
+    for (auto b : bottomSegments)
+        bottomSegmentArray.append(b.toJson());
 
     QJsonArray viaArray;
     for (auto v : vias)
@@ -157,15 +159,17 @@ QJsonObject Board::toJson()
 
     QJsonObject object
     {
-        {"backPolygons", backPolygonArray},
-        {"backSegments", backSegmentArray},
         {"borderPolygon", border.toJson()},
+        {"bottomPolygons", bottomPolygonArray},
+        {"bottomSegments", bottomSegmentArray},
         {"elements", elementArray},
-        {"frontPolygons", frontPolygonArray},
-        {"frontSegments", frontSegmentArray},
         {"object", "board"},
+        {"openMaskOnVia", openMaskOnVia},
         {"padCornerRadius", Element::padCornerRadius},
         {"polygonSpace", polygonSpace},
+        {"solderMaskSwell", solderMaskSwell},
+        {"topPolygons", topPolygonArray},
+        {"topSegments", topSegmentArray},
         {"vias", viaArray}
     };
 
