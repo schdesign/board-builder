@@ -59,5 +59,8 @@
         <file>icons/schematiceditor/place_ground_iec.png</file>
         <file>icons/schematiceditor/place_double_diode.png</file>
         <file>icons/schematiceditor/place_double_schottky.png</file>
+        <file>icons/schematiceditor/place_n_jfet.png</file>
+        <file>icons/schematiceditor/place_n_mosfet_tetrode.png</file>
+        <file>icons/schematiceditor/place_p_jfet.png</file>
     </qresource>
 </RCC>

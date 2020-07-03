@@ -7,7 +7,7 @@
 #include "ui_arrayselector.h"
 #include <QDialog>
 
-const int maxArrayNumber = 100; // max number of elements
+constexpr int maxArrayNumber = 100; // max number of elements
 
 class ArraySelector : public QDialog, private Ui::ArraySelector
 {

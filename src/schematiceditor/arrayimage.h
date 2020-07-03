@@ -4,8 +4,8 @@
 #ifndef ARRAY_IMAGE_H
 #define ARRAY_IMAGE_H
 
-const int arrayTypes = 3;
-const int arrayReferences = 2;
+constexpr int arrayTypes = 3;
+constexpr int arrayReferences = 2;
 
 enum ArrayType {ARRAY_FCON, ARRAY_MCON, ARRAY_SW};
 

@@ -34,14 +34,14 @@ private slots:
     void mapPads();
 
 private:
-    constexpr static int packageWindowWidth = 120;
-    constexpr static int packageWindowHeight = 120;
-    constexpr static int packageWindowX = 620;
-    constexpr static int packageWindowY = 190;
-    constexpr static int symbolWindowWidth = 120;
-    constexpr static int symbolWindowHeight = 120;
-    constexpr static int symbolWindowX = 620;
-    constexpr static int symbolWindowY = 30;
+    static constexpr int packageWindowWidth = 120;
+    static constexpr int packageWindowHeight = 120;
+    static constexpr int packageWindowX = 620;
+    static constexpr int packageWindowY = 190;
+    static constexpr int symbolWindowWidth = 120;
+    static constexpr int symbolWindowHeight = 120;
+    static constexpr int symbolWindowX = 620;
+    static constexpr int symbolWindowY = 30;
     int firstElementRow;
     int pastLastElementRow;
     Schematic &schematic;

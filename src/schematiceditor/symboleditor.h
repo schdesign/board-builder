@@ -18,8 +18,8 @@
 #include <QString>
 #include <QToolButton>
 
-const static char *symbolDirectory = "";
-const static int maxButton = 49;
+static const char *symbolDirectory = "";
+static constexpr int maxButton = 49;
 
 enum ToolButton
 {

@@ -282,7 +282,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>420</y>
+      <y>450</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -311,7 +311,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>420</y>
+      <y>450</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -340,7 +340,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>390</y>
+      <y>420</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -369,7 +369,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>450</y>
+      <y>480</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -1611,7 +1611,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>360</y>
+      <y>390</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -1642,20 +1642,24 @@
      <enum>Qt::NoArrow</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="selectButton_57">
+   <widget class="QToolButton" name="placePJfetButton">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>480</y>
+      <y>360</y>
       <width>32</width>
       <height>32</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/schematiceditor/place_p_jfet.png</normaloff>:/icons/schematiceditor/place_p_jfet.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2094,7 +2098,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>450</y>
+      <y>480</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -2269,7 +2273,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>390</y>
+      <y>420</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -2409,7 +2413,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>420</y>
+      <y>450</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -2485,7 +2489,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>390</y>
+      <y>420</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -2554,20 +2558,24 @@
      <enum>Qt::NoArrow</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="selectButton_46">
+   <widget class="QToolButton" name="placeNMosfetTetrodeButton">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>480</y>
+      <x>0</x>
+      <y>390</y>
       <width>32</width>
       <height>32</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/schematiceditor/place_n_mosfet_tetrode.png</normaloff>:/icons/schematiceditor/place_n_mosfet_tetrode.png</iconset>
     </property>
     <property name="iconSize">
      <size>
@@ -2901,7 +2909,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>360</y>
+      <y>390</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -2939,7 +2947,7 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>450</y>
+      <y>480</y>
       <width>32</width>
       <height>32</height>
      </rect>
@@ -3008,20 +3016,24 @@
      <enum>Qt::NoArrow</enum>
     </property>
    </widget>
-   <widget class="QToolButton" name="selectButton_59">
+   <widget class="QToolButton" name="placeNJfetButton">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>480</y>
+      <x>60</x>
+      <y>360</y>
       <width>32</width>
       <height>32</height>
      </rect>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="schematiceditor.qrc">
+      <normaloff>:/icons/schematiceditor/place_n_jfet.png</normaloff>:/icons/schematiceditor/place_n_jfet.png</iconset>
     </property>
     <property name="iconSize">
      <size>

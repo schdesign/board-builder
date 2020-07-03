@@ -16,9 +16,9 @@
 #include <set>
 #include <QByteArray>
 
-const int windowSizeX = 1200;
-const int windowSizeY = 800;
-const int grid = 10;
+constexpr int windowSizeX = 1200;
+constexpr int windowSizeY = 800;
+constexpr int grid = 10;
 
 const QString packagesDirectory = "../../../library/packages";
 const QString packagesFile = "packages.lib";
