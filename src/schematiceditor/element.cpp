@@ -163,9 +163,9 @@ void Element::draw(QPainter &painter, bool showText, bool showPinNumbers)
             int x = pins[i].x;
             int y = pins[i].y;
             if (abs(dx) > abs(dy)) {
-                if (dx > 0) x += 20;
-                else x -= 10;
-                y -= 3 * (dy / abs(dy));
+                if (dx > 0) x += 10;
+                else x -= 15;
+                y += 3 * (dy / abs(dy));
             }
             else {
                 if (dy > 0) y += 20;

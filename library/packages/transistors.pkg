@@ -26,14 +26,14 @@
                 {
                     "x1": -500,
                     "x2": 2400,
-                    "y1": -350,
-                    "y2": -350
+                    "y1": -1650,
+                    "y2": -1650
                 },
                 {
                     "x1": -500,
                     "x2": 2400,
-                    "y1": -1650,
-                    "y2": -1650
+                    "y1": -350,
+                    "y2": -350
                 }
             ],
             "name": "SOT23",
@@ -62,6 +62,84 @@
                     "orientation": 0,
                     "typeNumber": 0,
                     "x": 950,
+                    "y": -2000
+                }
+            ],
+            "type": "SMD"
+        },
+        {
+            "border": {
+                "bottomY": -350,
+                "leftX": -650,
+                "rightX": 2250,
+                "topY": -1650
+            },
+            "ellipses": [
+            ],
+            "lines": [
+                {
+                    "x1": -650,
+                    "x2": -650,
+                    "y1": -1650,
+                    "y2": -350
+                },
+                {
+                    "x1": 2250,
+                    "x2": 2250,
+                    "y1": -1650,
+                    "y2": -350
+                },
+                {
+                    "x1": -650,
+                    "x2": 2250,
+                    "y1": -1650,
+                    "y2": -1650
+                },
+                {
+                    "x1": -650,
+                    "x2": 2250,
+                    "y1": -350,
+                    "y2": -350
+                }
+            ],
+            "name": "SOT143",
+            "padTypesParams": [
+                {
+                    "diameter": 0,
+                    "height": 900,
+                    "innerDiameter": 0,
+                    "width": 1200
+                },
+                {
+                    "diameter": 0,
+                    "height": 900,
+                    "innerDiameter": 0,
+                    "width": 800
+                }
+            ],
+            "pads": [
+                {
+                    "orientation": 0,
+                    "typeNumber": 0,
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 1,
+                    "x": 1800,
+                    "y": 0
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 1,
+                    "x": 1800,
+                    "y": -2000
+                },
+                {
+                    "orientation": 0,
+                    "typeNumber": 1,
+                    "x": -200,
                     "y": -2000
                 }
             ],

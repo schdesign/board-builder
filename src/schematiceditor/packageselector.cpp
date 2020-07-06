@@ -3,6 +3,7 @@
 
 #include "packageselector.h"
 #include <algorithm>
+#include <cmath>
 #include <QtGlobal>
 
 PackageSelector::PackageSelector(Schematic &schematic, QDialog *parent):
@@ -21,6 +22,20 @@ PackageSelector::PackageSelector(Schematic &schematic, QDialog *parent):
 
     pad2NumbersComboBox->hide();
     pad3NumbersComboBox->hide();
+
+    QLineEdit *tmp[maxSelectorSize] =
+    {
+        pin1PadNumberLineEdit, pin2PadNumberLineEdit,
+        pin3PadNumberLineEdit, pin4PadNumberLineEdit
+    };
+
+    std::copy(tmp, tmp + maxSelectorSize, pinPadNumbers);
+
+    for (auto p : pinPadNumbers)
+        p->hide();
+
+    for (int i = 0; i < maxSelectorSize; i++)
+        pinPadNumbers[i]->setText(QString::number(i + 1));
 
     addData(schematic.arrays);
     addData(schematic.devices);
@@ -206,6 +221,8 @@ void PackageSelector::itemSelectionChanged()
     pinNumbersLabel->setText("");
     pad2NumbersComboBox->hide();
     pad3NumbersComboBox->hide();
+    for (auto p : pinPadNumbers)
+        p->hide();
     mapButton->setEnabled(false);
 
     int row = elementListWidget->currentRow();
@@ -218,11 +235,12 @@ void PackageSelector::itemSelectionChanged()
         if (element.type == e)
             return;
 
-    if (element.pins.size() == 2)
-        pinNumbersLabel->setText("1   2");
-
-    if (element.pins.size() == 3)
-        pinNumbersLabel->setText("1   2   3");
+    if (element.pins.size() >= 2 && element.pins.size() <= 4) {
+        QString str("1");
+        for (int i = 2; i <= element.pins.size(); i++)
+            str += "   " + QString::number(i);
+        pinNumbersLabel->setText(str);
+    }
 
     if (schematic.packages.size() == 0)
         return;
@@ -242,14 +260,23 @@ void PackageSelector::itemSelectionChanged()
     if (element.pins.size() != package.pads.size())
         return;
 
-    if (package.pads.size() == 2) {
+    switch (package.pads.size()) {
+    case 2:
         pad2NumbersComboBox->show();
         mapButton->setEnabled(true);
-    }
-
-    if (package.pads.size() == 3) {
+        break;
+    case 3:
         pad3NumbersComboBox->show();
         mapButton->setEnabled(true);
+        break;
+    case 4:
+        if (padsMaps[row] == 0)
+            for (int i = 0; i < maxSelectorSize; i++)
+                pinPadNumbers[i]->setText(QString::number(i + 1));
+        for (auto p : pinPadNumbers)
+            p->show();
+        mapButton->setEnabled(true);
+        break;
     }
 }
 
@@ -285,35 +312,45 @@ void PackageSelector::mapPads()
 
     QString text;
 
-    if (package.pads.size() == 2) {
+    switch (package.pads.size()) {
+    case 2:
         text = pad2NumbersComboBox->currentText();
         padsMaps[row] = padsMapFromString(text, 2);
-    }
-
-    if (package.pads.size() == 3) {
+        break;
+    case 3:
         text = pad3NumbersComboBox->currentText();
         padsMaps[row] = padsMapFromString(text, 3);
+        break;
+    case 4:
+        for (auto p : pinPadNumbers)
+            text += p->text();
+        padsMaps[row] = padsMapFromString(text, 4);
+        break;
     }
 
-    if (package.pads.size() == 2 || package.pads.size() == 3)
+    if (package.pads.size() >= 2 || package.pads.size() <= 4)
         updateItem(row);
 }
 
 int PackageSelector::padsMapFromString(QString &str, int size)
 {
-    int padsMap = 0;
+    if (size < 2 || size > 4)
+        return 0;
 
     str.remove(QChar(' '));
-    int n = str.toInt();
+    int padsMap = str.toInt();
 
-    if (size == 2)
-        if (n == 12 || n == 21)
-            padsMap = n;
-
-    if (size == 3)
-        if (n == 123 || n == 132 || n == 213 ||
-            n == 231 || n == 312 || n == 321)
-            padsMap = n;
+    // Check padsMap
+    for (int i = 1; i <= size; i++) {
+        int c = 0;
+        for (int j = 0; j < size; j++) {
+            int d = lround(pow(10, j));
+            if (i == (padsMap / d) % 10)
+                c++;
+        }
+        if (c != 1)
+            return 0;
+    }
 
     return padsMap;
 }

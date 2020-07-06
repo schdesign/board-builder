@@ -34,6 +34,7 @@ private slots:
     void mapPads();
 
 private:
+    static constexpr int maxSelectorSize = 4;
     static constexpr int packageWindowWidth = 120;
     static constexpr int packageWindowHeight = 120;
     static constexpr int packageWindowX = 620;
@@ -44,6 +45,7 @@ private:
     static constexpr int symbolWindowY = 30;
     int firstElementRow;
     int pastLastElementRow;
+    QLineEdit *pinPadNumbers[maxSelectorSize];
     Schematic &schematic;
     std::vector<int> centers;
     std::vector<int> padsMaps;
