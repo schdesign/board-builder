@@ -62,5 +62,8 @@
         <file>icons/schematiceditor/place_n_jfet.png</file>
         <file>icons/schematiceditor/place_n_mosfet_tetrode.png</file>
         <file>icons/schematiceditor/place_p_jfet.png</file>
+        <file>icons/schematiceditor/place_fuse.png</file>
+        <file>icons/schematiceditor/place_thyristor.png</file>
+        <file>icons/schematiceditor/place_triac.png</file>
     </qresource>
 </RCC>

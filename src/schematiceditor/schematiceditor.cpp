@@ -45,14 +45,15 @@ SchematicEditor::SchematicEditor(QWidget *parent) : QMainWindow(parent)
         moveDownButton, moveLeftButton, moveRightButton, moveUpButton, placeBatteryButton,
         placeButtonButton, placeCapacitorButton, placeCellButton, placeCoreInductorButton,
         placeDeviceButton, placeDiodeButton, placeDoubleDiodeButton, placeDoubleSchottkyButton,
-        placeFemaleConnectorButton, placeGroundButton, placeGroundIECButton, placeInductorButton,
-        placeJunctionButton, placeLEDButton, placeMaleConnectorButton, placeNetNameButton,
-        placeNJfetButton, placeNMosfetButton, placeNMosfetTetrodeButton, placeNoConnectionButton,
-        placeNpnTransistorButton, placePhotodiodeButton, placePJfetButton, placePMosfetButton,
-        placePnpTransistorButton, placePolarCapacitorButton, placePowerButton, placeQuartzButton,
-        placeResistorANSIButton, placeResistorIECButton, placeSchottkyButton, placeSwitchButton,
-        placeWireButton, placeZenerButton, selectButton, selectPackagesButton, setValueButton,
-        showNetNumbersButton, turnToLeftButton, turnToRightButton, updateNetsButton
+        placeFemaleConnectorButton, placeFuseButton, placeGroundButton, placeGroundIECButton,
+        placeInductorButton, placeJunctionButton, placeLEDButton, placeMaleConnectorButton,
+        placeNetNameButton, placeNJfetButton, placeNMosfetButton, placeNMosfetTetrodeButton,
+        placeNoConnectionButton, placeNpnTransistorButton, placePhotodiodeButton, placePJfetButton,
+        placePMosfetButton, placePnpTransistorButton, placePolarCapacitorButton, placePowerButton,
+        placeQuartzButton, placeResistorANSIButton, placeResistorIECButton, placeSchottkyButton,
+        placeSwitchButton, placeThyristorButton, placeTriacButton, placeWireButton,
+        placeZenerButton, selectButton, selectPackagesButton, setValueButton, showNetNumbersButton,
+        turnToLeftButton, turnToRightButton, updateNetsButton
     };
 
     std::copy(tmp, tmp + maxButton, toolButton);
