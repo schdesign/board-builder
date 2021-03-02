@@ -57,13 +57,14 @@
         <file>icons/schematiceditor/zoom_out.png</file>
         <file>icons/schematiceditor/zoom_out_grid.png</file>
         <file>icons/schematiceditor/place_ground_iec.png</file>
-        <file>icons/schematiceditor/place_double_diode.png</file>
-        <file>icons/schematiceditor/place_double_schottky.png</file>
         <file>icons/schematiceditor/place_n_jfet.png</file>
         <file>icons/schematiceditor/place_n_mosfet_tetrode.png</file>
         <file>icons/schematiceditor/place_p_jfet.png</file>
         <file>icons/schematiceditor/place_fuse.png</file>
         <file>icons/schematiceditor/place_thyristor.png</file>
         <file>icons/schematiceditor/place_triac.png</file>
+        <file>icons/schematiceditor/place_dual_diode.png</file>
+        <file>icons/schematiceditor/place_dual_schottky.png</file>
+        <file>icons/schematiceditor/place_dual_zener.png</file>
     </qresource>
 </RCC>

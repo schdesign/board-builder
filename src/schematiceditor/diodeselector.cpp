@@ -14,28 +14,28 @@ DiodeSelector::DiodeSelector(QString &title, QDialog *parent):
     connect(okButton, SIGNAL(clicked()), this, SLOT(accept()));
 
     selectorType = -1;
-    if (title == "Double Diode")
-        selectorType = 0;
-    if (title == "Double Schottky Diode")
-        selectorType = 1;
+    if (title == "Dual Diode") selectorType = 0;
+    if (title == "Dual Schottky Diode") selectorType = 1;
+    if (title == "Dual Zener Diode") selectorType = 2;
 }
 
 void DiodeSelector::accept()
 {
+    constexpr int typeSize = 3;
+    constexpr int types[typeSize][4] =
+    {
+        {COMMON_ANODE_DIODES, COMMON_CATHODE_DIODES, SERIES_DIODES, SINGLE_DIODE},
+        {COMMON_ANODE_SCHOTTKY, COMMON_CATHODE_SCHOTTKY, SERIES_SCHOTTKY, SINGLE_SCHOTTKY},
+        {COMMON_ANODE_ZENER, COMMON_CATHODE_ZENER, SERIES_ZENER, SINGLE_ZENER}
+    };
+
     int type = -1;
 
-    if (selectorType == 0) {
-        if (singleDiodeRadioButton->isChecked()) type = SINGLE_DIODE;
-        if (commonAnodeRadioButton->isChecked()) type = COMMON_ANODE_DIODES;
-        if (commonCathodeRadioButton->isChecked()) type = COMMON_CATHODE_DIODES;
-        if (connectedInSeriesRadioButton->isChecked()) type = SERIES_DIODES;
-    }
-
-    if (selectorType == 1) {
-        if (singleDiodeRadioButton->isChecked()) type = SINGLE_SCHOTTKY;
-        if (commonAnodeRadioButton->isChecked()) type = COMMON_ANODE_SCHOTTKY;
-        if (commonCathodeRadioButton->isChecked()) type = COMMON_CATHODE_SCHOTTKY;
-        if (connectedInSeriesRadioButton->isChecked()) type = SERIES_SCHOTTKY;
+    if (selectorType >= 0 && selectorType < typeSize) {
+        if (commonAnodeRadioButton->isChecked()) type = types[selectorType][0];
+        if (commonCathodeRadioButton->isChecked()) type = types[selectorType][1];
+        if (connectedInSeriesRadioButton->isChecked()) type = types[selectorType][2];
+        if (singleDiodeRadioButton->isChecked()) type = types[selectorType][3];
     }
 
     done(type + 1);
