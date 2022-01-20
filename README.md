@@ -6,7 +6,7 @@ Qt projects.
 pcbeditor
 schematiceditor
 
-Projects are tested with Qt 5.12.
+Projects are tested with Qt 5.15.2.
 
 Paths to packages directory and symbols directory
 from executable file directory.

@@ -15,6 +15,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QMessageBox>
+#include <QPainterPath>
 #include <QTextStream>
 #include <set>
 

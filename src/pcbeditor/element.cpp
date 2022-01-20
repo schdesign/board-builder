@@ -8,6 +8,7 @@
 #include <cmath>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QPainterPath>
 
 double Element::padCornerRadius = 0;
 std::vector<Package> Element::packages;

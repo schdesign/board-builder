@@ -5,6 +5,7 @@
 #include "pcbtypes.h"
 #include <cmath>
 #include <QJsonArray>
+#include <QPainterPath>
 
 Polygon::Polygon(const QJsonValue &value)
 {

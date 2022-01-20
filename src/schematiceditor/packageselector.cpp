@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <QtGlobal>
+#include <QPainterPath>
 
 PackageSelector::PackageSelector(Schematic &schematic, QDialog *parent):
     QDialog(parent), schematic(schematic)
