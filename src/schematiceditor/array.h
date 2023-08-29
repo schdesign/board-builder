@@ -8,7 +8,6 @@
 #include "types.h"
 #include <QPainter>
 #include <QString>
-#include <QStringRef>
 #include <QVector>
 
 class ArraySymbol

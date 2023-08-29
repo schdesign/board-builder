@@ -8,7 +8,6 @@
 #include <QJsonObject>
 #include <QPainter>
 #include <QString>
-#include <QStringRef>
 #include <QVector>
 
 class CircuitSymbol

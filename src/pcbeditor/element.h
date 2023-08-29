@@ -8,7 +8,7 @@
 #include "layers.h"
 #include "package.h"
 #include <QPainter>
-#include <QStringRef>
+#include <QString>
 
 class ElementDrawingOptions
 {

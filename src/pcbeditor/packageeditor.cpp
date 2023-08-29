@@ -54,8 +54,8 @@ PackageEditor::PackageEditor(QWidget *parent) : QMainWindow(parent)
     std::copy(tmpComboBox, tmpComboBox + comboBoxes, comboBox);
 
     for (int i = 0; i < comboBoxes; i++)
-        connect(comboBox[i], QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
-        [=] (const QString &text) { selectComboBox(i, text); });
+        connect(comboBox[i], QOverload<int>::of(&QComboBox::currentIndexChanged),
+        [=] (int index) { selectComboBox(i, index); });
 
     QLineEdit *tmpLineEdit[lineEdits] =
     {
@@ -514,20 +514,14 @@ void PackageEditor::selectCheckBox(int number)
     update();
 }
 
-void PackageEditor::showLayer(int number, bool state)
-{
-    if (state)
-        layers.draw |= (1 << number);
-    else
-        layers.draw &= ~(1 << number);
-}
-
-void PackageEditor::selectComboBox(int number, const QString &text)
+void PackageEditor::selectComboBox(int number, int index)
 {
     constexpr int padTypeShapeComboBoxNumbers[maxPadTypes] =
     {
         PAD_TYPE_0_SHAPE, PAD_TYPE_1_SHAPE, PAD_TYPE_2_SHAPE
     };
+
+    QString text = comboBox[number]->itemText(index);
 
     switch (number) {
     case PAD_TYPE_0_SHAPE:
@@ -917,6 +911,14 @@ void PackageEditor::selectToolButton(int number)
     update();
 }
 */
+
+void PackageEditor::showLayer(int number, bool state)
+{
+    if (state)
+        layers.draw |= (1 << number);
+    else
+        layers.draw &= ~(1 << number);
+}
 
 void PackageEditor::showPackageData()
 {

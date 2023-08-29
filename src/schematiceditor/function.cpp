@@ -61,8 +61,8 @@ bool LessReference::operator() (const QString &str, const QString &str2) const
     }
 
     // Compare numbers without additional check
-    int n = str.rightRef(size - i).toInt();
-    int n2 = str2.rightRef(size2 - i).toInt();
+    int n = str.last(size - i).toInt();
+    int n2 = str2.last(size2 - i).toInt();
     return n < n2;
 }
 

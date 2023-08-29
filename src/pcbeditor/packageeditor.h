@@ -88,7 +88,7 @@ private slots:
     void openFile();
     void saveFile();
     void selectCheckBox(int number);
-    void selectComboBox(int number, const QString &text);
+    void selectComboBox(int number, int index);
     void selectPadTypeComboBox(int number, const QString &text);
     void selectPushButton(int number);
     void selectRadioButton(int number);

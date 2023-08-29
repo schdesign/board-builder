@@ -8,7 +8,6 @@
 #include "unitimage.h"
 #include <QPainter>
 #include <QString>
-#include <QStringRef>
 #include <QVector>
 #include <vector>
 
