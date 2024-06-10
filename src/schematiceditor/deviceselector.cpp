@@ -2,6 +2,7 @@
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "deviceselector.h"
+#include <QRegularExpression>
 
 DeviceSelector::DeviceSelector(QStringList &deviceNames, QDialog *parent):
     QDialog(parent), deviceNames(deviceNames)
@@ -10,6 +11,7 @@ DeviceSelector::DeviceSelector(QStringList &deviceNames, QDialog *parent):
     setGeometry(QRect(97, 111, 250, 300));
 
     deviceListWidget->insertItems(0, deviceNames);
+    deviceListWidget->sortItems();
     deviceListWidget->setCurrentRow(0);
 
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(reject()));
@@ -18,6 +20,8 @@ DeviceSelector::DeviceSelector(QStringList &deviceNames, QDialog *parent):
 
 void DeviceSelector::accept()
 {
-    int i = deviceListWidget->currentRow();
+    QString str = deviceListWidget->currentItem()->text();
+    QRegularExpression re(str);
+    int i = deviceNames.indexOf(re);
     done(i + 1);
 }
