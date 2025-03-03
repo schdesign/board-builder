@@ -51,6 +51,7 @@ public:
                     int coordinate, double value);
     void connectJumper(int x, int y);
     void connectPadCenter(double track[][4], int &trackLength);
+    void connectPad(int x_, int y_, int width);
     void createGroups();
     void deleteJumper(int x, int y);
     void deleteNetSegments(int x, int y);

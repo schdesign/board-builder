@@ -88,19 +88,6 @@ void Board::addPolygon()
     points2.clear();
 }
 
-void Board::addTrack()
-{
-    reduceSegments(track);
-    if (layers.edit == TOP_LAYER)
-        for (auto &t : track)
-            topSegments.push_back(t);
-    if (layers.edit == BOTTOM_LAYER)
-        for (auto &t : track)
-            bottomSegments.push_back(t);
-    track.clear();
-    pointNumber = 0;
-}
-
 void Board::addSegmentPoint(int x, int y, int width)
 {
     int dx;
@@ -124,6 +111,19 @@ void Board::addSegmentPoint(int x, int y, int width)
 
     point = Point(x, y);
     pointNumber++;
+}
+
+void Board::addTrack()
+{
+    reduceSegments(track);
+    if (layers.edit == TOP_LAYER)
+        for (auto &t : track)
+            topSegments.push_back(t);
+    if (layers.edit == BOTTOM_LAYER)
+        for (auto &t : track)
+            bottomSegments.push_back(t);
+    track.clear();
+    pointNumber = 0;
 }
 
 void Board::addVia(int x, int y, int diameter, int innerDiameter)
@@ -187,6 +187,123 @@ void Board::connectJumper(int x, int y)
         }
         selectedPad = false;
     }
+}
+
+void Board::connectPad(int x_, int y_, int width)
+{
+    int pointType[2] = {0};  // current grid point
+    int segmentOrder = 0;
+    int x[2];
+    int y[2];
+    Segment *s[2] = {nullptr};
+    std::list<Segment> *s2 = nullptr;
+
+    if (layers.edit != TOP_LAYER && layers.edit != BOTTOM_LAYER) {
+        pointNumber = 0;
+        return;
+    }
+
+    if (!pointNumber) {
+        point = Point(x_, y_);
+        pointNumber++;
+        return;
+    }
+
+    pointNumber = 0;
+
+    x[0] = point.x;
+    y[0] = point.y;
+    x[1] = x_;
+    y[1] = y_;
+
+    if (x[0] == x[1] && y[0] == y[1])
+        return;
+
+    if (layers.edit == TOP_LAYER)
+        s2 = &topSegments;
+
+    if (layers.edit == BOTTOM_LAYER)
+        s2 = &bottomSegments;
+
+    if (!s2)
+        return;
+
+    // Find pads
+    for (auto e : elements)
+        for (auto p : e.pads)
+            for (int i = 0; i < 2; i++)
+                if (!pointType[i])
+                    if (p.exist(x[i], y[i])) {
+                        x[i] = p.x;
+                        y[i] = p.y;
+                        pointType[i] = 1;  // pad center
+                    }
+
+    if (x[0] == x[1] && y[0] == y[1])
+        return;
+
+    // Find segments
+    if (!pointType[0] || !pointType[1]) {
+        for (auto i = (*s2).begin(); i != (*s2).end(); ++i)
+            for (int j = 0; j < 2; j++)
+                if (!pointType[j])
+                    if ((*i).crossPoint(x[j], y[j])) {
+                        s[j] = &(*i);
+                        if (s[j]) {
+                            if (s[j]->type == Segment::LINE && s[j]->length() >= 1) {
+                                if (s[j]->y1 == s[j]->y2) {
+                                    limit(x[j], std::min(s[j]->x1, s[j]->x2),
+                                          std::max(s[j]->x1, s[j]->x2));
+                                    y[j] = s[j]->y1;
+                                    pointType[j] = 2;  // horizontal segment point
+                                }
+                                if (s[j]->x1 == s[j]->x2) {
+                                    x[j] = s[j]->x1;
+                                    limit(y[j], std::min(s[j]->y1, s[j]->y2),
+                                          std::max(s[j]->y1, s[j]->y2));
+                                    pointType[j] = 3;  // vertical segment point
+                                }
+                            }
+                        }
+                        else
+                            return;
+                    }
+    }
+
+    if (x[0] == x[1] && y[0] == y[1])
+        return;
+
+    if (pointType[0] >= 2 && pointType[1] >= 2) {
+        int x1;
+        int y1;
+        Line line(s[0]->x1, s[0]->y1, s[0]->x2, s[0]->y2);
+        Line line2(s[1]->x1, s[1]->y1, s[1]->x2, s[1]->y2);
+        if (line.crossLine(line2, x1, y1))
+            return;
+    }
+
+    if ((pointType[0] < 2 && pointType[1] != 2) || (pointType[0] == 2))
+        segmentOrder = 1;
+
+    if ((pointType[0] < 2 && pointType[1] == 2) || (pointType[0] == 3))
+        segmentOrder = 2;
+
+    if (segmentOrder == 1) {
+        if (x[0] != x[1])
+            track.push_back(Segment(x[0], y[0], x[1], y[0], -1, width));
+        if (y[0] != y[1])
+            track.push_back(Segment(x[1], y[0], x[1], y[1], -1, width));
+    }
+
+    if (segmentOrder == 2) {
+        if (y[0] != y[1])
+            track.push_back(Segment(x[0], y[0], x[0], y[1], -1, width));
+        if (x[0] != x[1])
+            track.push_back(Segment(x[0], y[1], x[1], y[1], -1, width));
+    }
+
+    if (segmentOrder)
+        addTrack();
 }
 
 void Board::deleteJumper(int x, int y)

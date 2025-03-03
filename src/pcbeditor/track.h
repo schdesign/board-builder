@@ -31,6 +31,7 @@ public:
     bool insideCrossSegment(const Segment &s, int &x, int &y);
     bool isEndPointInsideSegment(const Segment &s, int &x, int &y);
     int length() const;
+    bool nearestPoint(int x_, int y_, int &x, int &y);
     bool reduceLength(int x, int y, int delta);
     bool set90DegreesTurnArc(int turn, int x, int y, int radius_,
                              int net_, int width_);

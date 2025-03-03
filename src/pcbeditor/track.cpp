@@ -1,8 +1,10 @@
 // track.h
 // Copyright (C) 2018 Alexander Karpeko
 
+#include "function.h"
 #include "track.h"
 #include "types.h"
+#include <algorithm>
 #include <cmath>
 
 Segment::Segment()
@@ -246,6 +248,25 @@ int Segment::length() const
         l = fabs((pi / 180) * spanAngle * radius);
 
     return lround(l);
+}
+
+bool Segment::nearestPoint(int x_, int y_, int &x, int &y)
+{
+    if (type != LINE  || !length())
+        return false;
+
+    if (x1 != x2 && y1 != y2)
+        return false;
+
+    x = x_;
+    y = y_;
+
+    if (y1 == y2)
+        limit(x, std::min(x1, x2), std::max(x1, x2));
+    if (x1 == x2)
+        limit(y, std::min(y1, y2), std::max(y1, y2));
+
+    return true;
 }
 
 bool Segment::reduceLength(int x, int y, int delta)

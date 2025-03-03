@@ -88,15 +88,15 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
 
     QToolButton *tmpToolButton[toolButtons] =
     {
-        connectJumperButton, createGroupsButton, decreaseStepButton, deleteButton,
-        deleteJumperButton, deleteNetSegmentsButton, deletePolygonButton, deleteSegmentButton,
-        deleteViaButton, disconnectJumperButton, fillPolygonButton, increaseStepButton,
-        meterButton, moveButton, moveDownButton, moveGroupButton, moveLeftButton,
-        moveRightButton, moveUpButton, noRoundTurnButton, placeElementsButton, placeJumperButton,
-        placeLineButton, placePolygonButton, placeSegmentButton, placeViaButton, roundTurnButton,
-        routeTracksButton, segmentNetsButton, selectButton, setValueButton, showGroundNetsButton,
-        tableRouteButton, turnToLeftButton, turnToRightButton, updateNetsButton, waveRouteButton,
-        zoomInButton, zoomOutButton
+        connectJumperButton, connectPadButton, createGroupsButton, decreaseStepButton,
+        deleteButton, deleteJumperButton, deleteNetSegmentsButton, deletePolygonButton,
+        deleteSegmentButton, deleteViaButton, disconnectJumperButton, fillPolygonButton,
+        increaseStepButton, meterButton, moveButton, moveDownButton, moveGroupButton,
+        moveLeftButton, moveRightButton, moveUpButton, noRoundTurnButton, placeElementsButton,
+        placeJumperButton, placeLineButton, placePolygonButton, placeSegmentButton, placeViaButton,
+        roundTurnButton, routeTracksButton, segmentNetsButton, selectButton, setValueButton,
+        showGroundNetsButton, tableRouteButton, turnToLeftButton, turnToRightButton,
+        updateNetsButton, waveRouteButton, zoomInButton, zoomOutButton
     };
 
     std::copy(tmpToolButton, tmpToolButton + toolButtons, toolButton);
@@ -291,6 +291,9 @@ void PcbEditor::mousePressEvent(QMouseEvent *event)
         switch (command) {
         case CONNECT_JUMPER:
             board.connectJumper(x, y);
+            break;
+        case CONNECT_PAD:
+            board.connectPad(x, y, width);
             break;
         case DELETE_JUMPER:
             board.deleteJumper(x, y);
@@ -667,6 +670,10 @@ void PcbEditor::selectToolButton(int number)
     command = number;
 
     switch (command) {
+    case CONNECT_PAD:
+        if (isElementLayer)
+            board.pointNumber = 0;
+        break;
     case CREATE_GROUPS:
         board.createGroups();
         break;

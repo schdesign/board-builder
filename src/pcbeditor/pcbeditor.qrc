@@ -52,5 +52,6 @@
         <file>icons/pcbeditor/delete_jumper.png</file>
         <file>icons/pcbeditor/disconnect_jumper.png</file>
         <file>icons/pcbeditor/place_jumper.png</file>
+        <file>icons/pcbeditor/connect_pad.png</file>
     </qresource>
 </RCC>
