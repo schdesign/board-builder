@@ -67,6 +67,7 @@ private:
 private slots:
     void about();
     void closeFile();
+    void copperBalance();
     void globalOptions();
     void localOptions();
     void newFile();

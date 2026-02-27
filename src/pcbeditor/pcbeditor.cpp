@@ -1,6 +1,7 @@
 // pcbeditor.cpp
 // Copyright (C) 2018 Alexander Karpeko
 
+#include "copperbalance.h"
 #include "exceptiondata.h"
 #include "function.h"
 #include "globaloptions.h"
@@ -37,6 +38,7 @@ PcbEditor::PcbEditor(QWidget *parent) : QMainWindow(parent)
     connect(actionGlobalOptions, SIGNAL(triggered()), this, SLOT(globalOptions()));
     connect(actionLocalOptions, SIGNAL(triggered()), this, SLOT(localOptions()));
     connect(actionPackageEditor, SIGNAL(triggered()), this, SLOT(openPackageEditor()));
+    connect(actionCopperBalance, SIGNAL(triggered()), this, SLOT(copperBalance()));
     connect(actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 
     QCheckBox *tmpCheckBox[checkBoxes] =
@@ -176,6 +178,12 @@ void PcbEditor::closeFile()
 
     // Left, right, up, down, zoom in, zoom out
     // buttonsSetEnabled("000000");
+}
+
+void PcbEditor::copperBalance()
+{
+    CopperBalance copperBalance;
+    copperBalance.exec();
 }
 
 void PcbEditor::globalOptions()

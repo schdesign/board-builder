@@ -3126,6 +3126,7 @@
      <string>Tools</string>
     </property>
     <addaction name="actionPackageEditor"/>
+    <addaction name="actionCopperBalance"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -3218,6 +3219,11 @@
   <action name="actionLocalOptions">
    <property name="text">
     <string>Local</string>
+   </property>
+  </action>
+  <action name="actionCopperBalance">
+   <property name="text">
+    <string>Copper Balance</string>
    </property>
   </action>
  </widget>

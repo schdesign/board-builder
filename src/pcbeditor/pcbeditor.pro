@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 include(../common/common.pri)
 
 SOURCES += board.cpp \
+    copperbalance.cpp \
     element.cpp \
     function.cpp \
     globaloptions.cpp \
@@ -29,6 +30,7 @@ SOURCES += board.cpp \
     track.cpp
 
 HEADERS += board.h \
+    copperbalance.h \
     element.h \
     exceptiondata.h \
     function.h \
@@ -44,6 +46,7 @@ HEADERS += board.h \
     track.h
 
 FORMS += globaloptions.ui \
+    copperbalance.ui \
     jumperselector.ui \
     localoptions.ui \
     packageeditor.ui \
