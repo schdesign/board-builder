@@ -14,8 +14,24 @@ class CopperBalance : public QDialog, private Ui::CopperBalance
 public:
     explicit CopperBalance(QWidget *parent = nullptr);
 
+private:
+    void init();
+
 private slots:
     void accept();
+    void run();
+    void update();
+
+private:
+    static constexpr int columns = 4;
+    static constexpr int rows = 4;
+    static constexpr int maxImageSize = 256;  // MiB
+    static constexpr int step = 10;           // micrometers
+    int bottomAverageCopperArea;
+    int topAverageCopperArea;
+    int bottomCopperArea[rows][columns];
+    int topCopperArea[rows][columns];
+    QImage *qimage;
 };
 
 #endif  // COPPER_BALANCE_H
