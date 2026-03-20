@@ -182,8 +182,8 @@ void PcbEditor::closeFile()
 
 void PcbEditor::copperBalance()
 {
-    CopperBalance copperBalance;
-    copperBalance.exec();
+    CopperBalance cb(board);
+    cb.exec();
 }
 
 void PcbEditor::globalOptions()

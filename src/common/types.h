@@ -79,6 +79,10 @@ public:
     bool crossLine(const Line &line, int &x, int &y);
     bool crossPoint(int x, int y) const;
     void fromJson(const QJsonValue &value);
+    bool hasLine(const Line &line) const;
+    bool isEmpty() const;
+    bool isHorizontal() const;
+    bool isVertical() const;
     bool join(const Line &line);
     int length() const;
     QJsonObject toJson();

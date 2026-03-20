@@ -2,6 +2,7 @@
 // Copyright (C) 2018 Alexander Karpeko
 
 #include "types.h"
+//#include <algorithm>
 #include <cmath>
 
 Arc::Arc(const QJsonValue &value)
@@ -218,6 +219,58 @@ void Line::fromJson(const QJsonValue &value)
     y1 = object["y1"].toInt();
     x2 = object["x2"].toInt();
     y2 = object["y2"].toInt();
+}
+
+bool Line::hasLine(const Line &line) const
+{
+    if ((x1 == line.x1 && x2 == line.x2 && y1 == line.y1 && y2 == line.y2) ||
+        (x1 == line.x2 && x2 == line.x1 && y1 == line.y2 && y2 == line.y1))
+            return true;
+
+    if (isHorizontal() && line.isHorizontal())
+        if (y1 == line.y1)
+            if ((std::min(x1, x2) <= std::min(line.x1, line.x2)) &&
+                (std::max(x1, x2) >= std::max(line.x1, line.x2)))
+                return true;
+
+    if (isVertical() && line.isVertical())
+        if (x1 == line.x1)
+            if ((std::min(y1, y2) <= std::min(line.y1, line.y2)) &&
+                (std::max(y1, y2) >= std::max(line.y1, line.y2)))
+                return true;
+
+    if (line.isEmpty())
+        if (crossPoint(line.x1, line.y1))
+            return true;
+
+    if (crossPoint(line.x1, line.y1) && crossPoint(line.x2, line.y2))
+        return true;
+
+    return false;
+}
+
+bool Line::isEmpty() const
+{
+    if (x1 == x2 && y1 == y2)
+        return true;
+
+    return false;
+}
+
+bool Line::isHorizontal() const
+{
+    if (x1 != x2 && y1 == y2)
+        return true;
+
+    return false;
+}
+
+bool Line::isVertical() const
+{
+    if (x1 == x2 && y1 != y2)
+        return true;
+
+    return false;
 }
 
 // Horizontal or vertical lines
