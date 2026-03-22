@@ -149,8 +149,8 @@ bool Segment::hasCommonEndPoint(const Segment &s, int &x, int &y)
     Line line(x1, y1, x2, y2);
 
     // Common point is not single
-    if ((x1 == s.x1 && y1 == s.y1 && line.crossPoint(s.x2, s.y2)) ||
-        (x1 == s.x2 && y1 == s.y2 && line.crossPoint(s.x1, s.y1)))
+    if ((x1 == s.x1 && y1 == s.y1 && line.hasPoint(s.x2, s.y2)) ||
+        (x1 == s.x2 && y1 == s.y2 && line.hasPoint(s.x1, s.y1)))
         return false;
 
     if ((x1 == s.x1 && y1 == s.y1) || (x1 == s.x2 && y1 == s.y2)) {
@@ -221,13 +221,13 @@ bool Segment::isEndPointInsideSegment(const Segment &s, int &x, int &y)
 
     Line line(s.x1, s.y1, s.x2, s.y2);
 
-    if (line.crossPoint(x1, y1)) {
+    if (line.hasPoint(x1, y1)) {
         x = x1;
         y = y1;
         return true;
     }
 
-    if (line.crossPoint(x2, y2)) {
+    if (line.hasPoint(x2, y2)) {
         x = x2;
         y = y2;
         return true;

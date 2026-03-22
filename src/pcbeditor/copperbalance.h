@@ -28,16 +28,15 @@ private slots:
 private:
     static constexpr int columns = 4;
     static constexpr int rows = 4;
-    static constexpr int defaultMaxImageSize = 256;  // MiB
-    static constexpr int defaultStep = 10;           // micrometers
+    static constexpr int defaultMaxMiBImageSize = 256;  // MiB
+    static constexpr int defaultStep = 10;              // micrometers
     double bottomAverageCopperArea;
     double topAverageCopperArea;
     double bottomCopperArea[rows][columns];
     double topCopperArea[rows][columns];
-    int maxImageSize;
+    int maxMiBImageSize;
     int step;
     const Board &board;
-    QImage *qimage;
 };
 
 #endif  // COPPER_BALANCE_H

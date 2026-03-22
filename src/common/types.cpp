@@ -177,38 +177,18 @@ bool Line::crossLine(const Line &line, int &x, int &y)
     if (x1 == x2) {
         x = x1;
         y = lround(-a2 * x - c2);
-        return crossPoint(x, y) && line.crossPoint(x, y);
+        return hasPoint(x, y) && line.hasPoint(x, y);
     }
 
     if (line.x1 == line.x2) {
         x = line.x1;
         y = lround(-a1 * x - c1);
-        return crossPoint(x, y) && line.crossPoint(x, y);
+        return hasPoint(x, y) && line.hasPoint(x, y);
     }
 
     x = lround((c2 - c1) / (a1 - a2));
     y = lround(-a1 * x - c1);
-    return crossPoint(x, y) && line.crossPoint(x, y);
-}
-
-bool Line::crossPoint(int x, int y) const
-{
-    if (x1 == x2) {
-        if ((x == x1) && ((y >= y1 && y <= y2) || (y >= y2 && y <= y1)))
-            return true;
-        else
-            return false;
-    }
-
-    double k = (y2 - y1) / (x2 - x1);
-    double a = y1 - k * x1;
-
-    if ((fabs(y - k * x - a) < minValue) &&
-        ((x >= x1 && x <= x2) || (x >= x2 && x <= x1)) &&
-        ((y >= y1 && y <= y2) || (y >= y2 && y <= y1)))
-        return true;
-
-    return false;
+    return hasPoint(x, y) && line.hasPoint(x, y);
 }
 
 void Line::fromJson(const QJsonValue &value)
@@ -240,10 +220,30 @@ bool Line::hasLine(const Line &line) const
                 return true;
 
     if (line.isEmpty())
-        if (crossPoint(line.x1, line.y1))
+        if (hasPoint(line.x1, line.y1))
             return true;
 
-    if (crossPoint(line.x1, line.y1) && crossPoint(line.x2, line.y2))
+    if (hasPoint(line.x1, line.y1) && hasPoint(line.x2, line.y2))
+        return true;
+
+    return false;
+}
+
+bool Line::hasPoint(int x, int y) const
+{
+    if (x1 == x2) {
+        if (x == x1 && y >= std::min(y1, y2) && y <= std::max(y1, y2))
+            return true;
+        else
+            return false;
+    }
+
+    double k = (y2 - y1) / (x2 - x1);
+    double a = y1 - k * x1;
+
+    if (fabs(y - k * x - a) < minValue &&
+        x >= std::min(x1, x2) && x <= std::max(x1, x2) &&
+        y >= std::min(y1, y2) && y <= std::max(y1, y2))
         return true;
 
     return false;

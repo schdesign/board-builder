@@ -24,10 +24,10 @@ void CopperBalance::accept()
 
 void CopperBalance::init()
 {
-    maxImageSize = defaultMaxImageSize;
+    maxMiBImageSize = defaultMaxMiBImageSize;
     step = defaultStep;
     stepLineEdit->setText(QString::number(step));
-    maxImageSizeLineEdit->setText(QString::number(maxImageSize));
+    maxImageSizeLineEdit->setText(QString::number(maxMiBImageSize));
 }
 
 bool CopperBalance::isRectangleBoard(Point &pMin, Point &pMax)
@@ -126,8 +126,6 @@ bool CopperBalance::isRectangleBoard(Point &pMin, Point &pMax)
 void CopperBalance::run()
 {
     bool isRectangle = false;
-    double width = 0;
-    double height = 0;
     Point pMin;
     Point pMax;
 
@@ -138,6 +136,19 @@ void CopperBalance::run()
             tr("Count copper balance for a rectangle board only."));
         return;
     }
+
+    int boardWidth = pMax.x - pMin.x;
+    int boardHeight = pMax.y - pMin.y;
+    int boardPartWidth = boardWidth / 4;
+    int boardPartHeight = boardHeight / 4;
+    int imageHeight = boardPartHeight / step;
+
+    int64_t maxImageSize = 1024 * 1024 * maxMiBImageSize;
+    int imageWidth = 8 * maxImageSize / imageHeight;
+    if (imageWidth > boardPartWidth / step)
+        imageWidth = boardPartWidth / step;
+
+    QImage image(imageWidth, imageHeight, QImage::Format_Mono);
 
     topAverageCopperArea = 0;
     bottomAverageCopperArea = 0;
@@ -152,5 +163,17 @@ void CopperBalance::run()
 
 void CopperBalance::update()
 {
+    bool ok;
 
+    int n = stepLineEdit->text().toInt(&ok);
+    if (ok)
+        if (n > 0)
+            step = n;
+    stepLineEdit->setText(QString::number(step));
+
+    n = maxImageSizeLineEdit->text().toInt(&ok);
+    if (ok)
+        if (n > 0)
+            maxMiBImageSize = n;
+    maxImageSizeLineEdit->setText(QString::number(maxMiBImageSize));
 }
